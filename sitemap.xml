@@ -28,6 +28,9 @@
     <loc>/reference/add_copca.html</loc>
   </url>
   <url>
+    <loc>/reference/add_diversity_measures.html</loc>
+  </url>
+  <url>
     <loc>/reference/add_jervis_bardy.html</loc>
   </url>
   <url>
@@ -49,7 +52,13 @@
     <loc>/reference/add_pcoa.html</loc>
   </url>
   <url>
+    <loc>/reference/add_presence_counts.html</loc>
+  </url>
+  <url>
     <loc>/reference/add_rel_abundance.html</loc>
+  </url>
+  <url>
+    <loc>/reference/add_rel_occurrence.html</loc>
   </url>
   <url>
     <loc>/reference/add_sample_clustered.html</loc>
@@ -88,7 +97,7 @@
     <loc>/reference/as_phyloseq.html</loc>
   </url>
   <url>
-    <loc>/reference/as_tidytacos.html</loc>
+    <loc>/reference/as_tidyamplicons.html</loc>
   </url>
   <url>
     <loc>/reference/bar_plot.html</loc>
@@ -115,7 +124,7 @@
     <loc>/reference/create_test_ta.html</loc>
   </url>
   <url>
-    <loc>/reference/create_tidytacos.html</loc>
+    <loc>/reference/create_tidyamplicons.html</loc>
   </url>
   <url>
     <loc>/reference/everything.html</loc>
@@ -133,13 +142,28 @@
     <loc>/reference/get_abundances_extended.html</loc>
   </url>
   <url>
+    <loc>/reference/get_bar_plot.html</loc>
+  </url>
+  <url>
+    <loc>/reference/get_betas.html</loc>
+  </url>
+  <url>
+    <loc>/reference/get_history_plot.html</loc>
+  </url>
+  <url>
+    <loc>/reference/get_numbers.html</loc>
+  </url>
+  <url>
     <loc>/reference/get_rel_abundance_matrix.html</loc>
+  </url>
+  <url>
+    <loc>/reference/history_plot.html</loc>
   </url>
   <url>
     <loc>/reference/index.html</loc>
   </url>
   <url>
-    <loc>/reference/make_tidytacos.html</loc>
+    <loc>/reference/make_tidyamplicons.html</loc>
   </url>
   <url>
     <loc>/reference/mean_rel_abundances.html</loc>
@@ -151,7 +175,7 @@
     <loc>/reference/merge_taxa.html</loc>
   </url>
   <url>
-    <loc>/reference/merge_tidytacos.html</loc>
+    <loc>/reference/merge_tidyamplicons.html</loc>
   </url>
   <url>
     <loc>/reference/mutate_abundances.html</loc>
@@ -193,7 +217,7 @@
     <loc>/reference/rarefy.html</loc>
   </url>
   <url>
-    <loc>/reference/read_tidytacos.html</loc>
+    <loc>/reference/read_tidyamplicons.html</loc>
   </url>
   <url>
     <loc>/reference/remove_empty_samples.html</loc>
@@ -226,10 +250,16 @@
     <loc>/reference/taxa.html</loc>
   </url>
   <url>
-    <loc>/reference/tidyeval.html</loc>
+    <loc>/reference/taxon_counts_in_conditions.html</loc>
   </url>
   <url>
-    <loc>/reference/tidytacos.html</loc>
+    <loc>/reference/tidy_phyloseq.html</loc>
+  </url>
+  <url>
+    <loc>/reference/tidyamplicons.html</loc>
+  </url>
+  <url>
+    <loc>/reference/tidyeval.html</loc>
   </url>
   <url>
     <loc>/reference/trim_asvs.html</loc>
@@ -238,9 +268,12 @@
     <loc>/reference/update_id_names.html</loc>
   </url>
   <url>
-    <loc>/reference/update_tidytacos.html</loc>
+    <loc>/reference/update_lib_sizes.html</loc>
   </url>
   <url>
-    <loc>/reference/write_tidytacos.html</loc>
+    <loc>/reference/update_tidyamplicons.html</loc>
+  </url>
+  <url>
+    <loc>/reference/write_tidyamplicons.html</loc>
   </url>
 </urlset>
