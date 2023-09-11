@@ -40,7 +40,9 @@ colnames(x) <- c("sample1", "sample2")
 # Convert to tidytacos object
 data <- create_tidytacos(x,
                      taxa_are_columns = FALSE)
-
+data$samples$spike_added <- c(0.001, 0.002)
+data$samples$material_sampled <- c(1, 5)
+ 
 # Add total abundance
 data <- data \%>\%
  add_absolute_abundance(spike_taxon="t3")
