@@ -6,6 +6,15 @@
 \usage{
 add_occurrences(ta, condition = NULL, relative = F, fischer_test = F)
 }
+\arguments{
+\item{ta}{A tidytacos object}
+
+\item{condition}{A categorical variable (string)}
+
+\item{relative}{wether to use relative occurences}
+
+\item{fischer_test}{wether to perform a fischer test and add the p-values of the test to the taxa table}
+}
 \description{
 Adds taxon occurrences (overall or per condition) to the taxa table.
 }

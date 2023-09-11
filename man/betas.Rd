@@ -7,7 +7,7 @@
 betas(ta, unique = T, method = "bray", binary = F)
 }
 \arguments{
-\item{ta}{Tidyamplicons object.}
+\item{ta}{tidytacos object.}
 
 \item{unique}{A logical scalar. Avoid redundancy by removing all self sample
 comparisons and keep only one of two pairwise comparisons? Default is TRUE.}
@@ -28,7 +28,7 @@ This function calculates the beta diversity using the
 estimate for each combination of samples.
 }
 \examples{
-# Initiate abundance matrix
+# Initiate counts matrix
 x <- matrix(
  c(1500, 1300, 280, 356),
  ncol = 2
@@ -36,9 +36,9 @@ x <- matrix(
 rownames(x) <- c("taxon1", "taxon2")
 colnames(x) <- c("sample1", "sample2")
 
-# Convert to tidyamplicons object
+# Convert to tidytacos object
 data <-
-  create_tidyamplicons(x, taxa_are_columns = FALSE)
+  create_tidytacos(x, taxa_are_columns = FALSE)
 
 # Report numbers
 numbers <- data \%>\% betas()

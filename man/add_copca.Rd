@@ -6,6 +6,9 @@
 \usage{
 add_copca(ta)
 }
+\arguments{
+\item{ta}{a tidytacos object.}
+}
 \description{
 Add compositional principal components to the sample table
 }

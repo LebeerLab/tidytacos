@@ -1,7 +1,7 @@
 #' Add logratios
 #'
 #' This function computes pairwise logratio values between all taxa and adds
-#' these to the tidyamplicons object in the form of a table called logratios.
+#' these to the tidytacos object in the form of a table called logratios.
 #'
 #' If max_taxa is greater than the number of taxa, the taxa with the highest
 #' occurrence will be selected.
@@ -9,10 +9,10 @@
 #' IMPORTANT: this function add pseudocounts of one to all abundances before
 #' calculating the logratios.
 #'
-#' @param ta A tidyamplicons object
+#' @param ta A tidytacos object
 #' @param max_taxa The maximum number of taxa to use
 #'
-#' @return A tidyamplicons object with an extra table logratios
+#' @return A tidytacos object with an extra table logratios
 #'
 #' @export
 add_logratios <- function(ta, max_taxa = 30) {
@@ -34,23 +34,23 @@ add_logratios <- function(ta, max_taxa = 30) {
   }
 
   abundances_complete <-
-    ta$abundances %>%
-    complete(sample_id, taxon_id, fill = list(abundance = 0))
+    ta$counts %>%
+    complete(sample_id, taxon_id, fill = list(count = 0))
 
   ta$logratios <-
     left_join(
       abundances_complete %>%
-        select(sample_id, taxon_id, abundance),
+        select(sample_id, taxon_id, count),
       abundances_complete %>%
-        select(sample_id, ref_taxon_id = taxon_id, ref_abundance = abundance),
+        select(sample_id, ref_taxon_id = taxon_id, ref_abundance = count),
       by = "sample_id",
       multiple = "all"
     ) %>%
     mutate(
       taxon_ids = str_c(taxon_id, ref_taxon_id, sep = "_"),
-      logratio = log10((abundance + 1) / (ref_abundance + 1))
+      logratio = log10((count + 1) / (ref_abundance + 1))
     ) %>%
-    select(- abundance, - ref_abundance)
+    select(- count, - ref_abundance)
 
   ta
 
@@ -61,7 +61,7 @@ add_logratios <- function(ta, max_taxa = 30) {
 #' This function performs a differential abundance test for all pairwise ratios
 #' between taxa.
 #'
-#' A table called taxon_pairs will be added to the tidyamplicons object, with
+#' A table called taxon_pairs will be added to the tidytacos object, with
 #' for each pair of a taxon and a reference taxon, the differential abundance of
 #' the taxon between the two conditions (with respect to the reference taxon).
 #' The test that is performed is a Wilcoxon rank sum test and the test statistic
@@ -72,13 +72,13 @@ add_logratios <- function(ta, max_taxa = 30) {
 #' argument. Other conditions than the two supplied will be removed from the
 #' data.
 #'
-#' @param ta A tidyamplicons object
+#' @param ta A tidytacos object
 #' @param condition A binary variable in the sample table (unquoted)
 #' @param conditions A character vector with exactly two categories of the
 #'   condition variable
 #' @param max_taxa The maximum number of taxa to use
 #'
-#' @return A tidyamplicons object with an extra table taxon_pairs
+#' @return A tidytacos object with an extra table taxon_pairs
 #'
 #' @export
 add_codifab <- function(ta, condition, conditions = NULL, max_taxa = 30) {
@@ -144,8 +144,8 @@ add_codifab <- function(ta, condition, conditions = NULL, max_taxa = 30) {
 #' Significance of tests is determined by capping the false discovery rate at
 #' 10%, using the method of Benjamini and Yekutieli, which is developed for
 #' non-independent tests. See [p.adjust].
-#'
-#' @param ta A tidyamplicons object
+#' @importFrom stats p.adjust median
+#' @param ta A tidytacos object
 #' @param diffabun_var The variable with differential abundances in the
 #'   taxon_pair table
 #'
@@ -207,7 +207,8 @@ codifab_plot <- function(ta, diffabun_var) {
 }
 
 #' Add compositional principal components to the sample table
-#'
+#' @importFrom stats prcomp
+#' @param ta a tidytacos object.
 #' @export
 add_copca <- function(ta) {
 

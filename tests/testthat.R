@@ -7,6 +7,6 @@
 # * https://testthat.r-lib.org/reference/test_package.html#special-files
 
 library(testthat)
-library(tidyamplicons)
+library(tidytacos)
 
-test_check("tidyamplicons")
+test_check("tidytacos")

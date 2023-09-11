@@ -7,7 +7,7 @@
 aggregate_taxa(ta, rank = NULL)
 }
 \arguments{
-\item{ta}{a tidyamplicons object}
+\item{ta}{a tidytacos object}
 
 \item{rank}{an optional rank to aggregate on}
 }

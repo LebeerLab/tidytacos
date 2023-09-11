@@ -7,7 +7,7 @@
 add_jervis_bardy(ta, dna_conc, sample_condition = T, min_pres = 3)
 }
 \arguments{
-\item{ta}{A tidyamplicons object.}
+\item{ta}{A tidytacos object.}
 
 \item{dna_conc}{A variable in the samples table that contains dna
 concetrations (unquoted).}

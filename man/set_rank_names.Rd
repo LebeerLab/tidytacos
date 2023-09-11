@@ -2,10 +2,18 @@
 % Please edit documentation in R/varia.R
 \name{set_rank_names}
 \alias{set_rank_names}
-\title{Set rank names for a tidyamplicons object}
+\title{Set rank names for a tidytacos object}
 \usage{
 set_rank_names(ta, rank_names)
 }
+\arguments{
+\item{ta}{a tidytacos object}
+
+\item{rank_names}{a vector containing the names of the ranks used to describe the taxa}
+}
+\value{
+An updated tidytacos object.
+}
 \description{
-Set rank names for a tidyamplicons object
+Set rank names for a tidytacos object
 }

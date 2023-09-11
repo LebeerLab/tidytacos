@@ -6,31 +6,30 @@
 #' @export
 rarefy <- function(ta, n, replace = F) {
 
-  ta$abundances <-
-    ta$abundances %>%
+  ta$counts <-
+    ta$counts %>%
     group_by(sample_id) %>%
     mutate(
-      abundance =
-        sample(x = 1:sum(abundance), size = !! n, replace = !! replace) %>%
-        cut(breaks = c(0, cumsum(abundance)), labels = taxon_id) %>%
+      count =
+        sample(x = 1:sum(count), size = !! n, replace = !! replace) %>%
+        cut(breaks = c(0, cumsum(count)), labels = taxon_id) %>%
         table() %>%
         as.integer()
     ) %>%
     ungroup()
 
   ta %>%
-    purrr::modify_at("abundances", filter, abundance > 0) %>%
-    process_abundance_selection()
+    purrr::modify_at("counts", filter, count > 0) %>%
+    process_count_selection()
 
 }
 
-#' Change sample IDs to a given expression
-#'
-#' @param ta A tidyamplicons object
-#' @param sample_id_new An expression that evaluates to a unique sample
-#'   identifier
-#'
-#' @export
+# Change sample IDs to a given expression
+#
+# @param ta A tidytacos object.
+# @param sample_id_new An expression that evaluates to a unique sample
+#   identifier.
+#
 change_id_samples <- function(ta, sample_id_new) {
 
   sample_id_new <- rlang::enexpr(sample_id_new)
@@ -41,8 +40,8 @@ change_id_samples <- function(ta, sample_id_new) {
     stop("the new sample ids are not unique")
   }
 
-  ta$abundances <-
-    ta$abundances %>%
+  ta$counts <-
+    ta$counts %>%
     left_join(
       ta$samples %>% select(sample_id, sample_id_new), by = "sample_id"
     ) %>%
@@ -58,13 +57,12 @@ change_id_samples <- function(ta, sample_id_new) {
 
 }
 
-#' Change taxon IDs to a given expression
-#'
-#' @param ta A tidyamplicons object
-#' @param taxon_id_new An expression that evaluates to a unique taxon
-#'   identifier
-#'
-#' @export
+# Change taxon IDs to a given expression
+#
+# @param ta A tidytacos object.
+# @param taxon_id_new An expression that evaluates to a unique taxon
+#   identifier.
+#
 change_id_taxa <- function(ta, taxon_id_new) {
 
   taxon_id_new <- rlang::enexpr(taxon_id_new)
@@ -75,8 +73,8 @@ change_id_taxa <- function(ta, taxon_id_new) {
     stop("the new taxon ids are not unique")
   }
 
-  ta$abundances <-
-    ta$abundances %>%
+  ta$counts <-
+    ta$counts %>%
     left_join(ta$taxa %>% select(taxon_id, taxon_id_new), by = "taxon_id") %>%
     select(- taxon_id) %>%
     rename(taxon_id = taxon_id_new)
@@ -91,7 +89,9 @@ change_id_taxa <- function(ta, taxon_id_new) {
 }
 
 #' Aggregate samples with identical values for all metadata
-#' @param ta a tidyamplicons object
+#'
+#' @param ta A tidytacos object.
+#'
 #' @export
 aggregate_samples <- function(ta) {
 
@@ -111,12 +111,12 @@ aggregate_samples <- function(ta) {
     rename(sample_id = sample_id_new) %>%
     distinct()
 
-  # merge samples in abundance table and adapt with new names
-  ta$abundances <- ta$abundances %>%
+  # merge samples in counts table and adapt with new names
+  ta$counts <- ta$counts %>%
     left_join(names, by = "sample_id") %>%
     select(- sample_id) %>%
     group_by(sample_id_new, taxon_id) %>%
-    summarize(abundance = sum(abundance)) %>%
+    summarize(count = sum(count)) %>%
     ungroup() %>%
     rename(sample_id = sample_id_new)
 
@@ -134,7 +134,7 @@ aggregate_samples <- function(ta) {
 #' * If not, delete all taxon variables except taxon_id and the ranks you are
 #' still interested in prior to calling this function.
 #'
-#' @param ta a tidyamplicons object
+#' @param ta a tidytacos object
 #' @param rank an optional rank to aggregate on
 #' @export
 aggregate_taxa <- function(ta, rank = NULL) {
@@ -178,18 +178,18 @@ aggregate_taxa <- function(ta, rank = NULL) {
     select(- taxon_id) %>%
     rename(taxon_id = taxon_id_new)
 
-  ta$abundances <-
-    ta$abundances %>%
+  ta$counts <-
+    ta$counts %>%
     left_join(id_conversion, by = "taxon_id") %>%
     select(- taxon_id) %>%
     group_by(taxon_id_new, sample_id) %>%
     {
-      if ("rel_abundance" %in% names(ta$abundances)) {
+      if ("rel_abundance" %in% names(ta$counts)) {
         summarize(
-          ., abundance = sum(abundance), rel_abundance = sum(rel_abundance)
+          ., count = sum(count), rel_abundance = sum(rel_abundance)
         )
       } else {
-        summarize(., abundance = sum(abundance))
+        summarize(., count = sum(count))
       }
     } %>%
     ungroup() %>%
@@ -206,7 +206,7 @@ aggregate_taxa <- function(ta, rank = NULL) {
 #'
 #' This function assumes that the sequence variable in the taxon table is called
 #' "sequence".
-#' @param ta a tidyamplicons object
+#' @param ta a tidytacos object
 #' @param start index of where to start trimming
 #' @param end index of where to stop trimming
 #'
@@ -215,8 +215,8 @@ trim_asvs <- function(ta, start, end) {
 
   ta$taxa <- ta$taxa %>%
   mutate(sequence = str_sub(sequence, start = !! start, end = !! end))
-  if ("sequence" %in% names(ta$abundances)){
-    ta$abundances <- ta$abundances %>%
+  if ("sequence" %in% names(ta$counts)){
+    ta$counts <- ta$counts %>%
       mutate(sequence = str_sub(
         sequence, start = !! start, end = !! end
       ))
@@ -228,7 +228,7 @@ trim_asvs <- function(ta, start, end) {
 }
 
 #' Retain or remove a set of sample variables
-#' @param ta a tidyamplicons object
+#' @param ta a tidytacos object
 #' @export
 select_samples <- function(ta, ...) {
 
@@ -244,7 +244,7 @@ select_samples <- function(ta, ...) {
 }
 
 #' Retain or remove a set of taxon variables
-#' @param ta a tidyamplicons object
+#' @param ta a tidytacos object
 #' @export
 select_taxa <- function(ta, ...) {
 
@@ -257,24 +257,24 @@ select_taxa <- function(ta, ...) {
 
 }
 
-#' Retain or remove a set of abundance variables
-#' @param ta a tidyamplicons object
+#' Retain or remove a set of count variables
+#' @param ta a tidytacos object
 #' @export
-select_abundances <- function(ta, ...) {
+select_counts <- function(ta, ...) {
 
-  ta$abundances <- ta$abundances %>%
+  ta$counts <- ta$counts %>%
     select(...)
 
   retain_sample_id(ta)
   retain_taxon_id(ta)
-  retain_abundances(ta)
+  retain_counts(ta)
 
   ta
 
 }
 
 #' Create extra variables in the sample table
-#' @param ta a tidyamplicons object
+#' @param ta a tidytacos object
 #' @export
 mutate_samples <- function(ta, ...) {
 
@@ -287,7 +287,7 @@ mutate_samples <- function(ta, ...) {
 }
 
 #' Create extra variables in the taxon table
-#' @param ta a tidyamplicons object
+#' @param ta a tidytacos object
 #' @export
 mutate_taxa <- function(ta, ...) {
 
@@ -300,22 +300,22 @@ mutate_taxa <- function(ta, ...) {
 }
 
 #' Create extra variables in the abundances table
-#' @param ta a tidyamplicons object
+#' @param ta a tidytacos object
 #' @export
-mutate_abundances <- function(ta, ...) {
+mutate_counts <- function(ta, ...) {
 
-  ta$abundances <- ta$abundances %>%
+  ta$counts <- ta$counts %>%
     mutate(...)
   retain_sample_id(ta)
   retain_taxon_id(ta)
-  retain_abundances(ta)
+  retain_counts(ta)
 
   ta
 
 }
 
 #' Filter the samples
-#' @param ta a tidyamplicons object
+#' @param ta a tidytacos object
 #' @export
 filter_samples <- function(ta, ...) {
 
@@ -331,7 +331,7 @@ filter_samples <- function(ta, ...) {
 }
 
 #' Filter the taxa
-#' @param ta a tidyamplicons object
+#' @param ta a tidytacos object
 #' @export
 filter_taxa <- function(ta, ...) {
 
@@ -346,16 +346,16 @@ filter_taxa <- function(ta, ...) {
 
 }
 
-#' Filter the abundances
-#' @param ta a tidyamplicons object
+#' Filter the counts
+#' @param ta a tidytacos object
 #' @export
-filter_abundances <- function(ta, ...) {
+filter_counts <- function(ta, ...) {
 
-  ta$abundances <- ta$abundances %>%
+  ta$counts <- ta$counts %>%
     filter(...)
 
   ta <- ta %>%
-    process_abundance_selection()
+    process_count_selection()
   any_taxa_left(ta)
 
   ta

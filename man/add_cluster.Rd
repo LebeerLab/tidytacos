@@ -7,23 +7,23 @@
 add_cluster(ta, n_clusters)
 }
 \arguments{
-\item{ta}{Tidyamplicons object.}
+\item{ta}{tidytacos object.}
 
 \item{n_clusters}{Numerical. Number of desired clusters.}
 }
 \description{
 \code{add_cluster} adds a new variable to the samples tibble of a
-tidyamplicons object defining to what cluster a sample belongs.
+tidytacos object defining to what cluster a sample belongs.
 }
 \details{
 This function calculates the Bray-Curtis distance between samples followed by
 hierarchical average linkage clustering of samples. The user provides a
 number of desired clusters which will be used to assign the samples to. A new
 variable named "cluster" will be added to the samples tibble of a
-tidyamplicons object defining to what cluster a sample belongs.
+tidytacos object defining to what cluster a sample belongs.
 }
 \examples{
-# Initiate abundance matrix
+# Initiate count matrix
 x <- matrix(
  c(1500, 1300, 280, 356),
  ncol = 2
@@ -31,8 +31,8 @@ x <- matrix(
 rownames(x) <- c("taxon1", "taxon2")
 colnames(x) <- c("sample1", "sample2")
 
-# Convert to tidyamplicons object
-data <- create_tidyamplicons(x,
+# Convert to tidytacos object
+data <- create_tidytacos(x,
                      taxa_are_columns = FALSE
                      )
 

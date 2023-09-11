@@ -2,24 +2,24 @@
 % Please edit documentation in R/converters.R
 \name{as_phyloseq}
 \alias{as_phyloseq}
-\title{Convert tidyamplicons object to phyloseq object}
+\title{Convert tidytacos object to phyloseq object}
 \usage{
 as_phyloseq(ta, sample = sample, taxon = taxon)
 }
 \arguments{
-\item{ta}{Tidyamplicons object.}
+\item{ta}{tidytacos object.}
 
 \item{sample}{The sample names required for a phyloseq object. Default is
-"sample" column in sample tibble of the tidyamplicons object.}
+"sample" column in sample tibble of the tidytacos object.}
 
 \item{taxon}{The taxon names required for a phyloseq object. Default is
-"taxon" column in taxon tibble of the tidyamplicons object.}
+"taxon" column in taxon tibble of the tidytacos object.}
 }
 \description{
-\code{as_phyloseq} returns a phyloseq object given a tidyamplicons object.
+\code{as_phyloseq} returns a phyloseq object given a tidytacos object.
 }
 \details{
-This function will convert a tidyamplicons object into a phyloseq object for
+This function will convert a tidytacos object into a phyloseq object for
 alternative processing using the phyloseq package. To convert from a phyloseq
-object to a tidyamplicons object use \code{\link{as_tidyamplicons}}.
+object to a tidytacos object use \code{\link{as_tidytacos}}.
 }

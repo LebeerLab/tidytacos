@@ -7,22 +7,22 @@
 add_pcoa(ta)
 }
 \arguments{
-\item{ta}{Tidyamplicons object.}
+\item{ta}{tidytacos object.}
 }
 \description{
 \code{add_pcoa} adds the first two dimensions of a principal components
 analysis on a Bray-Curtis dissimilarity matrix to two new variables of the
-samples tibble of a tidyamplicons object.
+samples tibble of a tidytacos object.
 }
 \details{
 This function calculates the Bray-Curtis distance between samples followed by
 a principal components analysis. It will then add the two first dimensions to
-the samples tibble of a tidyamplicons object named "pcoa1" and "pcoa2". This
+the samples tibble of a tidytacos object named "pcoa1" and "pcoa2". This
 function will also add relative abundances if not present using
 \code{\link{add_rel_abundance}}.
 }
 \examples{
-# Initiate abundance matrix
+# Initiate counts matrix
 x <- matrix(
  c(1500, 1300, 280, 356, 456, 678),
  ncol = 3
@@ -30,8 +30,8 @@ x <- matrix(
 rownames(x) <- c("taxon1", "taxon2")
 colnames(x) <- c("sample1", "sample2", "sample3")
 
-# Convert to tidyamplicons object
-data <- create_tidyamplicons(x,
+# Convert to tidytacos object
+data <- create_tidytacos(x,
                      taxa_are_columns = FALSE
                      )
 

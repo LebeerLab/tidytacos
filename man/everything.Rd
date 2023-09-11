@@ -6,6 +6,9 @@
 \usage{
 everything(ta)
 }
+\arguments{
+\item{ta}{A tidytacos object.}
+}
 \description{
 Get all data in one single table
 }

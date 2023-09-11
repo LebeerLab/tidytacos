@@ -9,7 +9,7 @@
 #' @param ta tidytacos object.
 #'
 #' @examples
-#' # Initiate abundance matrix
+#' # Initiate count matrix
 #' x <- matrix(
 #'  c(1500, 1300, 280, 356),
 #'  ncol = 2
@@ -29,9 +29,9 @@
 add_rel_abundance <- function(ta) {
 
   # add relative abundance to abundance table
-  ta$abundances <- ta$abundances %>%
+  ta$counts <- ta$counts %>%
     group_by(sample_id) %>%
-    mutate(rel_abundance = abundance / sum(abundance)) %>%
+    mutate(rel_abundance = count / sum(count)) %>%
     ungroup()
 
   # return ta object

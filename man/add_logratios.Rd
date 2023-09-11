@@ -7,16 +7,16 @@
 add_logratios(ta, max_taxa = 30)
 }
 \arguments{
-\item{ta}{A tidyamplicons object}
+\item{ta}{A tidytacos object}
 
 \item{max_taxa}{The maximum number of taxa to use}
 }
 \value{
-A tidyamplicons object with an extra table logratios
+A tidytacos object with an extra table logratios
 }
 \description{
 This function computes pairwise logratio values between all taxa and adds
-these to the tidyamplicons object in the form of a table called logratios.
+these to the tidytacos object in the form of a table called logratios.
 }
 \details{
 If max_taxa is greater than the number of taxa, the taxa with the highest

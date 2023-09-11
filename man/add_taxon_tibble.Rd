@@ -2,12 +2,12 @@
 % Please edit documentation in R/adders_taxa.R
 \name{add_taxon_tibble}
 \alias{add_taxon_tibble}
-\title{Add taxon metadata to the tidyamplicons object}
+\title{Add taxon metadata to the tidytacos object}
 \usage{
 add_taxon_tibble(ta, taxon_tibble)
 }
 \arguments{
-\item{ta}{Tidyamplicons object.}
+\item{ta}{tidytacos object.}
 
 \item{taxon_tibble}{A tibble containing taxon data for each taxon. Taxa
 should be rows, while taxon data should be columns. At least one column
@@ -15,15 +15,15 @@ name needs to be shared with the taxon tibble of ta. The default shared
 column name is 'taxon'.}
 }
 \description{
-\code{add_taxon_tibble} adds a taxon tibble to the tidyamplicons object.
+\code{add_taxon_tibble} adds a taxon tibble to the tidytacos object.
 }
 \details{
 This function adds a taxon tibble containing taxon data (e.g. taxon ranks
-such as genus, family, ...) for each taxon to the tidyamplicons object. It is
-used after initiating a tidyamplicons object using a numerical abundance
-matrix and the function \code{\link{create_tidyamplicons}}. Also see
+such as genus, family, ...) for each taxon to the tidytacos object. It is
+used after initiating a tidytacos object using a numerical abundance
+matrix and the function \code{\link{tidytacos}}. Also see
 \code{\link{add_sample_tibble}} to update the sample data of the
-tidyamplicons object.
+tidytacos object.
 }
 \examples{
 # Initiate abundance matrix
@@ -34,8 +34,8 @@ x <- matrix(
 rownames(x) <- c("taxon1", "taxon2")
 colnames(x) <- c("sample1", "sample2")
 
-# Convert to tidyamplicons object
-data <- create_tidyamplicons(x,
+# Convert to tidytacos object
+data <- create_tidytacos(x,
                      taxa_are_columns = FALSE)
 
 # Initiate taxon tibble
@@ -43,7 +43,7 @@ taxon <- c("taxon1", "taxon2")
 genus <- c("Salmonella", "Lactobacillus")
 taxon_tibble <- tibble::tibble(taxon, genus)
 
-# Add taxon tibble to tidyamplicons object
+# Add taxon tibble to tidytacos object
 data <- data \%>\%
 add_taxon_tibble(taxon_tibble)
 

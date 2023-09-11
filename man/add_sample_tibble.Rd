@@ -2,12 +2,12 @@
 % Please edit documentation in R/adders_samples.R
 \name{add_sample_tibble}
 \alias{add_sample_tibble}
-\title{Add sample table to the tidyamplicons object}
+\title{Add sample table to the tidytacos object}
 \usage{
 add_sample_tibble(ta, sample_tibble)
 }
 \arguments{
-\item{ta}{Tidyamplicons object.}
+\item{ta}{tidytacos object.}
 
 \item{sample_tibble}{A tibble containing sample data for each sample. samples
 should be rows, while sample data should be columns. At least one column
@@ -15,17 +15,17 @@ name needs to be shared with the sample tibble of ta. The default shared
 column name is 'sample'.}
 }
 \description{
-\code{add_sample_tibble} adds a sample tibble to the tidyamplicons object.
+\code{add_sample_tibble} adds a sample tibble to the tidytacos object.
 }
 \details{
 This function adds a sample tibble containing metadata for each sample to the
-tidyamplicons object. It is used after initiating a tidyamplicons object
+tidytacos object. It is used after initiating a tidytacos object
 using a numerical abundance matrix and the function
-\code{\link{create_tidyamplicons}}. Also see \code{\link{add_taxon_tibble}}
-to update the taxon data of the tidyamplicons object.
+\code{\link{create_tidytacos}}. Also see \code{\link{add_taxon_tibble}}
+to update the taxon data of the tidytacos object.
 }
 \examples{
-# Initiate abundance matrix
+# Initiate counts matrix
 x <- matrix(
  c(1500, 1300, 280, 356),
  ncol = 2
@@ -33,8 +33,8 @@ x <- matrix(
 rownames(x) <- c("taxon1", "taxon2")
 colnames(x) <- c("sample1", "sample2")
 
-# Convert to tidyamplicons object
-data <- create_tidyamplicons(x,
+# Convert to tidytacos object
+data <- create_tidytacos(x,
                      taxa_are_columns = FALSE
                      )
 
@@ -43,7 +43,7 @@ sample <- c("sample1", "sample2")
 environment <- c("food fermentation", "human stool")
 sample_tibble <- tibble::tibble(sample, environment)
 
-# Add sample tibble to tidyamplicons object
+# Add sample tibble to tidytacos object
 data <- data \%>\%
 add_sample_tibble(sample_tibble)
 
