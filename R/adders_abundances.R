@@ -50,7 +50,7 @@ add_rel_abundance <- function(ta) {
 #' @param ta tidytacos object.
 #' @param spike_taxon The taxon id of the spike.
 #' @param spike_added The column name of the samples table which indicates how much spike was added per sample, e.g. 16S rRNA gene copy numbers added to the DNA extraction tube.
-#' @param material_sampled The amount of material from which DNA was extracted, e.g gram of soil. This parameter encourages researchers to consider that absolute abundances are only meaningful if they can be translated into densities.
+#' @param material_sampled The column name indicating the amount of material from which DNA was extracted, e.g gram of soil. This parameter encourages researchers to consider that absolute abundances are only meaningful if they can be translated into densities.
 #' 
 #'
 #' @examples
@@ -71,8 +71,23 @@ add_rel_abundance <- function(ta) {
 #'  add_absolute_abundance(spike_taxon="t3")
 #'
 #' @export
-add_absolute_abundance <- function(ta, spike_taxon, spike_added=1000, material_sampled=1) {
-	  
+add_absolute_abundance <- function(ta, spike_taxon, spike_added=spike_added, material_sampled=material_sampled) {
+
+  spike_added <- rlang::enquo(spike_added)
+  material_sampled <- rlang::enquo(material_sampled)
+
+  if (!rlang::quo_name(spike_added) %in% names(ta$samples)) {
+    stop(paste("Sample table requires a column", 
+       rlang::quo_name(spike_added) ,
+       "that defines the quantity of spike added to the sample."))
+  }
+
+  if (!rlang::quo_name(material_sampled) %in% names(ta$samples)) {
+    stop(paste("Sample table requires a column", 
+       rlang::quo_name(material_sampled),
+       "that defines the quantity of sample used."))
+  }
+  
   # if total_counts and relative abundances not present: add temporarily
   total_counts_tmp <- ! "total_counts" %in% names(ta$samples)
   if (total_counts_tmp) ta <- add_total_counts(ta)

@@ -3,6 +3,7 @@
 export("%>%")
 export(":=")
 export(.data)
+export(add_absolute_abundance)
 export(add_alphas)
 export(add_cluster)
 export(add_codifab)
