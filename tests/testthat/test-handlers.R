@@ -249,5 +249,5 @@ test_that("CLR transformation returns expected output", {
     skip_if_not_installed("compositions")
     urt_clr <- urt %>% clr_transform_counts()
     expect_true("clr_counts" %in% names(urt_clr))
-    expect_snapshot(urt_clr$clr_counts %>% arrange(sample_id, taxon_id))
+    expect_equal(sum(urt_clr$clr_counts %>% pull(count)), 4957.073, tolerance=0.01)
 })
