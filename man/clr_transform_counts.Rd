@@ -4,24 +4,18 @@
 \alias{clr_transform_counts}
 \title{Perform a centered log ratio transformation on the readcounts.}
 \usage{
-clr_transform_counts(
-  ta,
-  taxon = taxon_id,
-  sample = sample_id,
-  counts = counts,
-  overwrite = F
-)
+clr_transform_counts(ta, overwrite = F)
 }
 \arguments{
 \item{ta}{a tidytacos object}
+
+\item{overwrite}{wether or not the counts table is to be overwritten with the transformed counts.}
 
 \item{taxon}{unique identifier for the taxon, by default taxon_id.}
 
 \item{sample}{unique identifier for the sample, by default sample_id.}
 
 \item{counts}{variable name of the counts to be transformed in the counts table.}
-
-\item{overwrite}{wether or not the counts table is to be overwritten with the transformed counts.}
 }
 \description{
 Perform a centered log ratio transformation on the readcounts.

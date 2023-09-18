@@ -46,6 +46,6 @@ data$samples$grams_source <- c(4, 5)
 
 # Add density
 data <- data \%>\%
-  add_density(spike_taxon = "t3", material_sampled="grams_source")
+  add_density(spike_taxon = "t3", material_sampled=grams_source)
 
 }

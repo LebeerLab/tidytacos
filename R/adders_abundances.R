@@ -153,7 +153,7 @@ add_absolute_abundance <- function(ta, spike_taxon, spike_added = spike_added) {
 #' 
 #' # Add density
 #' data <- data %>%
-#'   add_density(spike_taxon = "t3", material_sampled="grams_source")
+#'   add_density(spike_taxon = "t3", material_sampled=grams_source)
 #'
 #' @export
 add_density <- function(ta, spike_taxon, spike_added = spike_added, material_sampled = material_sampled) {
