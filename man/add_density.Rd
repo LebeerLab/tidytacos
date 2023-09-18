@@ -42,9 +42,10 @@ data <- create_tidytacos(x,
   taxa_are_columns = FALSE
 )
 data$samples$spike_added <- c(100, 150)
+data$samples$grams_source <- c(4, 5)
 
-# Add total abundance
+# Add density
 data <- data \%>\%
-  add_absolute_abundance(spike_taxon = "t3")
+  add_density(spike_taxon = "t3", material_sampled="grams_source")
 
 }

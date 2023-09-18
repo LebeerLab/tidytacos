@@ -95,7 +95,7 @@ add_absolute_abundance <- function(ta, spike_taxon, spike_added = spike_added) {
   
   # calculate total for each taxon in each sample
   ta$counts <- ta$counts %>%
-    left_join(tot_abs_abundance) %>%
+    left_join(tot_abs_abundance, by='sample_id') %>%
     mutate(absolute_abundance = round( rel_abundance * total_absolute_abundance, digits = 0))
   
   # remove total_absolute_abundance from counts
@@ -149,28 +149,29 @@ add_absolute_abundance <- function(ta, spike_taxon, spike_added = spike_added) {
 #'   taxa_are_columns = FALSE
 #' )
 #' data$samples$spike_added <- c(100, 150)
-#'
-#' # Add total abundance
+#' data$samples$grams_source <- c(4, 5)
+#' 
+#' # Add density
 #' data <- data %>%
-#'   add_absolute_abundance(spike_taxon = "t3")
+#'   add_density(spike_taxon = "t3", material_sampled="grams_source")
 #'
 #' @export
 add_density <- function(ta, spike_taxon, spike_added = spike_added, material_sampled = material_sampled) {
   spike_added <- rlang::enquo(spike_added)
   material_sampled <- rlang::enquo(material_sampled)
   
-  if (!rlang::quo_name(spike_added) %in% names(ta$samples)) {
+  if (!rlang::as_name(spike_added) %in% names(ta$samples)) {
     stop(paste(
       "Sample table requires a column",
-      rlang::quo_name(spike_added),
+      rlang::as_name(spike_added),
       "that defines the quantity of spike added to the sample."
     ))
   }
   
-  if (!rlang::quo_name(material_sampled) %in% names(ta$samples)) {
+  if (!rlang::as_name(material_sampled) %in% names(ta$samples)) {
     stop(paste(
       "Sample table requires a column",
-      rlang::quo_name(material_sampled),
+      rlang::as_name(material_sampled),
       "that defines the quantity of sample used."
     ))
   }
@@ -179,7 +180,8 @@ add_density <- function(ta, spike_taxon, spike_added = spike_added, material_sam
   rel_abundance_tmp <- !"rel_abundance" %in% names(ta$counts)
   if (rel_abundance_tmp) ta <- add_rel_abundance(ta)
   total_density_tmp <- !"total_density" %in% names(ta$samples)
-  if (total_density_tmp) ta <- add_total_density(ta, spike_taxon)
+  if (total_density_tmp) ta <- add_total_density(ta, spike_taxon, 
+          spike_added = !!spike_added, material_sampled = !!material_sampled)
   
   # make counts table with total densities
   tot_densities <- ta$samples %>%
@@ -187,7 +189,7 @@ add_density <- function(ta, spike_taxon, spike_added = spike_added, material_sam
   
   # calculate density for each taxon in each sample
   ta$counts <- ta$counts %>%
-    left_join(tot_densities) %>%
+    left_join(tot_densities, by='sample_id') %>%
     mutate(density = round( rel_abundance * total_density, digits = 0))
   
   # remove total_density from counts

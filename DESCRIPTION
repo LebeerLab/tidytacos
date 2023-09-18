@@ -33,7 +33,7 @@ Suggests:
     plotly,
     rmarkdown,
     roxygen2,
-    testthat (>= 3.0.0)
+    testthat (>= 3.1.5)
 VignetteBuilder: 
     knitr
 Encoding: UTF-8
