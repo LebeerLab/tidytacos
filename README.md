@@ -1,7 +1,7 @@
 tidytacos <img src="man/figures/logo.png" align="right" width="200"/>
 ======================
 [![R-CMD-check](https://github.com/LebeerLab/tidytacos/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/LebeerLab/tidytacos/actions/workflows/R-CMD-check.yaml)
-[![codecov](https://codecov.io/github/LebeerLab/tidytacos/branch/feature/unit-testing/graph/badge.svg?token=WK0QN34DJB)](https://codecov.io/github/LebeerLab/tidytacos)
+[![codecov](https://codecov.io/gh/LebeerLab/tidytacos/graph/badge.svg?token=532YS16DXU)](https://codecov.io/gh/LebeerLab/tidytacos)
 
 ## Overview
 
