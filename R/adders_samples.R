@@ -225,20 +225,69 @@ add_sample_clustered <- function(ta) {
 
 }
 
-#' Add first two dimensions of PCOA
+# Helper function to prepare 2/3D coordinates of ord
+get_dimensions <- function(dim_df, names, dims) {
+
+  ordnames <- c("ord1", "ord2")
+  if (dims == 3) {
+    ordnames <- c(ordnames, "ord3")
+  }
+
+  dim_df %>%
+    `colnames<-`(ordnames) %>%
+    as_tibble() %>%
+    mutate(sample_id = !! names)
+}
+# Calculate pcoa coordinates and variances
+perform_pcoa <- function(ta, dist_matrix, dims=2, ...){
+
+  ord <- list()
+  pcoa <- stats::cmdscale(dist_matrix, k = dims, eig = T, list = T, ...)
+  ord$variances <- pcoa$eig / sum(pcoa$eig)
+  ord$dimensions <- get_dimensions(
+    pcoa$points, rownames(pcoa$points), dims=dims)
+  ord
+}
+
+# Calculate tsne coordinates and variances
+perform_tsne <- function(ta, dist_matrix, dims=2, ...) {
+  force_optional_dependency("Rtsne")
+
+  ord <- list()
+  tsne <- Rtsne::Rtsne(dist_matrix, dims=dims, ...)
+  ord$dimensions <- get_dimensions(
+    tsne$Y, rownames(as.matrix(dist_matrix)), dims = dims)
+  ord$variances <- tsne$costs / sum(tsne$costs)
+  ord
+}
+
+# Calculate umap coordinates and variances
+perform_umap <- function(ta, dist_matrix, dims=2, ...) {
+  force_optional_dependency("umap")
+  ord <- list()
+  umap <- umap::umap(as.matrix(dist_matrix), n_components=dims, ...)
+  ord$dimensions <- get_dimensions(
+    umap$layout, rownames(umap$layout), dims = dims)
+  ord$variances <- umap$knn$distances / sum(umap$knn$distances)
+  ord
+}
+
+#' Add dimensionality ordination
 #'
-#' \code{add_pcoa} adds the first two dimensions of a principal components
-#' analysis on a Bray-Curtis dissimilarity matrix to two new variables of the
+#' \code{add_ord} adds the first x dimensions of a dimensionality reduction method
+#' of a given dissimilarity matrix to two new variables of the
 #' samples tibble of a tidytacos object.
 #'
-#' This function calculates the Bray-Curtis distance between samples followed by
-#' a principal components analysis. It will then add the two first dimensions to
-#' the samples tibble of a tidytacos object named "pcoa1" and "pcoa2". This
+#' This function calculates the distance between samples followed by
+#' an ordination analysis. It will then add the first n dimensions to
+#' the samples tibble of a tidytacos object named "ord1", "ord2", ... This
 #' function will also add relative abundances if not present using
 #' \code{\link{add_rel_abundance}}.
-#' @importFrom stats cmdscale
 #' @param ta tidytacos object.
-#'
+#' @param distance the distance indices to use, see \code{\link[vegan]{vegdist}} 
+#' @param method the ordination method to use to calculate coordinates. Choice from pcoa, tsne, umap
+#' @param dims the amount of dimensions to reduce the distances to.
+#' 
 #' @examples
 #' # Initiate counts matrix
 #' x <- matrix(
@@ -253,34 +302,42 @@ add_sample_clustered <- function(ta) {
 #'                      taxa_are_columns = FALSE
 #'                      )
 #'
-#' # Add total abundance
+#' # Add pcoa
 #' data <- data %>%
-#'  add_pcoa()
+#'  add_ord()
 #'
 #' @export
-add_pcoa <- function(ta) {
+add_ord <- function(ta, distance="bray", method="pcoa", dims=2, ...) {
 
+  methods = c("pcoa", "tsne", "umap")
+  if (!method %in% methods) {
+    stop(paste("Select a method from", paste0(method, collapse=",")))
+  }
   # make relative abundance matrix
   rel_abundance_matrix <- rel_abundance_matrix(ta)
 
   # make Bray-Curtis distance matrix
-  dist_matrix = vegdist(rel_abundance_matrix, method = "bray")
+  dist_matrix = vegan::vegdist(rel_abundance_matrix, method = distance)
 
-  # perform PCoA
-  pcoa <- cmdscale(dist_matrix, k = 2, eig = T, list = T)
-  pcoa_variances <- pcoa$eig / sum(pcoa$eig)
-  pcoa_dimensions <- pcoa$points %>%
-    `colnames<-`(c("pcoa1", "pcoa2")) %>%
-    as_tibble() %>%
-    mutate(sample_id = !! rownames(pcoa$points))
+  if (method == "pcoa") {
+    ord <- perform_pcoa(ta, dist_matrix, dims=dims, ...)
+  }
 
-  # add PCoA dimensions to sample table
+  if (method == "tsne") {
+    ord <- perform_tsne(ta, dist_matrix, dims=dims, ...)
+  }
+
+  if (method == "umap") {
+    ord <- perform_umap(ta, dist_matrix, dims=dims, ...)
+  }
+
+  # add ord dimensions to sample table
   ta$samples <- ta$samples %>%
-    left_join(pcoa_dimensions, by = "sample_id")
+    left_join(ord$dimensions, by = "sample_id")
 
-  # add PCoA variances to ta object
-  ta$pcoa_variances <- pcoa_variances
-
+  # add ord variances to ta object
+  ta$ord_variances <- ord$variances
+  ta$ord_method <- method
   # return ta object
   ta
 

@@ -4,7 +4,15 @@
 \alias{tacoplot_ord}
 \title{Return a pcoa plot of the samples}
 \usage{
-tacoplot_ord(ta, x = sample_id, palette = NULL, title = "PCOA plot")
+tacoplot_ord(
+  ta,
+  x = sample_id,
+  palette = NULL,
+  ord = "pcoa",
+  distance = "bray",
+  title = NULL,
+  ...
+)
 }
 \arguments{
 \item{ta}{A tidytacos object.}

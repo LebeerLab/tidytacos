@@ -8,8 +8,12 @@ tacoplot_ord_ly(
   ta,
   x = NULL,
   samplenames = sample_id,
+  ord = "pcoa",
+  dims = 2,
+  method = "bray",
   palette = NULL,
-  title = "PCOA plot"
+  title = NULL,
+  ...
 )
 }
 \arguments{

@@ -18,6 +18,10 @@ test_that("Barplot raises error when providing non-existant label", {
     expect_error(urt %>% tacoplot_stack(x=imagined))
 })
 
+test_that("Tacoplot_ord works", {
+    expect_no_error(urt %>% tacoplot_ord(x=location, ord="tsne"))
+})
+
 test_that("Tacoplot_stack_ly works", {
     skip_if_not_installed("plotly")
     expect_no_error(

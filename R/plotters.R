@@ -123,32 +123,40 @@ tacoplot_stack_ly <- function(ta, n = 12, x = sample_clustered) {
 #'   groups.
 #'
 #' @export
-tacoplot_ord_ly <- function(ta, x=NULL, samplenames = sample_id, palette = NULL, title = "PCOA plot") {
+tacoplot_ord_ly <- function(ta, x=NULL, samplenames = sample_id, ord="pcoa", dims=2, method="bray", palette = NULL, title = NULL, ...) {
   force_optional_dependency("plotly")
-  # convert promise to formula
-  if (is.null(x)) {
-    stop("Argument x missing. Please supply the name of a categorical value, to be used as the color for the pcoa plot.")
+
+
+  if (is.null(title)){ 
+    title <- paste(ord, "plot")
   }
   
-  x <- enquo(x)
-  samplenames <- enquo(samplenames)
-
+  # convert promise to formula
+  x <- rlang::enquo(x)
+  if (rlang::quo_is_null(x)) {
+    stop("Argument x missing. Please supply the name of a categorical value, to be used as the color for the pcoa plot.")
+  }
+  samplenames <- rlang::enquo(samplenames)
+  ordnames <- c("ord1", "ord2")
+  if (dims == 3) {
+    ordnames <- c(ordnames, "ord3")
+  }
   # fallback to default palette
   if (is.null(palette)) {
     palette <- palette_paired
   }
 
-  # prepare pcoa if needed
-  if (!all(c("pcoa1", "pcoa2") %in% names(ta$samples))) {
-    ta <- add_pcoa(ta)
+  # prepare ord if needed
+  if (!all(ordnames %in% names(ta$samples))) {
+    ta <- add_ord(ta, distance=method, method=ord, dims=dims, ...)
   }
-
+  if (dims == 2) {
   plot <- rlang::eval_tidy(rlang::quo_squash(
     quo({
       ta$samples %>%
         plotly::plot_ly(
-          x = ~pcoa1,
-          y = ~pcoa2,
+          x = ~ord1,
+          y = ~ord2,
           color = ~!!x,
           colors = palette_paired,
           text = ~!!samplenames,
@@ -163,7 +171,27 @@ tacoplot_ord_ly <- function(ta, x=NULL, samplenames = sample_id, palette = NULL,
         )
     })
   ))
-
+  } else {
+    plot <- rlang::eval_tidy(rlang::quo_squash(
+    quo({
+      ta$samples %>%
+        plotly::plot_ly(
+          x = ~ord1,
+          y = ~ord2,
+          z = ~ord3,
+          color = ~!!x,
+          colors = palette_paired,
+          text = ~!!samplenames,
+          hovertemplate = paste("<i>%{text}</i>")
+        ) %>% plotly::add_markers() %>%
+        plotly::layout(
+          title = title,
+          yaxis = list(zeroline = F),
+          xaxis = list(zeroline = F)
+        )
+    })
+  ))
+  }
   plot
 }
 
@@ -176,10 +204,12 @@ tacoplot_ord_ly <- function(ta, x=NULL, samplenames = sample_id, palette = NULL,
 #'   groups.
 #'
 #' @export
-tacoplot_ord <- function(ta, x=sample_id, palette = NULL, title = "PCOA plot") {
+tacoplot_ord <- function(ta, x=sample_id, palette = NULL, ord = "pcoa", distance="bray", title = NULL, ...) {
 
   x <- enquo(x)
-  
+  if (is.null(title)){ 
+    title <- paste(ord, "plot")
+  }
   error_message = paste0("Label \'", quo_name(x),"\' not found in the samples table.")
   if(!is.element(quo_name(x), names(ta$samples))) {
     stop(error_message)
@@ -195,11 +225,11 @@ tacoplot_ord <- function(ta, x=sample_id, palette = NULL, title = "PCOA plot") {
   }
 
   # prepare pcoa if needed
-  if (!all(c("pcoa1", "pcoa2") %in% names(ta$samples))) {
-    ta <- add_pcoa(ta)
-  }
+  if (!all(c("ord1", "ord2") %in% names(ta$samples))) {
+    ta <- add_ord(ta, distance=distance, method=ord, ...)
+  } 
 
-  ta$samples %>% ggplot(aes(x=pcoa1, y=pcoa2, color=!!x)) + 
+  ta$samples %>% ggplot(aes(x=ord1, y=ord2, color=!!x)) + 
     geom_point() + 
     theme_classic() +
     ggtitle(title)

@@ -6,7 +6,7 @@
 It is advised to run \code{\link{add_sparcc_network_clusters}} on the tidyamplicons object
 before running this function to add the clusters if you want to stray from any default parameters.}
 \usage{
-add_eigentaxa(ta)
+add_eigentaxa(ta, taxon_name = taxon, sample_name = sample)
 }
 \arguments{
 \item{ta}{a tidytacos object.}
