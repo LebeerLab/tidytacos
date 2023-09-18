@@ -97,7 +97,18 @@ read_tidytacos <- function(din, samples = "samples.csv", taxa = "taxa.csv",
                                counts = "counts.csv") {
   samples <- readr::read_csv(paste0(din, "/", samples), col_types = readr::cols())
   taxa <- readr::read_csv(paste0(din, "/", taxa), col_types = readr::cols())
-  counts <- readr::read_csv(paste0(din, "/", counts), col_types = readr::cols())
+  # Tidyamplicons compatibility
+  if (file.exists(paste0(din, "/", counts))) {
+      counts <- readr::read_csv(paste0(din, "/", counts), col_types = readr::cols())
+  } else if (file.exists(paste0(din, "/", "abundances.csv"))) {
+      counts <- readr::read_csv(
+        paste0(din, "/", "abundances.csv"), col_types = readr::cols()) %>% 
+        rename(count=abundance)
+      message("Converted tidyamplicons to tidytacos object.")
+  } else {
+    stop(paste("File", counts, ", containing count data not found in", dir))
+  }
+
   make_tidytacos(
     samples, taxa, counts, sample_name = sample_id, taxon_name = taxon_id
   )
