@@ -411,3 +411,176 @@ add_cluster <- function(ta, n_clusters) {
   ta
 
 }
+
+
+#' Add total absolute abundances to samples table
+#'
+#' \code{add_total_absolute_abundance} adds total absolute abundance to the samples table of a
+#' tidytacos object.
+#'
+#' This function adds the total absolute abundances to the samples table
+#' of a tidytacos object under the variable name "total_absolute_abundance".
+#'
+#' @param ta tidytacos object.
+#' @param spike_taxon The taxon id of the spike.
+#' @param spike_added The column name of the samples table which indicates how much spike was added per sample, e.g. 16S rRNA gene copy numbers added to the DNA extraction tube.
+#'
+#'
+#' @examples
+#' # Initiate count matrix
+#' x <- matrix(
+#'   c(1500, 1300, 14, 280, 356, 9),
+#'   ncol = 2
+#' )
+#' rownames(x) <- c("taxon1", "taxon2", "taxon3")
+#' colnames(x) <- c("sample1", "sample2")
+#'
+#' # Convert to tidytacos object
+#' data <- create_tidytacos(x,
+#'   taxa_are_columns = FALSE
+#' )
+#' data$samples$spike_added <- c(100, 150)
+#'
+#' # Add total abundance
+#' data <- data %>%
+#'   add_total_absolute_abundance(spike_taxon = "t3")
+#'
+#' @export
+add_total_absolute_abundance <- function(ta, spike_taxon, spike_added = spike_added) {
+  spike_added <- rlang::enquo(spike_added)
+  
+  if (!rlang::quo_name(spike_added) %in% names(ta$samples)) {
+    stop(paste(
+      "Sample table requires a column",
+      rlang::quo_name(spike_added),
+      "that defines the quantity of spike added to the sample."
+    ))
+  }
+  
+  # if total_counts not present: add temporarily
+  total_counts_tmp <- !"total_counts" %in% names(ta$samples)
+  if (total_counts_tmp) ta <- add_total_counts(ta)
+  
+  # make sample table with spike abundances
+  spike_counts <- ta$counts %>%
+    filter(taxon_id == spike_taxon) %>%
+    select(sample_id, spike_count = count)
+  
+  # calculate total absolute abundance per sample
+  ta$samples <- ta$samples %>%
+    left_join(spike_counts, by = "sample_id") %>%
+    mutate(total_absolute_abundance = (!!spike_added * (total_counts - spike_count) / spike_count))
+  
+  # remove spike_abundance
+  ta$samples$spike_count <- NULL
+  
+  # cleanup
+  if (total_counts_tmp) ta$samples$total_counts <- NULL
+  
+  # Warn about samples without spike
+  samples_w_no_spike <- unique(ta$samples$sample_id[which(is.na(ta$samples$total_absolute_abundance))])
+  if (length(samples_w_no_spike) > 0) {
+    warning(
+      paste(
+        "Sample without spike taxon detected:",
+        format(samples_w_no_spike, trim = TRUE), "\n"
+      )
+    )
+  }
+  
+  # return ta object
+  ta
+}
+
+
+#' Add total densities to samples table
+#'
+#' \code{add_total_density} adds total density to the samples table of a
+#' tidytacos object.
+#'
+#' This function adds the total densities to the samples table
+#' of a tidytacos object under the variable name "total_density".
+#'
+#' @param ta tidytacos object.
+#' @param spike_taxon The taxon id of the spike.
+#' @param spike_added The column name of the samples table which indicates how much spike was added per sample, e.g. 16S rRNA gene copy numbers added to the DNA extraction tube.
+#' @param material_sampled The column name indicating the amount of material from which DNA was extracted, e.g gram of soil. This parameter encourages researchers to consider that absolute abundances are only meaningful if they can be translated into densities.
+#'
+#'
+#' @examples
+#' # Initiate count matrix
+#' x <- matrix(
+#'   c(1500, 1300, 14, 280, 356, 9),
+#'   ncol = 2
+#' )
+#' rownames(x) <- c("taxon1", "taxon2", "taxon3")
+#' colnames(x) <- c("sample1", "sample2")
+#'
+#' # Convert to tidytacos object
+#' data <- create_tidytacos(x,
+#'   taxa_are_columns = FALSE
+#' )
+#' data$samples$spike_added <- c(100, 150)
+#' data$samples$material_sampled <- c(1, 5)
+#'
+#' # Add total abundance
+#' data <- data %>%
+#'   add_total_density(spike_taxon = "t3")
+#'
+#' @export
+add_total_density <- function(ta, spike_taxon, spike_added = spike_added, material_sampled = material_sampled) {
+  spike_added <- rlang::enquo(spike_added)
+  material_sampled <- rlang::enquo(material_sampled)
+  
+  if (!rlang::quo_name(spike_added) %in% names(ta$samples)) {
+    stop(paste(
+      "Sample table requires a column",
+      rlang::quo_name(spike_added),
+      "that defines the quantity of spike added to the sample."
+    ))
+  }
+  
+  if (!rlang::quo_name(material_sampled) %in% names(ta$samples)) {
+    stop(paste(
+      "Sample table requires a column",
+      rlang::quo_name(material_sampled),
+      "that defines the quantity of sample used."
+    ))
+  }
+  
+  # if total_counts not present: add temporarily
+  total_counts_tmp <- !"total_counts" %in% names(ta$samples)
+  if (total_counts_tmp) ta <- add_total_counts(ta)
+  
+  # make sample table with spike abundances
+  spike_counts <- ta$counts %>%
+    filter(taxon_id == spike_taxon) %>%
+    select(sample_id, spike_count = count)
+  
+  # calculate total absolute abundance per sample
+  ta$samples <- ta$samples %>%
+    left_join(spike_counts, by = "sample_id") %>%
+    mutate(total_density = (!!spike_added * (total_counts - spike_count) / spike_count)/ !!material_sampled)
+  
+  # remove spike_abundance
+  ta$samples$spike_count <- NULL
+  
+  # cleanup
+  if (total_counts_tmp) ta$samples$total_counts <- NULL
+  
+  # Warn about samples without spike
+  samples_w_no_spike <- unique(ta$samples$sample_id[which(is.na(ta$samples$total_density))])
+  if (length(samples_w_no_spike) > 0) {
+    warning(
+      paste(
+        "Sample without spike taxon detected:",
+        format(samples_w_no_spike, trim = TRUE), "\n"
+      )
+    )
+  }
+  
+  # return ta object
+  ta
+}
+
+
