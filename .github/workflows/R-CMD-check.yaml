@@ -63,6 +63,8 @@ jobs:
               any::compositions
               any::MCL
               any::Matrix
+              any::umap
+              any::Rtsne
               bioc::dada2
               bioc::phyloseq
               github::zdk123/SpiecEasi
