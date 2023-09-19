@@ -119,11 +119,16 @@ tacoplot_stack_ly <- function(ta, n = 12, x = sample_clustered) {
 #' @param ta A tidytacos object.
 #' @param x A string, representing the column name used to color the sample
 #'   groups on.
+#' @param samplenames the column in the sample table with the samplenames, defaults to sample_id.
+#' @param ord the ordination technique to use. Choice from pcoa, tsne and umap.
+#' @param distance the distance algorithm to use, see \code{\link[vegan]{vegdist}}.
+#' @param dims the amount of dimensions to plot, 2 or 3.
 #' @param palette A vector of colors, used as the palette for coloring sample
+#' @param title a string to display as title of the plot.
 #'   groups.
 #'
 #' @export
-tacoplot_ord_ly <- function(ta, x=NULL, samplenames = sample_id, ord="pcoa", dims=2, method="bray", palette = NULL, title = NULL, ...) {
+tacoplot_ord_ly <- function(ta, x=NULL, samplenames = sample_id, ord="pcoa", dims=2, distance="bray", palette = NULL, title = NULL, ...) {
   force_optional_dependency("plotly")
 
 
@@ -148,7 +153,7 @@ tacoplot_ord_ly <- function(ta, x=NULL, samplenames = sample_id, ord="pcoa", dim
 
   # prepare ord if needed
   if (!all(ordnames %in% names(ta$samples))) {
-    ta <- add_ord(ta, distance=method, method=ord, dims=dims, ...)
+    ta <- add_ord(ta, distance=distance, method=ord, dims=dims, ...)
   }
   if (dims == 2) {
   plot <- rlang::eval_tidy(rlang::quo_squash(

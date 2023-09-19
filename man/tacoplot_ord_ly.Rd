@@ -10,7 +10,7 @@ tacoplot_ord_ly(
   samplenames = sample_id,
   ord = "pcoa",
   dims = 2,
-  method = "bray",
+  distance = "bray",
   palette = NULL,
   title = NULL,
   ...
@@ -22,7 +22,17 @@ tacoplot_ord_ly(
 \item{x}{A string, representing the column name used to color the sample
 groups on.}
 
-\item{palette}{A vector of colors, used as the palette for coloring sample
+\item{samplenames}{the column in the sample table with the samplenames, defaults to sample_id.}
+
+\item{ord}{the ordination technique to use. Choice from pcoa, tsne and umap.}
+
+\item{dims}{the amount of dimensions to plot, 2 or 3.}
+
+\item{distance}{the distance algorithm to use, see \code{\link[vegan]{vegdist}}.}
+
+\item{palette}{A vector of colors, used as the palette for coloring sample}
+
+\item{title}{a string to display as title of the plot.
 groups.}
 }
 \description{
