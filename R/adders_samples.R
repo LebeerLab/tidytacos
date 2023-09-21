@@ -314,6 +314,14 @@ add_ord <- function(ta, distance="bray", method="pcoa", dims=2, binary=FALSE, ..
   if (!method %in% methods) {
     stop(paste("Select a method from", paste0(method, collapse=",")))
   }
+
+  # if add_ord was run before, remove coordinates from sample table
+  if ("ord_method" %in% names(ta)) {
+    warning("Overwriting previous ord data")
+    ta$samples <- ta$samples %>% 
+        select(-num_range("ord", 0:length(ta$samples$sample_id)))
+  }
+
   # make relative abundance matrix
   rel_abundance_matrix <- rel_abundance_matrix(ta)
 
