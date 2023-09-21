@@ -287,7 +287,8 @@ perform_umap <- function(ta, dist_matrix, dims=2, ...) {
 #' @param distance the distance indices to use, see \code{\link[vegan]{vegdist}} 
 #' @param method the ordination method to use to calculate coordinates. Choice from pcoa, tsne, umap
 #' @param dims the amount of dimensions to reduce the distances to.
-#' 
+#' @param binary perform presence/absence standardisation before distance computation.
+#'
 #' @examples
 #' # Initiate counts matrix
 #' x <- matrix(
@@ -307,7 +308,7 @@ perform_umap <- function(ta, dist_matrix, dims=2, ...) {
 #'  add_ord()
 #'
 #' @export
-add_ord <- function(ta, distance="bray", method="pcoa", dims=2, ...) {
+add_ord <- function(ta, distance="bray", method="pcoa", dims=2, binary=FALSE, ...) {
 
   methods = c("pcoa", "tsne", "umap")
   if (!method %in% methods) {
@@ -317,7 +318,7 @@ add_ord <- function(ta, distance="bray", method="pcoa", dims=2, ...) {
   rel_abundance_matrix <- rel_abundance_matrix(ta)
 
   # make Bray-Curtis distance matrix
-  dist_matrix = vegan::vegdist(rel_abundance_matrix, method = distance)
+  dist_matrix = vegan::vegdist(rel_abundance_matrix, method = distance, binary=binary)
 
   if (method == "pcoa") {
     ord <- perform_pcoa(ta, dist_matrix, dims=dims, ...)

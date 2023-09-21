@@ -4,7 +4,7 @@
 \alias{add_ord}
 \title{Add dimensionality ordination}
 \usage{
-add_ord(ta, distance = "bray", method = "pcoa", dims = 2, ...)
+add_ord(ta, distance = "bray", method = "pcoa", dims = 2, binary = FALSE, ...)
 }
 \arguments{
 \item{ta}{tidytacos object.}
@@ -14,6 +14,8 @@ add_ord(ta, distance = "bray", method = "pcoa", dims = 2, ...)
 \item{method}{the ordination method to use to calculate coordinates. Choice from pcoa, tsne, umap}
 
 \item{dims}{the amount of dimensions to reduce the distances to.}
+
+\item{binary}{perform presence/absence standardisation before distance computation.}
 }
 \description{
 \code{add_ord} adds the first x dimensions of a dimensionality reduction method
