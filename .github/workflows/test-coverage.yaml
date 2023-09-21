@@ -26,6 +26,8 @@ jobs:
                 any::plotly
                 any::vdiffr
                 any::compositions
+                any::umap
+                any::Rtsne
                 bioc::dada2
                 bioc::phyloseq
           needs: coverage

@@ -61,8 +61,13 @@ jobs:
               any::plotly
               any::vdiffr
               any::compositions
+              any::MCL
+              any::Matrix
+              any::umap
+              any::Rtsne
               bioc::dada2
               bioc::phyloseq
+              github::zdk123/SpiecEasi
           needs: check
 
       - uses: r-lib/actions/check-r-package@v2
