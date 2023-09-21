@@ -19,7 +19,7 @@ test_that("Can add absolute abundance",{
    tdata <- data %>%
    add_absolute_abundance(spike_taxon = "t3")
    
-   expect_contains(tdata$counts$absolute_abundance, absolutes_expected)
+   testthat::expect_contains(tdata$counts$absolute_abundance, absolutes_expected)
 })
 
 test_that("Can add density",{
@@ -27,5 +27,5 @@ test_that("Can add density",{
    tdata <- data %>%
    add_density(spike_taxon = "t3", material_sampled = grams_source)
    
-   expect_contains(tdata$counts$density, densities_expected)
+   testthat::expect_contains(tdata$counts$density, densities_expected)
 })
