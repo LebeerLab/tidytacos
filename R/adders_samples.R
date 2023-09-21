@@ -410,7 +410,7 @@ add_spike_ratio <- function(ta, spike_taxon) {
 
 #' Add cluster number
 #'
-#' \code{add_cluster} adds a new variable to the samples tibble of a
+#' \code{add_sample_cluster} adds a new variable to the samples tibble of a
 #' tidytacos object defining to what cluster a sample belongs.
 #'
 #' This function calculates the Bray-Curtis distance between samples followed by
@@ -438,14 +438,14 @@ add_spike_ratio <- function(ta, spike_taxon) {
 #'
 #' # Add total abundance
 #' data <- data %>%
-#'  add_cluster(n_clusters = 2)
+#'  add_sample_cluster(n_clusters = 2)
 #'
 # Adds a variable "cluster" to the samples table
 # To do: merge with add_sample_clustered somehow
 #
 #' @importFrom stats cutree
 #' @export
-add_cluster <- function(ta, n_clusters) {
+add_sample_cluster <- function(ta, n_clusters) {
 
   # make relative abundance matrix
   rel_abundance_matrix <- rel_abundance_matrix(ta)

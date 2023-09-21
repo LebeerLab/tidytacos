@@ -3,7 +3,7 @@
 \name{add_eigentaxa}
 \alias{add_eigentaxa}
 \title{Calculates eigentaxa values based on SparCC - MCL generated clusters per sample. 
-It is advised to run \code{\link{add_sparcc_network_clusters}} on the tidyamplicons object
+It is advised to run \code{\link{add_taxon_cluster}} on the tidyamplicons object
 before running this function to add the clusters if you want to stray from any default parameters.}
 \usage{
 add_eigentaxa(ta, taxon_name = taxon, sample_name = sample)
@@ -13,6 +13,6 @@ add_eigentaxa(ta, taxon_name = taxon, sample_name = sample)
 }
 \description{
 Calculates eigentaxa values based on SparCC - MCL generated clusters per sample. 
-It is advised to run \code{\link{add_sparcc_network_clusters}} on the tidyamplicons object
+It is advised to run \code{\link{add_taxon_cluster}} on the tidyamplicons object
 before running this function to add the clusters if you want to stray from any default parameters.
 }
