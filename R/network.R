@@ -78,7 +78,9 @@ cluster_sparcc <- function(sparcc, min_n = 3, visualize = F) {
   k <- clusters %>%
     group_by(cluster) %>%
     summarize(taxa_per_clust = n()) %>%
-    filter(cluster > 0, taxa_per_clust >= min_n) %>%
+    filter(
+      if(min_n>1) cluster > 0 else TRUE, 
+      taxa_per_clust >= min_n) %>%
     pull(cluster)
 
   clusters %>% filter(cluster %in% k) %>% mutate(cluster = str_c("c", cluster))
