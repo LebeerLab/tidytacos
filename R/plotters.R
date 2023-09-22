@@ -70,6 +70,14 @@ tacoplot_stack <- function(ta, n = 12, x = sample_clustered, geom_bar = T) {
     plot <- plot + geom_bar(stat = "identity")
   }
 
+  # Add > 12 colors if asked for
+  if (n > 12) { 
+    force_optional_dependency("RColorBrewer")
+    supressMessages(
+    plot <- plot +
+          scale_fill_manual(values = colorRampPalette(palette_xgfs)(n)))
+  }
+
   plot
 }
 
