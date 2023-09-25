@@ -46,7 +46,7 @@ add_sample_tibble <- function(ta, sample_tibble) {
 
 #' Add total reads per sample
 #'
-#' \code{add_total_counts} adds the total reads per sample to the samples tibble
+#' \code{add_total_count} adds the total reads per sample to the samples tibble
 #' of a tidytacos object.
 #'
 #' This function adds the total reads per sample to the samples tibble of a
@@ -70,10 +70,10 @@ add_sample_tibble <- function(ta, sample_tibble) {
 #'
 #' # Add total counts
 #' data <- data %>%
-#'  add_total_counts()
+#'  add_total_count()
 #'
 #' @export
-add_total_counts <- function(ta, step = "current") {
+add_total_count <- function(ta, step = "current") {
 
   # remove lib_size if already present
   ta$samples$total_counts <- NULL

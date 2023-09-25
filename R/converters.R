@@ -198,7 +198,7 @@ as_phyloseq <- function(ta, sample = sample, taxon = taxon) {
 
 #' Convert phyloseq object to tidytacos object
 #'
-#' \code{as_tidytacos} returns a tidytacos object given a phyloseq
+#' \code{from_phyloseq} returns a tidytacos object given a phyloseq
 #' object.
 #'
 #' This function will convert a phyloseq object into a tidytacos object. To
@@ -208,7 +208,7 @@ as_phyloseq <- function(ta, sample = sample, taxon = taxon) {
 #' @param ps Phyloseq object.
 #'
 #' @export
-as_tidytacos <- function(ps) {
+from_phyloseq <- function(ps) {
 
   if ("tidytacos" %in% class(ps)) return(ps)
 
@@ -236,6 +236,50 @@ as_tidytacos <- function(ps) {
     add_sample_tibble(samples) %>%
     add_taxon_tibble(taxa)
 
+}
+
+#' Convert the output objects of a DADA2 pipeline to a tidytacos object.
+#'
+#' \code{from_dada} returns a tidytacos object given a seqtab and taxa object from dada2.
+#'
+#' This function will convert two dada2 objects or files into a tidytacos object.
+#'
+#' @param seqtab Sequence table, output of dada2::makeSequenceTable.
+#' @param taxa taxa table, output of dada2::assignTaxonomy.
+#'
+#' @export
+from_dada <- function(seqtab, taxa, taxa_are_columns=FALSE) {
+    
+    if ("matrix" %in% class(seqtab)) {
+
+    } else if (class(seqtab) == "character") {
+      # generate matrix from input file
+      suppressMessages(table <- readr::read_tsv(seqtab))
+      seqtab <- as.matrix(table %>% select(-1))
+      rownames(seqtab) <- table %>% pull(1)
+
+    } else {
+      stop(paste("Could not interpret", seqtab))
+    }
+
+    if ("data.frame" %in% class(taxa)) {
+      taxon <- rownames(taxa)
+      taxa <- cbind(as_tibble(taxa), taxon)
+    } else if (class(taxa) == "character") {
+      suppressMessages(taxa <- readr::read_tsv(taxa))
+    } else {
+      stop(paste("Could not interpret", taxa))
+    }
+
+    # convert counts
+    ta <- create_tidytacos(seqtab, taxa_are_columns)
+
+    # add taxonomic data
+    colnames(taxa) <- str_to_lower(colnames(taxa))
+    colnames(taxa)[1] <- "taxon"
+
+    ta$taxa <- ta$taxa %>% left_join(taxa, by="taxon")
+    ta
 }
 
 #' Convert matrix with counts to tidy data frame
