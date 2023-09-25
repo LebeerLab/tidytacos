@@ -268,12 +268,12 @@ add_taxon_name_color <- function(
     pull(taxon_name) %>%
     `[`(1:(n-1)) %>%
     sort()
-  levels <- append(levels, "residual", after=0)
+  levels <- append(levels, "Other taxa", after=0)
 
   # add taxon_name_color factor to taxa table
   ta$taxa <-
     ta$taxa %>%
-    mutate(taxon_name_color = if_else(taxon_name %in% levels, taxon_name, "residual")) %>%
+    mutate(taxon_name_color = if_else(taxon_name %in% levels, taxon_name, "Other taxa")) %>%
     mutate(taxon_name_color = factor(taxon_name_color, levels = levels))
 
   # overwrite colors with higher rank if asked for
