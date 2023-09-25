@@ -48,7 +48,7 @@ test_that("Can add taxon name colors for specific number", {
 
 test_that("Can add taxon name colors for specific taxa", {
     ta_col <- urt %>% add_taxon_name_color(taxa=c("t1","t2"))
-    expect_equal(levels(ta_col$taxa$taxon_name_color),c("residual","Moraxella 1","Staphylococcus 1"))
+    expect_equal(levels(ta_col$taxa$taxon_name_color),c("Other taxa","Moraxella 1","Staphylococcus 1"))
 })
 
 test_that("Add taxon name color raises error when uring none existant method", {

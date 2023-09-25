@@ -83,7 +83,7 @@ add_absolute_abundance <- function(ta, spike_taxon, spike_added = spike_added) {
   
   # if total_counts, relative abundances, and total absolute abundances are not present: add temporarily
   total_counts_tmp <- !"total_counts" %in% names(ta$samples)
-  if (total_counts_tmp) ta <- add_total_counts(ta)
+  if (total_counts_tmp) ta <- add_total_count(ta)
   rel_abundance_tmp <- !"rel_abundance" %in% names(ta$counts)
   if (rel_abundance_tmp) ta <- add_rel_abundance(ta)
   total_absolute_abundance_tmp <- !"total_absolute_abundance" %in% names(ta$samples)

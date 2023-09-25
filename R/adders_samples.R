@@ -393,7 +393,7 @@ add_spike_ratio <- function(ta, spike_taxon) {
 
   # if lib_size not present: add temporarily
   lib_size_tmp <- ! "total_counts" %in% names(ta$samples)
-  if (lib_size_tmp) ta <- add_total_counts(ta)
+  if (lib_size_tmp) ta <- add_total_count(ta)
 
   # make sample table with spike abundances
   spike_counts <- ta$counts %>%
@@ -525,7 +525,7 @@ add_total_absolute_abundance <- function(ta, spike_taxon, spike_added = spike_ad
   
   # if total_counts not present: add temporarily
   total_counts_tmp <- !"total_counts" %in% names(ta$samples)
-  if (total_counts_tmp) ta <- add_total_counts(ta)
+  if (total_counts_tmp) ta <- add_total_count(ta)
   
   # make sample table with spike abundances
   spike_counts <- ta$counts %>%
@@ -616,7 +616,7 @@ add_total_density <- function(ta, spike_taxon, spike_added = spike_added, materi
   
   # if total_counts not present: add temporarily
   total_counts_tmp <- !"total_counts" %in% names(ta$samples)
-  if (total_counts_tmp) ta <- add_total_counts(ta)
+  if (total_counts_tmp) ta <- add_total_count(ta)
   
   # make sample table with spike abundances
   spike_counts <- ta$counts %>%
