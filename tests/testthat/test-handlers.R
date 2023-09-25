@@ -243,3 +243,11 @@ test_that("Filtering returns the expected amount of samples", {
     expect_equal(length(ta_f$counts$sample_id), 70)
     expect_equal(length(ta_f$taxa$taxon_id), 18)
 })
+
+# CLR TRANSFORM
+test_that("CLR transformation returns expected output", {
+    skip_if_not_installed("compositions")
+    urt_clr <- urt %>% clr_transform_counts()
+    expect_true("clr_counts" %in% names(urt_clr))
+    expect_equal(sum(urt_clr$clr_counts %>% pull(count)), 4957.073, tolerance=0.01)
+})

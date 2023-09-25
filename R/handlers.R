@@ -344,26 +344,27 @@ filter_counts <- function(ta, ...) {
 #' @export
 clr_transform_counts <- function(
     ta,
-    taxon = taxon_id, sample = sample_id, counts = counts,
     overwrite = F) {
   force_optional_dependency("compositions")
 
-  taxon_name <- rlang::enquo(taxon)
-  sample_name <- rlang::enquo(sample)
-  counts_var <- rlang::enquo(counts)
+  mt <- ta$counts %>% pivot_wider(
+    values_from=count,
+    names_from=taxon_id,
+    values_fill=0)
 
-  counts_mat <- ta %>% counts_matrix(
-    sample_name = sample_name, taxon_name = taxon_name
-  )
-  clrt_counts <- compositions::clr(counts_mat)
+  mt <- tibble::column_to_rownames(mt, var="sample_id")
 
-  ta_clrt <- create_tidytacos(clrt_counts)
+  clrt_mt <- compositions::clr(mt) 
+  clrt_counts <- clrt_mt %>% 
+      as_tibble() %>% 
+      tibble::add_column(sample_id = rownames(clrt_mt)) %>% 
+      pivot_longer(!sample_id, names_to='taxon_id', values_to='count') %>% 
+      filter(count>0)
 
   if (overwrite) {
-    ta$clr_counts <- NULL
-    ta$counts <- ta_clrt$counts
+    ta$counts <- clrt_counts
   } else {
-    ta$clr_counts <- ta_clrt$counts
+    ta$clr_counts <- clrt_counts
   }
 
   ta

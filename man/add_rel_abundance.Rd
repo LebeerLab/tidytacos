@@ -20,18 +20,19 @@ of a tidytacos object under the variable name "rel_abundance".
 \examples{
 # Initiate count matrix
 x <- matrix(
- c(1500, 1300, 280, 356),
- ncol = 2
+  c(1500, 1300, 280, 356),
+  ncol = 2
 )
 rownames(x) <- c("taxon1", "taxon2")
 colnames(x) <- c("sample1", "sample2")
 
 # Convert to tidytacos object
 data <- create_tidytacos(x,
-                     taxa_are_columns = FALSE)
+  taxa_are_columns = FALSE
+)
 
 # Add relative abundance
 data <- data \%>\%
- add_rel_abundance()
+  add_rel_abundance()
 
 }

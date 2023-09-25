@@ -38,9 +38,9 @@ remove_empty_samples <- function(ta){
 }
 
 # Checks if optional dependency is loaded and stops code if not.
-force_optional_dependency <- function(optional_pkg){
+force_optional_dependency <- function(optional_pkg, instructions=NULL){
   if (!requireNamespace(optional_pkg, quietly = TRUE)) {
-      stop(paste("The", optional_pkg, "package must be installed to use this function."))
+      stop(paste("The", optional_pkg, "package must be installed to use this function.", instructions))
   }
   NULL
 }
