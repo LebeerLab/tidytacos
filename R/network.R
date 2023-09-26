@@ -132,7 +132,7 @@ pca_taxa <- function(ta, cluster_name, taxon_name=taxon, sample_name=sample){
     
     ta$samples <- ta$samples %>% left_join(
         tibble(sample=rownames(res$x), !!colname:=res$x[,1]),
-        by="sample"
+        by=rlang::quo_name(sample_name)
     )
     ta
 }
