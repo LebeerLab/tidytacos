@@ -171,7 +171,7 @@ tacoplot_ord_ly <- function(ta, x=NULL, samplenames = sample_id, ord="pcoa", dim
           x = ~ord1,
           y = ~ord2,
           color = ~!!x,
-          colors = palette_paired,
+          colors = palette,
           text = ~!!samplenames,
           hovertemplate = paste("<i>%{text}</i>"),
           type = "scatter",
@@ -193,7 +193,7 @@ tacoplot_ord_ly <- function(ta, x=NULL, samplenames = sample_id, ord="pcoa", dim
           y = ~ord2,
           z = ~ord3,
           color = ~!!x,
-          colors = palette_paired,
+          colors = palette,
           text = ~!!samplenames,
           hovertemplate = paste("<i>%{text}</i>")
         ) %>% plotly::add_markers() %>%
