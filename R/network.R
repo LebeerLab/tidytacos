@@ -152,7 +152,7 @@ add_eigentaxa <- function(ta, taxon_name=taxon, sample_name=sample) {
     ta_tmp <- ta
     if (! "cluster" %in% names(ta$taxa)) {
     # keep cluster ids in tax table
-    ta <- ta %>% add_taxon_cluster(taxon_name=!!taxon_name)
+    ta <- ta %>% add_taxon_cluster(taxon_name=!!taxon_name, sample_name=!!sample_name)
     ta_tmp <- ta %>% clr_transform_counts(overwrite=T)
     }
 
