@@ -130,9 +130,10 @@ pca_taxa <- function(ta, cluster_name, taxon_name=taxon, sample_name=sample){
         stats::prcomp(scale=T)
     colname = paste0("scaled_pca_", cluster_name)
     
+    res_table <- tibble(sample=rownames(res$x), !!colname:=res$x[,1])
     ta$samples <- ta$samples %>% left_join(
-        tibble(sample=rownames(res$x), !!colname:=res$x[,1]),
-        by=rlang::quo_name(sample_name)
+        res_table,
+        by=rlang::set_names(rlang::quo_name(sample_name), sample)
     )
     ta
 }
