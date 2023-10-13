@@ -21,23 +21,3 @@ factor variable "samples_clustered" to the samples tibble of a tidytacos
 object. This function is extremely useful if one wants to plot similar
 samples together.
 }
-\examples{
-# Initiate counts matrix
-x <- matrix(
- c(1500, 1300, 280, 356),
- ncol = 2
-)
-rownames(x) <- c("taxon1", "taxon2")
-colnames(x) <- c("sample1", "sample2")
-
-# Convert to tidytacos object
-data <- create_tidytacos(x,
-                     taxa_are_columns = FALSE
-                     )
-
-# Add total abundance
-data <- data \%>\%
- add_sample_clustered()
-
-
-}

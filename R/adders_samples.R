@@ -185,25 +185,6 @@ add_alpha <- function(ta) {
 #' @importFrom stats hclust
 #' @param ta tidytacos object.
 #'
-#' @examples
-#' # Initiate counts matrix
-#' x <- matrix(
-#'  c(1500, 1300, 280, 356),
-#'  ncol = 2
-#' )
-#' rownames(x) <- c("taxon1", "taxon2")
-#' colnames(x) <- c("sample1", "sample2")
-#'
-#' # Convert to tidytacos object
-#' data <- create_tidytacos(x,
-#'                      taxa_are_columns = FALSE
-#'                      )
-#'
-#' # Add total abundance
-#' data <- data %>%
-#'  add_sample_clustered()
-#'
-#'
 add_sample_clustered <- function(ta) {
 
   # make relative abundance matrix
@@ -451,7 +432,7 @@ add_spike_ratio <- function(ta, spike_taxon) {
 #'
 #' # Add total abundance
 #' data <- data %>%
-#'  cluster_samplesn_clusters = 2)
+#'  cluster_samples(n_clusters = 2)
 #'
 # Adds a variable "cluster" to the samples table
 # To do: merge with add_sample_clustered somehow

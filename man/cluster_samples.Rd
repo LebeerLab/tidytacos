@@ -38,6 +38,6 @@ data <- create_tidytacos(x,
 
 # Add total abundance
 data <- data \%>\%
- cluster_samplesn_clusters = 2)
+ cluster_samples(n_clusters = 2)
 
 }
