@@ -1,9 +1,12 @@
-#' Prepare tidyamplicons object for visualization by barplot.
-#' Clusters samples, adds color groups and relative abundances.
-#' @param ta a tidyamplicons object
-#' @param n an integer
-#' @noRd
+# Prepare tidytacos object for visualization by barplot.
+#
+# Clusters samples, adds color groups and relative abundances.
+#
+# @param ta a tidytacos object
+# @param n an integer
+#
 prepare_for_bp <- function(ta, n = 12, extended = TRUE) {
+
   # add sample_clustered if not present
   if (!"sample_clustered" %in% names(ta$samples)) {
     ta <- add_sample_clustered(ta)
@@ -15,12 +18,13 @@ prepare_for_bp <- function(ta, n = 12, extended = TRUE) {
   }
 
   # add relative abundances if not present
-  if (!"rel_abundance" %in% names(ta$abundances)) {
+  if (!"rel_abundance" %in% names(ta$counts)) {
     ta <- add_rel_abundance(ta)
   }
+
   # optional extension (not used by sample bp)
   if (extended) {
-    ta <- ta %>% get_abundances_extended()
+    ta <- ta %>% everything()
   }
   ta
 }
@@ -28,14 +32,29 @@ prepare_for_bp <- function(ta, n = 12, extended = TRUE) {
 #' Return a bar plot of the samples
 #'
 #' @export
-bar_plot <- function(ta, n = 12, x = sample_clustered, geom_bar = T) {
+tacoplot_stack <- function(ta, n = 12, x = sample_clustered, geom_bar = T) {
   # convert promise to formula
   x <- enquo(x)
+
+  warning_message_label = paste0("Label \'", quo_name(x),"\' not found in the samples table.")
+  warning_message_aggregate = "Sample labels not unique, samples are aggregated."
+  if (quo_name(x) != "sample_clustered" &&
+    !is.element(quo_name(x), names(ta$samples))
+  ) {
+    # Warning, so tidy functions can be performed on the label
+    warning(warning_message_label)
+  }
+
+  if (quo_name(x) != "sample_clustered" &&
+    length(unique(ta$samples %>% pull(!!x))) < nrow(ta$samples)
+  ) {
+    warning(warning_message_aggregate)
+  }
 
   # make plot and return
   plot <- prepare_for_bp(ta, n) %>%
     ggplot(aes(
-      x = forcats::fct_reorder(!!x, as.integer(sample_clustered)), 
+      x = forcats::fct_reorder(!!x, as.integer(sample_clustered)),
       y = rel_abundance, fill = taxon_name_color)) +
     scale_fill_brewer(palette = "Paired", name = "Taxon") +
     xlab("sample") +
@@ -51,16 +70,28 @@ bar_plot <- function(ta, n = 12, x = sample_clustered, geom_bar = T) {
     plot <- plot + geom_bar(stat = "identity")
   }
 
+  # Add > 12 colors if asked for
+  if (n > 12) { 
+    force_optional_dependency("RColorBrewer")
+    suppressMessages(
+    plot <- plot +
+          scale_fill_manual(values = colorRampPalette(palette_xgfs)(n)))
+  }
+
   plot
 }
 
 #' Return an interactive bar plot of the samples
-#' @param ta a tidyamplicons object
-#' @param n an integer, representing the amount of colors used to depict different taxa
-#' @param x a string, representing the column name used to label and cluster the samples on.
+#'
+#' @param ta A tidytacos object.
+#' @param n An integer, representing the amount of colors used to depict
+#'   different taxa.
+#' @param x A string, representing the column name used to label and cluster the
+#'   samples on.
 #'
 #' @export
-bar_plot_ly <- function(ta, n = 12, x = sample_clustered) {
+tacoplot_stack_ly <- function(ta, n = 12, x = sample_clustered) {
+  force_optional_dependency("plotly")
   # convert promise to formula
   x <- enquo(x)
 
@@ -92,35 +123,56 @@ bar_plot_ly <- function(ta, n = 12, x = sample_clustered) {
 }
 
 #' Return an interactive pcoa plot of the samples
-#' @param ta a tidyamplicons object
-#' @param x a string, representing the column name used to color the sample groups on.
-#' @param palette a vector of colors, used as the palette for coloring sample groups.
+#'
+#' @param ta A tidytacos object.
+#' @param x A string, representing the column name used to color the sample
+#'   groups on.
+#' @param samplenames the column in the sample table with the samplenames, defaults to sample_id.
+#' @param ord the ordination technique to use. Choice from pcoa, tsne and umap.
+#' @param distance the distance algorithm to use, see \code{\link[vegan]{vegdist}}.
+#' @param dims the amount of dimensions to plot, 2 or 3.
+#' @param palette A vector of colors, used as the palette for coloring sample
+#' @param title a string to display as title of the plot.
+#'   groups.
 #'
 #' @export
-pcoa_plot_ly <- function(ta, x, samplenames = sample, palette = NULL, title = "PCOA plot") {
-  # convert promise to formula
-  x <- enquo(x)
-  samplenames <- enquo(samplenames)
+tacoplot_ord_ly <- function(ta, x=NULL, samplenames = sample_id, ord="pcoa", dims=2, distance="bray", palette = NULL, title = NULL, ...) {
+  force_optional_dependency("plotly")
 
+
+  if (is.null(title)){ 
+    title <- paste(ord, "plot")
+  }
+  
+  # convert promise to formula
+  x <- rlang::enquo(x)
+  if (rlang::quo_is_null(x)) {
+    stop("Argument x missing. Please supply the name of a categorical value, to be used as the color for the pcoa plot.")
+  }
+  samplenames <- rlang::enquo(samplenames)
+  ordnames <- c("ord1", "ord2")
+  if (dims == 3) {
+    ordnames <- c(ordnames, "ord3")
+  }
   # fallback to default palette
   if (is.null(palette)) {
-    palette <- cols
+    palette <- palette_paired
   }
 
-  # prepare pcoa if needed
-  if (!all(c("pcoa1", "pcoa2") %in% names(ta$samples))) {
-    ta <- add_pcoa(ta)
+  # prepare ord if needed
+  if (!all(ordnames %in% names(ta$samples))) {
+    ta <- add_ord(ta, distance=distance, method=ord, dims=dims, ...)
   }
-
+  if (dims == 2) {
   plot <- rlang::eval_tidy(rlang::quo_squash(
     quo({
       ta$samples %>%
         plotly::plot_ly(
-          x = ~pcoa1,
-          y = ~pcoa2,
+          x = ~ord1,
+          y = ~ord2,
           color = ~!!x,
-          colors = palette_paired,
-          text = ~ paste(!!samplenames),
+          colors = palette,
+          text = ~!!samplenames,
           hovertemplate = paste("<i>%{text}</i>"),
           type = "scatter",
           mode = "markers"
@@ -132,56 +184,75 @@ pcoa_plot_ly <- function(ta, x, samplenames = sample, palette = NULL, title = "P
         )
     })
   ))
-
+  } else {
+    plot <- rlang::eval_tidy(rlang::quo_squash(
+    quo({
+      ta$samples %>%
+        plotly::plot_ly(
+          x = ~ord1,
+          y = ~ord2,
+          z = ~ord3,
+          color = ~!!x,
+          colors = palette,
+          text = ~!!samplenames,
+          hovertemplate = paste("<i>%{text}</i>")
+        ) %>% plotly::add_markers() %>%
+        plotly::layout(
+          title = title,
+          yaxis = list(zeroline = F),
+          xaxis = list(zeroline = F)
+        )
+    })
+  ))
+  }
   plot
 }
 
-
-#' Return a bar plot of the samples
+#' Return a pcoa plot of the samples
 #'
-#' DEPRECATED, use \code{\link{bar_plot}}
-#'
-#' @export
-get_bar_plot <- bar_plot
-
-#' Return a history plot of the samples
-#'
-#' DEPRECATED, this function is kept for historical reasons and will probably
-#' not work
+#' @param ta A tidytacos object.
+#' @param x A string, representing the column name used to color the sample
+#'   groups on.
+#' @param palette A vector of colors, used as the palette for coloring sample
+#'   groups.
 #'
 #' @export
-history_plot <- function(ta, col = NULL) {
-  # convert promise to formula
-  col <- substitute(col)
+tacoplot_ord <- function(ta, x=sample_id, palette = NULL, ord = "pcoa", distance="bray", title = NULL, ...) {
 
-  # remove lib_size if present
-  ta$samples$lib_size <- NULL
+  x <- enquo(x)
+  if (is.null(title)){ 
+    title <- paste(ord, "plot")
+  }
+  error_message = paste0("Label \'", quo_name(x),"\' not found in the samples table.")
+  if(!is.element(quo_name(x), names(ta$samples))) {
+    stop(error_message)
+  }
 
-  # make plot and return
-  ta$lib_sizes %>%
-    left_join(ta$samples, by = "sample_id") %>%
-    ggplot(aes_(x = ~step, y = ~lib_size, group = ~sample_id, col = col)) +
-    geom_line(size = 0.5) +
-    scale_y_log10() +
-    scale_color_brewer(palette = "Paired") +
-    theme(
-      axis.text.x = element_text(angle = 90, vjust = 1),
-      panel.background = element_rect(fill = "white", colour = "black")
-    )
+  if (quo_name(x) == "sample_id") {
+    x <- NULL
+  }
+  
+  # fallback to default palette
+  if (is.null(palette)) {
+    palette <- palette_paired
+  }
+
+  # prepare pcoa if needed
+  if (!all(c("ord1", "ord2") %in% names(ta$samples))) {
+    ta <- add_ord(ta, distance=distance, method=ord, ...)
+  } 
+
+  ta$samples %>% ggplot(aes(x=ord1, y=ord2, color=!!x)) + 
+    geom_point() + 
+    theme_classic() +
+    ggtitle(title)
+
 }
-
-#' Return a history plot of the samples
-#'
-#' DEPRECATED, this function is kept for historical reasons and will probably
-#' not work
-#'
-#' @export
-get_history_plot <- history_plot
 
 #' Return a visualization designed for a small number of samples
 #'
 #' @export
-sample_plot <- function(ta, sample = sample_id, n = 15, nrow = NULL) {
+tacoplot_zoom <- function(ta, sample = sample_id, n = 15, nrow = NULL) {
   ta <- prepare_for_bp(ta, n, extended = FALSE)
 
   sample <- rlang::enexpr(sample)
@@ -213,6 +284,23 @@ sample_plot <- function(ta, sample = sample_id, n = 15, nrow = NULL) {
     scale_fill_brewer(palette = "Paired", name = "taxon") +
     xlab("taxon name") +
     ylab("relative abundance")
+}
+
+#' Return a venn diagram of overlapping taxon_ids between conditions
+#'
+#' @param ta A tidytacos object.
+#' @param condition The name of a variable in the samples table that contains a
+#'   categorical value.
+#'
+#' @export
+tacoplot_venn <- function(ta, condition, ...) {
+
+  force_optional_dependency("ggVennDiagram")
+
+  condition <- enquo(condition)
+  ltpc <- taxonlist_per_condition(ta, !!condition)
+  ggVennDiagram::ggVennDiagram(ltpc, ...)
+
 }
 
 palette_paired <- c(

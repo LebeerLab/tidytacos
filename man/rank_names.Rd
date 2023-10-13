@@ -2,10 +2,10 @@
 % Please edit documentation in R/varia.R
 \name{rank_names}
 \alias{rank_names}
-\title{Return rank names associated with a tidyamplicons object}
+\title{Return rank names associated with a tidytacos object}
 \usage{
 rank_names(ta)
 }
 \description{
-Return rank names associated with a tidyamplicons object
+Return rank names associated with a tidytacos object
 }

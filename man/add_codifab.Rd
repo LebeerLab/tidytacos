@@ -7,7 +7,7 @@
 add_codifab(ta, condition, conditions = NULL, max_taxa = 30)
 }
 \arguments{
-\item{ta}{A tidyamplicons object}
+\item{ta}{A tidytacos object}
 
 \item{condition}{A binary variable in the sample table (unquoted)}
 
@@ -17,14 +17,14 @@ condition variable}
 \item{max_taxa}{The maximum number of taxa to use}
 }
 \value{
-A tidyamplicons object with an extra table taxon_pairs
+A tidytacos object with an extra table taxon_pairs
 }
 \description{
 This function performs a differential abundance test for all pairwise ratios
 between taxa.
 }
 \details{
-A table called taxon_pairs will be added to the tidyamplicons object, with
+A table called taxon_pairs will be added to the tidytacos object, with
 for each pair of a taxon and a reference taxon, the differential abundance of
 the taxon between the two conditions (with respect to the reference taxon).
 The test that is performed is a Wilcoxon rank sum test and the test statistic

@@ -2,11 +2,11 @@
 % Please edit documentation in R/adders_taxa.R
 \name{add_taxon_name_color}
 \alias{add_taxon_name_color}
-\title{Create taxon names suitable for visualization with color. A rank can be supplied to aggregate colors higher than the current rank.}
+\title{Create taxon names suitable for visualization with color.}
 \usage{
 add_taxon_name_color(
   ta,
-  method = "total_rel_abundance",
+  method = "mean_rel_abundance",
   n = 12,
   samples = NULL,
   taxa = NULL,
@@ -14,16 +14,20 @@ add_taxon_name_color(
 )
 }
 \arguments{
-\item{ta}{a tidyamplicons object}
+\item{ta}{A tidytacos object.}
 
-\item{method}{the method on which to arrange the taxon names.}
+\item{method}{The method by which to arrange the taxon names. Currently only
+mean_rel_abundance.}
 
-\item{n}{integer denoting the amount of most abundant taxa to display. Capacity at 12.}
+\item{n}{An integer denoting the amount of most abundant taxa to display.
+Capacity at 12.}
 
-\item{samples}{optional vector of sample_id's of interest}
+\item{samples}{An optional vector of sample_id's of interest.}
 
-\item{taxa}{optional vector of taxon_id's of interest}
+\item{taxa}{An optional vector of taxon_id's of interest.}
+
+\item{rank}{An optional rank to aggregate taxa on.}
 }
 \description{
-Create taxon names suitable for visualization with color. A rank can be supplied to aggregate colors higher than the current rank.
+A rank can be supplied to aggregate colors higher than the current rank.
 }

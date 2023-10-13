@@ -6,7 +6,7 @@
 # usethis::use_github_action("check-standard") will install it.
 on:
   push:
-    branches: [main, master, feature/unit-testing]
+    branches: [main, master]
   pull_request:
     branches: [main, master]
   workflow_dispatch:
@@ -31,7 +31,7 @@ jobs:
           # use 4.1 to check with rtools40's older compiler
           - {os: windows-latest, r: '4.1'}
 
-          - {os: ubuntu-latest,   r: 'devel', http-user-agent: 'release'}
+          # - {os: ubuntu-latest,   r: 'devel', http-user-agent: 'release'}
           - {os: ubuntu-latest,   r: 'release'}
           - {os: ubuntu-latest,   r: 'oldrel-1'}
           - {os: ubuntu-latest,   r: 'oldrel-2'}
@@ -56,7 +56,18 @@ jobs:
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          extra-packages: any::rcmdcheck
+          extra-packages: |
+              any::rcmdcheck
+              any::plotly
+              any::vdiffr
+              any::compositions
+              any::MCL
+              any::Matrix
+              any::umap
+              any::Rtsne
+              bioc::dada2
+              bioc::phyloseq
+              github::zdk123/SpiecEasi
           needs: check
 
       - uses: r-lib/actions/check-r-package@v2

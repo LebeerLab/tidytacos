@@ -2,13 +2,13 @@
 % Please edit documentation in R/utils.R
 \name{create_test_ta}
 \alias{create_test_ta}
-\title{Create a tidyamplicons object for testing/example purporses}
+\title{Create a tidytacos object for testing/example purporses}
 \usage{
 create_test_ta()
 }
 \value{
-a small tidyamplicons object
+a small tidytacos object
 }
 \description{
-Create a tidyamplicons object for testing/example purporses
+Create a tidytacos object for testing/example purporses
 }

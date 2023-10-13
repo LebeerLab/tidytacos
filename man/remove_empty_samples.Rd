@@ -2,16 +2,16 @@
 % Please edit documentation in R/utils.R
 \name{remove_empty_samples}
 \alias{remove_empty_samples}
-\title{Removes empty samples from the tidyamplicons object}
+\title{Removes empty samples from the tidytacos object}
 \usage{
 remove_empty_samples(ta)
 }
 \arguments{
-\item{ta}{a tidyamplicons object}
+\item{ta}{a tidytacos object}
 }
 \value{
-the tidyamplicons object minus the empty samples
+the tidytacos object minus the empty samples
 }
 \description{
-Removes empty samples from the tidyamplicons object
+Removes empty samples from the tidytacos object
 }

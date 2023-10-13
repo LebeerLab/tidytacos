@@ -1,17 +1,17 @@
-#' Initiate tidyamplicons object
+#' Initiate tidytacos object
 #'
-#' \code{tidyamplicons} returns a tidyamplicons object given a numeric matrix.
+#' \code{tidytacos} returns a tidytacos object given a numeric matrix.
 #'
-#' This function initiates a tidyamplicons object based on a numeric matrix. It
+#' This function initiates a tidytacos object based on a numeric matrix. It
 #' will automatically create a dummy taxa and sample table which will need to be
 #' updated using the functions \code{\link{add_taxon_tibble}} and
 #' \code{\link{add_sample_tibble}}.
 #'
-#' @param abundance_matrix Numerical matrix containing the abundance data.
+#' @param counts_matrix Numerical matrix containing the count data.
 #' @param taxa_are_columns A logical scalar. Are the taxa defined in columns?
 #'
 #' @examples
-#' # Initiate abundance matrix
+#' # Initiate count matrix
 #' x <- matrix(
 #'  c(1500, 1300, 280, 356),
 #'  ncol = 2
@@ -19,53 +19,53 @@
 #' rownames(x) <- c("taxon1", "taxon2")
 #' colnames(x) <- c("sample1", "sample2")
 #'
-#' # Convert to tidyamplicons object
-#' data <- create_tidyamplicons(x,
+#' # Convert to tidytacos object
+#' data <- create_tidytacos(x,
 #'                      taxa_are_columns = FALSE)
 #'
 #'
 #' \dontrun{
-#' tidyamplicons("a")
+#' tidytacos("a")
 #' }
 #'
 #' @export
-create_tidyamplicons <- function(abundance_matrix, taxa_are_columns = TRUE) {
+create_tidytacos <- function(counts_matrix, taxa_are_columns = TRUE) {
 
   if (
-    ! is.matrix(abundance_matrix) |
-    ! is.numeric(abundance_matrix)
+    ! is.matrix(counts_matrix) |
+    ! is.numeric(counts_matrix)
   ) stop("first argument should be a numeric matrix")
 
-  if (! taxa_are_columns) abundance_matrix = t(abundance_matrix)
+  if (! taxa_are_columns) counts_matrix = t(counts_matrix)
 
-  abundance_matrix <-
-    abundance_matrix[, colSums(abundance_matrix) != 0]
+  counts_matrix <-
+    counts_matrix[, colSums(counts_matrix) != 0]
 
   ta <- list()
-  class(ta) <- "tidyamplicons"
+  class(ta) <- "tidytacos"
 
-  n_samples <- nrow(abundance_matrix)
-  n_taxa <- ncol(abundance_matrix)
+  n_samples <- nrow(counts_matrix)
+  n_taxa <- ncol(counts_matrix)
 
   sample_ids <- str_c("s", 1:n_samples)
   taxon_ids <- str_c("t", 1:n_taxa)
 
-  ta$abundances <-
-    abundance_matrix %>%
+  ta$counts <-
+    counts_matrix %>%
     as.vector() %>%
-    tibble(abundance = .) %>%
+    tibble(count = .) %>%
     mutate(sample_id = rep(!! sample_ids, times = !! n_taxa)) %>%
     mutate(taxon_id = rep(!! taxon_ids, each = !! n_samples)) %>%
-    filter(abundance > 0)
+    filter(count > 0)
 
   ta$samples <-
-    abundance_matrix %>%
+    counts_matrix %>%
     rownames() %>%
     tibble(sample = .) %>%
     mutate(sample_id = !! sample_ids)
 
   ta$taxa <-
-    abundance_matrix %>%
+    counts_matrix %>%
     colnames() %>%
     tibble(taxon = .) %>%
     mutate(taxon_id = !! taxon_ids)
@@ -74,56 +74,48 @@ create_tidyamplicons <- function(abundance_matrix, taxa_are_columns = TRUE) {
 
 }
 
-#' Write community data in tidyamplicons format
+#' Write community data in tidytacos format
 #' @importFrom readr write_csv
-#' @param ta a tidyamplicons object
-#' @param dout the directory to store the three tidyamplicons tables in
+#' @param ta a tidytacos object
+#' @param dout the directory to store the three tidytacos tables in
 #' @export
-write_tidyamplicons <- function(ta, dout) {
+write_tidytacos <- function(ta, dout) {
   if (!dir.exists(dout)) {dir.create(dout)}
   write_csv(ta$samples, paste0(dout, "/samples.csv"))
   write_csv(ta$taxa, paste0(dout, "/taxa.csv"))
-  write_csv(ta$abundances, paste0(dout, "/abundances.csv"))
+  write_csv(ta$counts, paste0(dout, "/counts.csv"))
 }
 
-#' Read community data written by tidyamplicons
+#' Read community data written by tidytacos
 #' @importFrom readr read_csv
-#' @param din directory containing the a sample, taxa and abundances table in csv format
+#' @param din directory containing the a sample, taxa and counts table in csv format
 #' @param samples the name of the samples table, defaults to samples.csv
 #' @param taxa the name of the taxa table, defaults to taxa.csv
-#' @param abundances the name of the abundances table, defaults to abundances.csv
+#' @param counts the name of the counts table, defaults to counts.csv
 #' @export
-read_tidyamplicons <- function(din, samples = "samples.csv", taxa = "taxa.csv",
-                               abundances = "abundances.csv") {
+read_tidytacos <- function(din, samples = "samples.csv", taxa = "taxa.csv",
+                               counts = "counts.csv") {
   samples <- readr::read_csv(paste0(din, "/", samples), col_types = readr::cols())
   taxa <- readr::read_csv(paste0(din, "/", taxa), col_types = readr::cols())
-  abundances <- readr::read_csv(paste0(din, "/", abundances), col_types = readr::cols())
-  make_tidyamplicons(
-    samples, taxa, abundances, sample_name = sample_id, taxon_name = taxon_id
+  # Tidyamplicons compatibility
+  if (file.exists(paste0(din, "/", counts))) {
+      counts <- readr::read_csv(paste0(din, "/", counts), col_types = readr::cols())
+  } else if (file.exists(paste0(din, "/", "abundances.csv"))) {
+      counts <- readr::read_csv(
+        paste0(din, "/", "abundances.csv"), col_types = readr::cols()) %>% 
+        rename(count=abundance)
+      message("Converted tidyamplicons to tidytacos object.")
+  } else {
+    stop(paste("File", counts, ", containing count data not found in", dir))
+  }
+
+  make_tidytacos(
+    samples, taxa, counts, sample_name = sample_id, taxon_name = taxon_id
   )
 }
 
-#' Update old tidyamplicons object to new one.
-#'
-#' \code{update_tidyamplicons} updates an old tidyamplicons object to a new one.
-#'
-#' This function will update a tidyamplicons object created prior to version
-#' 0.1.0 to a tidyamplicons object compatible with version 0.1.0.
-#'
-#' @param ta Old tidyamplicons object.
-#'
-#' @export
-update_tidyamplicons <- function(ta) {
-
-  ta %>%
-    update_id_names() %>%
-    mutate_taxa(sequence = taxon_id) %>%
-    reset_ids()
-
-}
-
 #' Reset the taxon and sample IDs
-#' @param ta a tidyamplicons object
+#' @param ta a tidytacos object
 #' @export
 reset_ids <- function(ta, keep_prev = F) {
 
@@ -142,35 +134,24 @@ reset_ids <- function(ta, keep_prev = F) {
 
 }
 
-#' Rename the "sample" and "taxon" columns to "sample_id" and "taxon_id"
-#' @param ta a tidyamplicons object
-#' @export
-update_id_names <- function(ta) {
-
-  ta %>%
-    purrr::modify_at("samples", rename, sample_id = sample) %>%
-    purrr::modify_at("taxa", rename, taxon_id = taxon) %>%
-    purrr::modify_at("abundances", rename, sample_id = sample, taxon_id = taxon)
-
-}
-
-#' Convert tidyamplicons object to phyloseq object
+#' Convert tidytacos object to phyloseq object
 #'
-#' \code{as_phyloseq} returns a phyloseq object given a tidyamplicons object.
+#' \code{as_phyloseq} returns a phyloseq object given a tidytacos object.
 #'
-#' This function will convert a tidyamplicons object into a phyloseq object for
+#' This function will convert a tidytacos object into a phyloseq object for
 #' alternative processing using the phyloseq package. To convert from a phyloseq
-#' object to a tidyamplicons object use \code{\link{as_tidyamplicons}}.
+#' object to a tidytacos object use \code{\link{as_tidytacos}}.
 #'
-#' @param ta Tidyamplicons object.
+#' @param ta tidytacos object.
 #' @param sample  The sample names required for a phyloseq object. Default is
-#'   "sample" column in sample tibble of the tidyamplicons object.
+#'   "sample" column in sample tibble of the tidytacos object.
 #' @param taxon The taxon names required for a phyloseq object. Default is
-#'   "taxon" column in taxon tibble of the tidyamplicons object.
+#'   "taxon" column in taxon tibble of the tidytacos object.
 #'
 #' @export
 as_phyloseq <- function(ta, sample = sample, taxon = taxon) {
 
+  force_optional_dependency("phyloseq")
   if ("phyloseq" %in% class(ta)) return(ta)
 
   sample <- rlang::enexpr(sample)
@@ -180,8 +161,8 @@ as_phyloseq <- function(ta, sample = sample, taxon = taxon) {
   ta <- change_id_taxa(ta, taxon_id_new = !! taxon)
 
   otu_table <-
-    ta$abundances %>%
-    spread(key = taxon_id, value = abundance, fill = 0) %>%
+    ta$counts %>%
+    spread(key = taxon_id, value = count, fill = 0) %>%
     `attr<-`("class", "data.frame") %>%
     `rownames<-`(.$sample_id) %>%
     select(- sample_id) %>%
@@ -215,21 +196,21 @@ as_phyloseq <- function(ta, sample = sample, taxon = taxon) {
 
 }
 
-#' Convert phyloseq object to tidyamplicons object
+#' Convert phyloseq object to tidytacos object
 #'
-#' \code{as_tidyamplicons} returns a tidyamplicons object given a phyloseq
+#' \code{from_phyloseq} returns a tidytacos object given a phyloseq
 #' object.
 #'
-#' This function will convert a phyloseq object into a tidyamplicons object. To
-#' convert from a tidyamplicons object to a phyloseq object use
+#' This function will convert a phyloseq object into a tidytacos object. To
+#' convert from a tidytacos object to a phyloseq object use
 #' \code{\link{as_phyloseq}}.
 #'
 #' @param ps Phyloseq object.
 #'
 #' @export
-as_tidyamplicons <- function(ps) {
+from_phyloseq <- function(ps) {
 
-  if ("tidyamplicons" %in% class(ps)) return(ps)
+  if ("tidytacos" %in% class(ps)) return(ps)
 
   # convert sample data to tibble
   samples <-
@@ -245,102 +226,146 @@ as_tidyamplicons <- function(ps) {
     mutate(taxon = phyloseq::tax_table(ps) %>% row.names()) %>%
     `names<-`(names(.) %>% str_to_lower())
 
-  # make sure that taxa are columns in abundances table
+  # make sure that taxa are columns in counts table
   if (phyloseq::taxa_are_rows(ps)) {
     phyloseq::otu_table(ps) <- phyloseq::t(phyloseq::otu_table(ps))
   }
 
   phyloseq::otu_table(ps)@.Data %>%
-    create_tidyamplicons() %>%
+    create_tidytacos() %>%
     add_sample_tibble(samples) %>%
     add_taxon_tibble(taxa)
 
 }
 
-#' Convert matrix with abundances to tidy data frame
+#' Convert the output objects of a DADA2 pipeline to a tidytacos object.
 #'
-#' \code{as_abundances} returns a tidy data frame given a numerical abundance
-#' matrix.
+#' \code{from_dada} returns a tidytacos object given a seqtab and taxa object from dada2.
 #'
-#' This function will convert a numerical abundance matrix into a tidy data
-#' frame. To convert a tidy data frame into a numerical abundance matrix
-#' use \code{\link{as_abundances_matrix}}.
+#' This function will convert two dada2 objects or files into a tidytacos object.
 #'
-#' @param abundances_matrix The ambundance matrix that will be converted.
-#' @param taxa_are_columns A logical scalar. Are the taxa defined in columns?
-#'   Default is TRUE.
-#' @param value Name of resulting colum containing the abundance data. Default
-#'   is "abundance".
+#' @param seqtab Sequence table, output of dada2::makeSequenceTable.
+#' @param taxa taxa table, output of dada2::assignTaxonomy.
 #'
 #' @export
-as_abundances <- function(abundances_matrix, taxa_are_columns = TRUE,
-                          value = "abundance") {
+from_dada <- function(seqtab, taxa, taxa_are_columns=FALSE) {
+    
+    if ("matrix" %in% class(seqtab)) {
+
+    } else if (class(seqtab) == "character") {
+      # generate matrix from input file
+      suppressMessages(table <- readr::read_tsv(seqtab))
+      seqtab <- as.matrix(table %>% select(-1))
+      rownames(seqtab) <- table %>% pull(1)
+
+    } else {
+      stop(paste("Could not interpret", seqtab))
+    }
+
+    if ("data.frame" %in% class(taxa)) {
+      taxon <- rownames(taxa)
+      taxa <- cbind(as_tibble(taxa), taxon)
+    } else if (class(taxa) == "character") {
+      suppressMessages(taxa <- readr::read_tsv(taxa))
+    } else {
+      stop(paste("Could not interpret", taxa))
+    }
+
+    # convert counts
+    ta <- create_tidytacos(seqtab, taxa_are_columns)
+
+    # add taxonomic data
+    colnames(taxa) <- str_to_lower(colnames(taxa))
+    colnames(taxa)[1] <- "taxon"
+
+    ta$taxa <- ta$taxa %>% left_join(taxa, by="taxon")
+    ta
+}
+
+#' Convert matrix with counts to tidy data frame
+#'
+#' \code{as_counts} returns a tidy data frame given a numerical counts
+#' matrix.
+#'
+#' This function will convert a numerical counts matrix into a tidy data
+#' frame. To convert a tidy data frame into a numerical counts matrix
+#' use \code{\link{as_counts_matrix}}.
+#'
+#' @param counts_matrix The ambundance matrix that will be converted.
+#' @param taxa_are_columns A logical scalar. Are the taxa defined in columns?
+#'   Default is TRUE.
+#' @param value Name of resulting colum containing the count data. Default
+#'   is "counts".
+#'
+#' @export
+as_counts <- function(counts_matrix, taxa_are_columns = TRUE,
+                          value = "counts") {
 
   if (
-    ! is.matrix(abundances_matrix) |
-    ! is.numeric(abundances_matrix)
-  ) stop("first argument should be an abundances matrix")
+    ! is.matrix(counts_matrix) |
+    ! is.numeric(counts_matrix)
+  ) stop("first argument should be an counts matrix")
 
-  if (! taxa_are_columns) abundances_matrix = t(abundances_matrix)
+  if (! taxa_are_columns) counts_matrix = t(counts_matrix)
 
-  abundances_matrix %>%
+  counts_matrix %>%
     as_tibble() %>%
-    mutate(sample_id = row.names(abundances_matrix)) %>%
+    mutate(sample_id = row.names(counts_matrix)) %>%
     gather(key = "taxon_id", value = !! value, - sample_id) %>%
     filter(!! value > 0)
 
 }
 
-#' Convert abundances tidy data frame to matrix.
+#' Convert counts tidy data frame to matrix.
 #'
-#' \code{as_abundances_matrix} returns a numerical matrix given a tidy
-#' abundances data frame.
+#' \code{as_counts_matrix} returns a numerical matrix given a tidy
+#' counts data frame.
 #'
-#' This function will convert a abundances tidy data frame into a numerlical
-#' abundance matrix. To convert a numerical abundance matrix into a abundances
-#' tidy data frame use \code{\link{as_abundances_matrix}}.
+#' This function will convert a counts tidy data frame into a numerlical
+#' counts matrix. To convert a numerical counts matrix into a counts
+#' tidy data frame use \code{\link{as_counts_matrix}}.
 #'
-#' @param abundances The abundance tidy data frame that will be converted.
-#' @param value Name of colum containing the abundance data. Default is
-#'   "abundance".
+#' @param counts The counts tidy data frame that will be converted.
+#' @param value Name of colum containing the counts data. Default is
+#'   "counts".
 #'
 #' @export
-as_abundances_matrix <- function(abundances, value = abundance) {
+as_counts_matrix <- function(counts, value = count) {
 
   if (
-    ! is.data.frame(abundances) |
-    is.null(abundances$taxon_id) |
-    is.null(abundances$sample_id)
-  ) stop("first argument should be an abundances table (data frame)")
+    ! is.data.frame(counts) |
+    is.null(counts$taxon_id) |
+    is.null(counts$sample_id)
+  ) stop("first argument should be a counts table (data frame)")
 
   value <- enquo(value)
 
-  abundances_wide <- abundances %>%
+  counts_wide <- counts %>%
     select(sample_id, taxon_id, !! value) %>%
     spread(key = taxon_id, value = !! value, fill = 0)
 
-  abundances_wide %>%
+  counts_wide %>%
     select(- sample_id) %>%
     as.matrix() %>%
-    `row.names<-`(abundances_wide$sample_id)
+    `row.names<-`(counts_wide$sample_id)
 
 }
 
-#' Merge two tidyamplicons objects.
+#' Merge two tidytacos objects.
 #'
-#' \code{merge_tidyamplicons} merges two tidyamplicons objects and returns one
-#' single tidyamplicons object.
+#' \code{merge_tidytacos} merges two tidytacos objects and returns one
+#' single tidytacos object.
 #'
-#' This function will merge two tidyamplicons objects into one. It is useful if
+#' This function will merge two tidytacos objects into one. It is useful if
 #' one wants to merge data obtained from different sequencing runs. Therefore,
-#' this function requirers that both tidyamplicons objects contain a "run"
+#' this function requirers that both tidytacos objects contain a "run"
 #' variable in their samples table, indicating their origin.
 #'
-#' @param ta1 The first tidyamplicons object.
-#' @param ta2 The second tidyamplicons object.
+#' @param ta1 The first tidytacos object.
+#' @param ta2 The second tidytacos object.
 #'
 #' @export
-merge_tidyamplicons <- function(ta1, ta2, taxon_identifier = sequence) {
+merge_tidytacos <- function(ta1, ta2, taxon_identifier = sequence) {
 
   taxon_identifier <- rlang::ensym(taxon_identifier)
 
@@ -371,12 +396,12 @@ merge_tidyamplicons <- function(ta1, ta2, taxon_identifier = sequence) {
       as.character(NA)
     })
 
-  # merge abundances tables
-  abundances <- bind_rows(ta1$abundances, ta2$abundances)
+  # merge counts tables
+  counts <- bind_rows(ta1$counts, ta2$counts)
 
   # make new ta object
-  ta <- list(samples = samples, taxa = taxa, abundances = abundances)
-  class(ta) <- "tidyamplicons"
+  ta <- list(samples = samples, taxa = taxa, counts = counts)
+  class(ta) <- "tidytacos"
 
   # give new sample names in new ta object
   ta <- reset_ids(ta)
@@ -386,60 +411,30 @@ merge_tidyamplicons <- function(ta1, ta2, taxon_identifier = sequence) {
 
 }
 
-#' Create a tidyamplicons object from three tidy tables
+#' Create a tidytacos object from three tidy tables
 #'
+#' @param samples A tidy table containing sample information
+#' @param taxa A tidy table containing taxon information
+#' @param counts A tidy table, where each row represents the counts of a taxon in a sample
+#' @param sample_name The column in the sample table that contains a unique identifier for each sample
+#' @param taxon_name The column in the taxon table that contains a unique identifier for each taxon
 #' @export
-make_tidyamplicons <- function(samples, taxa, abundances,
+make_tidytacos <- function(samples, taxa, counts,
                                sample_name = sample, taxon_name = taxon) {
 
   sample_name <- rlang::enexpr(sample_name)
   taxon_name <- rlang::enexpr(taxon_name)
 
-  list(samples = samples, taxa = taxa, abundances = abundances) %>%
+  list(samples = samples, taxa = taxa, counts = counts) %>%
     purrr::modify_at("samples", mutate, sample_id = !! sample_name) %>%
     purrr::modify_at("taxa", mutate, taxon_id = !! taxon_name) %>%
-    purrr::modify_at("abundances", rename, sample_id = !! sample_name) %>%
-    purrr::modify_at("abundances", rename, taxon_id = !! taxon_name) %>%
-    purrr::modify_at("abundances", filter, abundance > 0) %>%
-    purrr::modify_at("abundances", filter, sample_id %in% .$samples$sample_id) %>%
-    purrr::modify_at("abundances", filter, taxon_id %in% .$taxa$taxon_id) %>%
-    `class<-`("tidyamplicons") %>%
+    purrr::modify_at("counts", rename, sample_id = !! sample_name) %>%
+    purrr::modify_at("counts", rename, taxon_id = !! taxon_name) %>%
+    purrr::modify_at("counts", filter, count > 0) %>%
+    purrr::modify_at("counts", filter, sample_id %in% .$samples$sample_id) %>%
+    purrr::modify_at("counts", filter, taxon_id %in% .$taxa$taxon_id) %>%
+    `class<-`("tidytacos") %>%
     reset_ids()
 
 }
 
-#' Convert phyloseq object to tidyamplicons object
-#'
-#' DEPRECATED, use \code{\link{as_tidyamplicons}}
-#'
-#' @export
-tidy_phyloseq <- function(ps) {
-
-  # convert sample data
-  samples <-
-    phyloseq::sample_data(ps)@.Data %>%
-    `names<-`(phyloseq::sample_data(ps)@names) %>%
-    do.call(what = tibble) %>%
-    mutate(sample_id = phyloseq::sample_data(ps)@row.names)
-
-  # convert taxon table
-  taxa <- phyloseq::tax_table(ps)@.Data %>%
-    as_tibble() %>%
-    mutate(taxon_id = phyloseq::tax_table(ps) %>% row.names()) %>%
-    set_names(names(.) %>% str_to_lower())
-
-  # make sure that taxa are columns in taxon table
-  if (phyloseq::taxa_are_rows(ps)) phyloseq::otu_table(ps) <- phyloseq::t(phyloseq::otu_table(ps))
-
-  # convert taxon table
-  abundances <- phyloseq::otu_table(ps)@.Data %>%
-    as_abundances(taxa_are_columns = T)
-
-  # make and return tidyamplicons object
-  make_tidyamplicons(
-    samples = samples,
-    taxa = taxa,
-    abundances = abundances
-  )
-
-}

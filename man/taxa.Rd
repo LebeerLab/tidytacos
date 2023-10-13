@@ -6,6 +6,9 @@
 \usage{
 taxa(ta)
 }
+\arguments{
+\item{ta}{A tidytacos object.}
+}
 \description{
 Extract the taxon table
 }

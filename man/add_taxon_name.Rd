@@ -4,15 +4,15 @@
 \alias{add_taxon_name}
 \title{Create sensible names for the taxa and add to taxon table}
 \usage{
-add_taxon_name(ta, method = "total_rel_abundance", include_species = F)
+add_taxon_name(ta, method = "mean_rel_abundance", include_species = F)
 }
 \arguments{
-\item{ta}{a tidyamplicons object}
+\item{ta}{A tidytacos object.}
 
-\item{method}{the method on which to arrange the taxon names. 
-Options: total_rel_abundance, max_rel_abundance}
+\item{method}{The method by which to arrange the taxon names. Currently only
+mean_rel_abundance.}
 
-\item{include_species}{wether to include the species name or not}
+\item{include_species}{Whether to include the species name or not.}
 }
 \description{
 Create sensible names for the taxa and add to taxon table

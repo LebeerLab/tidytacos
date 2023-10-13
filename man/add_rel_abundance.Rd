@@ -7,31 +7,32 @@
 add_rel_abundance(ta)
 }
 \arguments{
-\item{ta}{Tidyamplicons object.}
+\item{ta}{tidytacos object.}
 }
 \description{
 \code{add_rel_abundance} adds relative abundance to the abundance table of a
-tidyamplicons object.
+tidytacos object.
 }
 \details{
 This function adds the relative abundance per sample to the abundance table
-of a tidyamplicons object under the variable name "rel_abundance".
+of a tidytacos object under the variable name "rel_abundance".
 }
 \examples{
-# Initiate abundance matrix
+# Initiate count matrix
 x <- matrix(
- c(1500, 1300, 280, 356),
- ncol = 2
+  c(1500, 1300, 280, 356),
+  ncol = 2
 )
 rownames(x) <- c("taxon1", "taxon2")
 colnames(x) <- c("sample1", "sample2")
 
-# Convert to tidyamplicons object
-data <- create_tidyamplicons(x,
-                     taxa_are_columns = FALSE)
+# Convert to tidytacos object
+data <- create_tidytacos(x,
+  taxa_are_columns = FALSE
+)
 
 # Add relative abundance
 data <- data \%>\%
- add_rel_abundance()
+  add_rel_abundance()
 
 }

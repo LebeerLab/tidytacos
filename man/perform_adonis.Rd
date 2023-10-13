@@ -7,7 +7,7 @@
 perform_adonis(ta, predictors, permutations = 999)
 }
 \arguments{
-\item{ta}{A tidyamplicons object.}
+\item{ta}{A tidytacos object.}
 
 \item{predictors}{A character vector with predictors to include in the model.}
 

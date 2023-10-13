@@ -2,14 +2,44 @@
 # but for now a heuristic test
 # to see if the same plot is generate will suffice
 
-ta_test <- read_tidyamplicons(test_path("data/urt"))
-
 test_that("Barplot returns identical plot", {
-    bp  <- ta_test %>% bar_plot()
+    bp  <- urt %>% tacoplot_stack()
+    skip_if_not_installed("vdiffr")
     vdiffr::expect_doppelganger("Default barplot", bp)
 })
 
-test_that("Barplot returns identical plot when different arguments are used", {
-    bp  <- ta_test %>% bar_plot(n=5, x=participant)
+test_that("Barplot raises warning when aggregating samples", {
+    expect_warning(bp <- urt %>% tacoplot_stack(n=5, x=participant))
+    skip_if_not_installed("vdiffr")
     vdiffr::expect_doppelganger("Custom barplot", bp)
+})
+
+test_that("Barplot raises error when providing non-existant label", {
+    expect_error(urt %>% tacoplot_stack(x=imagined))
+})
+
+test_that("Tacoplot_ord works with tsne", {
+    skip_if_not_installed("Rtsne")
+    expect_no_error(urt %>% tacoplot_ord(x=location, ord="tsne"))
+})
+
+test_that("Tacoplot_stack_ly works", {
+    skip_if_not_installed("plotly")
+    expect_no_error(
+        bply <- urt %>% tacoplot_stack_ly()
+    )
+})
+
+test_that("Tacoplot_ord_ly works", {
+    skip_if_not_installed("plotly")
+    expect_no_error(
+        urt %>% tacoplot_ord_ly(x=location)
+    )
+
+})
+
+test_that("Can create venndiagram", {
+    skip_if_not_installed("ggVenDiagram")
+    venn <- urt %>% tacoplot_venn(location)
+    vdiffr::expect_doppelganger("Venndiagram", venn)
 })

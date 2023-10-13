@@ -7,7 +7,7 @@
 reset_ids(ta, keep_prev = F)
 }
 \arguments{
-\item{ta}{a tidyamplicons object}
+\item{ta}{a tidytacos object}
 }
 \description{
 Reset the taxon and sample IDs

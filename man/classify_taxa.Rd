@@ -16,7 +16,7 @@ classify_taxa(
 )
 }
 \arguments{
-\item{ta}{A tidyamplicons object.}
+\item{ta}{A tidytacos object.}
 
 \item{refdb}{The path to a DADA2-compatible reference database.}
 
@@ -34,7 +34,7 @@ that contains (representative) sequences of the taxa.}
 \item{n_ranks}{The number of ranks present in the reference database.}
 }
 \value{
-An updated tidyamplicons object.
+An updated tidytacos object.
 }
 \description{
 This function requires the DADA2 package to be installed.

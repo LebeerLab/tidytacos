@@ -7,7 +7,7 @@
 codifab_plot(ta, diffabun_var)
 }
 \arguments{
-\item{ta}{A tidyamplicons object}
+\item{ta}{A tidytacos object}
 
 \item{diffabun_var}{The variable with differential abundances in the
 taxon_pair table}

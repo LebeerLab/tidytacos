@@ -1,4 +1,48 @@
-#' Return rank names associated with a tidyamplicons object
+# Apply a sample filtering to the taxon and counts tables
+process_sample_selection <- function(ta) {
+
+  # filter counts table
+  selected_samples <- ta$samples$sample_id
+  ta$counts <- ta$counts %>%
+    filter(sample_id %in% selected_samples)
+
+  # filter taxon table
+  selected_taxa <- ta$counts$taxon_id %>% unique()
+  ta$taxa <- ta$taxa %>%
+    filter(taxon_id %in% selected_taxa)
+
+  # return ta object
+  ta
+
+}
+
+# Apply a taxon filtering to the counts table
+process_taxon_selection <- function(ta) {
+
+  # filter counts table
+  selected_taxa <- ta$taxa$taxon_id
+  ta$counts <- ta$counts %>%
+    filter(taxon_id %in% selected_taxa)
+
+  # return ta object
+  ta
+
+}
+
+# Apply an count filtering to the taxon table
+process_count_selection <- function(ta) {
+
+  # filter taxon table
+  selected_taxa <- ta$counts$taxon_id %>% unique()
+  ta$taxa <- ta$taxa %>%
+    filter(taxon_id %in% selected_taxa)
+
+  # return ta object
+  ta
+
+}
+
+#' Return rank names associated with a tidytacos object
 #'
 #' @export
 rank_names <- function(ta) {
@@ -11,7 +55,11 @@ rank_names <- function(ta) {
 
 }
 
-#' Set rank names for a tidyamplicons object
+#' Set rank names for a tidytacos object
+#'
+#' @param ta a tidytacos object
+#' @param rank_names a vector containing the names of the ranks used to describe the taxa
+#' @return An updated tidytacos object.
 #'
 #' @export
 set_rank_names <- function(ta, rank_names) {
@@ -22,101 +70,6 @@ set_rank_names <- function(ta, rank_names) {
 
 }
 
-#' Apply a sample filtering to the taxon and abundance tables
-#'
-#' DEPRECATED, see \code{\link{filter_samples}}
-#'
-#' Should only be used internally.
-#'
-#' @export
-process_sample_selection <- function(ta) {
-
-  # filter abundance table
-  selected_samples <- ta$samples$sample_id
-  ta$abundances <- ta$abundances %>%
-    filter(sample_id %in% selected_samples)
-
-  # filter taxon table
-  selected_taxa <- ta$abundances$taxon_id %>% unique()
-  ta$taxa <- ta$taxa %>%
-    filter(taxon_id %in% selected_taxa)
-
-  # return ta object
-  ta
-
-}
-
-#' Apply a taxon filtering to the abundance table
-#'
-#' DEPRECATED, see \code{\link{filter_taxa}}
-#'
-#' Should only be used internally.
-#'
-#' @export
-process_taxon_selection <- function(ta) {
-
-  # filter abundance table
-  selected_taxa <- ta$taxa$taxon_id
-  ta$abundances <- ta$abundances %>%
-    filter(taxon_id %in% selected_taxa)
-
-  # return ta object
-  ta
-
-}
-
-#' Apply an abundance filtering to the taxon table
-#'
-#' DEPRECATED, see \code{\link{filter_abundances}}
-#'
-#' Should only be used internally.
-#'
-#' @export
-process_abundance_selection <- function(ta) {
-
-  # filter taxon table
-  selected_taxa <- ta$abundances$taxon_id %>% unique()
-  ta$taxa <- ta$taxa %>%
-    filter(taxon_id %in% selected_taxa)
-
-  # return ta object
-  ta
-
-}
-
-#' Update library sizes in the lib_size table
-#'
-#' DEPRECATED, lib_size tables are no longer supported
-#'
-#' @export
-update_lib_sizes <- function(ta, step) {
-
-  # current lib_size in tidy table
-  lib_sizes_new <- ta$abundances %>%
-    group_by(sample_id) %>%
-    summarize(lib_size = sum(abundance)) %>%
-    mutate(step = step)
-
-  # make lib_sizes table if it doesn't exist
-  if (is.null(ta$lib_sizes)) {
-    ta$lib_sizes <- lib_sizes_new %>%
-      mutate(step = factor(step))
-    # update lib_sizes table if it already existed
-  } else {
-    levels <- levels(ta$lib_sizes$step)
-    levels <- c(levels, step)
-    ta$lib_sizes <- ta$lib_sizes %>%
-      mutate(step = as.character(step)) %>%
-      bind_rows(lib_sizes_new) %>%
-      mutate(step = factor(step, levels = !! levels))
-  }
-
-  # return ta object
-  ta
-
-}
-
-# for internal use, I think
 merge_redundant_taxa <- function(ta) {
 
   # merge taxa in taxon table
@@ -129,10 +82,10 @@ merge_redundant_taxa <- function(ta) {
       as.character(NA)
     })
 
-  # merge taxa in abundances table
-  ta$abundances <- ta$abundances %>%
+  # merge taxa in counts table
+  ta$counts <- ta$counts %>%
     group_by(sample_id, taxon_id) %>%
-    summarise(abundance = sum(abundance)) %>%
+    summarise(count = sum(count)) %>%
     ungroup()
 
   ta
@@ -141,26 +94,26 @@ merge_redundant_taxa <- function(ta) {
 
 retain_taxon_id <- function(ta) {
   if ((! "taxon_id" %in% names(ta$taxa)) ||
-  (! "taxon_id" %in% names(ta$abundances)) || 
-  (is.null(ta$abundances$taxon_id)) ||
+  (! "taxon_id" %in% names(ta$counts)) ||
+  (is.null(ta$counts$taxon_id)) ||
   (is.null(ta$taxa$taxon_id))) {
     stop("You cannot delete the taxon_id column")
   }
 }
 
 retain_sample_id <- function(ta) {
-  if ((! "sample_id" %in% names(ta$samples)) || 
-  (! "sample_id" %in% names(ta$abundances)) ||
+  if ((! "sample_id" %in% names(ta$samples)) ||
+  (! "sample_id" %in% names(ta$counts)) ||
   (is.null(ta$samples$sample_id)) ||
-  (is.null(ta$abundances$sample_id))) {
+  (is.null(ta$counts$sample_id))) {
     stop("You cannot delete the sample_id column")
   }
 }
 
-retain_abundances <- function(ta) {
-  if (! "abundance" %in% names(ta$abundances) ||
-  (is.null(ta$abundances$abundance))) {
-    stop("You cannot delete the abundance column")
+retain_counts <- function(ta) {
+  if (! "count" %in% names(ta$counts) ||
+  (is.null(ta$counts$count))) {
+    stop("You cannot delete the count column")
   }
 }
 

@@ -7,7 +7,7 @@
 trim_asvs(ta, start, end)
 }
 \arguments{
-\item{ta}{a tidyamplicons object}
+\item{ta}{a tidytacos object}
 
 \item{start}{index of where to start trimming}
 

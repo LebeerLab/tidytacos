@@ -7,7 +7,7 @@
 occurrences(ta, condition = NULL, pres_abs = F)
 }
 \arguments{
-\item{ta}{a tidyamplicons object}
+\item{ta}{a tidytacos object}
 
 \item{condition}{a string denoting a categorical variable in the sample table}
 

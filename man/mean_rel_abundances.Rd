@@ -7,7 +7,7 @@
 mean_rel_abundances(ta, condition = NULL)
 }
 \arguments{
-\item{ta}{a tidyamplicons object}
+\item{ta}{a tidytacos object}
 
 \item{condition}{a string representing a categorical variable to compute the relative abundances in every option of the variable}
 }

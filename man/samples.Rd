@@ -6,6 +6,9 @@
 \usage{
 samples(ta)
 }
+\arguments{
+\item{ta}{A tidytacos object.}
+}
 \description{
 Extract the sample table
 }

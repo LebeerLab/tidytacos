@@ -1,8 +1,7 @@
-ta_test <- read_tidyamplicons(test_path("data/urt"))
-ta_codifab <- ta_test %>% add_codifab(condition=location)
+ta_codifab <- urt %>% add_codifab(condition=location)
 
 test_that("Can add logratios.", {
-  ta_log <- ta_test %>% add_logratios()
+  ta_log <- urt %>% add_logratios()
   expect_true(tibble::is_tibble(ta_log$logratios))
 })
 
@@ -14,7 +13,7 @@ test_that("Can perform adonis via the condition argument", {
 })
 
 test_that("Can perform adonis via the conditions argument", {
-    ta_codifab_c <- ta_test %>% 
+    ta_codifab_c <- urt %>% 
         add_codifab(condition=plate, conditions = c("1","2"))
     expect_true(tibble::is_tibble(ta_codifab_c$taxon_pairs))
     expect_lte(max(ta_codifab_c$taxon_pairs$wilcox_p), 1)
@@ -24,7 +23,7 @@ test_that("Can perform adonis via the conditions argument", {
 
 test_that("Throws an error when the condition variable does not exist in the sample table", {
     expect_error(
-        ta_test %>% add_codifab(condition=something_weird),
+        urt %>% add_codifab(condition=something_weird),
         "condition field does not exist in sample table",
         fixed=TRUE
     )
@@ -32,12 +31,12 @@ test_that("Throws an error when the condition variable does not exist in the sam
 
 test_that("Throws error when one or both conditions can't be found", {
     expect_error(
-        ta_test %>% add_codifab(condition=plate, conditions=c("that_one","this_one")),
+        urt %>% add_codifab(condition=plate, conditions=c("that_one","this_one")),
         "one or both conditions not found",
         fixed=TRUE
     )
     expect_error(
-        ta_test %>% add_codifab(condition=plate, conditions=c("1","this_one")),
+        urt %>% add_codifab(condition=plate, conditions=c("1","this_one")),
         "one or both conditions not found",
         fixed=TRUE
     )
@@ -45,7 +44,7 @@ test_that("Throws error when one or both conditions can't be found", {
 
 test_that("Throws error when there is multiple conditions in the selected condition", {
     expect_error(
-        ta_test %>% add_codifab(condition=plate),
+        urt %>% add_codifab(condition=plate),
         "there need to be exactly two conditions",
         fixed=TRUE
     )
@@ -53,7 +52,7 @@ test_that("Throws error when there is multiple conditions in the selected condit
 
 test_that("Throws error when plotting the codifab without taxon pair data", {
     expect_error(
-        ta_test %>% codifab_plot(nope),
+        urt %>% codifab_plot(nope),
         "Please first run add_codifab() to generate the taxon pair comparisons.",
         fixed=TRUE
     )
