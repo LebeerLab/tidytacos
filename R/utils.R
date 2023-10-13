@@ -3,7 +3,7 @@
 #' @return a small tidytacos object
 #'
 #' @export
-create_test_ta <- function() {
+test_taco <- function() {
 
   # Initiate abundance matrix
   x <- matrix(

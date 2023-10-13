@@ -108,9 +108,9 @@ betas <- function(ta, unique = T, method = "bray", binary = F) {
 
 }
 
-#' Get occurrences of taxa in general or per condition
+#' Get prevalences of taxa in general or per condition
 #'
-#' Returns a tidy table of occurrences: taxon presence counts in samples,
+#' Returns a tidy table of prevalences: taxon presence counts in samples,
 #' overall or per condition.
 #'
 #' Condition should be a categorical variable present in the samples table.
@@ -120,7 +120,7 @@ betas <- function(ta, unique = T, method = "bray", binary = F) {
 #' @param condition a string denoting a categorical variable in the sample table
 #' @param pres_abs wether to resort to presence/absense screening
 #' @export
-occurrences <- function(ta, condition = NULL, pres_abs = F) {
+prevalences <- function(ta, condition = NULL, pres_abs = F) {
 
   abundances_extended <-
     ta$counts %>%
@@ -253,7 +253,7 @@ perform_adonis <- function(ta, predictors, permutations = 999) {
     process_sample_selection() %>%
     add_rel_abundance() %>%
     counts() %>%
-    as_counts_matrix(value = "rel_abundance")
+    counts_matrix(value = "rel_abundance")
 
   formula_RHS <- paste0(predictors, collapse = " + ")
 
@@ -281,32 +281,33 @@ perform_adonis <- function(ta, predictors, permutations = 999) {
 #' @return A matrix with count values.
 #'
 #' @export
-counts_matrix <- function(ta, sample_name = sample, taxon_name = taxon, var = count) {
+counts_matrix <- function(ta, sample_name = sample, taxon_name = taxon, value = count) {
 
-  if (
-    ! "tidytacos" %in% class(ta)
-  ) stop("first argument should be a tidytacos object")
+  value <- rlang::enquo(value)
+  if ("tidytacos" %in% class(ta)) {
+    sample_name <- rlang::enquo(sample_name)
+    taxon_name <- rlang::enquo(taxon_name)
 
-  sample_name <- rlang::enquo(sample_name)
-  taxon_name <- rlang::enquo(taxon_name)
-  var <- rlang::enquo(var)
+    # create sample name if it doesn't exist
+    if (! rlang::quo_name(sample_name) %in% names(ta$samples)) {
+      ta$samples$sample_name <- ta$samples$sample_id
+    }
 
-  # create sample name if it doesn't exist
-  if (! rlang::quo_name(sample_name) %in% names(ta$samples)) {
-    ta$samples$sample_name <- ta$samples$sample_id
+    # create taxon name if it doesn't exist
+    if (! rlang::quo_name(taxon_name) %in% names(ta$taxa)) {
+      ta$taxa$taxon_name <- ta$taxa$taxon_id
+    }
+
+    tidy_count <- ta %>%
+      change_id_samples(sample_id_new = {{sample_name}}) %>%
+      change_id_taxa(taxon_id_new = {{taxon_name}}) %>%
+      counts()
+
+  } else {
+    tidy_count <- ta
   }
-
-  # create taxon name if it doesn't exist
-  if (! rlang::quo_name(taxon_name) %in% names(ta$taxa)) {
-    ta$taxa$taxon_name <- ta$taxa$taxon_id
-  }
-
-  ta %>%
-    change_id_samples(sample_id_new = {{sample_name}}) %>%
-    change_id_taxa(taxon_id_new = {{taxon_name}}) %>%
-    counts() %>%
-    as_counts_matrix(value = {{var}})
-
+    tidy_count %>% tidy_count_to_matrix(value = {{value}})
+    
 }
 
 #' Return a relative abundance matrix
@@ -338,7 +339,7 @@ rel_abundance_matrix <- function(ta, sample_name = sample, taxon_name = taxon) {
 
   ta %>%
     counts_matrix(
-      sample_name = sample_name, taxon_name = taxon_name, var = rel_abundance
+      sample_name = sample_name, taxon_name = taxon_name, value =rel_abundance
     )
 
 }

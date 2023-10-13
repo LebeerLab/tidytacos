@@ -4,8 +4,7 @@
 #'
 #' This function initiates a tidytacos object based on a numeric matrix. It
 #' will automatically create a dummy taxa and sample table which will need to be
-#' updated using the functions \code{\link{add_taxon_tibble}} and
-#' \code{\link{add_sample_tibble}}.
+#' updated using the function \code{\link{add_metadata}}.
 #'
 #' @param counts_matrix Numerical matrix containing the count data.
 #' @param taxa_are_columns A logical scalar. Are the taxa defined in columns?
@@ -233,8 +232,8 @@ from_phyloseq <- function(ps) {
 
   phyloseq::otu_table(ps)@.Data %>%
     create_tidytacos() %>%
-    add_sample_tibble(samples) %>%
-    add_taxon_tibble(taxa)
+    add_metadata(samples) %>%
+    add_metadata(taxa, table_type="taxa")
 
 }
 
@@ -284,27 +283,27 @@ from_dada <- function(seqtab, taxa, taxa_are_columns=FALSE) {
 
 #' Convert matrix with counts to tidy data frame
 #'
-#' \code{as_counts} returns a tidy data frame given a numerical counts
+#' \code{counts_tidy} returns a tidy data frame given a numerical counts
 #' matrix.
 #'
 #' This function will convert a numerical counts matrix into a tidy data
 #' frame. To convert a tidy data frame into a numerical counts matrix
-#' use \code{\link{as_counts_matrix}}.
+#' use \code{\link{counts_matrix}}.
 #'
-#' @param counts_matrix The ambundance matrix that will be converted.
+#' @param counts_matrix The count matrix that will be converted.
 #' @param taxa_are_columns A logical scalar. Are the taxa defined in columns?
 #'   Default is TRUE.
 #' @param value Name of resulting colum containing the count data. Default
 #'   is "counts".
 #'
 #' @export
-as_counts <- function(counts_matrix, taxa_are_columns = TRUE,
+counts_tidy <- function(counts_matrix, taxa_are_columns = TRUE,
                           value = "counts") {
 
   if (
     ! is.matrix(counts_matrix) |
     ! is.numeric(counts_matrix)
-  ) stop("first argument should be an counts matrix")
+  ) stop("first argument should be a counts matrix")
 
   if (! taxa_are_columns) counts_matrix = t(counts_matrix)
 
@@ -318,19 +317,19 @@ as_counts <- function(counts_matrix, taxa_are_columns = TRUE,
 
 #' Convert counts tidy data frame to matrix.
 #'
-#' \code{as_counts_matrix} returns a numerical matrix given a tidy
+#' \code{tidy_count_to_matrix} returns a numerical matrix given a tidy
 #' counts data frame.
 #'
 #' This function will convert a counts tidy data frame into a numerlical
 #' counts matrix. To convert a numerical counts matrix into a counts
-#' tidy data frame use \code{\link{as_counts_matrix}}.
+#' tidy data frame use \code{\link{tidy_count_to_matrix}}.
 #'
 #' @param counts The counts tidy data frame that will be converted.
 #' @param value Name of colum containing the counts data. Default is
 #'   "counts".
 #'
-#' @export
-as_counts_matrix <- function(counts, value = count) {
+#'
+tidy_count_to_matrix <- function(counts, value = count) {
 
   if (
     ! is.data.frame(counts) |
@@ -418,7 +417,6 @@ merge_tidytacos <- function(ta1, ta2, taxon_identifier = sequence) {
 #' @param counts A tidy table, where each row represents the counts of a taxon in a sample
 #' @param sample_name The column in the sample table that contains a unique identifier for each sample
 #' @param taxon_name The column in the taxon table that contains a unique identifier for each taxon
-#' @export
 make_tidytacos <- function(samples, taxa, counts,
                                sample_name = sample, taxon_name = taxon) {
 

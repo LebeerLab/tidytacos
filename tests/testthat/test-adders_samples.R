@@ -12,7 +12,7 @@ test_that("Can add sample tibble to ta object",{
     environment <- c("food fermentation", "human stool")
     smp_tibble <- tibble::tibble(sample, environment)
     suppressMessages(
-        test_data <- test_data %>% add_sample_tibble(smp_tibble)
+        test_data <- test_data %>% add_metadata(smp_tibble)
     )
     expect_true("environment" %in% names(test_data$samples))
 })
@@ -23,7 +23,7 @@ test_that("Can add lib sizes", {
 })
 
 test_that("Can add alpha diversity metrics", {
-    ta_alpha <- test_data %>% add_alphas()
+    ta_alpha <- test_data %>% add_alpha()
     expect_equal(ta_alpha$samples$inverse_simpson, 
                     c(1.989, 1.971), tolerance=1e-3)
 })

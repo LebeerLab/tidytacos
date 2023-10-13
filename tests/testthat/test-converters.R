@@ -15,7 +15,7 @@ test_that("Can convert to phyloseq object.", {
 })
 
 test_that("Can convert abundances to abundances matrix", {
-  ab_mat <- urt %>% counts() %>% as_counts_matrix()
+  ab_mat <- urt %>% counts() %>% counts_matrix()
   expected_width <- 1957
   expected_height <- 214
   width <- dim(ab_mat)[2]

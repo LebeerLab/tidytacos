@@ -4,7 +4,7 @@
 \alias{counts_matrix}
 \title{Return a counts matrix}
 \usage{
-counts_matrix(ta, sample_name = sample, taxon_name = taxon, var = count)
+counts_matrix(ta, sample_name = sample, taxon_name = taxon, value = count)
 }
 \arguments{
 \item{ta}{A tidytacos object.}

@@ -342,7 +342,7 @@ filter_counts <- function(ta, ...) {
 #' @param counts variable name of the counts to be transformed in the counts table.
 #' @param overwrite wether or not the counts table is to be overwritten with the transformed counts.
 #' @export
-clr_transform_counts <- function(
+add_clr_abundance <- function(
     ta,
     overwrite = F) {
   force_optional_dependency("compositions")

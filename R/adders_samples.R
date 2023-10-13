@@ -1,19 +1,18 @@
-#' Add sample table to the tidytacos object
+#' Add metadata table to the tidytacos object
 #'
-#' \code{add_sample_tibble} adds a sample tibble to the tidytacos object.
+#' \code{add_metadata} adds a tibble to the tidytacos object.
 #'
-#' This function adds a sample tibble containing metadata for each sample to the
+#' This function adds a tibble containing metadata for each sample or taxon to the
 #' tidytacos object. It is used after initiating a tidytacos object
 #' using a numerical abundance matrix and the function
-#' \code{\link{create_tidytacos}}. Also see \code{\link{add_taxon_tibble}}
-#' to update the taxon data of the tidytacos object.
+#' \code{\link{create_tidytacos}}. 
 #'
 #' @param ta tidytacos object.
-#' @param sample_tibble A tibble containing sample data for each sample. samples
-#'   should be rows, while sample data should be columns. At least one column
-#'   name needs to be shared with the sample tibble of ta. The default shared
-#'   column name is 'sample'.
-#'
+#' @param metadata A tibble containing sample data for each sample or taxon. Samples/taxa
+#'   should be rows, while metadata should be columns. At least one column
+#'   name needs to be shared with the sample or taxa tibble of ta. The default shared
+#'   column name is 'sample' for samples and 'taxon' for taxa.
+#' @param table_type The type of table to add, either 'sample' or 'taxa'.
 #' @examples
 #' # Initiate counts matrix
 #' x <- matrix(
@@ -35,12 +34,18 @@
 #'
 #' # Add sample tibble to tidytacos object
 #' data <- data %>%
-#' add_sample_tibble(sample_tibble)
+#' add_metadata(sample_tibble)
 #'
 #' @export
-add_sample_tibble <- function(ta, sample_tibble) {
-
-  purrr::modify_at(ta, "samples", left_join, sample_tibble)
+add_metadata <- function(ta, metadata_tibble, table_type="sample") {
+  
+  if (table_type == "sample") {
+    purrr::modify_at(ta, "samples", left_join, metadata_tibble)
+  } else if (table_type == "taxa") {
+    purrr::modify_at(ta, "taxa", left_join, metadata_tibble)
+  } else {
+    stop("table_type must be either 'sample' or 'taxa'")
+  }
 
 }
 
@@ -110,7 +115,7 @@ add_total_count <- function(ta, step = "current") {
 
 #' Add alpha diversity measures
 #'
-#' \code{add_alphas} adds two alpha diversity measures to the
+#' \code{add_alpha} adds two alpha diversity measures to the
 #' samples tibble of a tidytacos object.
 #'
 #' This function adds two alpha diversity measures (observed and inverse
@@ -136,9 +141,9 @@ add_total_count <- function(ta, step = "current") {
 #'
 #' # Add total abundance
 #' data <- data %>%
-#'  add_alphas()
+#'  add_alpha()
 #' @export
-add_alphas <- function(ta) {
+add_alpha <- function(ta) {
 
   # if rel abundances not present: add temporarily
   rel_abundance_tmp <- ! "rel_abundance" %in% names(ta$counts)
@@ -198,7 +203,7 @@ add_alphas <- function(ta) {
 #' data <- data %>%
 #'  add_sample_clustered()
 #'
-#' @export
+#'
 add_sample_clustered <- function(ta) {
 
   # make relative abundance matrix
@@ -416,9 +421,9 @@ add_spike_ratio <- function(ta, spike_taxon) {
 
 }
 
-#' Add cluster number
+#' Clusters samples in desired number of clusters and adds these to the sample table.
 #'
-#' \code{add_sample_cluster} adds a new variable to the samples tibble of a
+#' \code{cluster_samples} adds a new variable to the samples tibble of a
 #' tidytacos object defining to what cluster a sample belongs.
 #'
 #' This function calculates the Bray-Curtis distance between samples followed by
@@ -446,14 +451,14 @@ add_spike_ratio <- function(ta, spike_taxon) {
 #'
 #' # Add total abundance
 #' data <- data %>%
-#'  add_sample_cluster(n_clusters = 2)
+#'  cluster_samplesn_clusters = 2)
 #'
 # Adds a variable "cluster" to the samples table
 # To do: merge with add_sample_clustered somehow
 #
 #' @importFrom stats cutree
 #' @export
-add_sample_cluster <- function(ta, n_clusters) {
+cluster_samples<- function(ta, n_clusters) {
 
   # make relative abundance matrix
   rel_abundance_matrix <- rel_abundance_matrix(ta)

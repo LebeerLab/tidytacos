@@ -75,52 +75,6 @@ classify_taxa <- function(
 
 }
 
-#' Add taxon metadata to the tidytacos object
-#'
-#' \code{add_taxon_tibble} adds a taxon tibble to the tidytacos object.
-#'
-#' This function adds a taxon tibble containing taxon data (e.g. taxon ranks
-#' such as genus, family, ...) for each taxon to the tidytacos object. It is
-#' used after initiating a tidytacos object using a numerical abundance
-#' matrix and the function \code{\link{tidytacos}}. Also see
-#' \code{\link{add_sample_tibble}} to update the sample data of the
-#' tidytacos object.
-#'
-#' @param ta tidytacos object.
-#' @param taxon_tibble A tibble containing taxon data for each taxon. Taxa
-#'   should be rows, while taxon data should be columns. At least one column
-#'   name needs to be shared with the taxon tibble of ta. The default shared
-#'   column name is 'taxon'.
-#'
-#' @examples
-#' # Initiate abundance matrix
-#' x <- matrix(
-#'  c(1500, 1300, 280, 356),
-#'  ncol = 2
-#' )
-#' rownames(x) <- c("taxon1", "taxon2")
-#' colnames(x) <- c("sample1", "sample2")
-#'
-#' # Convert to tidytacos object
-#' data <- create_tidytacos(x,
-#'                      taxa_are_columns = FALSE)
-#'
-#' # Initiate taxon tibble
-#' taxon <- c("taxon1", "taxon2")
-#' genus <- c("Salmonella", "Lactobacillus")
-#' taxon_tibble <- tibble::tibble(taxon, genus)
-#'
-#' # Add taxon tibble to tidytacos object
-#' data <- data %>%
-#' add_taxon_tibble(taxon_tibble)
-#'
-#' @export
-add_taxon_tibble <- function(ta, taxon_tibble) {
-
-  purrr::modify_at(ta, "taxa", left_join, taxon_tibble)
-
-}
-
 #' Create sensible names for the taxa and add to taxon table
 #'
 #' @param ta A tidytacos object.
@@ -138,7 +92,7 @@ add_taxon_name <- function(
 
     # if mean_rel_abundance not present: add temporarily
     mean_rel_ab_tmp <- ! "mean_rel_abundance" %in% names(ta$taxa)
-    if (mean_rel_ab_tmp) ta <- add_mean_rel_abundances(ta)
+    if (mean_rel_ab_tmp) ta <- add_mean_rel_abundance(ta)
 
     ta <- mutate_taxa(ta, arrange_by_me = mean_rel_abundance)
 
@@ -238,7 +192,7 @@ add_taxon_name_color <- function(
 
     # if mean_rel_abundance not present: add temporarily
     mean_rel_ab_tmp <- ! "mean_rel_abundance" %in% names(ta$taxa)
-    if (mean_rel_ab_tmp) ta <- add_mean_rel_abundances(ta)
+    if (mean_rel_ab_tmp) ta <- add_mean_rel_abundance(ta)
 
     ta <- mutate_taxa(ta, arrange_by_me = mean_rel_abundance)
 
@@ -358,9 +312,9 @@ add_jervis_bardy <- function(ta, dna_conc, sample_condition = T, min_pres = 3) {
 
 }
 
-#' Add taxon occurrences to the taxon table
+#' Add taxon prevalences to the taxon table
 #'
-#' Adds taxon occurrences (overall or per condition) to the taxa table.
+#' Adds taxon prevalences (overall or per condition) to the taxa table.
 #'
 #' Condition should be a categorical variable present in the samples table.
 #' Supply condition as a string.
@@ -370,24 +324,24 @@ add_jervis_bardy <- function(ta, dna_conc, sample_condition = T, min_pres = 3) {
 #' @param relative wether to use relative occurences
 #' @param fischer_test wether to perform a fischer test and add the p-values of the test to the taxa table
 #' @export
-add_occurrences <- function(
+add_prevalence <- function(
   ta, condition = NULL, relative = F, fischer_test = F
   ) {
 
   if (is.null(condition)) {
 
-    taxa_occurrences <-
-      occurrences(ta, condition = condition)
+    taxa_prevalences <-
+      prevalences(ta, condition = condition)
 
   } else if (fischer_test) {
 
-    occurrences <-
-      occurrences(ta, condition = condition, pres_abs = T)
+    prevalences <-
+      prevalences(ta, condition = condition, pres_abs = T)
 
     condition_sym <- sym(condition)
 
     taxa_fischer <-
-      occurrences %>%
+      prevalences %>%
       group_by(taxon_id) %>%
       arrange(!! condition_sym, presence) %>%
       do(
@@ -398,8 +352,8 @@ add_occurrences <- function(
       mutate(fisher_p = fisher$p.value) %>%
       select(- fisher)
 
-    taxa_occurrences <-
-      occurrences %>%
+    taxa_prevalences <-
+      prevalences %>%
       filter(presence == "present") %>%
       select(taxon_id, !! condition_sym, occurrence = n) %>%
       mutate_at(condition, ~ str_c("occurrence_in", ., sep = "_")) %>%
@@ -408,8 +362,8 @@ add_occurrences <- function(
 
   } else {
 
-    taxa_occurrences <-
-      occurrences(ta, condition = condition) %>%
+    taxa_prevalences <-
+      prevalences(ta, condition = condition) %>%
       mutate_at(condition, ~ str_c("occurrence_in", ., sep = "_")) %>%
       spread(value = "occurrence", key = condition)
 
@@ -417,8 +371,8 @@ add_occurrences <- function(
 
   if (relative & is.null(condition)) {
 
-    taxa_occurrences <-
-      taxa_occurrences %>%
+    taxa_prevalences <-
+      taxa_prevalences %>%
       mutate(occurrence = occurrence / nrow(ta$samples))
 
   }
@@ -435,15 +389,15 @@ add_occurrences <- function(
 
       con <- conditions[[condition]][con_ix]
       n_samples <- conditions[["n"]][con_ix]
-      taxa_occurrences[[str_c("occurrence_in_", con)]] <-
-        taxa_occurrences[[str_c("occurrence_in_", con)]] / n_samples
+      taxa_prevalences[[str_c("occurrence_in_", con)]] <-
+        taxa_prevalences[[str_c("occurrence_in_", con)]] / n_samples
 
     }
 
   }
 
   ta %>%
-    purrr::modify_at("taxa", left_join, taxa_occurrences, by = "taxon_id")
+    purrr::modify_at("taxa", left_join, taxa_prevalences, by = "taxon_id")
 
 }
 
@@ -468,7 +422,7 @@ add_occurrences <- function(
 #' @return A tidytacos object
 #'
 #' @export
-add_mean_rel_abundances <- function(ta, condition = NULL, test = NULL) {
+add_mean_rel_abundance <- function(ta, condition = NULL, test = NULL) {
 
   mean_rel_abundances <- mean_rel_abundances(ta, condition = condition)
 

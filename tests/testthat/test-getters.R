@@ -19,14 +19,14 @@ test_that("Beta diversity table can be generated", {
 })
 
 test_that("Occurences are calculated",{
-    occ <- urt %>% occurrences("location")
+    occ <- urt %>% prevalences("location")
     expect_equal(dim(occ), c(2*len_taxa, 3))
     expect_true(all(c("location","occurrence") %in% names(occ)))
     expect_equal(sum(occ$occurrence), 7693)
 })
 
 test_that("Presence/absense is calculated", {
-    pres_ab <- urt %>% occurrences("location", pres_abs=TRUE)
+    pres_ab <- urt %>% prevalences("location", pres_abs=TRUE)
     expect_equal(dim(pres_ab), c(4*len_taxa, 4))
     expect_true(all(c("location", "presence", "n") %in% names(pres_ab)))
     expect_equal(sum(pres_ab$n), len_samples * len_taxa)
