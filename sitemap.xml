@@ -10,16 +10,10 @@
     <loc>/index.html</loc>
   </url>
   <url>
-    <loc>/reference/abundances.html</loc>
-  </url>
-  <url>
-    <loc>/reference/abundances_matrix.html</loc>
+    <loc>/reference/add_absolute_abundance.html</loc>
   </url>
   <url>
     <loc>/reference/add_alphas.html</loc>
-  </url>
-  <url>
-    <loc>/reference/add_cluster.html</loc>
   </url>
   <url>
     <loc>/reference/add_codifab.html</loc>
@@ -28,19 +22,16 @@
     <loc>/reference/add_copca.html</loc>
   </url>
   <url>
-    <loc>/reference/add_diversity_measures.html</loc>
+    <loc>/reference/add_density.html</loc>
+  </url>
+  <url>
+    <loc>/reference/add_eigentaxa.html</loc>
   </url>
   <url>
     <loc>/reference/add_jervis_bardy.html</loc>
   </url>
   <url>
-    <loc>/reference/add_lib_size.html</loc>
-  </url>
-  <url>
     <loc>/reference/add_logratios.html</loc>
-  </url>
-  <url>
-    <loc>/reference/add_max_rel_abundance.html</loc>
   </url>
   <url>
     <loc>/reference/add_mean_rel_abundances.html</loc>
@@ -49,16 +40,13 @@
     <loc>/reference/add_occurrences.html</loc>
   </url>
   <url>
-    <loc>/reference/add_pcoa.html</loc>
-  </url>
-  <url>
-    <loc>/reference/add_presence_counts.html</loc>
+    <loc>/reference/add_ord.html</loc>
   </url>
   <url>
     <loc>/reference/add_rel_abundance.html</loc>
   </url>
   <url>
-    <loc>/reference/add_rel_occurrence.html</loc>
+    <loc>/reference/add_sample_cluster.html</loc>
   </url>
   <url>
     <loc>/reference/add_sample_clustered.html</loc>
@@ -70,6 +58,9 @@
     <loc>/reference/add_spike_ratio.html</loc>
   </url>
   <url>
+    <loc>/reference/add_taxon_cluster.html</loc>
+  </url>
+  <url>
     <loc>/reference/add_taxon_name.html</loc>
   </url>
   <url>
@@ -79,7 +70,13 @@
     <loc>/reference/add_taxon_tibble.html</loc>
   </url>
   <url>
-    <loc>/reference/add_total_rel_abundance.html</loc>
+    <loc>/reference/add_total_absolute_abundance.html</loc>
+  </url>
+  <url>
+    <loc>/reference/add_total_count.html</loc>
+  </url>
+  <url>
+    <loc>/reference/add_total_density.html</loc>
   </url>
   <url>
     <loc>/reference/aggregate_samples.html</loc>
@@ -88,97 +85,76 @@
     <loc>/reference/aggregate_taxa.html</loc>
   </url>
   <url>
-    <loc>/reference/as_abundances.html</loc>
+    <loc>/reference/as_counts.html</loc>
   </url>
   <url>
-    <loc>/reference/as_abundances_matrix.html</loc>
+    <loc>/reference/as_counts_matrix.html</loc>
   </url>
   <url>
     <loc>/reference/as_phyloseq.html</loc>
   </url>
   <url>
-    <loc>/reference/as_tidyamplicons.html</loc>
-  </url>
-  <url>
-    <loc>/reference/bar_plot.html</loc>
-  </url>
-  <url>
-    <loc>/reference/bar_plot_ly.html</loc>
-  </url>
-  <url>
     <loc>/reference/betas.html</loc>
-  </url>
-  <url>
-    <loc>/reference/change_id_samples.html</loc>
-  </url>
-  <url>
-    <loc>/reference/change_id_taxa.html</loc>
   </url>
   <url>
     <loc>/reference/classify_taxa.html</loc>
   </url>
   <url>
+    <loc>/reference/clr_transform_counts.html</loc>
+  </url>
+  <url>
+    <loc>/reference/cluster_sparcc.html</loc>
+  </url>
+  <url>
     <loc>/reference/codifab_plot.html</loc>
+  </url>
+  <url>
+    <loc>/reference/counts.html</loc>
+  </url>
+  <url>
+    <loc>/reference/counts_matrix.html</loc>
   </url>
   <url>
     <loc>/reference/create_test_ta.html</loc>
   </url>
   <url>
-    <loc>/reference/create_tidyamplicons.html</loc>
+    <loc>/reference/create_tidytacos.html</loc>
   </url>
   <url>
     <loc>/reference/everything.html</loc>
   </url>
   <url>
-    <loc>/reference/filter_abundances.html</loc>
+    <loc>/reference/filter_counts.html</loc>
   </url>
   <url>
     <loc>/reference/filter_samples.html</loc>
   </url>
   <url>
+    <loc>/reference/filter_sparcc.html</loc>
+  </url>
+  <url>
     <loc>/reference/filter_taxa.html</loc>
   </url>
   <url>
-    <loc>/reference/get_abundances_extended.html</loc>
+    <loc>/reference/from_dada.html</loc>
   </url>
   <url>
-    <loc>/reference/get_bar_plot.html</loc>
-  </url>
-  <url>
-    <loc>/reference/get_betas.html</loc>
-  </url>
-  <url>
-    <loc>/reference/get_history_plot.html</loc>
-  </url>
-  <url>
-    <loc>/reference/get_numbers.html</loc>
-  </url>
-  <url>
-    <loc>/reference/get_rel_abundance_matrix.html</loc>
-  </url>
-  <url>
-    <loc>/reference/history_plot.html</loc>
+    <loc>/reference/from_phyloseq.html</loc>
   </url>
   <url>
     <loc>/reference/index.html</loc>
   </url>
   <url>
-    <loc>/reference/make_tidyamplicons.html</loc>
+    <loc>/reference/make_tidytacos.html</loc>
   </url>
   <url>
     <loc>/reference/mean_rel_abundances.html</loc>
   </url>
   <url>
-    <loc>/reference/merge_samples.html</loc>
+    <loc>/reference/merge_tidytacos.html</loc>
   </url>
   <url>
-    <loc>/reference/merge_taxa.html</loc>
-  </url>
-  <url>
-    <loc>/reference/merge_tidyamplicons.html</loc>
-  </url>
-  <url>
-    <loc>/reference/mutate_abundances.html</loc>
+    <loc>/reference/mutate_counts.html</loc>
   </url>
   <url>
     <loc>/reference/mutate_samples.html</loc>
@@ -187,13 +163,7 @@
     <loc>/reference/mutate_taxa.html</loc>
   </url>
   <url>
-    <loc>/reference/numbers.html</loc>
-  </url>
-  <url>
     <loc>/reference/occurrences.html</loc>
-  </url>
-  <url>
-    <loc>/reference/pcoa_plot_ly.html</loc>
   </url>
   <url>
     <loc>/reference/perform_adonis.html</loc>
@@ -202,40 +172,28 @@
     <loc>/reference/pipe.html</loc>
   </url>
   <url>
-    <loc>/reference/process_abundance_selection.html</loc>
-  </url>
-  <url>
-    <loc>/reference/process_sample_selection.html</loc>
-  </url>
-  <url>
-    <loc>/reference/process_taxon_selection.html</loc>
-  </url>
-  <url>
     <loc>/reference/rank_names.html</loc>
   </url>
   <url>
     <loc>/reference/rarefy.html</loc>
   </url>
   <url>
-    <loc>/reference/read_tidyamplicons.html</loc>
+    <loc>/reference/read_tidytacos.html</loc>
+  </url>
+  <url>
+    <loc>/reference/rel_abundance_matrix.html</loc>
   </url>
   <url>
     <loc>/reference/remove_empty_samples.html</loc>
   </url>
   <url>
-    <loc>/reference/report_numbers.html</loc>
-  </url>
-  <url>
     <loc>/reference/reset_ids.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sample_plot.html</loc>
   </url>
   <url>
     <loc>/reference/samples.html</loc>
   </url>
   <url>
-    <loc>/reference/select_abundances.html</loc>
+    <loc>/reference/select_counts.html</loc>
   </url>
   <url>
     <loc>/reference/select_samples.html</loc>
@@ -247,33 +205,45 @@
     <loc>/reference/set_rank_names.html</loc>
   </url>
   <url>
+    <loc>/reference/sparcc.html</loc>
+  </url>
+  <url>
+    <loc>/reference/tacoplot_ord.html</loc>
+  </url>
+  <url>
+    <loc>/reference/tacoplot_ord_ly.html</loc>
+  </url>
+  <url>
+    <loc>/reference/tacoplot_stack.html</loc>
+  </url>
+  <url>
+    <loc>/reference/tacoplot_stack_ly.html</loc>
+  </url>
+  <url>
+    <loc>/reference/tacoplot_venn.html</loc>
+  </url>
+  <url>
+    <loc>/reference/tacoplot_zoom.html</loc>
+  </url>
+  <url>
+    <loc>/reference/tacosum.html</loc>
+  </url>
+  <url>
     <loc>/reference/taxa.html</loc>
   </url>
   <url>
-    <loc>/reference/taxon_counts_in_conditions.html</loc>
-  </url>
-  <url>
-    <loc>/reference/tidy_phyloseq.html</loc>
-  </url>
-  <url>
-    <loc>/reference/tidyamplicons.html</loc>
+    <loc>/reference/taxonlist_per_condition.html</loc>
   </url>
   <url>
     <loc>/reference/tidyeval.html</loc>
   </url>
   <url>
+    <loc>/reference/tidytacos.html</loc>
+  </url>
+  <url>
     <loc>/reference/trim_asvs.html</loc>
   </url>
   <url>
-    <loc>/reference/update_id_names.html</loc>
-  </url>
-  <url>
-    <loc>/reference/update_lib_sizes.html</loc>
-  </url>
-  <url>
-    <loc>/reference/update_tidyamplicons.html</loc>
-  </url>
-  <url>
-    <loc>/reference/write_tidyamplicons.html</loc>
+    <loc>/reference/write_tidytacos.html</loc>
   </url>
 </urlset>
