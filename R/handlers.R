@@ -190,8 +190,10 @@ aggregate_taxa <- function(ta, rank = NULL) {
 
   # cleanup
   ta$taxa[ta$taxa == "unknown"] <- NA
-
-  ta
+  # Adapt rank names to aggregate
+  ta %>% set_rank_names(
+    rank_names(ta) %>% intersect(names(ta$taxa))
+  )
 }
 
 #' Trim all sequences
