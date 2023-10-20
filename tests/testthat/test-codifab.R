@@ -1,7 +1,7 @@
 ta_codifab <- urt %>% add_codifab(condition=location)
 
 test_that("Can add logratios.", {
-  ta_log <- urt %>% add_logratios()
+  ta_log <- urt %>% add_logratio()
   expect_true(tibble::is_tibble(ta_log$logratios))
 })
 
@@ -52,7 +52,7 @@ test_that("Throws error when there is multiple conditions in the selected condit
 
 test_that("Throws error when plotting the codifab without taxon pair data", {
     expect_error(
-        urt %>% codifab_plot(nope),
+        urt %>% tacoplot_codifab(nope),
         "Please first run add_codifab() to generate the taxon pair comparisons.",
         fixed=TRUE
     )
@@ -60,13 +60,13 @@ test_that("Throws error when plotting the codifab without taxon pair data", {
 
 test_that("Throws error when plotting the codifab without valid comparison field", {
     expect_error(
-        ta_codifab %>% codifab_plot(nope),
+        ta_codifab %>% tacoplot_codifab(nope),
         " is not an existing comparison in the taxon_pairs table.$"
     )
 })
 
 test_that("Can plot identical plot without any errors", {
-    # vdiffr::expect_doppelganger("Codifab Plot", ta_codifab %>% codifab_plot(NF_vs_N))
+    # vdiffr::expect_doppelganger("Codifab Plot", ta_codifab %>% tacoplot_codifab(NF_vs_N))
     # not deterministic in order of taxa
-    expect_no_error(ta_codifab %>% codifab_plot(NF_vs_N))
+    expect_no_error(ta_codifab %>% tacoplot_codifab(NF_vs_N))
 })

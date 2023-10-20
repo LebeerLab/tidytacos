@@ -15,11 +15,11 @@
 #' @return A tidytacos object with an extra table logratios
 #'
 #' @export
-add_logratios <- function(ta, max_taxa = 30) {
+add_logratio <- function(ta, max_taxa = 30) {
 
   if (nrow(ta$taxa) > max_taxa) {
 
-    ta <- ta %>% add_occurrences()
+    ta <- ta %>% add_prevalence()
 
     ta$taxa <-
       ta$taxa %>%
@@ -110,7 +110,7 @@ add_codifab <- function(ta, condition, conditions = NULL, max_taxa = 30) {
 
   # if logratios not present: add
   if (! "logratios" %in% names(ta_sub)) {
-    ta_sub <- add_logratios(ta_sub, max_taxa = max_taxa)
+    ta_sub <- add_logratio(ta_sub, max_taxa = max_taxa)
   }
 
   ta$taxon_pairs <-
@@ -153,7 +153,7 @@ add_codifab <- function(ta, condition, conditions = NULL, max_taxa = 30) {
 #' @return A ggplot object
 #'
 #' @export
-codifab_plot <- function(ta, diffabun_var) {
+tacoplot_codifab <- function(ta, diffabun_var) {
 
   if (! "taxon_name" %in% names(ta$taxa)) {
     ta <- add_taxon_name(ta)
@@ -215,7 +215,7 @@ add_copca <- function(ta) {
 
   # if logratios not present: add temporarily
   logratios_tmp <- ! "logratios" %in% names(ta)
-  if (logratios_tmp) ta <- add_logratios(ta)
+  if (logratios_tmp) ta <- add_logratio(ta)
 
   logratio_matrix <-
     ta$logratios %>%

@@ -20,7 +20,7 @@ test_that("Can add taxon tibble", {
     genus <- c("Salmonella", "Lactobacillus")
     taxon_tibble <- tibble::tibble(taxon, genus)
     suppressMessages(
-        test_data <- test_data %>% add_taxon_tibble(taxon_tibble)
+        test_data <- test_data %>% add_metadata(taxon_tibble, table_type="taxa")
     )
     expect_equal(test_data$taxa$genus, genus)
 })
@@ -57,47 +57,47 @@ test_that("Add taxon name color raises error when uring none existant method", {
 })
 
 test_that("Occurence can not be higher than amount of samples", {
-    ta_occ <- urt %>% add_occurrences()
+    ta_occ <- urt %>% add_prevalence()
     expect_lte(max(ta_occ$taxa$occurrence), dim(urt$samples)[1])
 })
 
 test_that("Occurence in conditions with fischer test can be run", {
-    ta_occ <- urt %>% add_occurrences(condition="location", fischer_test=TRUE)
+    ta_occ <- urt %>% add_prevalence(condition="location", fischer_test=TRUE)
     expect_true(all(c("occurrence_in_N","occurrence_in_NF","fisher_p") %in% names(ta_occ$taxa)))
     expect_lte(max(ta_occ$taxa$occurrence_in_NF), dim(urt$samples)[1])
     expect_lte(max(ta_occ$taxa$occurrence_in_N), dim(urt$samples)[1])
 })
 
 test_that("Relative occurences in conditions with fischer test can be run", {
-    ta_occ <- urt %>% add_occurrences(condition="location", fischer_test=TRUE)
+    ta_occ <- urt %>% add_prevalence(condition="location", fischer_test=TRUE)
     expect_true(all(c("occurrence_in_N","occurrence_in_NF","fisher_p") %in% names(ta_occ$taxa)))
     expect_lte(max(ta_occ$taxa$occurrence_in_NF), dim(urt$samples)[1])
     expect_lte(max(ta_occ$taxa$occurrence_in_N), dim(urt$samples)[1])
 })
 
 test_that("Can add mean rel abundance", {
-    ta_mr <- urt %>% add_mean_rel_abundances()
+    ta_mr <- urt %>% add_mean_rel_abundance()
     expect_equal(sum(ta_mr$taxa$mean_rel_abundance), 1)
 })
 
 test_that("Can add mean rel abundance with condition", {
-    ta_mr <- urt %>% add_mean_rel_abundances(condition="location")
+    ta_mr <- urt %>% add_mean_rel_abundance(condition="location")
     expect_equal(sum(ta_mr$taxa$mean_rel_abundance_in_N), 1)
     expect_equal(sum(ta_mr$taxa$mean_rel_abundance_in_NF), 1)
 })
 
 test_that("Can add mean rel abundance with condition and wilcox tests", {
-    ta_mr <- urt %>% add_mean_rel_abundances(condition="location", test="wilcox")
+    ta_mr <- urt %>% add_mean_rel_abundance(condition="location", test="wilcox")
     expect_equal(sum(ta_mr$taxa$mean_rel_abundance_in_N), 1)
     expect_equal(sum(ta_mr$taxa$mean_rel_abundance_in_NF), 1)
 })
 
 test_that("Can add mean rel abundance with condition and t-test", {
-    ta_mr <- urt %>% add_mean_rel_abundances(condition="location", test="t-test")
+    ta_mr <- urt %>% add_mean_rel_abundance(condition="location", test="t-test")
     expect_equal(sum(ta_mr$taxa$mean_rel_abundance_in_N), 1)
     expect_equal(sum(ta_mr$taxa$mean_rel_abundance_in_NF), 1)
 })
 
 test_that("Raise error when non defined test is used in add mean rel abundance", {
-    expect_error(urt %>% add_mean_rel_abundances(condition="location", test="bogus-test"))
+    expect_error(urt %>% add_mean_rel_abundance(condition="location", test="bogus-test"))
 })
