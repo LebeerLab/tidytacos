@@ -52,9 +52,14 @@
         <dd>Add absolute abundance to counts table</dd>
       </dl><dl><dt>
           
-          <code><a href="add_alphas.html">add_alphas()</a></code> 
+          <code><a href="add_alpha.html">add_alpha()</a></code> 
         </dt>
         <dd>Add alpha diversity measures</dd>
+      </dl><dl><dt>
+          
+          <code><a href="add_clr_abundance.html">add_clr_abundance()</a></code> 
+        </dt>
+        <dd>Perform a centered log ratio transformation on the readcounts.</dd>
       </dl><dl><dt>
           
           <code><a href="add_codifab.html">add_codifab()</a></code> 
@@ -75,7 +80,7 @@
           <code><a href="add_eigentaxa.html">add_eigentaxa()</a></code> 
         </dt>
         <dd>Calculates eigentaxa values based on SparCC - MCL generated clusters per sample. 
-It is advised to run <code>add_taxon_cluster</code> on the tidyamplicons object
+It is advised to run <code>cluster_taxa</code> on the tidyamplicons object
 before running this function to add the clusters if you want to stray from any default parameters.</dd>
       </dl><dl><dt>
           
@@ -84,19 +89,19 @@ before running this function to add the clusters if you want to stray from any d
         <dd>Apply the taxon QC method of Jervis-Bardy</dd>
       </dl><dl><dt>
           
-          <code><a href="add_logratios.html">add_logratios()</a></code> 
+          <code><a href="add_logratio.html">add_logratio()</a></code> 
         </dt>
         <dd>Add logratios</dd>
       </dl><dl><dt>
           
-          <code><a href="add_mean_rel_abundances.html">add_mean_rel_abundances()</a></code> 
+          <code><a href="add_mean_rel_abundance.html">add_mean_rel_abundance()</a></code> 
         </dt>
         <dd>Add average relative abundances</dd>
       </dl><dl><dt>
           
-          <code><a href="add_occurrences.html">add_occurrences()</a></code> 
+          <code><a href="add_metadata.html">add_metadata()</a></code> 
         </dt>
-        <dd>Add taxon occurrences to the taxon table</dd>
+        <dd>Add metadata table to the tidytacos object</dd>
       </dl><dl><dt>
           
           <code><a href="add_ord.html">add_ord()</a></code> 
@@ -104,14 +109,14 @@ before running this function to add the clusters if you want to stray from any d
         <dd>Add dimensionality ordination</dd>
       </dl><dl><dt>
           
+          <code><a href="add_prevalence.html">add_prevalence()</a></code> 
+        </dt>
+        <dd>Add taxon prevalences to the taxon table</dd>
+      </dl><dl><dt>
+          
           <code><a href="add_rel_abundance.html">add_rel_abundance()</a></code> 
         </dt>
         <dd>Add relative abundance to abundance table</dd>
-      </dl><dl><dt>
-          
-          <code><a href="add_sample_cluster.html">add_sample_cluster()</a></code> 
-        </dt>
-        <dd>Add cluster number</dd>
       </dl><dl><dt>
           
           <code><a href="add_sample_clustered.html">add_sample_clustered()</a></code> 
@@ -119,21 +124,9 @@ before running this function to add the clusters if you want to stray from any d
         <dd>Add clustered sample order</dd>
       </dl><dl><dt>
           
-          <code><a href="add_sample_tibble.html">add_sample_tibble()</a></code> 
-        </dt>
-        <dd>Add sample table to the tidytacos object</dd>
-      </dl><dl><dt>
-          
           <code><a href="add_spike_ratio.html">add_spike_ratio()</a></code> 
         </dt>
         <dd>Add spike ratio</dd>
-      </dl><dl><dt>
-          
-          <code><a href="add_taxon_cluster.html">add_taxon_cluster()</a></code> 
-        </dt>
-        <dd>Performs SparCC network analysis on a tidytacos object 
-and then performs Markov Clustering on the network to 
-annotate taxa of the largest clusters in the tidytacos object.</dd>
       </dl><dl><dt>
           
           <code><a href="add_taxon_name.html">add_taxon_name()</a></code> 
@@ -144,11 +137,6 @@ annotate taxa of the largest clusters in the tidytacos object.</dd>
           <code><a href="add_taxon_name_color.html">add_taxon_name_color()</a></code> 
         </dt>
         <dd>Create taxon names suitable for visualization with color.</dd>
-      </dl><dl><dt>
-          
-          <code><a href="add_taxon_tibble.html">add_taxon_tibble()</a></code> 
-        </dt>
-        <dd>Add taxon metadata to the tidytacos object</dd>
       </dl><dl><dt>
           
           <code><a href="add_total_absolute_abundance.html">add_total_absolute_abundance()</a></code> 
@@ -176,16 +164,6 @@ annotate taxa of the largest clusters in the tidytacos object.</dd>
         <dd>Aggregate taxa on a given taxonomic rank</dd>
       </dl><dl><dt>
           
-          <code><a href="as_counts.html">as_counts()</a></code> 
-        </dt>
-        <dd>Convert matrix with counts to tidy data frame</dd>
-      </dl><dl><dt>
-          
-          <code><a href="as_counts_matrix.html">as_counts_matrix()</a></code> 
-        </dt>
-        <dd>Convert counts tidy data frame to matrix.</dd>
-      </dl><dl><dt>
-          
           <code><a href="as_phyloseq.html">as_phyloseq()</a></code> 
         </dt>
         <dd>Convert tidytacos object to phyloseq object</dd>
@@ -201,20 +179,22 @@ annotate taxa of the largest clusters in the tidytacos object.</dd>
         <dd>(Re)classify amplicon sequences</dd>
       </dl><dl><dt>
           
-          <code><a href="clr_transform_counts.html">clr_transform_counts()</a></code> 
+          <code><a href="cluster_network.html">cluster_network()</a></code> 
         </dt>
-        <dd>Perform a centered log ratio transformation on the readcounts.</dd>
-      </dl><dl><dt>
-          
-          <code><a href="cluster_sparcc.html">cluster_sparcc()</a></code> 
-        </dt>
-        <dd>Performs Markov Clustering on a sparcc network matrix generated by <code>filter_sparcc</code>. 
+        <dd>Performs Markov Clustering on a sparcc network matrix generated by <code>filter_network</code>. 
 and returns a tibble with clusters and taxon identifiers. Optionally, the network can be visualized.</dd>
       </dl><dl><dt>
           
-          <code><a href="codifab_plot.html">codifab_plot()</a></code> 
+          <code><a href="cluster_samples.html">cluster_samples()</a></code> 
         </dt>
-        <dd>Generate a compositional differential abundance plot</dd>
+        <dd>Clusters samples in desired number of clusters and adds these to the sample table.</dd>
+      </dl><dl><dt>
+          
+          <code><a href="cluster_taxa.html">cluster_taxa()</a></code> 
+        </dt>
+        <dd>Performs SparCC network analysis on a tidytacos object 
+and then performs Markov Clustering on the network to 
+annotate taxa of the largest clusters in the tidytacos object.</dd>
       </dl><dl><dt>
           
           <code><a href="counts.html">counts()</a></code> 
@@ -227,9 +207,9 @@ and returns a tibble with clusters and taxon identifiers. Optionally, the networ
         <dd>Return a counts matrix</dd>
       </dl><dl><dt>
           
-          <code><a href="create_test_ta.html">create_test_ta()</a></code> 
+          <code><a href="counts_tidy.html">counts_tidy()</a></code> 
         </dt>
-        <dd>Create a tidytacos object for testing/example purporses</dd>
+        <dd>Convert matrix with counts to tidy data frame</dd>
       </dl><dl><dt>
           
           <code><a href="create_tidytacos.html">create_tidytacos()</a></code> 
@@ -247,15 +227,15 @@ and returns a tibble with clusters and taxon identifiers. Optionally, the networ
         <dd>Filter the counts</dd>
       </dl><dl><dt>
           
+          <code><a href="filter_network.html">filter_network()</a></code> 
+        </dt>
+        <dd>Filters the output of <code>network</code> to a minimal treshold 
+and transforms to matrixfor downstream clustering or heatplot visualization.</dd>
+      </dl><dl><dt>
+          
           <code><a href="filter_samples.html">filter_samples()</a></code> 
         </dt>
         <dd>Filter the samples</dd>
-      </dl><dl><dt>
-          
-          <code><a href="filter_sparcc.html">filter_sparcc()</a></code> 
-        </dt>
-        <dd>Filters the output of <code>sparcc</code> to a minimal treshold 
-and transforms to matrixfor downstream clustering or heatplot visualization.</dd>
       </dl><dl><dt>
           
           <code><a href="filter_taxa.html">filter_taxa()</a></code> 
@@ -303,14 +283,20 @@ and transforms to matrixfor downstream clustering or heatplot visualization.</dd
         <dd>Create extra variables in the taxon table</dd>
       </dl><dl><dt>
           
-          <code><a href="occurrences.html">occurrences()</a></code> 
+          <code><a href="network.html">network()</a></code> 
         </dt>
-        <dd>Get occurrences of taxa in general or per condition</dd>
+        <dd>Perform network inference with SparCC on a tidytacos object, 
+after rarefaction of the taxa. See <a href="https://rdrr.io/pkg/SpiecEasi/man/sparcc.html" class="external-link">sparcc</a>.</dd>
       </dl><dl><dt>
           
           <code><a href="perform_adonis.html">perform_adonis()</a></code> 
         </dt>
         <dd>Perform an adonis test</dd>
+      </dl><dl><dt>
+          
+          <code><a href="prevalences.html">prevalences()</a></code> 
+        </dt>
+        <dd>Get prevalences of taxa in general or per condition</dd>
       </dl><dl><dt>
           
           <code><a href="rank_names.html">rank_names()</a></code> 
@@ -368,10 +354,9 @@ and transforms to matrixfor downstream clustering or heatplot visualization.</dd
         <dd>Set rank names for a tidytacos object</dd>
       </dl><dl><dt>
           
-          <code><a href="sparcc.html">sparcc()</a></code> 
+          <code><a href="tacoplot_codifab.html">tacoplot_codifab()</a></code> 
         </dt>
-        <dd>Perform network inference with SparCC on a tidytacos object, 
-after rarefaction of the taxa. See sparcc.</dd>
+        <dd>Generate a compositional differential abundance plot</dd>
       </dl><dl><dt>
           
           <code><a href="tacoplot_ord.html">tacoplot_ord()</a></code> 
@@ -417,6 +402,16 @@ after rarefaction of the taxa. See sparcc.</dd>
           <code><a href="taxonlist_per_condition.html">taxonlist_per_condition()</a></code> 
         </dt>
         <dd>Return a list of taxon IDs per condition</dd>
+      </dl><dl><dt>
+          
+          <code><a href="test_taco.html">test_taco()</a></code> 
+        </dt>
+        <dd>Create a tidytacos object for testing/example purporses</dd>
+      </dl><dl><dt>
+          
+          <code><a href="tidy_count_to_matrix.html">tidy_count_to_matrix()</a></code> 
+        </dt>
+        <dd>Convert counts tidy data frame to matrix.</dd>
       </dl><dl><dt>
           
           <code><a href="tidytacos.html">tidytacos</a></code> 
