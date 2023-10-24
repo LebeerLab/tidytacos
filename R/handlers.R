@@ -361,7 +361,7 @@ add_clr_abundance <- function(
       as_tibble() %>% 
       tibble::add_column(sample_id = rownames(clrt_mt)) %>% 
       pivot_longer(!sample_id, names_to='taxon_id', values_to='count') %>%
-      filter(counts != 0)
+      filter(count != 0)
 
   if (overwrite) {
     ta$counts <- clrt_counts
