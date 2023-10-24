@@ -5,7 +5,7 @@
 #' This function adds a tibble containing metadata for each sample or taxon to the
 #' tidytacos object. It is used after initiating a tidytacos object
 #' using a numerical abundance matrix and the function
-#' \code{\link{create_tidytacos}}. 
+#' \code{\link{create_tidytacos}}.
 #'
 #' @param ta tidytacos object.
 #' @param metadata A tibble containing sample data for each sample or taxon. Samples/taxa
@@ -38,7 +38,7 @@
 #'
 #' @export
 add_metadata <- function(ta, metadata_tibble, table_type="sample") {
-  
+
   if (table_type == "sample") {
     purrr::modify_at(ta, "samples", left_join, metadata_tibble)
   } else if (table_type == "taxa") {
@@ -55,7 +55,7 @@ add_metadata <- function(ta, metadata_tibble, table_type="sample") {
 #' of a tidytacos object.
 #'
 #' This function adds the total reads per sample to the samples tibble of a
-#' tidytacos object under the variable name total_counts.
+#' tidytacos object under the variable name total_count.
 #'
 #' @param ta tidytacos object.
 #'
@@ -78,34 +78,19 @@ add_metadata <- function(ta, metadata_tibble, table_type="sample") {
 #'  add_total_count()
 #'
 #' @export
-add_total_count <- function(ta, step = "current") {
+add_total_count <- function(ta) {
 
-  # remove lib_size if already present
-  ta$samples$total_counts <- NULL
+  # make table with sample and total count
+  lib_sizes <- ta$counts %>%
+    group_by(sample_id) %>%
+    summarize(total_count = sum(count)) %>%
+    select(sample_id, total_count)
 
-  if (step == "current") {
-
-    # make table with sample and library size
-    lib_sizes <- ta$counts %>%
-      group_by(sample_id) %>%
-      summarize(total_counts = sum(count)) %>%
-      select(sample_id, total_counts)
-
-  } else {
-
-    # make table with sample and library size
-    step_of_interest <- step
-    lib_sizes <- ta$lib_sizes %>%
-      filter(step == step_of_interest) %>%
-      select(sample_id, total_counts)
-
-  }
-
-  # add total counts to sample table
+  # add total count to sample table
   ta$samples <-
     ta$samples %>%
     left_join(lib_sizes, by = "sample_id") %>%
-    mutate(total_counts = ifelse(is.na(total_counts), 0, total_counts))
+    mutate(total_count = ifelse(is.na(total_count), 0, total_count))
 
   # return ta object
   ta
@@ -270,7 +255,7 @@ perform_umap <- function(ta, dist_matrix, dims=2, ...) {
 #' function will also add relative abundances if not present using
 #' \code{\link{add_rel_abundance}}.
 #' @param ta tidytacos object.
-#' @param distance the distance indices to use, see \code{\link[vegan]{vegdist}} 
+#' @param distance the distance indices to use, see \code{\link[vegan]{vegdist}}
 #' @param method the ordination method to use to calculate coordinates. Choice from pcoa, tsne, umap
 #' @param dims the amount of dimensions to reduce the distances to.
 #' @param binary perform presence/absence standardisation before distance computation.
@@ -304,7 +289,7 @@ add_ord <- function(ta, distance="bray", method="pcoa", dims=2, binary=FALSE, ..
   # if add_ord was run before, remove coordinates from sample table
   if ("ord_method" %in% names(ta)) {
     warning("Overwriting previous ord data")
-    ta$samples <- ta$samples %>% 
+    ta$samples <- ta$samples %>%
         select(-num_range("ord", 0:length(ta$samples$sample_id)))
   }
 
@@ -378,7 +363,7 @@ add_ord <- function(ta, distance="bray", method="pcoa", dims=2, binary=FALSE, ..
 add_spike_ratio <- function(ta, spike_taxon) {
 
   # if lib_size not present: add temporarily
-  lib_size_tmp <- ! "total_counts" %in% names(ta$samples)
+  lib_size_tmp <- ! "total_count" %in% names(ta$samples)
   if (lib_size_tmp) ta <- add_total_count(ta)
 
   # make sample table with spike abundances
@@ -389,13 +374,13 @@ add_spike_ratio <- function(ta, spike_taxon) {
   # calculate spike ratio (non-spike abundance to spike abundance)
   ta$samples <- ta$samples %>%
     left_join(spike_counts, by = "sample_id") %>%
-    mutate(spike_ratio = ( total_counts - spike_abundance ) / spike_abundance)
+    mutate(spike_ratio = ( total_count - spike_abundance ) / spike_abundance)
 
   # remove spike_abundance
   ta$samples$spike_abundance <- NULL
 
   # cleanup
-  if (lib_size_tmp) ta$samples$total_counts <- NULL
+  if (lib_size_tmp) ta$samples$total_count <- NULL
 
   # return ta object
   ta
@@ -500,7 +485,7 @@ cluster_samples<- function(ta, n_clusters) {
 #' @export
 add_total_absolute_abundance <- function(ta, spike_taxon, spike_added = spike_added) {
   spike_added <- rlang::enquo(spike_added)
-  
+
   if (!rlang::quo_name(spike_added) %in% names(ta$samples)) {
     stop(paste(
       "Sample table requires a column",
@@ -508,27 +493,27 @@ add_total_absolute_abundance <- function(ta, spike_taxon, spike_added = spike_ad
       "that defines the quantity of spike added to the sample."
     ))
   }
-  
-  # if total_counts not present: add temporarily
-  total_counts_tmp <- !"total_counts" %in% names(ta$samples)
-  if (total_counts_tmp) ta <- add_total_count(ta)
-  
+
+  # if total_count not present: add temporarily
+  total_count_tmp <- !"total_count" %in% names(ta$samples)
+  if (total_count_tmp) ta <- add_total_count(ta)
+
   # make sample table with spike abundances
   spike_counts <- ta$counts %>%
     filter(taxon_id == spike_taxon) %>%
     select(sample_id, spike_count = count)
-  
+
   # calculate total absolute abundance per sample
   ta$samples <- ta$samples %>%
     left_join(spike_counts, by = "sample_id") %>%
-    mutate(total_absolute_abundance = (!!spike_added * (total_counts - spike_count) / spike_count))
-  
+    mutate(total_absolute_abundance = (!!spike_added * (total_count - spike_count) / spike_count))
+
   # remove spike_abundance
   ta$samples$spike_count <- NULL
-  
+
   # cleanup
-  if (total_counts_tmp) ta$samples$total_counts <- NULL
-  
+  if (total_count_tmp) ta$samples$total_count <- NULL
+
   # Warn about samples without spike
   samples_w_no_spike <- unique(ta$samples$sample_id[which(is.na(ta$samples$total_absolute_abundance))])
   if (length(samples_w_no_spike) > 0) {
@@ -539,7 +524,7 @@ add_total_absolute_abundance <- function(ta, spike_taxon, spike_added = spike_ad
       )
     )
   }
-  
+
   # return ta object
   ta
 }
@@ -583,7 +568,7 @@ add_total_absolute_abundance <- function(ta, spike_taxon, spike_added = spike_ad
 add_total_density <- function(ta, spike_taxon, spike_added = spike_added, material_sampled = material_sampled) {
   spike_added <- rlang::enquo(spike_added)
   material_sampled <- rlang::enquo(material_sampled)
-  
+
   if (!rlang::quo_name(spike_added) %in% names(ta$samples)) {
     stop(paste(
       "Sample table requires a column",
@@ -591,7 +576,7 @@ add_total_density <- function(ta, spike_taxon, spike_added = spike_added, materi
       "that defines the quantity of spike added to the sample."
     ))
   }
-  
+
   if (!rlang::quo_name(material_sampled) %in% names(ta$samples)) {
     stop(paste(
       "Sample table requires a column",
@@ -599,27 +584,27 @@ add_total_density <- function(ta, spike_taxon, spike_added = spike_added, materi
       "that defines the quantity of sample used."
     ))
   }
-  
-  # if total_counts not present: add temporarily
-  total_counts_tmp <- !"total_counts" %in% names(ta$samples)
-  if (total_counts_tmp) ta <- add_total_count(ta)
-  
+
+  # if total_count not present: add temporarily
+  total_count_tmp <- !"total_count" %in% names(ta$samples)
+  if (total_count_tmp) ta <- add_total_count(ta)
+
   # make sample table with spike abundances
   spike_counts <- ta$counts %>%
     filter(taxon_id == spike_taxon) %>%
     select(sample_id, spike_count = count)
-  
+
   # calculate total absolute abundance per sample
   ta$samples <- ta$samples %>%
     left_join(spike_counts, by = "sample_id") %>%
-    mutate(total_density = (!!spike_added * (total_counts - spike_count) / spike_count)/ !!material_sampled)
-  
+    mutate(total_density = (!!spike_added * (total_count - spike_count) / spike_count)/ !!material_sampled)
+
   # remove spike_abundance
   ta$samples$spike_count <- NULL
-  
+
   # cleanup
-  if (total_counts_tmp) ta$samples$total_counts <- NULL
-  
+  if (total_count_tmp) ta$samples$total_count <- NULL
+
   # Warn about samples without spike
   samples_w_no_spike <- unique(ta$samples$sample_id[which(is.na(ta$samples$total_density))])
   if (length(samples_w_no_spike) > 0) {
@@ -630,7 +615,7 @@ add_total_density <- function(ta, spike_taxon, spike_added = spike_added, materi
       )
     )
   }
-  
+
   # return ta object
   ta
 }
