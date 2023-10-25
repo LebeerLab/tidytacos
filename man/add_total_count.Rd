@@ -4,7 +4,7 @@
 \alias{add_total_count}
 \title{Add total reads per sample}
 \usage{
-add_total_count(ta, step = "current")
+add_total_count(ta)
 }
 \arguments{
 \item{ta}{tidytacos object.}
@@ -15,7 +15,7 @@ of a tidytacos object.
 }
 \details{
 This function adds the total reads per sample to the samples tibble of a
-tidytacos object under the variable name total_counts.
+tidytacos object under the variable name total_count.
 }
 \examples{
 # Initiate counts matrix
