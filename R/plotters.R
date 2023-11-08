@@ -158,6 +158,13 @@ tacoplot_ord_ly <- function(ta, x=NULL, samplenames = sample_id, ord="pcoa", dim
   if (is.null(palette)) {
     palette <- palette_paired
   }
+  
+  # Check for empty samples
+  if (length(unique(ta$counts$sample_id)) < length(unique(ta$samples$sample_id)))
+  {
+    warning("Empty samples detected, removing them from the analysis")
+    ta <- ta %>% remove_empty_samples()
+  }
 
   # prepare ord if needed
   if (!all(ordnames %in% names(ta$samples))) {
@@ -248,6 +255,13 @@ tacoplot_ord <- function(ta, x=sample_id, palette = NULL, ord = "pcoa", distance
     palette <- palette_paired
   }
 
+  # Check for empty samples
+  if (length(unique(ta$counts$sample_id)) < length(unique(ta$samples$sample_id)))
+  {
+    warning("Empty samples detected, removing them from the analysis")
+    ta <- ta %>% remove_empty_samples()
+  }
+
   # prepare pcoa if needed
   if (!all(c("ord1", "ord2") %in% names(ta$samples))) {
     ta <- add_ord(ta, distance=distance, method=ord, ...)
@@ -258,7 +272,8 @@ tacoplot_ord <- function(ta, x=sample_id, palette = NULL, ord = "pcoa", distance
 
   ta$samples %>% ggplot(aes(x=ord1, y=ord2, color=!!x)) + 
     geom_point() + 
-    annotate("text", x=min(ta$samples$ord1)+0.05, y=max(ta$samples$ord2)-0.05, label=paste0("ANOSIM:\nR= ", signif(anosim$statistic, 3), "\nP= ", signif(anosim$signif, 3))) +
+    annotate("text", x=min(ta$samples$ord1)+0.05, y=max(ta$samples$ord2)-0.05, 
+      label=paste0("ANOSIM:\nR= ", signif(anosim$statistic, 3), "\nP= ", signif(anosim$signif, 3))) +
     theme_classic() +
     ggtitle(title)
 

@@ -629,7 +629,7 @@ add_total_density <- function(ta, spike_taxon, spike_added = spike_added, materi
 #' @param distance the distance metric to use.
 #' @param permutations tidytacos object.
 perform_anosim <- function(ta, group, ...){
-  
+
   M <- ta %>% counts_matrix()
   group <- rlang::enquo(group)
 
