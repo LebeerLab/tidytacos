@@ -163,6 +163,10 @@ tacoplot_ord_ly <- function(ta, x=NULL, samplenames = sample_id, ord="pcoa", dim
   if (!all(ordnames %in% names(ta$samples))) {
     ta <- add_ord(ta, distance=distance, method=ord, dims=dims, ...)
   }
+
+  # calculate anosim
+  anosim <- perform_anosim(ta, !!x, distance=distance)
+
   if (dims == 2) {
   plot <- rlang::eval_tidy(rlang::quo_squash(
     quo({
@@ -205,7 +209,14 @@ tacoplot_ord_ly <- function(ta, x=NULL, samplenames = sample_id, ord="pcoa", dim
     })
   ))
   }
-  plot
+  plot %>% plotly::add_annotations(
+    x= 0.1,
+    y= 1,
+    xref = "paper",
+    yref = "paper",
+    text = paste0("ANOSIM:\nR= ", signif(anosim$statistic, 3), "\nP= ", signif(anosim$signif, 3)),
+    showarrow = F
+  )
 }
 
 #' Return a pcoa plot of the samples
@@ -242,8 +253,12 @@ tacoplot_ord <- function(ta, x=sample_id, palette = NULL, ord = "pcoa", distance
     ta <- add_ord(ta, distance=distance, method=ord, ...)
   } 
 
+  # calculate anosim
+  anosim <- perform_anosim(ta, !!x, distance=distance)
+
   ta$samples %>% ggplot(aes(x=ord1, y=ord2, color=!!x)) + 
     geom_point() + 
+    annotate("text", x=min(ta$samples$ord1)+0.05, y=max(ta$samples$ord2)-0.05, label=paste0("ANOSIM:\nR= ", signif(anosim$statistic, 3), "\nP= ", signif(anosim$signif, 3))) +
     theme_classic() +
     ggtitle(title)
 
