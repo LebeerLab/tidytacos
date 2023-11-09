@@ -59,7 +59,7 @@ test_that("Extract abundances tibble", {
 
 test_that("Extract all three tables in one large tibble",{
     wide_ta <- urt %>% everything()
-    expect_equal(dim(wide_ta), c(7693, 10+cols_samples))
+    expect_equal(dim(wide_ta), c(7693, 11+cols_samples))
 })
 
 test_that("Perform adonis shows stable output", {
