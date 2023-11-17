@@ -621,13 +621,16 @@ add_total_density <- function(ta, spike_taxon, spike_added = spike_added, materi
 }
 
 
-# Test for a statistical difference between groups of samples
-# the null hypothesis is that there is no difference between 
-# microbial communities in the groups of samples
+#' Perform anosim test for statistical difference between groups of samples
+# 
+#'Test for a statistical difference between groups of samples
+#' the null hypothesis is that there is no difference between 
+#' microbial communities in the groups of samples
 #' @param ta tidytacos object.
 #' @param group a column in the samples table to group the samples on.
 #' @param distance the distance metric to use.
 #' @param permutations tidytacos object.
+#' @export
 perform_anosim <- function(ta, group, ...){
 
   M <- ta %>% counts_matrix()
