@@ -11,6 +11,7 @@ tacoplot_ord_ly(
   ord = "pcoa",
   dims = 2,
   distance = "bray",
+  stat.method = "mantel",
   palette = NULL,
   title = NULL,
   ...
@@ -29,6 +30,8 @@ groups on.}
 \item{dims}{the amount of dimensions to plot, 2 or 3.}
 
 \item{distance}{the distance algorithm to use, see \code{\link[vegan]{vegdist}}.}
+
+\item{stat.method}{the statistic to print on the figure, choice from mantel and anosim.}
 
 \item{palette}{A vector of colors, used as the palette for coloring sample}
 

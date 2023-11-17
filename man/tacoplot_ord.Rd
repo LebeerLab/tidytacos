@@ -2,7 +2,7 @@
 % Please edit documentation in R/plotters.R
 \name{tacoplot_ord}
 \alias{tacoplot_ord}
-\title{Return a pcoa plot of the samples}
+\title{Return an ordination plot of the samples}
 \usage{
 tacoplot_ord(
   ta,
@@ -10,6 +10,7 @@ tacoplot_ord(
   palette = NULL,
   ord = "pcoa",
   distance = "bray",
+  stat.method = "mantel",
   title = NULL,
   ...
 )
@@ -22,7 +23,13 @@ groups on.}
 
 \item{palette}{A vector of colors, used as the palette for coloring sample
 groups.}
+
+\item{ord}{the ordination technique to use. Choice from pcoa, tsne and umap.}
+
+\item{distance}{the distance algorithm to use, see \code{\link[vegan]{vegdist}}.}
+
+\item{stat.method}{the statistic to print on the figure, choice from mantel and anosim.}
 }
 \description{
-Return a pcoa plot of the samples
+Return an ordination plot of the samples
 }

@@ -34,12 +34,12 @@ prepare_for_bp <- function(ta, n = 12, extended = TRUE) {
 #' @export
 tacoplot_stack <- function(ta, n = 12, x = sample_clustered, geom_bar = T) {
   # convert promise to formula
-  x <- enquo(x)
+  x <- rlang::enquo(x)
 
-  warning_message_label = paste0("Label \'", quo_name(x),"\' not found in the samples table.")
+  warning_message_label = paste0("Label \'", rlang::quo_name(x),"\' not found in the samples table.")
   warning_message_aggregate = "Sample labels not unique, samples are aggregated."
-  if (quo_name(x) != "sample_clustered" &&
-    !is.element(quo_name(x), names(ta$samples))
+  if (rlang::quo_name(x) != "sample_clustered" &&
+    !is.element(rlang::quo_name(x), names(ta$samples))
   ) {
     # Warning, so tidy functions can be performed on the label
     warning(warning_message_label)
@@ -131,12 +131,14 @@ tacoplot_stack_ly <- function(ta, n = 12, x = sample_clustered) {
 #' @param ord the ordination technique to use. Choice from pcoa, tsne and umap.
 #' @param distance the distance algorithm to use, see \code{\link[vegan]{vegdist}}.
 #' @param dims the amount of dimensions to plot, 2 or 3.
+#' @param stat.method the statistic to print on the figure, choice from mantel and anosim.
 #' @param palette A vector of colors, used as the palette for coloring sample
 #' @param title a string to display as title of the plot.
 #'   groups.
 #'
 #' @export
-tacoplot_ord_ly <- function(ta, x=NULL, samplenames = sample_id, ord="pcoa", dims=2, distance="bray", palette = NULL, title = NULL, ...) {
+tacoplot_ord_ly <- function(ta, x=NULL, samplenames = sample_id, ord="pcoa", dims=2, 
+                            distance="bray", stat.method="mantel", palette = NULL, title = NULL, ...) {
   force_optional_dependency("plotly")
 
 
@@ -171,8 +173,12 @@ tacoplot_ord_ly <- function(ta, x=NULL, samplenames = sample_id, ord="pcoa", dim
     ta <- add_ord(ta, distance=distance, method=ord, dims=dims, ...)
   }
 
-  # calculate anosim
-  anosim <- perform_anosim(ta, !!x, distance=distance)
+  # calculate statistic
+  if (stat.method == "anosim") {
+    stat <- perform_anosim(ta, !!x, distance=distance)
+  } else {
+    stat <- perform_mantel_test(ta, rlang::quo_name(x))
+  }
 
   if (dims == 2) {
   plot <- rlang::eval_tidy(rlang::quo_squash(
@@ -221,21 +227,24 @@ tacoplot_ord_ly <- function(ta, x=NULL, samplenames = sample_id, ord="pcoa", dim
     y= 1,
     xref = "paper",
     yref = "paper",
-    text = paste0("ANOSIM:\nR= ", signif(anosim$statistic, 3), "\nP= ", signif(anosim$signif, 3)),
+    text = paste0(toupper(stat.method), ":\nR= ", signif(stat$statistic, 3), "\nP= ", signif(stat$signif, 3)),
     showarrow = F
   )
 }
 
-#' Return a pcoa plot of the samples
+#' Return an ordination plot of the samples
 #'
 #' @param ta A tidytacos object.
 #' @param x A string, representing the column name used to color the sample
 #'   groups on.
+#' @param ord the ordination technique to use. Choice from pcoa, tsne and umap.
+#' @param distance the distance algorithm to use, see \code{\link[vegan]{vegdist}}.
+#' @param stat.method the statistic to print on the figure, choice from mantel and anosim.
 #' @param palette A vector of colors, used as the palette for coloring sample
 #'   groups.
 #'
 #' @export
-tacoplot_ord <- function(ta, x=sample_id, palette = NULL, ord = "pcoa", distance="bray", title = NULL, ...) {
+tacoplot_ord <- function(ta, x=sample_id, palette = NULL, ord = "pcoa", distance="bray", stat.method="mantel",title = NULL, ...) {
 
   x <- enquo(x)
   if (is.null(title)){ 
@@ -267,13 +276,17 @@ tacoplot_ord <- function(ta, x=sample_id, palette = NULL, ord = "pcoa", distance
     ta <- add_ord(ta, distance=distance, method=ord, ...)
   } 
 
-  # calculate anosim
-  anosim <- perform_anosim(ta, !!x, distance=distance)
+  # calculate stats
+  if (stat.method == "anosim") {
+    stat <- perform_anosim(ta, !!x, distance=distance)
+  } else {
+    stat <- perform_mantel_test(ta, rlang::quo_name(x))
+  }
 
   ta$samples %>% ggplot(aes(x=ord1, y=ord2, color=!!x)) + 
     geom_point() + 
     annotate("text", x=min(ta$samples$ord1)+0.05, y=max(ta$samples$ord2)-0.05, 
-      label=paste0("ANOSIM:\nR= ", signif(anosim$statistic, 3), "\nP= ", signif(anosim$signif, 3))) +
+      label=paste0(toupper(stat.method),":\nR= ", signif(stat$statistic, 3), "\nP= ", signif(stat$signif, 3))) +
     theme_classic() +
     ggtitle(title)
 
