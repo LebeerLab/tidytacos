@@ -2,20 +2,17 @@
 % Please edit documentation in R/adders_abundances.R
 \name{add_rel_abundance}
 \alias{add_rel_abundance}
-\title{Add relative abundance to abundance table}
+\title{Add relative abundances to count table}
 \usage{
 add_rel_abundance(ta)
 }
 \arguments{
-\item{ta}{tidytacos object.}
+\item{ta}{A tidytacos object.}
 }
 \description{
-\code{add_rel_abundance} adds relative abundance to the abundance table of a
-tidytacos object.
-}
-\details{
-This function adds the relative abundance per sample to the abundance table
-of a tidytacos object under the variable name "rel_abundance".
+\code{add_rel_abundance} calculates relative abundances of taxa in samples
+and adds them to the count table of a tidytacos object under the column name
+"rel_abundance".
 }
 \examples{
 # Initiate count matrix
@@ -32,7 +29,6 @@ data <- create_tidytacos(x,
 )
 
 # Add relative abundance
-data <- data \%>\%
-  add_rel_abundance()
+data <- data \%>\% add_rel_abundance()
 
 }

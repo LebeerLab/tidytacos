@@ -2,22 +2,21 @@
 % Please edit documentation in R/adders_samples.R
 \name{add_sample_clustered}
 \alias{add_sample_clustered}
-\title{Add clustered sample order}
+\title{Add clustering-based sample order}
 \usage{
 add_sample_clustered(ta)
 }
 \arguments{
-\item{ta}{tidytacos object.}
+\item{ta}{A tidytacos object.}
 }
 \description{
 \code{add_sample_clustered} adds a new variable defining a sample order based
-on similarity after clustering to the samples tibble of a tidytacos
-object.
+on a hierarchical clustering of the samples.
 }
 \details{
-This function calculates the Bray-Curtis distance between samples followed by
-hierarchical average linkage clustering of samples. It will then add a new
-factor variable "samples_clustered" to the samples tibble of a tidytacos
-object. This function is extremely useful if one wants to plot similar
-samples together.
+This function calculates the Bray-Curtis distances between samples followed
+by hierarchical average linkage clustering of samples. It will then add a new
+factor variable "sample_clustered" to the sample tibble of a tidytacos
+object. This function is useful if one wants to plot similar samples
+together.
 }

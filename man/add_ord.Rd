@@ -2,30 +2,33 @@
 % Please edit documentation in R/adders_samples.R
 \name{add_ord}
 \alias{add_ord}
-\title{Add dimensionality ordination}
+\title{Add ordination}
 \usage{
 add_ord(ta, distance = "bray", method = "pcoa", dims = 2, binary = FALSE, ...)
 }
 \arguments{
-\item{ta}{tidytacos object.}
+\item{ta}{A tidytacos object.}
 
-\item{distance}{the distance indices to use, see \code{\link[vegan]{vegdist}}}
+\item{distance}{The distance indices to use, see
+\code{\link[vegan]{vegdist}}.}
 
-\item{method}{the ordination method to use to calculate coordinates. Choice from pcoa, tsne, umap}
+\item{method}{The ordination method to use to calculate coordinates. Choices
+are "pcoa", "tsne", "umap".}
 
-\item{dims}{the amount of dimensions to reduce the distances to.}
+\item{dims}{The amount of dimensions to reduce the dissimilarities to.}
 
-\item{binary}{perform presence/absence standardisation before distance computation.}
+\item{binary}{Perform presence/absence standardisation before distance
+computation or not.}
 }
 \description{
-\code{add_ord} adds the first x dimensions of a dimensionality reduction method
-of a given dissimilarity matrix to two new variables of the
-samples tibble of a tidytacos object.
+\code{add_ord} adds the first n dimensions of a dimensionality reduction
+method performed on a given dissimilarity matrix as new variables to the
+sample table of a tidytacos object.
 }
 \details{
-This function calculates the distance between samples followed by
+This function calculates the dissimilarities between samples followed by
 an ordination analysis. It will then add the first n dimensions to
-the samples tibble of a tidytacos object named "ord1", "ord2", ... This
+the sample table of a tidytacos object named "ord1", "ord2", ... This
 function will also add relative abundances if not present using
 \code{\link{add_rel_abundance}}.
 }

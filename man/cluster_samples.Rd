@@ -2,18 +2,18 @@
 % Please edit documentation in R/adders_samples.R
 \name{cluster_samples}
 \alias{cluster_samples}
-\title{Clusters samples in desired number of clusters and adds these to the sample table.}
+\title{Clusters samples into n clusters}
 \usage{
 cluster_samples(ta, n_clusters)
 }
 \arguments{
-\item{ta}{tidytacos object.}
+\item{ta}{A tidytacos object.}
 
-\item{n_clusters}{Numerical. Number of desired clusters.}
+\item{n_clusters}{The number of desired clusters.}
 }
 \description{
-\code{cluster_samples} adds a new variable to the samples tibble of a
-tidytacos object defining to what cluster a sample belongs.
+\code{cluster_samples} clusters the samples into n clusters and adds these
+clusters to a new variable "cluster" in the sample table.
 }
 \details{
 This function calculates the Bray-Curtis distance between samples followed by

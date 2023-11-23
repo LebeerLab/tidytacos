@@ -2,7 +2,7 @@
 % Please edit documentation in R/adders_abundances.R
 \name{add_density}
 \alias{add_density}
-\title{Add density to counts table}
+\title{Add density to count table}
 \usage{
 add_density(
   ta,
@@ -12,21 +12,23 @@ add_density(
 )
 }
 \arguments{
-\item{ta}{tidytacos object.}
+\item{ta}{A tidytacos object.}
 
 \item{spike_taxon}{The taxon id of the spike.}
 
-\item{spike_added}{The column name of the samples table which indicates how much spike was added per sample, e.g. 16S rRNA gene copy numbers added to the DNA extraction tube.}
+\item{spike_added}{The column name of the sample table which indicates how
+much spike was added per sample, e.g. 16S rRNA gene copy numbers added to
+the DNA extraction tube.}
 
-\item{material_sampled}{The column name indicating the amount of material from which DNA was extracted, e.g gram of soil. This parameter encourages researchers to consider that absolute abundances are only meaningful if they can be translated into densities.}
+\item{material_sampled}{The column name indicating the amount of material
+from which DNA was extracted, e.g gram of soil. This parameter encourages
+researchers to consider that absolute abundances are only meaningful if
+they can be translated into densities.}
 }
 \description{
-\code{add_density} adds density to the counts table of a
-tidytacos object.
-}
-\details{
-This function adds the density per taxon and per sample to the counts table
-of a tidytacos object under the variable name "density".
+\code{add_density} adds densities (bacterial biomass per sample mass or
+volume) to the count table of a tidytacos object under the column name
+"density".
 }
 \examples{
 # Initiate count matrix

@@ -2,25 +2,21 @@
 % Please edit documentation in R/adders_samples.R
 \name{perform_anosim}
 \alias{perform_anosim}
-\title{Perform anosim test for statistical difference between groups of samples
-Test for a statistical difference between groups of samples
-the null hypothesis is that there is no difference between 
-microbial communities in the groups of samples}
+\title{Perform anosim test}
 \usage{
 perform_anosim(ta, group, ...)
 }
 \arguments{
-\item{ta}{tidytacos object.}
+\item{ta}{A tidytacos object.}
 
-\item{group}{a column in the samples table to group the samples on.}
+\item{group}{A column in the sample table to group the samples on.}
 
-\item{distance}{the distance metric to use.}
+\item{distance}{The dissimilarity measure to use.}
 
-\item{permutations}{tidytacos object.}
+\item{permutations}{The number of permutations.}
 }
 \description{
-Perform anosim test for statistical difference between groups of samples
-Test for a statistical difference between groups of samples
-the null hypothesis is that there is no difference between 
-microbial communities in the groups of samples
+\code{perform_anosim} performs the anosim test for statistical difference
+between groups of samples. The null hypothesis is that there is no difference
+between microbial communities in the groups of samples.
 }

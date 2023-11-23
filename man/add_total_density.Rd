@@ -2,7 +2,7 @@
 % Please edit documentation in R/adders_samples.R
 \name{add_total_density}
 \alias{add_total_density}
-\title{Add total densities to samples table}
+\title{Add total densities of samples}
 \usage{
 add_total_density(
   ta,
@@ -12,21 +12,22 @@ add_total_density(
 )
 }
 \arguments{
-\item{ta}{tidytacos object.}
+\item{ta}{A tidytacos object.}
 
 \item{spike_taxon}{The taxon id of the spike.}
 
-\item{spike_added}{The column name of the samples table which indicates how much spike was added per sample, e.g. 16S rRNA gene copy numbers added to the DNA extraction tube.}
+\item{spike_added}{The column name of the samples table which indicates how
+much spike was added per sample, e.g. 16S rRNA gene copy numbers added to
+the DNA extraction tube.}
 
-\item{material_sampled}{The column name indicating the amount of material from which DNA was extracted, e.g gram of soil. This parameter encourages researchers to consider that absolute abundances are only meaningful if they can be translated into densities.}
+\item{material_sampled}{The column name indicating the amount of material
+from which DNA was extracted, e.g gram of soil. This parameter encourages
+researchers to consider that absolute abundances are only meaningful if
+they can be translated into densities.}
 }
 \description{
-\code{add_total_density} adds total density to the samples table of a
-tidytacos object.
-}
-\details{
-This function adds the total densities to the samples table
-of a tidytacos object under the variable name "total_density".
+\code{add_total_density} adds the total microbial density to the sample table
+of a tidytacos object under the column name "total_density".
 }
 \examples{
 # Initiate count matrix
