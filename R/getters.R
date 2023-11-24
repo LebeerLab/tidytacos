@@ -246,7 +246,7 @@ counts <- function(ta) ta$counts
 #' @return An object of class "adonis" (see \link[vegan]{adonis}).
 #'
 #' @export
-perform_adonis <- function(ta, predictors, permutations = 999) {
+perform_adonis <- function(ta, predictors, permutations = 999, ...) {
 
   counts_matrix <- ta %>%
     purrr::modify_at("samples", drop_na, one_of(predictors)) %>%
@@ -263,7 +263,7 @@ perform_adonis <- function(ta, predictors, permutations = 999) {
   adonis2(
     as.formula(paste("counts_matrix", formula_RHS, sep = " ~ ")),
     metadata,
-    permutations = permutations
+    permutations = permutations, ...
   )
 
 }
