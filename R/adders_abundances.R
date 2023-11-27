@@ -128,7 +128,7 @@ add_absolute_abundance <- function(ta, spike_taxon, spike_added = spike_added) {
 #'
 #' \code{add_density} adds densities (bacterial biomass per sample mass or
 #' volume) to the count table of a tidytacos object under the column name
-#' "density".
+#' "density". Can only be used of a taxon was spiked into samples during library prep.
 #'
 #' @param ta A tidytacos object.
 #' @param spike_taxon The taxon id of the spike.

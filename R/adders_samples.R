@@ -10,7 +10,7 @@
 #'   the tidytacos object. The default shared column name is 'sample' for
 #'   samples and 'taxon' for taxa.
 #' @param table_type The type of table to add, either 'sample' or 'taxa'.
-
+#'
 #' @examples
 #' # Initiate counts matrix
 #' x <- matrix(
@@ -50,7 +50,7 @@ add_metadata <- function(ta, metadata_tibble, table_type = "sample") {
 #' Add total read count per sample
 #'
 #' \code{add_total_count} adds the total read count per sample to the sample
-#' tibble of a tidytacos object under the variable name total_count.
+#' table of a tidytacos object under the variable name total_count.
 #'
 #' @param ta A tidytacos object.
 #'
@@ -97,8 +97,8 @@ add_total_count <- function(ta) {
 #' \code{add_alpha} adds two alpha diversity measures to the sample table of a
 #' tidytacos object.
 #'
-#' This function adds two alpha diversity measures (observed and inverse
-#' Simpson) to the sample table of a tidytacos object under the variable
+#' This function adds two alpha diversity measures, observed richness and inverse
+#' Simpson index, to the sample table of a tidytacos object under the variable
 #' names "observed" and "inverse_simpson", respectively.
 #'
 #' @param ta A tidytacos object.
@@ -249,7 +249,7 @@ perform_umap <- function(ta, dist_matrix, dims=2, ...) {
 #' the sample table of a tidytacos object named "ord1", "ord2", ... This
 #' function will also add relative abundances if not present using
 #' \code{\link{add_rel_abundance}}.
-
+#'
 #' @param ta A tidytacos object.
 #' @param distance The distance indices to use, see
 #'   \code{\link[vegan]{vegdist}}.
@@ -331,8 +331,7 @@ add_ord <- function(ta, distance="bray", method="pcoa", dims=2, binary=FALSE, ..
 #' based on the method described by
 #' \href{https://doi.org/10.1016/j.soilbio.2016.02.003}{Smets et al., 2016}.
 #'
-#' Credits to Wenke Smets for the idea of spiking samples prior to 16S
-#' sequencing and the initial implementation of this function.
+#' Without calculating absolute abundances, the spike ratio allows to compare absolute abundances between sample. For example, if the spike ration of one sample is twice that of another, then the absolute number of sequenced strands at the time of spiking in the one sample is twice that of the other sample.
 #'
 #' @param ta A tidytacos object.
 #' @param spike_taxon The taxon_id of the spike.
@@ -415,7 +414,7 @@ add_spike_ratio <- function(ta, spike_taxon) {
 #' data <- data %>%
 #'  cluster_samples(n_clusters = 2)
 #'
-# Adds a variable "cluster" to the samples table
+# Adds a variable "cluster" to the sample table
 # To do: merge with add_sample_clustered somehow
 #
 #' @importFrom stats cutree
