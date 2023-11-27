@@ -11,7 +11,7 @@ add_total_count(ta)
 }
 \description{
 \code{add_total_count} adds the total read count per sample to the sample
-tibble of a tidytacos object under the variable name total_count.
+table of a tidytacos object under the variable name total_count.
 }
 \examples{
 # Initiate counts matrix

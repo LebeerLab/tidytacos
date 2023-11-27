@@ -2,16 +2,16 @@
 % Please edit documentation in R/adders_taxa.R
 \name{add_mean_rel_abundance}
 \alias{add_mean_rel_abundance}
-\title{Add average relative abundances}
+\title{Add average relative abundances to taxa table}
 \usage{
 add_mean_rel_abundance(ta, condition = NULL, test = NULL)
 }
 \arguments{
-\item{ta}{A tidytacos object}
+\item{ta}{A tidytacos object.}
 
-\item{condition}{A condition variable (character)}
+\item{condition}{A condition variable (character).}
 
-\item{test}{Differential abundance test to perform}
+\item{test}{Differential abundance test to perform.}
 }
 \value{
 A tidytacos object

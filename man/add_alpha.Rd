@@ -14,8 +14,8 @@ add_alpha(ta)
 tidytacos object.
 }
 \details{
-This function adds two alpha diversity measures (observed and inverse
-Simpson) to the sample table of a tidytacos object under the variable
+This function adds two alpha diversity measures, observed richness and inverse
+Simpson index, to the sample table of a tidytacos object under the variable
 names "observed" and "inverse_simpson", respectively.
 }
 \examples{

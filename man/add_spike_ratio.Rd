@@ -20,8 +20,7 @@ This function is useful if a DNA spike was added prior to sequencing and is
 based on the method described by
 \href{https://doi.org/10.1016/j.soilbio.2016.02.003}{Smets et al., 2016}.
 
-Credits to Wenke Smets for the idea of spiking samples prior to 16S
-sequencing and the initial implementation of this function.
+Without calculating absolute abundances, the spike ratio allows to compare absolute abundances between sample. For example, if the spike ration of one sample is twice that of another, then the absolute number of sequenced strands at the time of spiking in the one sample is twice that of the other sample.
 }
 \examples{
 # Initiate counts matrix

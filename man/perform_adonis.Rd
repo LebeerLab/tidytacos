@@ -4,7 +4,7 @@
 \alias{perform_adonis}
 \title{Perform an adonis test}
 \usage{
-perform_adonis(ta, predictors, permutations = 999)
+perform_adonis(ta, predictors, permutations = 999, ...)
 }
 \arguments{
 \item{ta}{A tidytacos object.}

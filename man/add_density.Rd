@@ -28,7 +28,7 @@ they can be translated into densities.}
 \description{
 \code{add_density} adds densities (bacterial biomass per sample mass or
 volume) to the count table of a tidytacos object under the column name
-"density".
+"density". Can only be used of a taxon was spiked into samples during library prep.
 }
 \examples{
 # Initiate count matrix
