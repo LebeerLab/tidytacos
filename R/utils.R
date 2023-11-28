@@ -50,7 +50,7 @@ to_symbol <- function(possible_string) {
   
   sym <- rlang::enquo(possible_string)
   sym_name <- rlang::quo_name(possible_string)
-  if (rlang::quo_is_symbol(sym)){
+  if (!rlang::quo_is_symbol(sym)){
     sym <- sym(sym_name)
   }
   sym  
