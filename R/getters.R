@@ -365,7 +365,7 @@ taxonlist_per_condition <- function(ta, condition) {
 
   # Allows input to be symbol or string
   if (!rlang::quo_is_symbol(condition)){
-    condition <- rlang::enquo(sym(condition_str))
+    condition <- sym(condition_str)
   }  
 
   if (! condition_str %in% names(ta$samples)) {
