@@ -7,14 +7,14 @@
 add_codifab(ta, condition, conditions = NULL, max_taxa = 30)
 }
 \arguments{
-\item{ta}{A tidytacos object}
+\item{ta}{A tidytacos object.}
 
-\item{condition}{A binary variable in the sample table (unquoted)}
+\item{condition}{A binary variable in the sample table (unquoted).}
 
 \item{conditions}{A character vector with exactly two categories of the
-condition variable}
+condition variable.}
 
-\item{max_taxa}{The maximum number of taxa to use}
+\item{max_taxa}{The maximum number of taxa to use.}
 }
 \value{
 A tidytacos object with an extra table taxon_pairs

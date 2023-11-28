@@ -3,19 +3,19 @@
 #' This function computes pairwise logratio values between all taxa and adds
 #' these to the tidytacos object in the form of a table called logratios.
 #'
-#' If max_taxa is greater than the number of taxa, the taxa with the highest
+#' If max_taxa is smaller than the number of taxa in the dataset, the taxa with the highest
 #' occurrence will be selected.
 #'
-#' IMPORTANT: this function add pseudocounts of one to all abundances before
+#' IMPORTANT: this function adds pseudocounts of one to all abundances before
 #' calculating the logratios.
 #'
-#' @param ta A tidytacos object
-#' @param max_taxa The maximum number of taxa to use
+#' @param ta A tidytacos object.
+#' @param max_taxa The maximum number of taxa to use.
 #'
 #' @return A tidytacos object with an extra table logratios
 #'
 #' @export
-add_logratio <- function(ta, max_taxa = 30) {
+add_logratio <- function(ta, max_taxa = 50) {
 
   if (nrow(ta$taxa) > max_taxa) {
 
@@ -73,11 +73,11 @@ add_logratio <- function(ta, max_taxa = 30) {
 #' argument. Other conditions than the two supplied will be removed from the
 #' data.
 #'
-#' @param ta A tidytacos object
-#' @param condition A binary variable in the sample table (unquoted)
+#' @param ta A tidytacos object.
+#' @param condition A binary variable in the sample table (unquoted).
 #' @param conditions A character vector with exactly two categories of the
-#'   condition variable
-#' @param max_taxa The maximum number of taxa to use
+#'   condition variable.
+#' @param max_taxa The maximum number of taxa to use.
 #'
 #' @return A tidytacos object with an extra table taxon_pairs
 #'
@@ -140,15 +140,16 @@ add_codifab <- function(ta, condition, conditions = NULL, max_taxa = 30) {
 #' This function returns a plot to visualize differential abundance of taxa
 #' between conditions, compared to all other taxa as references. These
 #' differential abundances should already have been calculated with
-#' [add_codifab].
+#' \code{\link{add_codifab}}.
 #'
 #' Significance of tests is determined by capping the false discovery rate at
 #' 10%, using the method of Benjamini and Yekutieli, which is developed for
 #' non-independent tests. See [p.adjust].
+#'
 #' @importFrom stats p.adjust median
-#' @param ta A tidytacos object
+#' @param ta A tidytacos object.
 #' @param diffabun_var The variable with differential abundances in the
-#'   taxon_pair table
+#'   taxon_pair table.
 #'
 #' @return A ggplot object
 #'
@@ -208,8 +209,13 @@ tacoplot_codifab <- function(ta, diffabun_var) {
 }
 
 #' Add compositional principal components to the sample table
+#'
+#' \code{add_copca} performs a principal components analysis and adds the first two principal components to the sample table under column names "pca_1" and "pca_2". 
+#'
+#'Note that this function uses only the 50 most prevalant taxa unless \code{\link{add_logratio}} was executed with another value for 'max_taxa'.
+#'
 #' @importFrom stats prcomp
-#' @param ta a tidytacos object.
+#' @param ta A tidytacos object.
 #' @export
 add_copca <- function(ta) {
 

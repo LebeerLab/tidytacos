@@ -2,7 +2,7 @@
 % Please edit documentation in R/converters.R
 \name{merge_tidytacos}
 \alias{merge_tidytacos}
-\title{Merge two tidytacos objects.}
+\title{Merge two tidytacos objects}
 \usage{
 merge_tidytacos(ta1, ta2, taxon_identifier = sequence)
 }

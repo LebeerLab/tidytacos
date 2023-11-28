@@ -16,7 +16,7 @@ create_tidytacos(counts_matrix, taxa_are_columns = TRUE)
 }
 \details{
 This function initiates a tidytacos object based on a numeric matrix. It
-will automatically create a dummy taxa and sample table which will need to be
+will automatically create a dummy taxa table and sample table which will need to be
 updated using the function \code{\link{add_metadata}}.
 }
 \examples{

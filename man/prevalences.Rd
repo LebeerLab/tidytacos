@@ -7,11 +7,11 @@
 prevalences(ta, condition = NULL, pres_abs = F)
 }
 \arguments{
-\item{ta}{a tidytacos object}
+\item{ta}{A tidytacos object.}
 
-\item{condition}{a string denoting a categorical variable in the sample table}
+\item{condition}{A string denoting a categorical variable in the sample table.}
 
-\item{pres_abs}{wether to resort to presence/absense screening}
+\item{pres_abs}{Whether to resort to presence/absense screening.}
 }
 \description{
 Returns a tidy table of prevalences: taxon presence counts in samples,

@@ -4,12 +4,12 @@
 \alias{add_logratio}
 \title{Add logratios}
 \usage{
-add_logratio(ta, max_taxa = 30)
+add_logratio(ta, max_taxa = 50)
 }
 \arguments{
-\item{ta}{A tidytacos object}
+\item{ta}{A tidytacos object.}
 
-\item{max_taxa}{The maximum number of taxa to use}
+\item{max_taxa}{The maximum number of taxa to use.}
 }
 \value{
 A tidytacos object with an extra table logratios
@@ -19,9 +19,9 @@ This function computes pairwise logratio values between all taxa and adds
 these to the tidytacos object in the form of a table called logratios.
 }
 \details{
-If max_taxa is greater than the number of taxa, the taxa with the highest
+If max_taxa is smaller than the number of taxa in the dataset, the taxa with the highest
 occurrence will be selected.
 
-IMPORTANT: this function add pseudocounts of one to all abundances before
+IMPORTANT: this function adds pseudocounts of one to all abundances before
 calculating the logratios.
 }

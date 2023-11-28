@@ -6,6 +6,11 @@
 \usage{
 rarefy(ta, n, replace = F)
 }
+\arguments{
+\item{n}{Subsample size for rarefying the community.}
+
+\item{replace}{Whether to replace the read after it has been selected for the subsample so it can be sampled again? Default is FALSE.}
+}
 \description{
 This function performs rarefying. Make sure that all samples contain at least
 the minimum number of reads; otherwise, an error might be thrown.

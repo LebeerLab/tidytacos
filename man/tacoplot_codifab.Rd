@@ -7,10 +7,10 @@
 tacoplot_codifab(ta, diffabun_var)
 }
 \arguments{
-\item{ta}{A tidytacos object}
+\item{ta}{A tidytacos object.}
 
 \item{diffabun_var}{The variable with differential abundances in the
-taxon_pair table}
+taxon_pair table.}
 }
 \value{
 A ggplot object
@@ -19,7 +19,7 @@ A ggplot object
 This function returns a plot to visualize differential abundance of taxa
 between conditions, compared to all other taxa as references. These
 differential abundances should already have been calculated with
-[add_codifab].
+\code{\link{add_codifab}}.
 }
 \details{
 Significance of tests is determined by capping the false discovery rate at

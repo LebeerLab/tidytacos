@@ -2,14 +2,14 @@
 % Please edit documentation in R/converters.R
 \name{from_dada}
 \alias{from_dada}
-\title{Convert the output objects of a DADA2 pipeline to a tidytacos object.}
+\title{DADA2 to a tidytacos object}
 \usage{
 from_dada(seqtab, taxa, taxa_are_columns = FALSE)
 }
 \arguments{
 \item{seqtab}{Sequence table, output of dada2::makeSequenceTable.}
 
-\item{taxa}{taxa table, output of dada2::assignTaxonomy.}
+\item{taxa}{Taxa table, output of dada2::assignTaxonomy.}
 }
 \description{
 \code{from_dada} returns a tidytacos object given a seqtab and taxa object from dada2.

@@ -7,7 +7,7 @@
 select_taxa(ta, ...)
 }
 \arguments{
-\item{ta}{a tidytacos object}
+\item{ta}{A tidytacos object.}
 }
 \description{
 Retain or remove a set of taxon variables

@@ -7,7 +7,7 @@
 filter_samples(ta, ...)
 }
 \arguments{
-\item{ta}{a tidytacos object}
+\item{ta}{A tidytacos object.}
 }
 \description{
 Filter the samples

@@ -20,5 +20,5 @@ A matrix with count values.
 }
 \description{
 This function returns a matrix with taxon counts; the rows are samples and
-the column are taxa.
+the columns are taxa.
 }
