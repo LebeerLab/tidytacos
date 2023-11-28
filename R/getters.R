@@ -360,8 +360,13 @@ rel_abundance_matrix <- function(ta, sample_name = sample, taxon_name = taxon) {
 #' @export
 taxonlist_per_condition <- function(ta, condition) {
 
-  condition <- to_symbol(condition)
+  condition <- rlang::enquo(condition)
   condition_str <- rlang::quo_name(condition)
+
+  # Allows input to be symbol or string
+  if (!rlang::quo_is_symbol(condition)){
+    condition <- rlang::enquo(sym(condition_str))
+  }  
 
   if (! condition_str %in% names(ta$samples)) {
     error_message <-
