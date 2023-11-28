@@ -30,6 +30,13 @@ prepare_for_bp <- function(ta, n = 12, extended = TRUE) {
 }
 
 #' Return a bar plot of the samples
+#' 
+#' Plots a stacked bar plot of the samples in the tidytacos object to inspect the taxonomic profile.
+#' 
+#' @param ta A tidytacos object.
+#' @param x A string, representing the column name used to label the x-axis
+#' @param n An integer, representing the amount of colors used to depict
+#' @param geom_bar A boolean, whether or not to add geom_bar to the plot. Default is TRUE.
 #'
 #' @export
 tacoplot_stack <- function(ta, n = 12, x = sample_clustered, geom_bar = T) {
@@ -83,11 +90,12 @@ tacoplot_stack <- function(ta, n = 12, x = sample_clustered, geom_bar = T) {
 
 #' Return an interactive bar plot of the samples
 #'
+#' Plots an interactive stacked bar plot of the samples in the tidytacos object to inspect the taxonomic profile.
+#' 
 #' @param ta A tidytacos object.
 #' @param n An integer, representing the amount of colors used to depict
 #'   different taxa.
-#' @param x A string, representing the column name used to label and cluster the
-#'   samples on.
+#' @param x A string, representing the column name used to label the x-axis
 #'
 #' @export
 tacoplot_stack_ly <- function(ta, n = 12, x = sample_clustered) {
@@ -122,7 +130,10 @@ tacoplot_stack_ly <- function(ta, n = 12, x = sample_clustered) {
   plot
 }
 
-#' Return an interactive pcoa plot of the samples
+#' Return an interactive ordination plot of the samples
+#' 
+#' Creates an interactive ordination plot of the beta diversity of the samples in the tidytacos object.
+#' This can be used to gauge the similarity between samples.
 #'
 #' @param ta A tidytacos object.
 #' @param x A string, representing the column name used to color the sample
@@ -234,6 +245,9 @@ tacoplot_ord_ly <- function(ta, x=NULL, samplenames = sample_id, ord="pcoa", dim
 
 #' Return an ordination plot of the samples
 #'
+#' Creates an ordination plot of the beta diversity of the samples in the tidytacos object.
+#' This can be used to gauge the similarity between samples.
+#' 
 #' @param ta A tidytacos object.
 #' @param x A string, representing the column name used to color the sample
 #'   groups on.
@@ -294,6 +308,9 @@ tacoplot_ord <- function(ta, x=sample_id, palette = NULL, ord = "pcoa", distance
 
 #' Return a visualization designed for a small number of samples
 #'
+#' @param ta A tidytacos object.
+#' @param sample A string, representing the unique sample name of interest
+#' 
 #' @export
 tacoplot_zoom <- function(ta, sample = sample_id, n = 15, nrow = NULL) {
   ta <- prepare_for_bp(ta, n, extended = FALSE)

@@ -44,3 +44,14 @@ force_optional_dependency <- function(optional_pkg, instructions=NULL){
   }
   NULL
 }
+
+# Allows input to be symbol or string
+to_symbol <- function(possible_string) {
+  
+  sym <- rlang::enquo(possible_string)
+  sym_name <- rlang::quo_name(possible_string)
+  if (rlang::quo_is_symbol(sym)){
+    sym <- sym(sym_name)
+  }
+  sym  
+}

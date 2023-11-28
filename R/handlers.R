@@ -4,21 +4,28 @@
 #' the minimum number of reads; otherwise, an error might be thrown.
 #'
 #' @param n Subsample size for rarefying the community.
-#' @param replace Whether to replace the read after it has been selected for the subsample so it can be sampled again? Default is FALSE.
+#' @param replace Whether to replace the read after it has been selected for the subsample so it can be sampled again. Default is FALSE.
 #'
 #' @export
 rarefy <- function(ta, n, replace = F) {
-  ta$counts <-
-    ta$counts %>%
-    group_by(sample_id) %>%
-    mutate(
-      count =
-        sample(x = 1:sum(count), size = !!n, replace = !!replace) %>%
-          cut(breaks = c(0, cumsum(count)), labels = taxon_id) %>%
-          table() %>%
-          as.integer()
-    ) %>%
-    ungroup()
+  ta$counts <- try(
+      ta$counts %>%
+      group_by(sample_id) %>%
+      mutate(
+        count =
+          sample(x = 1:sum(count), size = !!n, replace = !!replace) %>%
+            cut(breaks = c(0, cumsum(count)), labels = taxon_id) %>%
+            table() %>%
+            as.integer()
+      ) %>%
+      ungroup()
+  )
+
+  if (class(ta$counts) == "try-error"){
+    stop(
+      paste("Rarefying failed. Make sure that all samples contain at least the minimum number of reads.\n",
+    "Or use replace = TRUE, to allow sampling with replacement."))
+  }
 
   ta %>%
     purrr::modify_at("counts", filter, count > 0) %>%
