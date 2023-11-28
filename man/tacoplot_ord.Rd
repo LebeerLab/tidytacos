@@ -31,5 +31,6 @@ groups.}
 \item{stat.method}{the statistic to print on the figure, choice from mantel and anosim.}
 }
 \description{
-Return an ordination plot of the samples
+Creates an ordination plot of the beta diversity of the samples in the tidytacos object.
+This can be used to gauge the similarity between samples.
 }

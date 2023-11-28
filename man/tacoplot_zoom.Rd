@@ -6,6 +6,11 @@
 \usage{
 tacoplot_zoom(ta, sample = sample_id, n = 15, nrow = NULL)
 }
+\arguments{
+\item{ta}{A tidytacos object.}
+
+\item{sample}{A string, representing the unique sample name of interest}
+}
 \description{
 Return a visualization designed for a small number of samples
 }

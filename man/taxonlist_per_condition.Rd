@@ -4,7 +4,7 @@
 \alias{taxonlist_per_condition}
 \title{Return a list of taxon IDs per condition}
 \usage{
-taxonlist_per_condition(ta, condition)
+taxonlist_per_condition(ta, condition, read_treshold = 0)
 }
 \arguments{
 \item{ta}{A tidytacos object.}
