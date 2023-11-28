@@ -358,7 +358,7 @@ rel_abundance_matrix <- function(ta, sample_name = sample, taxon_name = taxon) {
 #' @return A list of taxon_id vectors.
 #'
 #' @export
-taxonlist_per_condition <- function(ta, condition) {
+taxonlist_per_condition <- function(ta, condition, read_treshold=0) {
 
   condition <- rlang::enquo(condition)
   condition_str <- rlang::quo_name(condition)
@@ -377,7 +377,9 @@ taxonlist_per_condition <- function(ta, condition) {
   distinct_conditions <- unique(ta$samples %>% pull(!!condition))
 
   select_taxa_for_condition <- function(var) {
-    ta %>% filter_samples(!!condition == var)
+    ta %>% 
+      filter_samples(!!condition == var) %>%
+      filter_counts(count >= read_treshold)
   }
   ta_per_condition <- lapply(distinct_conditions, select_taxa_for_condition)
   names(ta_per_condition) <- distinct_conditions
