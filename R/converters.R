@@ -111,9 +111,22 @@ read_tidytacos <- function(din, samples = "samples.csv", taxa = "taxa.csv",
     stop(paste("File", counts, ", containing count data not found in", dir))
   }
 
-  make_tidytacos(
+  expected_rank_names <- colnames(taxa)[!colnames(taxa) %in% c("taxon","taxon_id","sequence")]  
+
+
+  ta <- make_tidytacos(
     samples, taxa, counts, sample_name = sample_id, taxon_name = taxon_id
   )
+
+  if ( !all(ta %>% rank_names() %in% expected_rank_names)) {
+    warning(paste0(
+      "Not all default rank names found. Replacing them with:\n c(\"", 
+      paste(expected_rank_names, collapse='","'), 
+      "\")\n\nIf these are not the rank names of your taxon table, \nplease set ",
+      "them manually using 'set_rank_names()'"))
+    ta <- ta %>% set_rank_names(expected_rank_names)
+  }    
+    ta
 }
 
 #' Reset the taxon and sample IDs
