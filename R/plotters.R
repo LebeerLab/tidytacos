@@ -357,10 +357,39 @@ tacoplot_venn <- function(ta, condition, ...) {
 
   force_optional_dependency("ggVennDiagram")
 
+
   condition <- enquo(condition)
   ltpc <- taxonlist_per_condition(ta, !!condition)
+
+  if ("show_intersect" %in% names(list(...)) &
+       (all(as.logical(list(...)["show_intersect"])))) {
+    match_taxon_name <- function(taxid) {
+      ta$taxa[which(ta$taxa$taxon_id %in% taxid),] %>% 
+          dplyr::pull(taxon_name)
+    }
+    ltpc <- lapply(ltpc, match_taxon_name)
+  }
+
   ggVennDiagram::ggVennDiagram(ltpc, ...)
 
+}
+
+#' Return an interactive venn diagram of overlapping taxon_ids between conditions
+#'
+#' @param ta A tidytacos object.
+#' @param condition The name of a variable in the samples table that contains a
+#'   categorical value.
+#'
+#' @export
+tacoplot_venn_ly <- function(ta, condition, ...) {
+
+  condition <- enquo(condition)
+
+  if (!"taxon_name" %in% names(ta$taxa)){
+    ta <- ta %>% add_taxon_name()
+  }
+
+  ta %>% tacoplot_venn(!!condition, show_intersect=TRUE, ...)
 }
 
 palette_paired <- c(

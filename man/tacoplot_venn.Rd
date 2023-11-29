@@ -11,6 +11,9 @@ tacoplot_venn(ta, condition, ...)
 
 \item{condition}{The name of a variable in the samples table that contains a
 categorical value.}
+
+\item{show_intersect}{A boolean, if set to TRUE the plot will be interactive. 
+Hovering over an area of the venndiagram will show the taxon_names of the taxon in question.}
 }
 \description{
 Return a venn diagram of overlapping taxon_ids between conditions
