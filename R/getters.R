@@ -386,6 +386,6 @@ taxonlist_per_condition <- function(ta, condition, read_treshold=0) {
 
   tt_all <- lapply(ta_per_condition, counts)
 
-  lapply(tt_all, function(x) x$taxon_id)
+  lapply(tt_all, function(x) unique(x$taxon_id))
 
 }
