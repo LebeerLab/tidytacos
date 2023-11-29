@@ -17,9 +17,15 @@ perform_mantel_test <- function(ta, comparison, ...) {
     dmatrix <- ta %>% counts_matrix()
     # Matrix get sorted on sample, so we need to sort the samples in the ta object
     ta$samples <- ta$samples %>% arrange(sample)
+    
     if (length(dmatrix[,1]) < length(ta$samples$sample_id)) {
         warning("Empty samples found, ignoring them in analysis")
         ta <- ta %>% remove_empty_samples()
+    }
+
+    if (class(comparison) == "character" &&
+        nrow(unique(ta$samples[comparison])) == 1) {
+        stop(paste0("Supplied variable '", comparison, "' only has one value."))
     }
 
     if (typeof(comparison) == "double") {
@@ -51,7 +57,7 @@ mantel_test_list <- function(dmatrix, parameters, ...) {
       select_if(is.numeric)
     parameters <- scale(parameters, center=T, scale=T)
     d.param <- dist(parameters)
-    print(typeof(d.param))
+    
     vegan::mantel(dmatrix, d.param, ...)   
 }
 
