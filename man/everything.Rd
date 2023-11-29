@@ -10,5 +10,5 @@ everything(ta)
 \item{ta}{A tidytacos object.}
 }
 \description{
-\cod{everything} merges all three tidytacos tables into one very large table.
+\code{everything} merges all three tidytacos tables into one very large table.
 }

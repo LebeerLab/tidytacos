@@ -202,7 +202,7 @@ mean_rel_abundances <- function(ta, condition = NULL) {
 
 #' Get all data in one single table
 #'
-#' \cod{everything} merges all three tidytacos tables into one very large table.
+#' \code{everything} merges all three tidytacos tables into one very large table.
 #'
 #' @param ta A tidytacos object.
 #' @export
