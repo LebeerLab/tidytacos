@@ -2,7 +2,7 @@
 % Please edit documentation in R/plotters.R
 \name{tacoplot_ord_ly}
 \alias{tacoplot_ord_ly}
-\title{Return an interactive pcoa plot of the samples}
+\title{Return an interactive ordination plot of the samples}
 \usage{
 tacoplot_ord_ly(
   ta,
@@ -39,5 +39,6 @@ groups on.}
 groups.}
 }
 \description{
-Return an interactive pcoa plot of the samples
+Creates an interactive ordination plot of the beta diversity of the samples in the tidytacos object.
+This can be used to gauge the similarity between samples.
 }

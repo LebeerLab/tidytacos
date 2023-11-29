@@ -12,9 +12,8 @@ tacoplot_stack_ly(ta, n = 12, x = sample_clustered)
 \item{n}{An integer, representing the amount of colors used to depict
 different taxa.}
 
-\item{x}{A string, representing the column name used to label and cluster the
-samples on.}
+\item{x}{A string, representing the column name used to label the x-axis}
 }
 \description{
-Return an interactive bar plot of the samples
+Plots an interactive stacked bar plot of the samples in the tidytacos object to inspect the taxonomic profile.
 }

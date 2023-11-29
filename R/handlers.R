@@ -21,7 +21,7 @@ rarefy <- function(ta, n, replace = F) {
       ungroup()
   )
 
-  if (class(ta$counts) == "try-error"){
+  if (class(ta$counts)[[1]] == "try-error"){
     stop(
       paste("Rarefying failed. Make sure that all samples contain at least the minimum number of reads.\n",
     "Or use replace = TRUE, to allow sampling with replacement."))
