@@ -632,6 +632,11 @@ perform_anosim <- function(ta, group, ...){
   M <- ta %>% counts_matrix()
   group <- rlang::enquo(group)
 
+  if (length(M[,1]) < length(ta$samples$sample_id)) {
+        warning("Empty samples found, ignoring them in analysis")
+        ta <- ta %>% remove_empty_samples()
+  }
+
   vegan::anosim(M, ta$samples %>% pull(!!group), ...)
 
 }
