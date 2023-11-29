@@ -16,6 +16,6 @@ categorical value.}
 A list of taxon_id vectors.
 }
 \description{
-This function returns a named list of unique taxon_ids per distinct value of
+This function returns a named list of taxon_ids per distinct value of
 a categorical column of the samples table.
 }
