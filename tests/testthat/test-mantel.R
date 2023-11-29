@@ -1,13 +1,17 @@
 test_that("Can perform Mantel test on one variable", {
 
-    mantel <- urt %>% perform_mantel_test("plate")
+    expect_warning(
+        mantel <- urt %>% perform_mantel_test("plate")
+    ) # empty samples
     expect_gt(mantel$signif, 0.2)
 
 })
 
 test_that("Can perform Mantel test on array of variables", {
 
-    mantel <- urt %>% perform_mantel_test(c("location","method"))
+    expect_warning(
+        mantel <- urt %>% perform_mantel_test(c("location","method"))
+    ) # empty samples
     expect_gt(mantel$signif, 0.2)
 
 })

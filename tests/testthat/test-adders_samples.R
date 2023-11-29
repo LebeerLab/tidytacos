@@ -34,3 +34,10 @@ test_that("Can add spike-ratio", {
     expect_true("spike_ratio" %in% names(ta_spike_ratio$samples))
 })
 
+test_that("Can perform anosim test", {
+
+    expect_warning(
+        anosim <- urt %>% perform_anosim("plate")
+        ) # empty samples
+    expect_gt(anosim$signif, 0.05)
+})
