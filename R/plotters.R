@@ -361,8 +361,7 @@ tacoplot_venn <- function(ta, condition, ...) {
   condition <- enquo(condition)
   ltpc <- taxonlist_per_condition(ta, !!condition)
 
-  if ("show_intersect" %in% names(list(...)) &
-       (all(as.logical(list(...)["show_intersect"])))) {
+  if ("show_intersect" %in% names(list(...))) {
     match_taxon_name <- function(taxid) {
       ta$taxa[which(ta$taxa$taxon_id %in% taxid),] %>% 
           dplyr::pull(taxon_name)
