@@ -28,8 +28,12 @@ jobs:
                 any::compositions
                 any::umap
                 any::Rtsne
+                any::fastDummies
                 bioc::dada2
                 bioc::phyloseq
+                any::MCL
+                any::Matrix
+                github::zdk123/SpiecEasi
           needs: coverage
 
       - name: Test coverage

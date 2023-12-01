@@ -9,6 +9,7 @@ test_that("Can perform Mantel test on one variable", {
 
 test_that("Can perform Mantel test on array of variables", {
 
+    skip_if_not_installed("fastDummies")    
     expect_warning(
         mantel <- urt %>% perform_mantel_test(c("location","method"))
     ) # empty samples

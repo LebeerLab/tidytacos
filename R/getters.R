@@ -349,7 +349,7 @@ rel_abundance_matrix <- function(ta, sample_name = sample, taxon_name = taxon) {
 
 #' Return a list of taxon IDs per condition
 #'
-#' This function returns a named list of unique taxon_ids per distinct value of
+#' This function returns a named list of taxon_ids per distinct value of
 #' a categorical column of the samples table.
 #'
 #' @param ta A tidytacos object.

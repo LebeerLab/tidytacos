@@ -194,8 +194,11 @@ add_sample_clustered <- function(ta) {
 get_dimensions <- function(dim_df, names, dims) {
 
   ordnames <- c("ord1", "ord2")
-  if (dims == 3) {
-    ordnames <- c(ordnames, "ord3")
+
+  if (dims >= 3) {
+    for (i in 3:dims){
+      ordnames <- c(ordnames, paste0("ord", i))
+    }
   }
 
   dim_df %>%
