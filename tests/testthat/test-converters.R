@@ -3,9 +3,18 @@ test_that("Can read tidytacos object.", {
   expect_equal(attr(ta, "class"), "tidytacos")
 })
 
+test_that("Can read tidyamplicons object and informs on conversion", {
+  expect_message(ta <- read_tidytacos(test_path("data/ta_urt")))
+  expect_equal(attr(ta, "class"), "tidytacos")
+})
+
 test_that("Can save a tidytacos object.", {
   expect_no_warning(write_tidytacos(urt, "test"))
   on.exit(unlink("test", recursive=TRUE), add=TRUE, after=FALSE)
+})
+
+test_that("Complains if not a matrix", {
+    expect_snapshot(urt$counts %>% create_tidytacos(), error=T)
 })
 
 test_that("Can convert to phyloseq object.", {
@@ -32,4 +41,21 @@ test_that("Can merge two tidytacos", {
     ta_merged$samples$sample_id[length(ta_merged$samples$sample_id)],
     final_sample_id
   )
+})
+
+test_that("Can reset ids", {
+  urt_plate1 <- urt %>% 
+                filter_samples(plate == 1)
+  expect_equal(urt_plate1$samples$sample_id[1], "s3")
+  
+  urt_reset <- urt_plate1 %>% 
+               reset_ids()
+  expect_equal(urt_reset$samples$sample_id[1], "s1")
+
+})
+
+test_that("Can convert counts matrix to tibble", {
+
+  tib <- urt %>% counts_matrix() %>% counts_tidy()
+  expect_true(dplyr::is.tbl(tib))
 })
