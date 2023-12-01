@@ -44,6 +44,16 @@ test_that("Tacoplot_ord_ly works", {
 
 })
 
+test_that("Tacoplot_ord_ly works with umap and 3 dims", {
+    skip_if_not_installed("plotly")
+    expect_no_error(
+        expect_warning(
+            urt %>% tacoplot_ord_ly(x=location, ord="umap", dims=3)
+        ) # empty samples
+    )
+
+})
+
 test_that("Can create venndiagram", {
     skip_if_not_installed("ggVenDiagram")
     venn <- urt %>% tacoplot_venn(location)
