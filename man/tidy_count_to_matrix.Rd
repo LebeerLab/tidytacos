@@ -2,14 +2,14 @@
 % Please edit documentation in R/converters.R
 \name{tidy_count_to_matrix}
 \alias{tidy_count_to_matrix}
-\title{Convert counts tidy data frame to matrix.}
+\title{Convert counts tidy data frame to matrix}
 \usage{
 tidy_count_to_matrix(counts, value = count)
 }
 \arguments{
 \item{counts}{The counts tidy data frame that will be converted.}
 
-\item{value}{Name of colum containing the counts data. Default is
+\item{value}{Name of column containing the counts data. Default is
 "counts".}
 }
 \description{
@@ -17,7 +17,7 @@ tidy_count_to_matrix(counts, value = count)
 counts data frame.
 }
 \details{
-This function will convert a counts tidy data frame into a numerlical
+This function will convert a counts tidy data frame into a numerical
 counts matrix. To convert a numerical counts matrix into a counts
 tidy data frame use \code{\link{tidy_count_to_matrix}}.
 }

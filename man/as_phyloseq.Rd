@@ -4,16 +4,16 @@
 \alias{as_phyloseq}
 \title{Convert tidytacos object to phyloseq object}
 \usage{
-as_phyloseq(ta, sample = sample, taxon = taxon)
+as_phyloseq(ta, sample = sample, taxon = taxon_id)
 }
 \arguments{
-\item{ta}{tidytacos object.}
+\item{ta}{A tidytacos object.}
 
 \item{sample}{The sample names required for a phyloseq object. Default is
-"sample" column in sample tibble of the tidytacos object.}
+"sample" column of the sample table of the tidytacos object.}
 
-\item{taxon}{The taxon names required for a phyloseq object. Default is
-"taxon" column in taxon tibble of the tidytacos object.}
+\item{taxon}{The taxon names required for a phyloseq object. Default is the
+"taxon_id" column in the taxon table of the tidytacos object.}
 }
 \description{
 \code{as_phyloseq} returns a phyloseq object given a tidytacos object.

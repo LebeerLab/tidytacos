@@ -7,9 +7,9 @@
 aggregate_taxa(ta, rank = NULL)
 }
 \arguments{
-\item{ta}{a tidytacos object}
+\item{ta}{A tidytacos object.}
 
-\item{rank}{an optional rank to aggregate on}
+\item{rank}{An optional rank to aggregate on.}
 }
 \description{
 There are two ways to call this function:

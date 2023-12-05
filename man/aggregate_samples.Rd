@@ -10,5 +10,5 @@ aggregate_samples(ta)
 \item{ta}{A tidytacos object.}
 }
 \description{
-Aggregate samples with identical values for all metadata
+\code{aggregate_samples} merges sample content of samples which have identical values for all columns in the sample table (except sample_id).
 }

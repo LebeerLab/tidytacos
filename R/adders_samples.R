@@ -1,18 +1,16 @@
-#' Add metadata table to the tidytacos object
+#' Add metadata to the tidytacos object
 #'
-#' \code{add_metadata} adds a tibble to the tidytacos object.
+#' \code{add_metadata} adds sample or taxon metadata to the sample or taxon
+#' table, respectively, of a tidytacos object.
 #'
-#' This function adds a tibble containing metadata for each sample or taxon to the
-#' tidytacos object. It is used after initiating a tidytacos object
-#' using a numerical abundance matrix and the function
-#' \code{\link{create_tidytacos}}.
-#'
-#' @param ta tidytacos object.
-#' @param metadata A tibble containing sample data for each sample or taxon. Samples/taxa
-#'   should be rows, while metadata should be columns. At least one column
-#'   name needs to be shared with the sample or taxa tibble of ta. The default shared
-#'   column name is 'sample' for samples and 'taxon' for taxa.
+#' @param ta A tidytacos object.
+#' @param metadata A tibble containing data for each sample or taxon.
+#'   Samples/taxa should be rows, while metadata variables should be columns. At
+#'   least one column name needs to be shared with the sample or taxa table of
+#'   the tidytacos object. The default shared column name is 'sample' for
+#'   samples and 'taxon' for taxa.
 #' @param table_type The type of table to add, either 'sample' or 'taxa'.
+#'
 #' @examples
 #' # Initiate counts matrix
 #' x <- matrix(
@@ -37,7 +35,7 @@
 #' add_metadata(sample_tibble)
 #'
 #' @export
-add_metadata <- function(ta, metadata_tibble, table_type="sample") {
+add_metadata <- function(ta, metadata_tibble, table_type = "sample") {
 
   if (table_type == "sample") {
     purrr::modify_at(ta, "samples", left_join, metadata_tibble)
@@ -49,15 +47,12 @@ add_metadata <- function(ta, metadata_tibble, table_type="sample") {
 
 }
 
-#' Add total reads per sample
+#' Add total read count per sample
 #'
-#' \code{add_total_count} adds the total reads per sample to the samples tibble
-#' of a tidytacos object.
+#' \code{add_total_count} adds the total read count per sample to the sample
+#' table of a tidytacos object under the variable name total_count.
 #'
-#' This function adds the total reads per sample to the samples tibble of a
-#' tidytacos object under the variable name total_count.
-#'
-#' @param ta tidytacos object.
+#' @param ta A tidytacos object.
 #'
 #' @examples
 #' # Initiate counts matrix
@@ -97,18 +92,16 @@ add_total_count <- function(ta) {
 
 }
 
-
 #' Add alpha diversity measures
 #'
-#' \code{add_alpha} adds two alpha diversity measures to the
-#' samples tibble of a tidytacos object.
+#' \code{add_alpha} adds two alpha diversity measures to the sample table of a
+#' tidytacos object.
 #'
-#' This function adds two alpha diversity measures (observed and inverse
-#' Simpson) to the samples tibble of a tidytacos object under the variable
-#' names observed and inverse_simpson, respectively. This function will also
-#' add relative abundances if not present using \code{\link{add_rel_abundance}}.
+#' This function adds two alpha diversity measures, observed richness and inverse
+#' Simpson index, to the sample table of a tidytacos object under the variable
+#' names "observed" and "inverse_simpson", respectively.
 #'
-#' @param ta tidytacos object.
+#' @param ta A tidytacos object.
 #'
 #' @examples
 #' # Initiate counts matrix
@@ -127,6 +120,7 @@ add_total_count <- function(ta) {
 #' # Add total abundance
 #' data <- data %>%
 #'  add_alpha()
+#'
 #' @export
 add_alpha <- function(ta) {
 
@@ -155,21 +149,21 @@ add_alpha <- function(ta) {
 
 }
 
-#' Add clustered sample order
+#' Add clustering-based sample order
 #'
 #' \code{add_sample_clustered} adds a new variable defining a sample order based
-#' on similarity after clustering to the samples tibble of a tidytacos
-#' object.
+#' on a hierarchical clustering of the samples.
 #'
-#' This function calculates the Bray-Curtis distance between samples followed by
-#' hierarchical average linkage clustering of samples. It will then add a new
-#' factor variable "samples_clustered" to the samples tibble of a tidytacos
-#' object. This function is extremely useful if one wants to plot similar
-#' samples together.
+#' This function calculates the Bray-Curtis distances between samples followed
+#' by hierarchical average linkage clustering of samples. It will then add a new
+#' factor variable "sample_clustered" to the sample tibble of a tidytacos
+#' object. This function is useful if one wants to plot similar samples
+#' together.
+#'
+#' @param ta  A tidytacos object.
 #'
 #' @importFrom stats hclust
-#' @param ta tidytacos object.
-#'
+#' @export
 add_sample_clustered <- function(ta) {
 
   # make relative abundance matrix
@@ -196,12 +190,15 @@ add_sample_clustered <- function(ta) {
 
 }
 
-# Helper function to prepare 2/3D coordinates of ord
+# Helper function to prepare 2/3D coordinates of ord.
 get_dimensions <- function(dim_df, names, dims) {
 
   ordnames <- c("ord1", "ord2")
-  if (dims == 3) {
-    ordnames <- c(ordnames, "ord3")
+
+  if (dims >= 3) {
+    for (i in 3:dims){
+      ordnames <- c(ordnames, paste0("ord", i))
+    }
   }
 
   dim_df %>%
@@ -209,6 +206,7 @@ get_dimensions <- function(dim_df, names, dims) {
     as_tibble() %>%
     mutate(sample_id = !! names)
 }
+
 # Calculate pcoa coordinates and variances
 perform_pcoa <- function(ta, dist_matrix, dims=2, ...){
 
@@ -243,22 +241,26 @@ perform_umap <- function(ta, dist_matrix, dims=2, ...) {
   ord
 }
 
-#' Add dimensionality ordination
+#' Add ordination
 #'
-#' \code{add_ord} adds the first x dimensions of a dimensionality reduction method
-#' of a given dissimilarity matrix to two new variables of the
-#' samples tibble of a tidytacos object.
+#' \code{add_ord} adds the first n dimensions of a dimensionality reduction
+#' method performed on a given dissimilarity matrix as new variables to the
+#' sample table of a tidytacos object.
 #'
-#' This function calculates the distance between samples followed by
+#' This function calculates the dissimilarities between samples followed by
 #' an ordination analysis. It will then add the first n dimensions to
-#' the samples tibble of a tidytacos object named "ord1", "ord2", ... This
+#' the sample table of a tidytacos object named "ord1", "ord2", ... This
 #' function will also add relative abundances if not present using
 #' \code{\link{add_rel_abundance}}.
-#' @param ta tidytacos object.
-#' @param distance the distance indices to use, see \code{\link[vegan]{vegdist}}
-#' @param method the ordination method to use to calculate coordinates. Choice from pcoa, tsne, umap
-#' @param dims the amount of dimensions to reduce the distances to.
-#' @param binary perform presence/absence standardisation before distance computation.
+#'
+#' @param ta A tidytacos object.
+#' @param distance The distance indices to use, see
+#'   \code{\link[vegan]{vegdist}}.
+#' @param method The ordination method to use to calculate coordinates. Choices
+#'   are "pcoa", "tsne", "umap".
+#' @param dims The amount of dimensions to reduce the dissimilarities to.
+#' @param binary Perform presence/absence standardisation before distance
+#'   computation or not.
 #'
 #' @examples
 #' # Initiate counts matrix
@@ -325,18 +327,14 @@ add_ord <- function(ta, distance="bray", method="pcoa", dims=2, binary=FALSE, ..
 
 #' Add spike ratio
 #'
-#' \code{add_spike_ratio} adds a new variable showing the ratio total counts
-#' to spike counts to the samples tibble of a tidytacos object.
+#' \code{add_spike_ratio} calculates the ratio of non-spike to spike reads for
+#' each sample and adds this to the sample table under the name "spike_ratio".
 #'
-#' This function calculates the spike ratio defined as the total sample
-#' counts to the spike counts and adds this as a new variable
-#' "spike_ratio" to the samples tibble of a tidytacos object. This function
-#' is useful if a DNA spike was added prior to sequencing and is based on the
-#' method described by
+#' This function is useful if a DNA spike was added prior to sequencing and is
+#' based on the method described by
 #' \href{https://doi.org/10.1016/j.soilbio.2016.02.003}{Smets et al., 2016}.
 #'
-#' Credits to Wenke Smets for the idea of spiking samples prior to 16S
-#' sequencing and the initial implementation of this function.
+#' Without calculating absolute abundances, the spike ratio allows to compare absolute abundances between sample. For example, if the spike ration of one sample is twice that of another, then the absolute number of sequenced strands at the time of spiking in the one sample is twice that of the other sample.
 #'
 #' @param ta A tidytacos object.
 #' @param spike_taxon The taxon_id of the spike.
@@ -374,7 +372,7 @@ add_spike_ratio <- function(ta, spike_taxon) {
   # calculate spike ratio (non-spike abundance to spike abundance)
   ta$samples <- ta$samples %>%
     left_join(spike_counts, by = "sample_id") %>%
-    mutate(spike_ratio = ( total_count - spike_abundance ) / spike_abundance)
+    mutate(spike_ratio = (total_count - spike_abundance) / spike_abundance)
 
   # remove spike_abundance
   ta$samples$spike_abundance <- NULL
@@ -387,10 +385,10 @@ add_spike_ratio <- function(ta, spike_taxon) {
 
 }
 
-#' Clusters samples in desired number of clusters and adds these to the sample table.
+#' Clusters samples into n clusters
 #'
-#' \code{cluster_samples} adds a new variable to the samples tibble of a
-#' tidytacos object defining to what cluster a sample belongs.
+#' \code{cluster_samples} clusters the samples into n clusters and adds these
+#' clusters to a new variable "cluster" in the sample table.
 #'
 #' This function calculates the Bray-Curtis distance between samples followed by
 #' hierarchical average linkage clustering of samples. The user provides a
@@ -398,8 +396,8 @@ add_spike_ratio <- function(ta, spike_taxon) {
 #' variable named "cluster" will be added to the samples tibble of a
 #' tidytacos object defining to what cluster a sample belongs.
 #'
-#' @param ta tidytacos object.
-#' @param n_clusters Numerical. Number of desired clusters.
+#' @param ta A tidytacos object.
+#' @param n_clusters The number of desired clusters.
 #'
 #' @examples
 #' # Initiate count matrix
@@ -419,7 +417,7 @@ add_spike_ratio <- function(ta, spike_taxon) {
 #' data <- data %>%
 #'  cluster_samples(n_clusters = 2)
 #'
-# Adds a variable "cluster" to the samples table
+# Adds a variable "cluster" to the sample table
 # To do: merge with add_sample_clustered somehow
 #
 #' @importFrom stats cutree
@@ -450,18 +448,17 @@ cluster_samples<- function(ta, n_clusters) {
 }
 
 
-#' Add total absolute abundances to samples table
+#' Add total absolute abundances of samples
 #'
-#' \code{add_total_absolute_abundance} adds total absolute abundance to the samples table of a
-#' tidytacos object.
+#' \code{add_total_absolute_abundance} calculates the total absolute abundances
+#' of the samples given a spike taxon, and adds this to the sample table under
+#' the column name "total_absolute_abundance".
 #'
-#' This function adds the total absolute abundances to the samples table
-#' of a tidytacos object under the variable name "total_absolute_abundance".
-#'
-#' @param ta tidytacos object.
+#' @param ta A tidytacos object.
 #' @param spike_taxon The taxon id of the spike.
-#' @param spike_added The column name of the samples table which indicates how much spike was added per sample, e.g. 16S rRNA gene copy numbers added to the DNA extraction tube.
-#'
+#' @param spike_added The column name of the samples table which indicates how
+#'   much spike was added per sample, e.g. 16S rRNA gene copy numbers added to
+#'   the DNA extraction tube.
 #'
 #' @examples
 #' # Initiate count matrix
@@ -530,19 +527,20 @@ add_total_absolute_abundance <- function(ta, spike_taxon, spike_added = spike_ad
 }
 
 
-#' Add total densities to samples table
+#' Add total densities of samples
 #'
-#' \code{add_total_density} adds total density to the samples table of a
-#' tidytacos object.
+#' \code{add_total_density} adds the total microbial density to the sample table
+#' of a tidytacos object under the column name "total_density".
 #'
-#' This function adds the total densities to the samples table
-#' of a tidytacos object under the variable name "total_density".
-#'
-#' @param ta tidytacos object.
+#' @param ta A tidytacos object.
 #' @param spike_taxon The taxon id of the spike.
-#' @param spike_added The column name of the samples table which indicates how much spike was added per sample, e.g. 16S rRNA gene copy numbers added to the DNA extraction tube.
-#' @param material_sampled The column name indicating the amount of material from which DNA was extracted, e.g gram of soil. This parameter encourages researchers to consider that absolute abundances are only meaningful if they can be translated into densities.
-#'
+#' @param spike_added The column name of the samples table which indicates how
+#'   much spike was added per sample, e.g. 16S rRNA gene copy numbers added to
+#'   the DNA extraction tube.
+#' @param material_sampled The column name indicating the amount of material
+#'   from which DNA was extracted, e.g gram of soil. This parameter encourages
+#'   researchers to consider that absolute abundances are only meaningful if
+#'   they can be translated into densities.
 #'
 #' @examples
 #' # Initiate count matrix
@@ -620,4 +618,28 @@ add_total_density <- function(ta, spike_taxon, spike_added = spike_added, materi
   ta
 }
 
+#' Perform anosim test
+#'
+#' \code{perform_anosim} performs the anosim test for statistical difference
+#' between groups of samples. The null hypothesis is that there is no difference
+#' between microbial communities in the groups of samples.
+#'
+#' @param ta A tidytacos object.
+#' @param group A column in the sample table to group the samples on.
+#' @param distance The dissimilarity measure to use.
+#' @param permutations The number of permutations.
+#'
+#' @export
+perform_anosim <- function(ta, group, ...){
 
+  M <- ta %>% counts_matrix()
+  group <- rlang::enquo(group)
+
+  if (length(M[,1]) < length(ta$samples$sample_id)) {
+        warning("Empty samples found, ignoring them in analysis")
+        ta <- ta %>% remove_empty_samples()
+  }
+
+  vegan::anosim(M, ta$samples %>% pull(!!group), ...)
+
+}

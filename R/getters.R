@@ -1,9 +1,9 @@
 #' Return some descriptive numbers
 #'
-#' \code{tacosum} returns the number of samples, taxa and reads in a
+#' \code{tacosum} returns the number of samples, taxa and reads in the
 #' tidytacos object.
 #'
-#' @param ta tidytacos object.
+#' @param ta A tidytacos object. 
 #'
 #' @examples
 #' # Initiate counts matrix
@@ -33,7 +33,7 @@ tacosum <- function(ta) {
 
 #' Get beta diversity table
 #'
-#' \code{betas} returns a tidy tibble with the beta diversity for each
+#' \code{betas} returns a tidy table with the beta diversity for each
 #' combination of samples.
 #'
 #' This function calculates the beta diversity using the
@@ -41,7 +41,7 @@ tacosum <- function(ta) {
 #' estimate for each combination of samples.
 #'
 #'
-#' @param ta tidytacos object.
+#' @param ta A tidytacos object.
 #' @param unique A logical scalar. Avoid redundancy by removing all self sample
 #'   comparisons and keep only one of two pairwise comparisons? Default is TRUE.
 #' @param method The dissimilarity index. See \code{\link[vegan]{vegdist}} for
@@ -116,9 +116,9 @@ betas <- function(ta, unique = T, method = "bray", binary = F) {
 #' Condition should be a categorical variable present in the samples table.
 #' Supply condition as a string.
 #'
-#' @param ta a tidytacos object
-#' @param condition a string denoting a categorical variable in the sample table
-#' @param pres_abs wether to resort to presence/absense screening
+#' @param ta A tidytacos object.
+#' @param condition A string denoting a categorical variable in the sample table.
+#' @param pres_abs Whether to resort to presence/absense screening.
 #' @export
 prevalences <- function(ta, condition = NULL, pres_abs = F) {
 
@@ -165,8 +165,8 @@ prevalences <- function(ta, condition = NULL, pres_abs = F) {
 #' Condition should be a categorical variable present in the samples table.
 #' Supply condition as a string.
 #'
-#' @param ta a tidytacos object
-#' @param condition a string representing a categorical variable to compute the relative abundances in every option of the variable
+#' @param ta A tidytacos object.
+#' @param condition A string representing a categorical variable to compute the relative abundances in every option of the variable
 #' @export
 mean_rel_abundances <- function(ta, condition = NULL) {
 
@@ -202,6 +202,8 @@ mean_rel_abundances <- function(ta, condition = NULL) {
 
 #' Get all data in one single table
 #'
+#' \code{everything} merges all three tidytacos tables into one very large table.
+#'
 #' @param ta A tidytacos object.
 #' @export
 everything <- function(ta) {
@@ -233,10 +235,11 @@ counts <- function(ta) ta$counts
 
 #' Perform an adonis test
 #'
-#' This function executes the \link[vegan]{adonis} function of the vegan package
+#' This function executes the \link[vegan]{adonis2} function of the vegan package
 #' and returns the result.
 #'
 #' Samples where one or more predictors are NA are removed.
+#'
 #' @importFrom stats as.formula
 #' @param ta A tidytacos object.
 #' @param predictors A character vector with predictors to include in the model.
@@ -271,7 +274,7 @@ perform_adonis <- function(ta, predictors, permutations = 999, ...) {
 #' Return a counts matrix
 #'
 #' This function returns a matrix with taxon counts; the rows are samples and
-#' the column are taxa.
+#' the columns are taxa.
 #'
 #' @param ta A tidytacos object.
 #' @param sample_name The name of the variable in the sample table to use as row
@@ -346,7 +349,7 @@ rel_abundance_matrix <- function(ta, sample_name = sample, taxon_name = taxon) {
 
 #' Return a list of taxon IDs per condition
 #'
-#' This function returns a named list of unique taxon_ids per distinct value of
+#' This function returns a named list of taxon_ids per distinct value of
 #' a categorical column of the samples table.
 #'
 #' @param ta A tidytacos object.
@@ -355,10 +358,15 @@ rel_abundance_matrix <- function(ta, sample_name = sample, taxon_name = taxon) {
 #' @return A list of taxon_id vectors.
 #'
 #' @export
-taxonlist_per_condition <- function(ta, condition) {
+taxonlist_per_condition <- function(ta, condition, read_treshold=0) {
 
   condition <- rlang::enquo(condition)
   condition_str <- rlang::quo_name(condition)
+
+  # Allows input to be symbol or string
+  if (!rlang::quo_is_symbol(condition)){
+    condition <- sym(condition_str)
+  }  
 
   if (! condition_str %in% names(ta$samples)) {
     error_message <-
@@ -369,13 +377,15 @@ taxonlist_per_condition <- function(ta, condition) {
   distinct_conditions <- unique(ta$samples %>% pull(!!condition))
 
   select_taxa_for_condition <- function(var) {
-    ta %>% filter_samples(!!condition == var)
+    ta %>% 
+      filter_samples(!!condition == var) %>%
+      filter_counts(count >= read_treshold)
   }
   ta_per_condition <- lapply(distinct_conditions, select_taxa_for_condition)
   names(ta_per_condition) <- distinct_conditions
 
   tt_all <- lapply(ta_per_condition, counts)
 
-  lapply(tt_all, function(x) x$taxon_id)
+  lapply(tt_all, function(x) unique(x$taxon_id))
 
 }

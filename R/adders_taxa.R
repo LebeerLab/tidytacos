@@ -75,7 +75,10 @@ classify_taxa <- function(
 
 }
 
-#' Create sensible names for the taxa and add to taxon table
+#' Add sensible taxon name to taxon table
+#'
+#' \code{add_taxon_name} creates sensible taxa names by -under default conditions- combining the genus name with a number. The number is only added if there is more than one taxon of that genus. The number indicates the rank of abundance, with 1 indicating the taxon has the highest mean relative abundance of the dataset, within the genus. If genus classification is not available the next most detailed taxonomic rank which is available is used. The sensible taxon name is added to the taxon table under the column name "taxon_name".
+#'
 #'
 #' @param ta A tidytacos object.
 #' @param method The method by which to arrange the taxon names. Currently only
@@ -150,9 +153,9 @@ add_taxon_name <- function(
 
 }
 
-#' Create taxon names suitable for visualization with color.
+#' Add taxon color for visualization.
 #'
-#' A rank can be supplied to aggregate colors higher than the current rank.
+#' \code{add_rel_abundance} determines the most abundant taxa and assigns them a color for consistent color codes of each taxon in visualizations. A rank can be supplied to aggregate colors higher than the current rank.
 #'
 #' @param ta A tidytacos object.
 #' @param method The method by which to arrange the taxon names. Currently only
@@ -248,8 +251,8 @@ add_taxon_name_color <- function(
 
 #' Apply the taxon QC method of Jervis-Bardy
 #'
-#' Function to estimate spearman correlation between relative abundance and
-#' sample dna concentration, for each taxon.
+#' \code{add_jervis_bardy} calculates the spearman correlation between relative abundance and
+#' sample DNA concentration, for each taxon and adds the correlation metric and p-value to the taxa table under the column names "jb_cor" and "jb_p", respectively. If taxa show a distribution that is negatively correlated with DNA concentration, it indicates their potential as contaminants.
 #'
 #' See:
 #' J. Jervis-Bardy et al., “Deriving accurate microbiota profiles from
@@ -314,15 +317,19 @@ add_jervis_bardy <- function(ta, dna_conc, sample_condition = T, min_pres = 3) {
 
 #' Add taxon prevalences to the taxon table
 #'
-#' Adds taxon prevalences (overall or per condition) to the taxa table.
+#' \code{add_prevalence} calculates taxon prevalences (overall or per condition) and adds it to the taxa table under the column name "occurrence". Prevalence can be expressed as the number of samples where a taxon occurs or the ratio of samples where a taxon occurs and the total amount of samples.
+#'
+#' If 'condition' is specified, the prevalences will be calculated separately for each group defined by the condition variable. This variable should be present in the sample table.
+#'
+#' If `condition` is specified, differential prevalence testing can be performed by setting the `fischer_test` argument. Options are F (default) or T. When set to T, significance of differential prevalence will be added to the taxa table under column name "fischer_p".
 #'
 #' Condition should be a categorical variable present in the samples table.
 #' Supply condition as a string.
 #' @importFrom stats fisher.test
-#' @param ta A tidytacos object
-#' @param condition A categorical variable (string)
-#' @param relative wether to use relative occurences
-#' @param fischer_test wether to perform a fischer test and add the p-values of the test to the taxa table
+#' @param ta A tidytacos object.
+#' @param condition A categorical variable (string).
+#' @param relative Whether to use relative occurences.
+#' @param fischer_test Whether to perform a fischer test and add the p-values of the test to the taxa table.
 #' @export
 add_prevalence <- function(
   ta, condition = NULL, relative = F, fischer_test = F
@@ -401,7 +408,7 @@ add_prevalence <- function(
 
 }
 
-#' Add average relative abundances
+#' Add average relative abundances to taxa table
 #'
 #' This function adds mean relative abundance values for each taxon to the taxa
 #' table, overall or per sample group.
@@ -415,9 +422,9 @@ add_prevalence <- function(
 #' "t-test".
 #'
 #' @importFrom stats t.test wilcox.test
-#' @param ta A tidytacos object
-#' @param condition A condition variable (character)
-#' @param test Differential abundance test to perform
+#' @param ta A tidytacos object.
+#' @param condition A condition variable (character).
+#' @param test Differential abundance test to perform.
 #'
 #' @return A tidytacos object
 #'

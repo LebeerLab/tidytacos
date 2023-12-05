@@ -2,13 +2,13 @@
 % Please edit documentation in R/handlers.R
 \name{mutate_taxa}
 \alias{mutate_taxa}
-\title{Create extra variables in the taxon table}
+\title{Create extra variables in the taxa table}
 \usage{
 mutate_taxa(ta, ...)
 }
 \arguments{
-\item{ta}{a tidytacos object}
+\item{ta}{A tidytacos object.}
 }
 \description{
-Create extra variables in the taxon table
+Create extra variables in the taxa table
 }

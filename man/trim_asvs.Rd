@@ -7,13 +7,13 @@
 trim_asvs(ta, start, end)
 }
 \arguments{
-\item{ta}{a tidytacos object}
+\item{ta}{A tidytacos object.}
 
-\item{start}{index of where to start trimming}
+\item{start}{Index of where to start trimming.}
 
-\item{end}{index of where to stop trimming}
+\item{end}{Index of where to stop trimming.}
 }
 \description{
-This function assumes that the sequence variable in the taxon table is called
+\code{trim_asvs} trims sequence ends of the sequence supplied in the taxa table. This function assumes that the sequence variable in the taxon table is called
 "sequence".
 }

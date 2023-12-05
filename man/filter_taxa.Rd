@@ -7,7 +7,7 @@
 filter_taxa(ta, ...)
 }
 \arguments{
-\item{ta}{a tidytacos object}
+\item{ta}{A tidytacos object.}
 }
 \description{
 Filter the taxa

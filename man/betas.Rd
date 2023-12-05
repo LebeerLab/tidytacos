@@ -7,7 +7,7 @@
 betas(ta, unique = T, method = "bray", binary = F)
 }
 \arguments{
-\item{ta}{tidytacos object.}
+\item{ta}{A tidytacos object.}
 
 \item{unique}{A logical scalar. Avoid redundancy by removing all self sample
 comparisons and keep only one of two pairwise comparisons? Default is TRUE.}
@@ -19,7 +19,7 @@ all options. Default is "bray".}
 before analysis. See \code{\link[vegan]{vegdist}}. Default is FALSE.}
 }
 \description{
-\code{betas} returns a tidy tibble with the beta diversity for each
+\code{betas} returns a tidy table with the beta diversity for each
 combination of samples.
 }
 \details{

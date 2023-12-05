@@ -2,28 +2,24 @@
 % Please edit documentation in R/adders_samples.R
 \name{add_metadata}
 \alias{add_metadata}
-\title{Add metadata table to the tidytacos object}
+\title{Add metadata to the tidytacos object}
 \usage{
 add_metadata(ta, metadata_tibble, table_type = "sample")
 }
 \arguments{
-\item{ta}{tidytacos object.}
+\item{ta}{A tidytacos object.}
 
 \item{table_type}{The type of table to add, either 'sample' or 'taxa'.}
 
-\item{metadata}{A tibble containing sample data for each sample or taxon. Samples/taxa
-should be rows, while metadata should be columns. At least one column
-name needs to be shared with the sample or taxa tibble of ta. The default shared
-column name is 'sample' for samples and 'taxon' for taxa.}
+\item{metadata}{A tibble containing data for each sample or taxon.
+Samples/taxa should be rows, while metadata variables should be columns. At
+least one column name needs to be shared with the sample or taxa table of
+the tidytacos object. The default shared column name is 'sample' for
+samples and 'taxon' for taxa.}
 }
 \description{
-\code{add_metadata} adds a tibble to the tidytacos object.
-}
-\details{
-This function adds a tibble containing metadata for each sample or taxon to the
-tidytacos object. It is used after initiating a tidytacos object
-using a numerical abundance matrix and the function
-\code{\link{create_tidytacos}}.
+\code{add_metadata} adds sample or taxon metadata to the sample or taxon
+table, respectively, of a tidytacos object.
 }
 \examples{
 # Initiate counts matrix

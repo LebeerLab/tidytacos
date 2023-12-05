@@ -30,16 +30,23 @@ prepare_for_bp <- function(ta, n = 12, extended = TRUE) {
 }
 
 #' Return a bar plot of the samples
+#' 
+#' Plots a stacked bar plot of the samples in the tidytacos object to inspect the taxonomic profile.
+#' 
+#' @param ta A tidytacos object.
+#' @param x A string, representing the column name used to label the x-axis
+#' @param n An integer, representing the amount of colors used to depict
+#' @param geom_bar A boolean, whether or not to add geom_bar to the plot. Default is TRUE.
 #'
 #' @export
 tacoplot_stack <- function(ta, n = 12, x = sample_clustered, geom_bar = T) {
   # convert promise to formula
-  x <- enquo(x)
+  x <- rlang::enquo(x)
 
-  warning_message_label = paste0("Label \'", quo_name(x),"\' not found in the samples table.")
+  warning_message_label = paste0("Label \'", rlang::quo_name(x),"\' not found in the samples table.")
   warning_message_aggregate = "Sample labels not unique, samples are aggregated."
-  if (quo_name(x) != "sample_clustered" &&
-    !is.element(quo_name(x), names(ta$samples))
+  if (rlang::quo_name(x) != "sample_clustered" &&
+    !is.element(rlang::quo_name(x), names(ta$samples))
   ) {
     # Warning, so tidy functions can be performed on the label
     warning(warning_message_label)
@@ -83,11 +90,12 @@ tacoplot_stack <- function(ta, n = 12, x = sample_clustered, geom_bar = T) {
 
 #' Return an interactive bar plot of the samples
 #'
+#' Plots an interactive stacked bar plot of the samples in the tidytacos object to inspect the taxonomic profile.
+#' 
 #' @param ta A tidytacos object.
 #' @param n An integer, representing the amount of colors used to depict
 #'   different taxa.
-#' @param x A string, representing the column name used to label and cluster the
-#'   samples on.
+#' @param x A string, representing the column name used to label the x-axis
 #'
 #' @export
 tacoplot_stack_ly <- function(ta, n = 12, x = sample_clustered) {
@@ -122,7 +130,10 @@ tacoplot_stack_ly <- function(ta, n = 12, x = sample_clustered) {
   plot
 }
 
-#' Return an interactive pcoa plot of the samples
+#' Return an interactive ordination plot of the samples
+#' 
+#' Creates an interactive ordination plot of the beta diversity of the samples in the tidytacos object.
+#' This can be used to gauge the similarity between samples.
 #'
 #' @param ta A tidytacos object.
 #' @param x A string, representing the column name used to color the sample
@@ -131,12 +142,14 @@ tacoplot_stack_ly <- function(ta, n = 12, x = sample_clustered) {
 #' @param ord the ordination technique to use. Choice from pcoa, tsne and umap.
 #' @param distance the distance algorithm to use, see \code{\link[vegan]{vegdist}}.
 #' @param dims the amount of dimensions to plot, 2 or 3.
+#' @param stat.method the statistic to print on the figure, choice from mantel and anosim.
 #' @param palette A vector of colors, used as the palette for coloring sample
 #' @param title a string to display as title of the plot.
 #'   groups.
 #'
 #' @export
-tacoplot_ord_ly <- function(ta, x=NULL, samplenames = sample_id, ord="pcoa", dims=2, distance="bray", palette = NULL, title = NULL, ...) {
+tacoplot_ord_ly <- function(ta, x=NULL, samplenames = sample_id, ord="pcoa", dims=2, 
+                            distance="bray", stat.method="mantel", palette = NULL, title = NULL, ...) {
   force_optional_dependency("plotly")
 
 
@@ -158,11 +171,26 @@ tacoplot_ord_ly <- function(ta, x=NULL, samplenames = sample_id, ord="pcoa", dim
   if (is.null(palette)) {
     palette <- palette_paired
   }
+  
+  # Check for empty samples
+  if (length(unique(ta$counts$sample_id)) < length(unique(ta$samples$sample_id)))
+  {
+    warning("Empty samples detected, removing them from the analysis")
+    ta <- ta %>% remove_empty_samples()
+  }
 
   # prepare ord if needed
   if (!all(ordnames %in% names(ta$samples))) {
     ta <- add_ord(ta, distance=distance, method=ord, dims=dims, ...)
   }
+
+  # calculate statistic
+  if (stat.method == "anosim") {
+    stat <- perform_anosim(ta, !!x, distance=distance)
+  } else {
+    stat <- perform_mantel_test(ta, rlang::quo_name(x))
+  }
+
   if (dims == 2) {
   plot <- rlang::eval_tidy(rlang::quo_squash(
     quo({
@@ -205,19 +233,32 @@ tacoplot_ord_ly <- function(ta, x=NULL, samplenames = sample_id, ord="pcoa", dim
     })
   ))
   }
-  plot
+  plot %>% plotly::add_annotations(
+    x= 0.1,
+    y= 1,
+    xref = "paper",
+    yref = "paper",
+    text = paste0(toupper(stat.method), ":\nR= ", signif(stat$statistic, 3), "\nP= ", signif(stat$signif, 3)),
+    showarrow = F
+  )
 }
 
-#' Return a pcoa plot of the samples
+#' Return an ordination plot of the samples
 #'
+#' Creates an ordination plot of the beta diversity of the samples in the tidytacos object.
+#' This can be used to gauge the similarity between samples.
+#' 
 #' @param ta A tidytacos object.
 #' @param x A string, representing the column name used to color the sample
 #'   groups on.
+#' @param ord the ordination technique to use. Choice from pcoa, tsne and umap.
+#' @param distance the distance algorithm to use, see \code{\link[vegan]{vegdist}}.
+#' @param stat.method the statistic to print on the figure, choice from mantel and anosim.
 #' @param palette A vector of colors, used as the palette for coloring sample
 #'   groups.
 #'
 #' @export
-tacoplot_ord <- function(ta, x=sample_id, palette = NULL, ord = "pcoa", distance="bray", title = NULL, ...) {
+tacoplot_ord <- function(ta, x=sample_id, palette = NULL, ord = "pcoa", distance="bray", stat.method="mantel",title = NULL, ...) {
 
   x <- enquo(x)
   if (is.null(title)){ 
@@ -237,13 +278,29 @@ tacoplot_ord <- function(ta, x=sample_id, palette = NULL, ord = "pcoa", distance
     palette <- palette_paired
   }
 
+  # Check for empty samples
+  if (length(unique(ta$counts$sample_id)) < length(unique(ta$samples$sample_id)))
+  {
+    warning("Empty samples detected, removing them from the analysis")
+    ta <- ta %>% remove_empty_samples()
+  }
+
   # prepare pcoa if needed
   if (!all(c("ord1", "ord2") %in% names(ta$samples))) {
     ta <- add_ord(ta, distance=distance, method=ord, ...)
   } 
 
+  # calculate stats
+  if (stat.method == "anosim") {
+    stat <- perform_anosim(ta, !!x, distance=distance)
+  } else {
+    stat <- perform_mantel_test(ta, rlang::quo_name(x))
+  }
+
   ta$samples %>% ggplot(aes(x=ord1, y=ord2, color=!!x)) + 
     geom_point() + 
+    annotate("text", x=min(ta$samples$ord1)+0.05, y=max(ta$samples$ord2)-0.05, 
+      label=paste0(toupper(stat.method),":\nR= ", signif(stat$statistic, 3), "\nP= ", signif(stat$signif, 3))) +
     theme_classic() +
     ggtitle(title)
 
@@ -251,6 +308,9 @@ tacoplot_ord <- function(ta, x=sample_id, palette = NULL, ord = "pcoa", distance
 
 #' Return a visualization designed for a small number of samples
 #'
+#' @param ta A tidytacos object.
+#' @param sample A string, representing the unique sample name of interest
+#' 
 #' @export
 tacoplot_zoom <- function(ta, sample = sample_id, n = 15, nrow = NULL) {
   ta <- prepare_for_bp(ta, n, extended = FALSE)
@@ -297,10 +357,38 @@ tacoplot_venn <- function(ta, condition, ...) {
 
   force_optional_dependency("ggVennDiagram")
 
+
   condition <- enquo(condition)
   ltpc <- taxonlist_per_condition(ta, !!condition)
+
+  if ("show_intersect" %in% names(list(...))) {
+    match_taxon_name <- function(taxid) {
+      ta$taxa[which(ta$taxa$taxon_id %in% taxid),] %>% 
+          dplyr::pull(taxon_name)
+    }
+    ltpc <- lapply(ltpc, match_taxon_name)
+  }
+
   ggVennDiagram::ggVennDiagram(ltpc, ...)
 
+}
+
+#' Return an interactive venn diagram of overlapping taxon_ids between conditions
+#'
+#' @param ta A tidytacos object.
+#' @param condition The name of a variable in the samples table that contains a
+#'   categorical value.
+#'
+#' @export
+tacoplot_venn_ly <- function(ta, condition, ...) {
+
+  condition <- enquo(condition)
+
+  if (!"taxon_name" %in% names(ta$taxa)){
+    ta <- ta %>% add_taxon_name()
+  }
+
+  ta %>% tacoplot_venn(!!condition, show_intersect=TRUE, ...)
 }
 
 palette_paired <- c(

@@ -4,7 +4,7 @@
 \alias{perform_adonis}
 \title{Perform an adonis test}
 \usage{
-perform_adonis(ta, predictors, permutations = 999)
+perform_adonis(ta, predictors, permutations = 999, ...)
 }
 \arguments{
 \item{ta}{A tidytacos object.}
@@ -18,7 +18,7 @@ longer but gives a more accurate p-value).}
 An object of class "adonis" (see \link[vegan]{adonis}).
 }
 \description{
-This function executes the \link[vegan]{adonis} function of the vegan package
+This function executes the \link[vegan]{adonis2} function of the vegan package
 and returns the result.
 }
 \details{

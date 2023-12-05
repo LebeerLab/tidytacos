@@ -7,17 +7,16 @@
 add_alpha(ta)
 }
 \arguments{
-\item{ta}{tidytacos object.}
+\item{ta}{A tidytacos object.}
 }
 \description{
-\code{add_alpha} adds two alpha diversity measures to the
-samples tibble of a tidytacos object.
+\code{add_alpha} adds two alpha diversity measures to the sample table of a
+tidytacos object.
 }
 \details{
-This function adds two alpha diversity measures (observed and inverse
-Simpson) to the samples tibble of a tidytacos object under the variable
-names observed and inverse_simpson, respectively. This function will also
-add relative abundances if not present using \code{\link{add_rel_abundance}}.
+This function adds two alpha diversity measures, observed richness and inverse
+Simpson index, to the sample table of a tidytacos object under the variable
+names "observed" and "inverse_simpson", respectively.
 }
 \examples{
 # Initiate counts matrix
@@ -36,4 +35,5 @@ data <- create_tidytacos(x,
 # Add total abundance
 data <- data \%>\%
  add_alpha()
+
 }

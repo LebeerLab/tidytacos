@@ -3,31 +3,41 @@
 #' This function performs rarefying. Make sure that all samples contain at least
 #' the minimum number of reads; otherwise, an error might be thrown.
 #'
+#' @param n Subsample size for rarefying the community.
+#' @param replace Whether to replace the read after it has been selected for the subsample so it can be sampled again. Default is FALSE.
+#'
 #' @export
 rarefy <- function(ta, n, replace = F) {
-  ta$counts <-
-    ta$counts %>%
-    group_by(sample_id) %>%
-    mutate(
-      count =
-        sample(x = 1:sum(count), size = !!n, replace = !!replace) %>%
-          cut(breaks = c(0, cumsum(count)), labels = taxon_id) %>%
-          table() %>%
-          as.integer()
-    ) %>%
-    ungroup()
+  ta$counts <- try(
+      ta$counts %>%
+      group_by(sample_id) %>%
+      mutate(
+        count =
+          sample(x = 1:sum(count), size = !!n, replace = !!replace) %>%
+            cut(breaks = c(0, cumsum(count)), labels = taxon_id) %>%
+            table() %>%
+            as.integer()
+      ) %>%
+      ungroup()
+  )
+
+  if (class(ta$counts)[[1]] == "try-error"){
+    stop(
+      paste("Rarefying failed. Make sure that all samples contain at least the minimum number of reads.\n",
+    "Or use replace = TRUE, to allow sampling with replacement."))
+  }
 
   ta %>%
     purrr::modify_at("counts", filter, count > 0) %>%
     process_count_selection()
 }
 
-# Change sample IDs to a given expression
-#
-# @param ta A tidytacos object.
-# @param sample_id_new An expression that evaluates to a unique sample
-#   identifier.
-#
+#' Change sample IDs to a given expression
+#'
+#' @param ta A tidytacos object.
+#' @param sample_id_new An expression that evaluates to a unique sample
+#'   identifier.
+#'
 change_id_samples <- function(ta, sample_id_new) {
   sample_id_new <- rlang::enexpr(sample_id_new)
 
@@ -54,12 +64,12 @@ change_id_samples <- function(ta, sample_id_new) {
   ta
 }
 
-# Change taxon IDs to a given expression
-#
-# @param ta A tidytacos object.
-# @param taxon_id_new An expression that evaluates to a unique taxon
-#   identifier.
-#
+#' Change taxon IDs to a given expression
+#'
+#' @param ta A tidytacos object.
+#' @param taxon_id_new An expression that evaluates to a unique taxon
+#'   identifier.
+#'
 change_id_taxa <- function(ta, taxon_id_new) {
   taxon_id_new <- rlang::enexpr(taxon_id_new)
 
@@ -84,6 +94,8 @@ change_id_taxa <- function(ta, taxon_id_new) {
 }
 
 #' Aggregate samples with identical values for all metadata
+#'
+#' \code{aggregate_samples} merges sample content of samples which have identical values for all columns in the sample table (except sample_id).
 #'
 #' @param ta A tidytacos object.
 #'
@@ -127,8 +139,8 @@ aggregate_samples <- function(ta) {
 #' * If not, delete all taxon variables except taxon_id and the ranks you are
 #' still interested in prior to calling this function.
 #'
-#' @param ta a tidytacos object
-#' @param rank an optional rank to aggregate on
+#' @param ta A tidytacos object.
+#' @param rank An optional rank to aggregate on.
 #' @export
 aggregate_taxa <- function(ta, rank = NULL) {
   if (!is.null(rank)) {
@@ -198,11 +210,12 @@ aggregate_taxa <- function(ta, rank = NULL) {
 
 #' Trim all sequences
 #'
-#' This function assumes that the sequence variable in the taxon table is called
+#' \code{trim_asvs} trims sequence ends of the sequence supplied in the taxa table. This function assumes that the sequence variable in the taxon table is called
 #' "sequence".
-#' @param ta a tidytacos object
-#' @param start index of where to start trimming
-#' @param end index of where to stop trimming
+#'
+#' @param ta A tidytacos object.
+#' @param start Index of where to start trimming.
+#' @param end Index of where to stop trimming.
 #'
 #' @export
 trim_asvs <- function(ta, start, end) {
@@ -221,7 +234,8 @@ trim_asvs <- function(ta, start, end) {
 }
 
 #' Retain or remove a set of sample variables
-#' @param ta a tidytacos object
+#' 
+#' @param ta A tidytacos object.
 #' @export
 select_samples <- function(ta, ...) {
   ta$samples <- ta$samples %>%
@@ -235,7 +249,8 @@ select_samples <- function(ta, ...) {
 }
 
 #' Retain or remove a set of taxon variables
-#' @param ta a tidytacos object
+#'
+#' @param ta A tidytacos object.
 #' @export
 select_taxa <- function(ta, ...) {
   ta$taxa <- ta$taxa %>%
@@ -247,7 +262,8 @@ select_taxa <- function(ta, ...) {
 }
 
 #' Retain or remove a set of count variables
-#' @param ta a tidytacos object
+#'
+#' @param ta A tidytacos object.
 #' @export
 select_counts <- function(ta, ...) {
   ta$counts <- ta$counts %>%
@@ -261,7 +277,8 @@ select_counts <- function(ta, ...) {
 }
 
 #' Create extra variables in the sample table
-#' @param ta a tidytacos object
+#'
+#' @param ta A tidytacos object.
 #' @export
 mutate_samples <- function(ta, ...) {
   ta$samples <- ta$samples %>%
@@ -271,8 +288,9 @@ mutate_samples <- function(ta, ...) {
   ta
 }
 
-#' Create extra variables in the taxon table
-#' @param ta a tidytacos object
+#' Create extra variables in the taxa table
+#'
+#' @param ta A tidytacos object.
 #' @export
 mutate_taxa <- function(ta, ...) {
   ta$taxa <- ta$taxa %>%
@@ -282,8 +300,9 @@ mutate_taxa <- function(ta, ...) {
   ta
 }
 
-#' Create extra variables in the abundances table
-#' @param ta a tidytacos object
+#' Create extra variables in the count table
+#'
+#' @param ta A tidytacos object.
 #' @export
 mutate_counts <- function(ta, ...) {
   ta$counts <- ta$counts %>%
@@ -296,7 +315,8 @@ mutate_counts <- function(ta, ...) {
 }
 
 #' Filter the samples
-#' @param ta a tidytacos object
+#'
+#' @param ta A tidytacos object.
 #' @export
 filter_samples <- function(ta, ...) {
   ta$samples <- ta$samples %>%
@@ -310,7 +330,8 @@ filter_samples <- function(ta, ...) {
 }
 
 #' Filter the taxa
-#' @param ta a tidytacos object
+#'
+#' @param ta A tidytacos object.
 #' @export
 filter_taxa <- function(ta, ...) {
   ta$taxa <- ta$taxa %>%
@@ -324,7 +345,8 @@ filter_taxa <- function(ta, ...) {
 }
 
 #' Filter the counts
-#' @param ta a tidytacos object
+#'
+#' @param ta A tidytacos object.
 #' @export
 filter_counts <- function(ta, ...) {
   ta$counts <- ta$counts %>%
@@ -338,11 +360,11 @@ filter_counts <- function(ta, ...) {
 }
 
 #' Perform a centered log ratio transformation on the readcounts.
-#' @param ta a tidytacos object
-#' @param taxon unique identifier for the taxon, by default taxon_id.
-#' @param sample unique identifier for the sample, by default sample_id.
-#' @param counts variable name of the counts to be transformed in the counts table.
-#' @param overwrite wether or not the counts table is to be overwritten with the transformed counts.
+#'
+#' \code{add_clr_abundance} calculates the log ration transformed values for each taxon in each sample and adds these data in a new table, clr_counts. Alternatively, using 'overwrite', the clr transformed data can replace the 'counts' column in the count table.
+#'
+#' @param ta A tidytacos object.
+#' @param overwrite Whether or not the counts table is to be overwritten with the transformed counts.
 #' @export
 add_clr_abundance <- function(
     ta,

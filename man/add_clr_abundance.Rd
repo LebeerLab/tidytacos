@@ -7,16 +7,10 @@
 add_clr_abundance(ta, overwrite = F)
 }
 \arguments{
-\item{ta}{a tidytacos object}
+\item{ta}{A tidytacos object.}
 
-\item{overwrite}{wether or not the counts table is to be overwritten with the transformed counts.}
-
-\item{taxon}{unique identifier for the taxon, by default taxon_id.}
-
-\item{sample}{unique identifier for the sample, by default sample_id.}
-
-\item{counts}{variable name of the counts to be transformed in the counts table.}
+\item{overwrite}{Whether or not the counts table is to be overwritten with the transformed counts.}
 }
 \description{
-Perform a centered log ratio transformation on the readcounts.
+\code{add_clr_abundance} calculates the log ration transformed values for each taxon in each sample and adds these data in a new table, clr_counts. Alternatively, using 'overwrite', the clr transformed data can replace the 'counts' column in the count table.
 }

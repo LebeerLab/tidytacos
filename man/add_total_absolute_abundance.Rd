@@ -2,24 +2,23 @@
 % Please edit documentation in R/adders_samples.R
 \name{add_total_absolute_abundance}
 \alias{add_total_absolute_abundance}
-\title{Add total absolute abundances to samples table}
+\title{Add total absolute abundances of samples}
 \usage{
 add_total_absolute_abundance(ta, spike_taxon, spike_added = spike_added)
 }
 \arguments{
-\item{ta}{tidytacos object.}
+\item{ta}{A tidytacos object.}
 
 \item{spike_taxon}{The taxon id of the spike.}
 
-\item{spike_added}{The column name of the samples table which indicates how much spike was added per sample, e.g. 16S rRNA gene copy numbers added to the DNA extraction tube.}
+\item{spike_added}{The column name of the samples table which indicates how
+much spike was added per sample, e.g. 16S rRNA gene copy numbers added to
+the DNA extraction tube.}
 }
 \description{
-\code{add_total_absolute_abundance} adds total absolute abundance to the samples table of a
-tidytacos object.
-}
-\details{
-This function adds the total absolute abundances to the samples table
-of a tidytacos object under the variable name "total_absolute_abundance".
+\code{add_total_absolute_abundance} calculates the total absolute abundances
+of the samples given a spike taxon, and adds this to the sample table under
+the column name "total_absolute_abundance".
 }
 \examples{
 # Initiate count matrix

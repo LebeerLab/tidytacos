@@ -2,20 +2,16 @@
 % Please edit documentation in R/adders_samples.R
 \name{add_total_count}
 \alias{add_total_count}
-\title{Add total reads per sample}
+\title{Add total read count per sample}
 \usage{
 add_total_count(ta)
 }
 \arguments{
-\item{ta}{tidytacos object.}
+\item{ta}{A tidytacos object.}
 }
 \description{
-\code{add_total_count} adds the total reads per sample to the samples tibble
-of a tidytacos object.
-}
-\details{
-This function adds the total reads per sample to the samples tibble of a
-tidytacos object under the variable name total_count.
+\code{add_total_count} adds the total read count per sample to the sample
+table of a tidytacos object under the variable name total_count.
 }
 \examples{
 # Initiate counts matrix

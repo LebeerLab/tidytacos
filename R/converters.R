@@ -3,7 +3,7 @@
 #' \code{tidytacos} returns a tidytacos object given a numeric matrix.
 #'
 #' This function initiates a tidytacos object based on a numeric matrix. It
-#' will automatically create a dummy taxa and sample table which will need to be
+#' will automatically create a dummy taxa table and sample table which will need to be
 #' updated using the function \code{\link{add_metadata}}.
 #'
 #' @param counts_matrix Numerical matrix containing the count data.
@@ -74,9 +74,12 @@ create_tidytacos <- function(counts_matrix, taxa_are_columns = TRUE) {
 }
 
 #' Write community data in tidytacos format
+#'
+#' \code{write_tidytacos} saves the tidytacos object into 3 .csv files. This format allows easy loading of the tidytacos object using the \code{\link{read_tidytacos}} function.
+#'
 #' @importFrom readr write_csv
-#' @param ta a tidytacos object
-#' @param dout the directory to store the three tidytacos tables in
+#' @param ta A tidytacos object.
+#' @param dout The directory to store the three tidytacos tables in.
 #' @export
 write_tidytacos <- function(ta, dout) {
   if (!dir.exists(dout)) {dir.create(dout)}
@@ -108,13 +111,27 @@ read_tidytacos <- function(din, samples = "samples.csv", taxa = "taxa.csv",
     stop(paste("File", counts, ", containing count data not found in", dir))
   }
 
-  make_tidytacos(
+  expected_rank_names <- colnames(taxa)[!colnames(taxa) %in% c("taxon","taxon_id","sequence")]  
+
+
+  ta <- make_tidytacos(
     samples, taxa, counts, sample_name = sample_id, taxon_name = taxon_id
   )
+
+  if ( !all(ta %>% rank_names() %in% expected_rank_names)) {
+    warning(paste0(
+      "Not all default rank names found. Replacing them with:\n c(\"", 
+      paste(expected_rank_names, collapse='","'), 
+      "\")\n\nIf these are not the rank names of your taxon table, \nplease set ",
+      "them manually using 'set_rank_names()'"))
+    ta <- ta %>% set_rank_names(expected_rank_names)
+  }    
+    ta
 }
 
 #' Reset the taxon and sample IDs
-#' @param ta a tidytacos object
+#'
+#' @param ta A tidytacos object.
 #' @export
 reset_ids <- function(ta, keep_prev = F) {
 
@@ -141,14 +158,14 @@ reset_ids <- function(ta, keep_prev = F) {
 #' alternative processing using the phyloseq package. To convert from a phyloseq
 #' object to a tidytacos object use \code{\link{as_tidytacos}}.
 #'
-#' @param ta tidytacos object.
-#' @param sample  The sample names required for a phyloseq object. Default is
-#'   "sample" column in sample tibble of the tidytacos object.
-#' @param taxon The taxon names required for a phyloseq object. Default is
-#'   "taxon" column in taxon tibble of the tidytacos object.
+#' @param ta A tidytacos object.
+#' @param sample The sample names required for a phyloseq object. Default is
+#'   "sample" column of the sample table of the tidytacos object.
+#' @param taxon The taxon names required for a phyloseq object. Default is the
+#'   "taxon_id" column in the taxon table of the tidytacos object.
 #'
 #' @export
-as_phyloseq <- function(ta, sample = sample, taxon = taxon) {
+as_phyloseq <- function(ta, sample = sample, taxon = taxon_id) {
 
   force_optional_dependency("phyloseq")
   if ("phyloseq" %in% class(ta)) return(ta)
@@ -237,14 +254,14 @@ from_phyloseq <- function(ps) {
 
 }
 
-#' Convert the output objects of a DADA2 pipeline to a tidytacos object.
+#' DADA2 to a tidytacos object
 #'
 #' \code{from_dada} returns a tidytacos object given a seqtab and taxa object from dada2.
 #'
 #' This function will convert two dada2 objects or files into a tidytacos object.
 #'
 #' @param seqtab Sequence table, output of dada2::makeSequenceTable.
-#' @param taxa taxa table, output of dada2::assignTaxonomy.
+#' @param taxa Taxa table, output of dada2::assignTaxonomy.
 #'
 #' @export
 from_dada <- function(seqtab, taxa, taxa_are_columns=FALSE) {
@@ -315,17 +332,17 @@ counts_tidy <- function(counts_matrix, taxa_are_columns = TRUE,
 
 }
 
-#' Convert counts tidy data frame to matrix.
+#' Convert counts tidy data frame to matrix
 #'
 #' \code{tidy_count_to_matrix} returns a numerical matrix given a tidy
 #' counts data frame.
 #'
-#' This function will convert a counts tidy data frame into a numerlical
+#' This function will convert a counts tidy data frame into a numerical
 #' counts matrix. To convert a numerical counts matrix into a counts
 #' tidy data frame use \code{\link{tidy_count_to_matrix}}.
 #'
 #' @param counts The counts tidy data frame that will be converted.
-#' @param value Name of colum containing the counts data. Default is
+#' @param value Name of column containing the counts data. Default is
 #'   "counts".
 #'
 #'
@@ -350,7 +367,7 @@ tidy_count_to_matrix <- function(counts, value = count) {
 
 }
 
-#' Merge two tidytacos objects.
+#' Merge two tidytacos objects
 #'
 #' \code{merge_tidytacos} merges two tidytacos objects and returns one
 #' single tidytacos object.
@@ -412,13 +429,13 @@ merge_tidytacos <- function(ta1, ta2, taxon_identifier = sequence) {
 
 #' Create a tidytacos object from three tidy tables
 #'
-#' @param samples A tidy table containing sample information
-#' @param taxa A tidy table containing taxon information
-#' @param counts A tidy table, where each row represents the counts of a taxon in a sample
-#' @param sample_name The column in the sample table that contains a unique identifier for each sample
-#' @param taxon_name The column in the taxon table that contains a unique identifier for each taxon
+#' @param samples A tidy table containing sample information.
+#' @param taxa A tidy table containing taxon information.
+#' @param counts A tidy table, where each row represents the counts of a taxon in a sample.
+#' @param sample_name The column in the sample table that contains a unique identifier for each sample.
+#' @param taxon_name The column in the taxon table that contains a unique identifier for each taxon.
 make_tidytacos <- function(samples, taxa, counts,
-                               sample_name = sample, taxon_name = taxon) {
+                               sample_name = sample, taxon_name = sequence) {
 
   sample_name <- rlang::enexpr(sample_name)
   taxon_name <- rlang::enexpr(taxon_name)

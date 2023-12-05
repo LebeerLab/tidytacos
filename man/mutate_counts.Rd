@@ -2,13 +2,13 @@
 % Please edit documentation in R/handlers.R
 \name{mutate_counts}
 \alias{mutate_counts}
-\title{Create extra variables in the abundances table}
+\title{Create extra variables in the count table}
 \usage{
 mutate_counts(ta, ...)
 }
 \arguments{
-\item{ta}{a tidytacos object}
+\item{ta}{A tidytacos object.}
 }
 \description{
-Create extra variables in the abundances table
+Create extra variables in the count table
 }

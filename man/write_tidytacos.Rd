@@ -7,10 +7,10 @@
 write_tidytacos(ta, dout)
 }
 \arguments{
-\item{ta}{a tidytacos object}
+\item{ta}{A tidytacos object.}
 
-\item{dout}{the directory to store the three tidytacos tables in}
+\item{dout}{The directory to store the three tidytacos tables in.}
 }
 \description{
-Write community data in tidytacos format
+\code{write_tidytacos} saves the tidytacos object into 3 .csv files. This format allows easy loading of the tidytacos object using the \code{\link{read_tidytacos}} function.
 }

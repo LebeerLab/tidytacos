@@ -44,3 +44,4 @@ force_optional_dependency <- function(optional_pkg, instructions=NULL){
   }
   NULL
 }
+

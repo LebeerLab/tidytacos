@@ -6,6 +6,15 @@
 \usage{
 tacoplot_stack(ta, n = 12, x = sample_clustered, geom_bar = T)
 }
+\arguments{
+\item{ta}{A tidytacos object.}
+
+\item{n}{An integer, representing the amount of colors used to depict}
+
+\item{x}{A string, representing the column name used to label the x-axis}
+
+\item{geom_bar}{A boolean, whether or not to add geom_bar to the plot. Default is TRUE.}
+}
 \description{
-Return a bar plot of the samples
+Plots a stacked bar plot of the samples in the tidytacos object to inspect the taxonomic profile.
 }

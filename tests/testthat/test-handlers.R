@@ -96,7 +96,7 @@ test_that("Aggregation of taxa table succeeds when no rank is specified", {
     taxon_id_before <- urt$taxa$taxon_id
     # Make one column not unique to test agg
     ta_agg <- urt %>%
-        mutate_taxa(sequence = 0) %>%
+        mutate_taxa(sequence = 0, taxon=0) %>%
         aggregate_taxa()
     taxon_id_after <- ta_agg$taxa$taxon_id
     expect_length(taxon_id_before, ntaxa)

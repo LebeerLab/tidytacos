@@ -2,7 +2,7 @@
 % Please edit documentation in R/adders_taxa.R
 \name{add_taxon_name_color}
 \alias{add_taxon_name_color}
-\title{Create taxon names suitable for visualization with color.}
+\title{Add taxon color for visualization.}
 \usage{
 add_taxon_name_color(
   ta,
@@ -29,5 +29,5 @@ Capacity at 12.}
 \item{rank}{An optional rank to aggregate taxa on.}
 }
 \description{
-A rank can be supplied to aggregate colors higher than the current rank.
+\code{add_rel_abundance} determines the most abundant taxa and assigns them a color for consistent color codes of each taxon in visualizations. A rank can be supplied to aggregate colors higher than the current rank.
 }

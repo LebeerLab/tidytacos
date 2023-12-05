@@ -4,7 +4,7 @@
 \alias{taxonlist_per_condition}
 \title{Return a list of taxon IDs per condition}
 \usage{
-taxonlist_per_condition(ta, condition)
+taxonlist_per_condition(ta, condition, read_treshold = 0)
 }
 \arguments{
 \item{ta}{A tidytacos object.}
@@ -16,6 +16,6 @@ categorical value.}
 A list of taxon_id vectors.
 }
 \description{
-This function returns a named list of unique taxon_ids per distinct value of
+This function returns a named list of taxon_ids per distinct value of
 a categorical column of the samples table.
 }
