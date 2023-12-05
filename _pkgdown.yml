@@ -1,4 +1,4 @@
 template:
   bootstrap: 5
   bootswatch: flatly
-  url: https://lebeerlab.github.io/tidytacos/
+url: https://lebeerlab.github.io/tidytacos/
