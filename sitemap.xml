@@ -1,264 +1,264 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>/404.html</loc>
+    <loc>https://lebeerlab.github.io/tidytacos/404.html</loc>
   </url>
   <url>
-    <loc>/LICENSE-text.html</loc>
+    <loc>https://lebeerlab.github.io/tidytacos/LICENSE-text.html</loc>
   </url>
   <url>
-    <loc>/authors.html</loc>
+    <loc>https://lebeerlab.github.io/tidytacos/authors.html</loc>
   </url>
   <url>
-    <loc>/index.html</loc>
+    <loc>https://lebeerlab.github.io/tidytacos/index.html</loc>
   </url>
   <url>
-    <loc>/reference/add_absolute_abundance.html</loc>
+    <loc>https://lebeerlab.github.io/tidytacos/reference/add_absolute_abundance.html</loc>
   </url>
   <url>
-    <loc>/reference/add_alpha.html</loc>
+    <loc>https://lebeerlab.github.io/tidytacos/reference/add_alpha.html</loc>
   </url>
   <url>
-    <loc>/reference/add_clr_abundance.html</loc>
+    <loc>https://lebeerlab.github.io/tidytacos/reference/add_clr_abundance.html</loc>
   </url>
   <url>
-    <loc>/reference/add_codifab.html</loc>
+    <loc>https://lebeerlab.github.io/tidytacos/reference/add_codifab.html</loc>
   </url>
   <url>
-    <loc>/reference/add_copca.html</loc>
+    <loc>https://lebeerlab.github.io/tidytacos/reference/add_copca.html</loc>
   </url>
   <url>
-    <loc>/reference/add_density.html</loc>
+    <loc>https://lebeerlab.github.io/tidytacos/reference/add_density.html</loc>
   </url>
   <url>
-    <loc>/reference/add_eigentaxa.html</loc>
+    <loc>https://lebeerlab.github.io/tidytacos/reference/add_eigentaxa.html</loc>
   </url>
   <url>
-    <loc>/reference/add_jervis_bardy.html</loc>
+    <loc>https://lebeerlab.github.io/tidytacos/reference/add_jervis_bardy.html</loc>
   </url>
   <url>
-    <loc>/reference/add_logratio.html</loc>
+    <loc>https://lebeerlab.github.io/tidytacos/reference/add_logratio.html</loc>
   </url>
   <url>
-    <loc>/reference/add_mean_rel_abundance.html</loc>
+    <loc>https://lebeerlab.github.io/tidytacos/reference/add_mean_rel_abundance.html</loc>
   </url>
   <url>
-    <loc>/reference/add_metadata.html</loc>
+    <loc>https://lebeerlab.github.io/tidytacos/reference/add_metadata.html</loc>
   </url>
   <url>
-    <loc>/reference/add_ord.html</loc>
+    <loc>https://lebeerlab.github.io/tidytacos/reference/add_ord.html</loc>
   </url>
   <url>
-    <loc>/reference/add_prevalence.html</loc>
+    <loc>https://lebeerlab.github.io/tidytacos/reference/add_prevalence.html</loc>
   </url>
   <url>
-    <loc>/reference/add_rel_abundance.html</loc>
+    <loc>https://lebeerlab.github.io/tidytacos/reference/add_rel_abundance.html</loc>
   </url>
   <url>
-    <loc>/reference/add_sample_clustered.html</loc>
+    <loc>https://lebeerlab.github.io/tidytacos/reference/add_sample_clustered.html</loc>
   </url>
   <url>
-    <loc>/reference/add_spike_ratio.html</loc>
+    <loc>https://lebeerlab.github.io/tidytacos/reference/add_spike_ratio.html</loc>
   </url>
   <url>
-    <loc>/reference/add_taxon_name.html</loc>
+    <loc>https://lebeerlab.github.io/tidytacos/reference/add_taxon_name.html</loc>
   </url>
   <url>
-    <loc>/reference/add_taxon_name_color.html</loc>
+    <loc>https://lebeerlab.github.io/tidytacos/reference/add_taxon_name_color.html</loc>
   </url>
   <url>
-    <loc>/reference/add_total_absolute_abundance.html</loc>
+    <loc>https://lebeerlab.github.io/tidytacos/reference/add_total_absolute_abundance.html</loc>
   </url>
   <url>
-    <loc>/reference/add_total_count.html</loc>
+    <loc>https://lebeerlab.github.io/tidytacos/reference/add_total_count.html</loc>
   </url>
   <url>
-    <loc>/reference/add_total_density.html</loc>
+    <loc>https://lebeerlab.github.io/tidytacos/reference/add_total_density.html</loc>
   </url>
   <url>
-    <loc>/reference/aggregate_samples.html</loc>
+    <loc>https://lebeerlab.github.io/tidytacos/reference/aggregate_samples.html</loc>
   </url>
   <url>
-    <loc>/reference/aggregate_taxa.html</loc>
+    <loc>https://lebeerlab.github.io/tidytacos/reference/aggregate_taxa.html</loc>
   </url>
   <url>
-    <loc>/reference/as_phyloseq.html</loc>
+    <loc>https://lebeerlab.github.io/tidytacos/reference/as_phyloseq.html</loc>
   </url>
   <url>
-    <loc>/reference/betas.html</loc>
+    <loc>https://lebeerlab.github.io/tidytacos/reference/betas.html</loc>
   </url>
   <url>
-    <loc>/reference/change_id_samples.html</loc>
+    <loc>https://lebeerlab.github.io/tidytacos/reference/change_id_samples.html</loc>
   </url>
   <url>
-    <loc>/reference/change_id_taxa.html</loc>
+    <loc>https://lebeerlab.github.io/tidytacos/reference/change_id_taxa.html</loc>
   </url>
   <url>
-    <loc>/reference/classify_taxa.html</loc>
+    <loc>https://lebeerlab.github.io/tidytacos/reference/classify_taxa.html</loc>
   </url>
   <url>
-    <loc>/reference/cluster_network.html</loc>
+    <loc>https://lebeerlab.github.io/tidytacos/reference/cluster_network.html</loc>
   </url>
   <url>
-    <loc>/reference/cluster_samples.html</loc>
+    <loc>https://lebeerlab.github.io/tidytacos/reference/cluster_samples.html</loc>
   </url>
   <url>
-    <loc>/reference/cluster_taxa.html</loc>
+    <loc>https://lebeerlab.github.io/tidytacos/reference/cluster_taxa.html</loc>
   </url>
   <url>
-    <loc>/reference/counts.html</loc>
+    <loc>https://lebeerlab.github.io/tidytacos/reference/counts.html</loc>
   </url>
   <url>
-    <loc>/reference/counts_matrix.html</loc>
+    <loc>https://lebeerlab.github.io/tidytacos/reference/counts_matrix.html</loc>
   </url>
   <url>
-    <loc>/reference/counts_tidy.html</loc>
+    <loc>https://lebeerlab.github.io/tidytacos/reference/counts_tidy.html</loc>
   </url>
   <url>
-    <loc>/reference/create_tidytacos.html</loc>
+    <loc>https://lebeerlab.github.io/tidytacos/reference/create_tidytacos.html</loc>
   </url>
   <url>
-    <loc>/reference/everything.html</loc>
+    <loc>https://lebeerlab.github.io/tidytacos/reference/everything.html</loc>
   </url>
   <url>
-    <loc>/reference/filter_counts.html</loc>
+    <loc>https://lebeerlab.github.io/tidytacos/reference/filter_counts.html</loc>
   </url>
   <url>
-    <loc>/reference/filter_network.html</loc>
+    <loc>https://lebeerlab.github.io/tidytacos/reference/filter_network.html</loc>
   </url>
   <url>
-    <loc>/reference/filter_samples.html</loc>
+    <loc>https://lebeerlab.github.io/tidytacos/reference/filter_samples.html</loc>
   </url>
   <url>
-    <loc>/reference/filter_taxa.html</loc>
+    <loc>https://lebeerlab.github.io/tidytacos/reference/filter_taxa.html</loc>
   </url>
   <url>
-    <loc>/reference/from_dada.html</loc>
+    <loc>https://lebeerlab.github.io/tidytacos/reference/from_dada.html</loc>
   </url>
   <url>
-    <loc>/reference/from_phyloseq.html</loc>
+    <loc>https://lebeerlab.github.io/tidytacos/reference/from_phyloseq.html</loc>
   </url>
   <url>
-    <loc>/reference/index.html</loc>
+    <loc>https://lebeerlab.github.io/tidytacos/reference/index.html</loc>
   </url>
   <url>
-    <loc>/reference/make_tidytacos.html</loc>
+    <loc>https://lebeerlab.github.io/tidytacos/reference/make_tidytacos.html</loc>
   </url>
   <url>
-    <loc>/reference/mean_rel_abundances.html</loc>
+    <loc>https://lebeerlab.github.io/tidytacos/reference/mean_rel_abundances.html</loc>
   </url>
   <url>
-    <loc>/reference/merge_tidytacos.html</loc>
+    <loc>https://lebeerlab.github.io/tidytacos/reference/merge_tidytacos.html</loc>
   </url>
   <url>
-    <loc>/reference/mutate_counts.html</loc>
+    <loc>https://lebeerlab.github.io/tidytacos/reference/mutate_counts.html</loc>
   </url>
   <url>
-    <loc>/reference/mutate_samples.html</loc>
+    <loc>https://lebeerlab.github.io/tidytacos/reference/mutate_samples.html</loc>
   </url>
   <url>
-    <loc>/reference/mutate_taxa.html</loc>
+    <loc>https://lebeerlab.github.io/tidytacos/reference/mutate_taxa.html</loc>
   </url>
   <url>
-    <loc>/reference/network.html</loc>
+    <loc>https://lebeerlab.github.io/tidytacos/reference/network.html</loc>
   </url>
   <url>
-    <loc>/reference/perform_adonis.html</loc>
+    <loc>https://lebeerlab.github.io/tidytacos/reference/perform_adonis.html</loc>
   </url>
   <url>
-    <loc>/reference/perform_anosim.html</loc>
+    <loc>https://lebeerlab.github.io/tidytacos/reference/perform_anosim.html</loc>
   </url>
   <url>
-    <loc>/reference/perform_mantel_test.html</loc>
+    <loc>https://lebeerlab.github.io/tidytacos/reference/perform_mantel_test.html</loc>
   </url>
   <url>
-    <loc>/reference/pipe.html</loc>
+    <loc>https://lebeerlab.github.io/tidytacos/reference/pipe.html</loc>
   </url>
   <url>
-    <loc>/reference/prevalences.html</loc>
+    <loc>https://lebeerlab.github.io/tidytacos/reference/prevalences.html</loc>
   </url>
   <url>
-    <loc>/reference/rank_names.html</loc>
+    <loc>https://lebeerlab.github.io/tidytacos/reference/rank_names.html</loc>
   </url>
   <url>
-    <loc>/reference/rarefy.html</loc>
+    <loc>https://lebeerlab.github.io/tidytacos/reference/rarefy.html</loc>
   </url>
   <url>
-    <loc>/reference/read_tidytacos.html</loc>
+    <loc>https://lebeerlab.github.io/tidytacos/reference/read_tidytacos.html</loc>
   </url>
   <url>
-    <loc>/reference/rel_abundance_matrix.html</loc>
+    <loc>https://lebeerlab.github.io/tidytacos/reference/rel_abundance_matrix.html</loc>
   </url>
   <url>
-    <loc>/reference/remove_empty_samples.html</loc>
+    <loc>https://lebeerlab.github.io/tidytacos/reference/remove_empty_samples.html</loc>
   </url>
   <url>
-    <loc>/reference/reset_ids.html</loc>
+    <loc>https://lebeerlab.github.io/tidytacos/reference/reset_ids.html</loc>
   </url>
   <url>
-    <loc>/reference/samples.html</loc>
+    <loc>https://lebeerlab.github.io/tidytacos/reference/samples.html</loc>
   </url>
   <url>
-    <loc>/reference/select_counts.html</loc>
+    <loc>https://lebeerlab.github.io/tidytacos/reference/select_counts.html</loc>
   </url>
   <url>
-    <loc>/reference/select_samples.html</loc>
+    <loc>https://lebeerlab.github.io/tidytacos/reference/select_samples.html</loc>
   </url>
   <url>
-    <loc>/reference/select_taxa.html</loc>
+    <loc>https://lebeerlab.github.io/tidytacos/reference/select_taxa.html</loc>
   </url>
   <url>
-    <loc>/reference/set_rank_names.html</loc>
+    <loc>https://lebeerlab.github.io/tidytacos/reference/set_rank_names.html</loc>
   </url>
   <url>
-    <loc>/reference/tacoplot_codifab.html</loc>
+    <loc>https://lebeerlab.github.io/tidytacos/reference/tacoplot_codifab.html</loc>
   </url>
   <url>
-    <loc>/reference/tacoplot_ord.html</loc>
+    <loc>https://lebeerlab.github.io/tidytacos/reference/tacoplot_ord.html</loc>
   </url>
   <url>
-    <loc>/reference/tacoplot_ord_ly.html</loc>
+    <loc>https://lebeerlab.github.io/tidytacos/reference/tacoplot_ord_ly.html</loc>
   </url>
   <url>
-    <loc>/reference/tacoplot_stack.html</loc>
+    <loc>https://lebeerlab.github.io/tidytacos/reference/tacoplot_stack.html</loc>
   </url>
   <url>
-    <loc>/reference/tacoplot_stack_ly.html</loc>
+    <loc>https://lebeerlab.github.io/tidytacos/reference/tacoplot_stack_ly.html</loc>
   </url>
   <url>
-    <loc>/reference/tacoplot_venn.html</loc>
+    <loc>https://lebeerlab.github.io/tidytacos/reference/tacoplot_venn.html</loc>
   </url>
   <url>
-    <loc>/reference/tacoplot_venn_ly.html</loc>
+    <loc>https://lebeerlab.github.io/tidytacos/reference/tacoplot_venn_ly.html</loc>
   </url>
   <url>
-    <loc>/reference/tacoplot_zoom.html</loc>
+    <loc>https://lebeerlab.github.io/tidytacos/reference/tacoplot_zoom.html</loc>
   </url>
   <url>
-    <loc>/reference/tacosum.html</loc>
+    <loc>https://lebeerlab.github.io/tidytacos/reference/tacosum.html</loc>
   </url>
   <url>
-    <loc>/reference/taxa.html</loc>
+    <loc>https://lebeerlab.github.io/tidytacos/reference/taxa.html</loc>
   </url>
   <url>
-    <loc>/reference/taxonlist_per_condition.html</loc>
+    <loc>https://lebeerlab.github.io/tidytacos/reference/taxonlist_per_condition.html</loc>
   </url>
   <url>
-    <loc>/reference/test_taco.html</loc>
+    <loc>https://lebeerlab.github.io/tidytacos/reference/test_taco.html</loc>
   </url>
   <url>
-    <loc>/reference/tidy_count_to_matrix.html</loc>
+    <loc>https://lebeerlab.github.io/tidytacos/reference/tidy_count_to_matrix.html</loc>
   </url>
   <url>
-    <loc>/reference/tidyeval.html</loc>
+    <loc>https://lebeerlab.github.io/tidytacos/reference/tidyeval.html</loc>
   </url>
   <url>
-    <loc>/reference/tidytacos.html</loc>
+    <loc>https://lebeerlab.github.io/tidytacos/reference/tidytacos.html</loc>
   </url>
   <url>
-    <loc>/reference/trim_asvs.html</loc>
+    <loc>https://lebeerlab.github.io/tidytacos/reference/trim_asvs.html</loc>
   </url>
   <url>
-    <loc>/reference/write_tidytacos.html</loc>
+    <loc>https://lebeerlab.github.io/tidytacos/reference/write_tidytacos.html</loc>
   </url>
 </urlset>
