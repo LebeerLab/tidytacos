@@ -49,7 +49,7 @@
           
           <code><a href="add_absolute_abundance.html">add_absolute_abundance()</a></code> 
         </dt>
-        <dd>Add absolute abundance to counts table</dd>
+        <dd>Add absolute abundances to count table</dd>
       </dl><dl><dt>
           
           <code><a href="add_alpha.html">add_alpha()</a></code> 
@@ -74,7 +74,7 @@
           
           <code><a href="add_density.html">add_density()</a></code> 
         </dt>
-        <dd>Add density to counts table</dd>
+        <dd>Add density to count table</dd>
       </dl><dl><dt>
           
           <code><a href="add_eigentaxa.html">add_eigentaxa()</a></code> 
@@ -96,17 +96,17 @@ before running this function to add the clusters if you want to stray from any d
           
           <code><a href="add_mean_rel_abundance.html">add_mean_rel_abundance()</a></code> 
         </dt>
-        <dd>Add average relative abundances</dd>
+        <dd>Add average relative abundances to taxa table</dd>
       </dl><dl><dt>
           
           <code><a href="add_metadata.html">add_metadata()</a></code> 
         </dt>
-        <dd>Add metadata table to the tidytacos object</dd>
+        <dd>Add metadata to the tidytacos object</dd>
       </dl><dl><dt>
           
           <code><a href="add_ord.html">add_ord()</a></code> 
         </dt>
-        <dd>Add dimensionality ordination</dd>
+        <dd>Add ordination</dd>
       </dl><dl><dt>
           
           <code><a href="add_prevalence.html">add_prevalence()</a></code> 
@@ -116,12 +116,12 @@ before running this function to add the clusters if you want to stray from any d
           
           <code><a href="add_rel_abundance.html">add_rel_abundance()</a></code> 
         </dt>
-        <dd>Add relative abundance to abundance table</dd>
+        <dd>Add relative abundances to count table</dd>
       </dl><dl><dt>
           
           <code><a href="add_sample_clustered.html">add_sample_clustered()</a></code> 
         </dt>
-        <dd>Add clustered sample order</dd>
+        <dd>Add clustering-based sample order</dd>
       </dl><dl><dt>
           
           <code><a href="add_spike_ratio.html">add_spike_ratio()</a></code> 
@@ -131,27 +131,27 @@ before running this function to add the clusters if you want to stray from any d
           
           <code><a href="add_taxon_name.html">add_taxon_name()</a></code> 
         </dt>
-        <dd>Create sensible names for the taxa and add to taxon table</dd>
+        <dd>Add sensible taxon name to taxon table</dd>
       </dl><dl><dt>
           
           <code><a href="add_taxon_name_color.html">add_taxon_name_color()</a></code> 
         </dt>
-        <dd>Create taxon names suitable for visualization with color.</dd>
+        <dd>Add taxon color for visualization.</dd>
       </dl><dl><dt>
           
           <code><a href="add_total_absolute_abundance.html">add_total_absolute_abundance()</a></code> 
         </dt>
-        <dd>Add total absolute abundances to samples table</dd>
+        <dd>Add total absolute abundances of samples</dd>
       </dl><dl><dt>
           
           <code><a href="add_total_count.html">add_total_count()</a></code> 
         </dt>
-        <dd>Add total reads per sample</dd>
+        <dd>Add total read count per sample</dd>
       </dl><dl><dt>
           
           <code><a href="add_total_density.html">add_total_density()</a></code> 
         </dt>
-        <dd>Add total densities to samples table</dd>
+        <dd>Add total densities of samples</dd>
       </dl><dl><dt>
           
           <code><a href="aggregate_samples.html">aggregate_samples()</a></code> 
@@ -174,6 +174,16 @@ before running this function to add the clusters if you want to stray from any d
         <dd>Get beta diversity table</dd>
       </dl><dl><dt>
           
+          <code><a href="change_id_samples.html">change_id_samples()</a></code> 
+        </dt>
+        <dd>Change sample IDs to a given expression</dd>
+      </dl><dl><dt>
+          
+          <code><a href="change_id_taxa.html">change_id_taxa()</a></code> 
+        </dt>
+        <dd>Change taxon IDs to a given expression</dd>
+      </dl><dl><dt>
+          
           <code><a href="classify_taxa.html">classify_taxa()</a></code> 
         </dt>
         <dd>(Re)classify amplicon sequences</dd>
@@ -187,7 +197,7 @@ and returns a tibble with clusters and taxon identifiers. Optionally, the networ
           
           <code><a href="cluster_samples.html">cluster_samples()</a></code> 
         </dt>
-        <dd>Clusters samples in desired number of clusters and adds these to the sample table.</dd>
+        <dd>Clusters samples into n clusters</dd>
       </dl><dl><dt>
           
           <code><a href="cluster_taxa.html">cluster_taxa()</a></code> 
@@ -245,7 +255,7 @@ and transforms to matrixfor downstream clustering or heatplot visualization.</dd
           
           <code><a href="from_dada.html">from_dada()</a></code> 
         </dt>
-        <dd>Convert the output objects of a DADA2 pipeline to a tidytacos object.</dd>
+        <dd>DADA2 to a tidytacos object</dd>
       </dl><dl><dt>
           
           <code><a href="from_phyloseq.html">from_phyloseq()</a></code> 
@@ -265,12 +275,12 @@ and transforms to matrixfor downstream clustering or heatplot visualization.</dd
           
           <code><a href="merge_tidytacos.html">merge_tidytacos()</a></code> 
         </dt>
-        <dd>Merge two tidytacos objects.</dd>
+        <dd>Merge two tidytacos objects</dd>
       </dl><dl><dt>
           
           <code><a href="mutate_counts.html">mutate_counts()</a></code> 
         </dt>
-        <dd>Create extra variables in the abundances table</dd>
+        <dd>Create extra variables in the count table</dd>
       </dl><dl><dt>
           
           <code><a href="mutate_samples.html">mutate_samples()</a></code> 
@@ -280,18 +290,28 @@ and transforms to matrixfor downstream clustering or heatplot visualization.</dd
           
           <code><a href="mutate_taxa.html">mutate_taxa()</a></code> 
         </dt>
-        <dd>Create extra variables in the taxon table</dd>
+        <dd>Create extra variables in the taxa table</dd>
       </dl><dl><dt>
           
           <code><a href="network.html">network()</a></code> 
         </dt>
         <dd>Perform network inference with SparCC on a tidytacos object, 
-after rarefaction of the taxa. See <a href="https://rdrr.io/pkg/SpiecEasi/man/sparcc.html" class="external-link">sparcc</a>.</dd>
+after rarefaction of the taxa. See sparcc.</dd>
       </dl><dl><dt>
           
           <code><a href="perform_adonis.html">perform_adonis()</a></code> 
         </dt>
         <dd>Perform an adonis test</dd>
+      </dl><dl><dt>
+          
+          <code><a href="perform_anosim.html">perform_anosim()</a></code> 
+        </dt>
+        <dd>Perform anosim test</dd>
+      </dl><dl><dt>
+          
+          <code><a href="perform_mantel_test.html">perform_mantel_test()</a></code> 
+        </dt>
+        <dd>Determine the correlation between the distance of the counts in a tidytacos object and a sample variable, multiple sample variables or another matrix.</dd>
       </dl><dl><dt>
           
           <code><a href="prevalences.html">prevalences()</a></code> 
@@ -361,12 +381,12 @@ after rarefaction of the taxa. See <a href="https://rdrr.io/pkg/SpiecEasi/man/sp
           
           <code><a href="tacoplot_ord.html">tacoplot_ord()</a></code> 
         </dt>
-        <dd>Return a pcoa plot of the samples</dd>
+        <dd>Return an ordination plot of the samples</dd>
       </dl><dl><dt>
           
           <code><a href="tacoplot_ord_ly.html">tacoplot_ord_ly()</a></code> 
         </dt>
-        <dd>Return an interactive pcoa plot of the samples</dd>
+        <dd>Return an interactive ordination plot of the samples</dd>
       </dl><dl><dt>
           
           <code><a href="tacoplot_stack.html">tacoplot_stack()</a></code> 
@@ -382,6 +402,11 @@ after rarefaction of the taxa. See <a href="https://rdrr.io/pkg/SpiecEasi/man/sp
           <code><a href="tacoplot_venn.html">tacoplot_venn()</a></code> 
         </dt>
         <dd>Return a venn diagram of overlapping taxon_ids between conditions</dd>
+      </dl><dl><dt>
+          
+          <code><a href="tacoplot_venn_ly.html">tacoplot_venn_ly()</a></code> 
+        </dt>
+        <dd>Return an interactive venn diagram of overlapping taxon_ids between conditions</dd>
       </dl><dl><dt>
           
           <code><a href="tacoplot_zoom.html">tacoplot_zoom()</a></code> 
@@ -411,7 +436,7 @@ after rarefaction of the taxa. See <a href="https://rdrr.io/pkg/SpiecEasi/man/sp
           
           <code><a href="tidy_count_to_matrix.html">tidy_count_to_matrix()</a></code> 
         </dt>
-        <dd>Convert counts tidy data frame to matrix.</dd>
+        <dd>Convert counts tidy data frame to matrix</dd>
       </dl><dl><dt>
           
           <code><a href="tidytacos.html">tidytacos</a></code> 

@@ -45,17 +45,17 @@ these to the tidytacos object in the form of a table called logratios.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">add_logratio</span><span class="op">(</span><span class="va">ta</span>, max_taxa <span class="op">=</span> <span class="fl">30</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">add_logratio</span><span class="op">(</span><span class="va">ta</span>, max_taxa <span class="op">=</span> <span class="fl">50</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>ta</dt>
-<dd><p>A tidytacos object</p></dd>
+<dd><p>A tidytacos object.</p></dd>
 
 
 <dt>max_taxa</dt>
-<dd><p>The maximum number of taxa to use</p></dd>
+<dd><p>The maximum number of taxa to use.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -66,9 +66,9 @@ these to the tidytacos object in the form of a table called logratios.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>If max_taxa is greater than the number of taxa, the taxa with the highest
+    <p>If max_taxa is smaller than the number of taxa in the dataset, the taxa with the highest
 occurrence will be selected.</p>
-<p>IMPORTANT: this function add pseudocounts of one to all abundances before
+<p>IMPORTANT: this function adds pseudocounts of one to all abundances before
 calculating the logratios.</p>
     </div>
 

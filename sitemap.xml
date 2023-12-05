@@ -88,6 +88,12 @@
     <loc>/reference/betas.html</loc>
   </url>
   <url>
+    <loc>/reference/change_id_samples.html</loc>
+  </url>
+  <url>
+    <loc>/reference/change_id_taxa.html</loc>
+  </url>
+  <url>
     <loc>/reference/classify_taxa.html</loc>
   </url>
   <url>
@@ -160,6 +166,12 @@
     <loc>/reference/perform_adonis.html</loc>
   </url>
   <url>
+    <loc>/reference/perform_anosim.html</loc>
+  </url>
+  <url>
+    <loc>/reference/perform_mantel_test.html</loc>
+  </url>
+  <url>
     <loc>/reference/pipe.html</loc>
   </url>
   <url>
@@ -215,6 +227,9 @@
   </url>
   <url>
     <loc>/reference/tacoplot_venn.html</loc>
+  </url>
+  <url>
+    <loc>/reference/tacoplot_venn_ly.html</loc>
   </url>
   <url>
     <loc>/reference/tacoplot_zoom.html</loc>

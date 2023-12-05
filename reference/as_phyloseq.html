@@ -42,23 +42,23 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">as_phyloseq</span><span class="op">(</span><span class="va">ta</span>, sample <span class="op">=</span> <span class="va">sample</span>, taxon <span class="op">=</span> <span class="va">taxon</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">as_phyloseq</span><span class="op">(</span><span class="va">ta</span>, sample <span class="op">=</span> <span class="va">sample</span>, taxon <span class="op">=</span> <span class="va">taxon_id</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>ta</dt>
-<dd><p>tidytacos object.</p></dd>
+<dd><p>A tidytacos object.</p></dd>
 
 
 <dt>sample</dt>
 <dd><p>The sample names required for a phyloseq object. Default is
-"sample" column in sample tibble of the tidytacos object.</p></dd>
+"sample" column of the sample table of the tidytacos object.</p></dd>
 
 
 <dt>taxon</dt>
-<dd><p>The taxon names required for a phyloseq object. Default is
-"taxon" column in taxon tibble of the tidytacos object.</p></dd>
+<dd><p>The taxon names required for a phyloseq object. Default is the
+"taxon_id" column in the taxon table of the tidytacos object.</p></dd>
 
 </dl></div>
     <div class="section level2">
