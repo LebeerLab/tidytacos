@@ -1,7 +1,7 @@
 Type: Package
 Package: tidytacos
 Title: Manipulate Taxonomic Composition Data of Microbial Communities
-Version: 0.3.0
+Version: 1.0.0
 Authors@R: c(
     person("Stijn", "Wittouck", , "stijn.wittouck@uantwerpen.be", role = c("aut", "cre")),
     person("Tim", "Van Rillaer", , "tim.vanrillaer@uantwerpen.be", role = c("aut")),
@@ -41,3 +41,5 @@ Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.2.3
 Config/testthat/edition: 3
+URL: https://lebeerlab.github.io/tidytacos/
+BugReports: https://github.com/LebeerLab/tidytacos/issues/new?assignees=TheOafidian&labels=bug&projects=&template=bug_report.md&title=%5BBUG%5D+
