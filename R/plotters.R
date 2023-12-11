@@ -290,20 +290,24 @@ tacoplot_ord <- function(ta, x=sample_id, palette = NULL, ord = "pcoa", distance
     ta <- add_ord(ta, distance=distance, method=ord, ...)
   } 
 
-  # calculate stats
-  if (stat.method == "anosim") {
-    stat <- perform_anosim(ta, !!x, distance=distance)
-  } else {
-    stat <- perform_mantel_test(ta, rlang::quo_name(x))
-  }
-
-  ta$samples %>% ggplot(aes(x=ord1, y=ord2, color=!!x)) + 
+  plt <- ta$samples %>% ggplot(aes(x=ord1, y=ord2, color=!!x)) + 
     geom_point() + 
-    annotate("text", x=min(ta$samples$ord1)+0.05, y=max(ta$samples$ord2)-0.05, 
-      label=paste0(toupper(stat.method),":\nR= ", signif(stat$statistic, 3), "\nP= ", signif(stat$signif, 3))) +
     theme_classic() +
     ggtitle(title)
 
+  # calculate stats
+  if (!is.null(stat.method)){
+    if (stat.method == "anosim") {
+      stat <- perform_anosim(ta, !!x, distance=distance)
+    } else {
+      stat <- perform_mantel_test(ta, rlang::quo_name(x))
+    }
+    plt + annotate("text", x=min(ta$samples$ord1)+0.05, y=max(ta$samples$ord2)-0.05, 
+      label=paste0(toupper(stat.method),":\nR= ", signif(stat$statistic, 3), "\nP= ", signif(stat$signif, 3)))
+  } 
+  else {
+    plt
+  }
 }
 
 #' Return a visualization designed for a small number of samples

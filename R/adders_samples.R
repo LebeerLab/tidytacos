@@ -298,8 +298,15 @@ add_ord <- function(ta, distance="bray", method="pcoa", dims=2, binary=FALSE, ..
   # make relative abundance matrix
   rel_abundance_matrix <- rel_abundance_matrix(ta)
 
-  # make Bray-Curtis distance matrix
-  dist_matrix = vegan::vegdist(rel_abundance_matrix, method = distance, binary=binary)
+  if (distance == "aitchison") {
+    # Euclidean distance between CLR transformed abundances
+    rel_abundance_matrix <- rel_abundance_matrix %>%
+      vegan::decostand(method = "clr", pseudocount = 1)
+    dist_matrix <- vegan::vegdist(rel_abundance_matrix, method = "euclidean")
+  } else {
+    # make distance matrix
+    dist_matrix = vegan::vegdist(rel_abundance_matrix, method = distance, binary=binary)
+  }
 
   if (method == "pcoa") {
     ord <- perform_pcoa(ta, dist_matrix, dims=dims, ...)
