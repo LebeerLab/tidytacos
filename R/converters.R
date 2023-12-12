@@ -464,8 +464,15 @@ create_biom_header <- function(type="OTU table"){
     )
 }
 
-
-asv_to_biom <- function(ta, filename="asvs.biom"){
+#' Write the counts of the tidytacos object to a biom file
+#'
+#' Uses the taxon_id and sample_id columns to create a dense biom file (v1, json). 
+#' By default this is on ASV/OTU level. 
+#' To do it at any other taxonomy level, one first needs to aggregate the taxa. 
+#' @param ta A tidytacos object.
+#' @param filename The name of the resulting biom table file, defaults to 'asvs.biom'.
+#' @export
+to_biom <- function(ta, filename="asvs.biom"){
 
   force_optional_dependency('jsonlite')  
 
@@ -497,4 +504,31 @@ asv_to_biom <- function(ta, filename="asvs.biom"){
   biom[["data"]] <- ta %>% counts_matrix(taxon_name=taxon_id, sample_name=sample_id) %>% t()
   biom.json <- biom %>% jsonlite::toJSON(auto_unbox = TRUE)
   write(biom.json, file=filename)
+}
+
+#' Write the sequences of the taxa table to a fasta file
+#'
+#' Uses the taxon_col and sequence_col columns to write the sequences into a fasta file per taxon. 
+#' @param ta A tidytacos object.
+#' @param filename The name of the resulting biom table file, defaults to 'asvs.fasta'.
+#' @param taxon_col The name of the column in the taxa table which is to be used as id for the sequences (taxon_id by default).
+#' @param seq_col The name of the sequence column in the taxa table (sequence by default).
+#' @export
+to_fasta <- function(ta, filename="asvs.fasta", taxon_col=taxon_id, seq_col=sequence) {
+  force_optional_dependency("seqinr")
+  seq <- rlang::enquo(seq_col)
+  taxon <- rlang::enquo(taxon_col)
+
+  if (!rlang::quo_name(seq) %in% names(ta$taxa)) {
+    stop(paste("Column", seq, "not found in taxa table"))
+  }
+  sequences <- ta$taxa %>% pull(!!seq)
+  if (grepl("![ACTGU]", strsplit(sequences[1], "\\s*"))) {
+    warning("Sequences contain non-standard characters. Make sure to check the output if the correct sequence columns is used.")
+  }
+  
+  seqinr::write.fasta(
+    sequences=as.list(ta$taxa %>% pull(!!seq)), 
+    names=ta$taxa %>% pull(!!taxon), 
+    file.out = filename)
 }
