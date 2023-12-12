@@ -453,3 +453,48 @@ make_tidytacos <- function(samples, taxa, counts,
 
 }
 
+create_biom_header <- function(type="OTU table"){
+    list(
+    id="null", 
+    format="1.0.0",
+    format_url="http://biom-format.org",
+    type=type,
+    generated_by=paste("tidytacos revision", packageVersion("tidytacos")),
+    date=format(Sys.time(), "%Y-%m-%dT%H:%M:%S")
+    )
+}
+
+
+asv_to_biom <- function(ta, filename="asvs.biom"){
+
+  force_optional_dependency('jsonlite')  
+
+  if (! "tidytacos" %in% class(ta)) {
+    stop("Input is not a tidytacos object")
+  }
+
+  split_id_and_metadata_taxa <- function(row){
+    list(
+      id=row["taxon_id"],
+      metadata=as.list(row[ta%>%rank_names()])
+    )
+  }  
+
+  split_id_and_metadata_sample <- function(row){
+    list(
+      id=row["sample_id"],
+      metadata=as.list(row[
+        names(ta$samples)[which(!names(ta$samples) %in% c())]])
+    )
+  }
+  ta <- remove_empty_samples(ta)  
+  biom <- create_biom_header()
+  biom[["rows"]] <- apply(ta$taxa, MARGIN=1, split_id_and_metadata_taxa)
+  biom[["columns"]] <- apply(ta$samples, MARGIN=1, split_id_and_metadata_sample)
+  biom[["matrix_type"]] <- "dense"
+  biom[["matrix_element_type"]] <- "int"
+  biom[["shape"]] <- c(nrow(ta$taxa), nrow(ta$samples))
+  biom[["data"]] <- ta %>% counts_matrix(taxon_name=taxon_id, sample_name=sample_id) %>% t()
+  biom.json <- biom %>% jsonlite::toJSON(auto_unbox = TRUE)
+  write(biom.json, file=filename)
+}
