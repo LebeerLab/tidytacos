@@ -317,7 +317,7 @@ add_jervis_bardy <- function(ta, dna_conc, sample_condition = T, min_pres = 3) {
 
 #' Add taxon prevalences to the taxon table
 #'
-#' \code{add_prevalence} calculates taxon prevalences (overall or per condition) and adds it to the taxa table under the column name "occurrence". Prevalence can be expressed as the number of samples where a taxon occurs or the ratio of samples where a taxon occurs and the total amount of samples.
+#' \code{add_prevalence} calculates taxon prevalences (overall or per condition) and adds it to the taxa table under the column name "prevalence". Prevalence can be expressed as the number of samples where a taxon occurs or the ratio of samples where a taxon occurs and the total amount of samples.
 #'
 #' If 'condition' is specified, the prevalences will be calculated separately for each group defined by the condition variable. This variable should be present in the sample table.
 #'

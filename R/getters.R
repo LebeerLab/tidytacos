@@ -131,7 +131,7 @@ prevalences <- function(ta, condition = NULL, pres_abs = F) {
 
     abundances_extended %>%
       count(taxon_id) %>%
-      rename(occurrence = n)
+      rename(prevalence = n)
 
   } else if (pres_abs) {
 
@@ -150,8 +150,8 @@ prevalences <- function(ta, condition = NULL, pres_abs = F) {
 
     abundances_extended %>%
       count(taxon_id, !! condition) %>%
-      rename(occurrence = n) %>%
-      complete(taxon_id, !! condition, fill = list(occurrence = 0))
+      rename(prevalence = n) %>%
+      complete(taxon_id, !! condition, fill = list(prevalence = 0))
 
   }
 
