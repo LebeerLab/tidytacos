@@ -334,7 +334,8 @@ add_jervis_bardy <- function(ta, dna_conc, sample_condition = T, min_pres = 3) {
 add_prevalence <- function(
   ta, condition = NULL, relative = F, fischer_test = F
   ) {
-
+  prev <- "prevalence"
+  prev_in <- "prevalence_in"
   if (is.null(condition)) {
 
     taxa_prevalences <-
@@ -363,16 +364,16 @@ add_prevalence <- function(
       prevalences %>%
       filter(presence == "present") %>%
       select(taxon_id, !! condition_sym, occurrence = n) %>%
-      mutate_at(condition, ~ str_c("occurrence_in", ., sep = "_")) %>%
-      spread(value = "occurrence", key = condition) %>%
+      mutate_at(condition, ~ str_c(prev_in, ., sep = "_")) %>%
+      spread(value = prev, key = condition) %>%
       left_join(taxa_fischer, by = "taxon_id")
 
   } else {
 
     taxa_prevalences <-
       prevalences(ta, condition = condition) %>%
-      mutate_at(condition, ~ str_c("occurrence_in", ., sep = "_")) %>%
-      spread(value = "occurrence", key = condition)
+      mutate_at(condition, ~ str_c(prev_in, ., sep = "_")) %>%
+      spread(value = prev, key = condition)
 
   }
 
@@ -396,8 +397,8 @@ add_prevalence <- function(
 
       con <- conditions[[condition]][con_ix]
       n_samples <- conditions[["n"]][con_ix]
-      taxa_prevalences[[str_c("occurrence_in_", con)]] <-
-        taxa_prevalences[[str_c("occurrence_in_", con)]] / n_samples
+      taxa_prevalences[[str_c(prev_in, con, sep="_")]] <-
+        taxa_prevalences[[str_c(prev_in, con, sep="_")]] / n_samples
 
     }
 
