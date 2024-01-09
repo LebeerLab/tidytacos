@@ -20,13 +20,13 @@ network <- function(ta, rarefact = 0.05, iter=20, inner_iter=10, th=0.1, taxon_n
   taxon_name <- rlang::enquo(taxon_name)
 
   cutoff <- nrow(ta$samples) * rarefact
-  if (!"occurrence" %in% names(ta$taxa)) {
+  if (!"prevalence" %in% names(ta$taxa)) {
     ta_occ <- ta %>% add_prevalence()
   } else {
     ta_occ <- ta
   }
   ta_occ <- ta_occ %>%
-    filter_taxa(occurrence >= cutoff)
+    filter_taxa(prevalence >= cutoff)
   counts <- ta_occ %>%
     counts_matrix(sample_name = !!sample_name, taxon_name = !!taxon_name)
   network.out <- SpiecEasi::sparcc(counts)

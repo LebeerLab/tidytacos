@@ -33,6 +33,7 @@ jobs:
                 bioc::phyloseq
                 any::MCL
                 any::Matrix
+                any::ggVennDiagram
                 github::zdk123/SpiecEasi
           needs: coverage
 

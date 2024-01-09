@@ -68,6 +68,7 @@ jobs:
               any::umap
               any::Rtsne
               any::fastDummies
+              any::ggVennDiagram
               bioc::dada2
               bioc::phyloseq
               github::zdk123/SpiecEasi
