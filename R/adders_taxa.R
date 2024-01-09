@@ -363,7 +363,7 @@ add_prevalence <- function(
     taxa_prevalences <-
       prevalences %>%
       filter(presence == "present") %>%
-      select(taxon_id, !! condition_sym, occurrence = n) %>%
+      select(taxon_id, !! condition_sym, prevalence = n) %>%
       mutate_at(condition, ~ str_c(prev_in, ., sep = "_")) %>%
       spread(value = prev, key = condition) %>%
       left_join(taxa_fischer, by = "taxon_id")
@@ -381,7 +381,7 @@ add_prevalence <- function(
 
     taxa_prevalences <-
       taxa_prevalences %>%
-      mutate(occurrence = occurrence / nrow(ta$samples))
+      mutate(prevalence = prevalence / nrow(ta$samples))
 
   }
 
