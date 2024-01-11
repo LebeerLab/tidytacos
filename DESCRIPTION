@@ -10,7 +10,7 @@ Authors@R: c(
 Description: A toolkit for processing and visualizing taxonomic composition data
     of microbial communities, based on the tidyverse framework.
 License: GPL-3
-Depends: R (>= 3.6.0)
+Depends: R (>= 4.1.0)
 Imports:
     dplyr,
     forcats,

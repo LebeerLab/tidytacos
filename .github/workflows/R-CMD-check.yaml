@@ -26,10 +26,6 @@ jobs:
           - {os: macos-latest,   r: 'release'}
 
           - {os: windows-latest, r: 'release'}
-          # Use 3.6 to trigger usage of RTools35;
-          # latest Matrix package expects R>=4, this is not an issue for most functions
-          # but will fail in the sparcc networking
-          #- {os: windows-latest, r: '3.6'}
           # use 4.1 to check with rtools40's older compiler
           - {os: windows-latest, r: '4.1'}
 
@@ -37,9 +33,8 @@ jobs:
           - {os: ubuntu-latest,   r: 'release'}
           - {os: ubuntu-latest,   r: 'oldrel-1'}
           - {os: ubuntu-latest,   r: 'oldrel-2'}
-          - {os: ubuntu-latest,   r: 'oldrel-3'}
-          # dada2 needs atleast R3.6
-          # - {os: ubuntu-latest,   r: 'oldrel-4'}
+          # bunch of packages need atleast R 4.1
+          - {os: ubuntu-latest,   r: '4.1'}
 
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
@@ -77,3 +72,4 @@ jobs:
         with:
           upload-snapshots: true
           error-on: '"error"'
+
