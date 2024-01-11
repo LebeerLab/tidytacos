@@ -143,6 +143,10 @@ aggregate_samples <- function(ta) {
 #' @param rank An optional rank to aggregate on.
 #' @export
 aggregate_taxa <- function(ta, rank = NULL) {
+  
+  # Temporarily replace any NA's with strings as they interfere with aggregation
+  ta$taxa[is.na(ta$taxa)] <- "unknown"
+  
   if (!is.null(rank)) {
     rank_names <-
       rank_names(ta) %>%
@@ -163,9 +167,6 @@ aggregate_taxa <- function(ta, rank = NULL) {
     rank_names_to_keep <- rank_names[1:rank_index]
     ta <- select_taxa(ta, taxon_id, !!rank_names_to_keep)
   }
-
-  # this avoids some problems
-  ta$taxa[is.na(ta$taxa)] <- "unknown"
 
   ta$taxa <-
     ta$taxa %>%
@@ -203,9 +204,18 @@ aggregate_taxa <- function(ta, rank = NULL) {
   # cleanup
   ta$taxa[ta$taxa == "unknown"] <- NA
   # Adapt rank names to aggregate
-  ta %>% set_rank_names(
+  ta <- ta %>% set_rank_names(
     rank_names(ta) %>% intersect(names(ta$taxa))
   )
+  # Add new unique taxon label
+  if (!is.na(rank)){
+    include_species = eval(rank=="species")
+    ta <- ta %>% 
+      add_taxon_name(include_species = include_species) %>% 
+      mutate_taxa(taxon = taxon_name) %>% 
+      select(-taxon_name)
+  }
+  ta
 }
 
 #' Trim all sequences
