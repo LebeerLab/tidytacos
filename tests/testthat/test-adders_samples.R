@@ -20,12 +20,25 @@ test_that("Can add sample tibble to ta object",{
 test_that("Can add lib sizes", {
     ta_lib <- test_data %>% add_total_count()
     expect_equal(ta_lib$samples$total_count, c(2800, 636))
+    
 })
 
 test_that("Can add alpha diversity metrics", {
-    ta_alpha <- test_data %>% add_alpha()
-    expect_equal(ta_alpha$samples$inverse_simpson, 
-                    c(1.989, 1.971), tolerance=1e-3)
+    ta_alpha <- test_data %>% add_alphas()
+    expect_equal(ta_alpha$samples$invsimpson, 
+                    c(1.989, 1.971), tolerance=1e-3, ignore_attr=TRUE)
+    expect_equal(ta_alpha$samples$shannon, 
+                    c(0.690, 0.686), tolerance=1e-3, ignore_attr=TRUE)
+    expect_equal(ta_alpha$samples$simpson, 
+                    c(0.497, 0.493), tolerance=1e-3, ignore_attr=TRUE)
+    expect_equal(ta_alpha$samples$obs, 
+                    c(2, 2), ignore_attr=TRUE)
+    expect_equal(ta_alpha$samples$S.chao1, 
+                    c(2,2), ignore_attr=TRUE)
+    expect_equal(ta_alpha$samples$S.ACE, 
+                    c(NaN,NaN), ignore_attr=TRUE)
+    expect_equal(ta_alpha$samples$pielou, 
+                    c(0.996,0.990), tolerance=1e-3, ignore_attr=TRUE)
 })
 
 test_that("Can add spike-ratio", {

@@ -4,10 +4,12 @@
 \alias{add_alpha}
 \title{Add alpha diversity measures}
 \usage{
-add_alpha(ta)
+add_alpha(ta, method = "invsimpson")
 }
 \arguments{
 \item{ta}{A tidytacos object.}
+
+\item{method}{The diversity measure to use, see \code{\link[vegan]{diversity}} for examples.}
 }
 \description{
 \code{add_alpha} adds two alpha diversity measures to the sample table of a
