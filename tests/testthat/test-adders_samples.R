@@ -33,9 +33,9 @@ test_that("Can add alpha diversity metrics", {
                     c(0.497, 0.493), tolerance=1e-3, ignore_attr=TRUE)
     expect_equal(ta_alpha$samples$obs, 
                     c(2, 2), ignore_attr=TRUE)
-    expect_equal(ta_alpha$samples$S.chao1, 
+    expect_equal(ta_alpha$samples$s.chao1, 
                     c(2,2), ignore_attr=TRUE)
-    expect_equal(ta_alpha$samples$S.ACE, 
+    expect_equal(ta_alpha$samples$s.ace, 
                     c(NaN,NaN), ignore_attr=TRUE)
     expect_equal(ta_alpha$samples$pielou, 
                     c(0.996,0.990), tolerance=1e-3, ignore_attr=TRUE)

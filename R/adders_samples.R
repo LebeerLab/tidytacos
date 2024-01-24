@@ -92,17 +92,23 @@ add_total_count <- function(ta) {
 
 }
 
-#' Add alpha diversity measures
+#' Add alpha diversity measure
 #'
-#' \code{add_alpha} adds two alpha diversity measures to the sample table of a
+#' \code{add_alpha} adds an alpha diversity measures to the sample table of a
 #' tidytacos object.
 #'
-#' This function adds two alpha diversity measures, observed richness and inverse
-#' Simpson index, to the sample table of a tidytacos object under the variable
-#' names "observed" and "inverse_simpson", respectively.
+#' This function can add different alpha diversity measures to the sample table, specified by the method argument.
+#' The following methods are available:
+#' - invsimpson: Inverse Simpson index
+#' - shannon: Shannon index
+#' - simpson: Simpson index
+#' - pielou: Pielou's evenness index
+#' - obs: Observed richness
+#' - s.chao1: Chao1 richness estimator
+#' - s.ace: ACE richness estimator
 #'
 #' @param ta A tidytacos object.
-#' @param method The diversity measure to use, see \code{\link[vegan]{diversity}} for examples.
+#' @param method The diversity measure to use, see \code{\link[vegan]{diversity}} for further information on these.
 #'
 #' @examples
 #' # Initiate counts matrix
@@ -168,7 +174,16 @@ add_alpha <- function(ta, method="invsimpson") {
 
 }
 
-
+#' Add alpha diversity measures
+#'
+#' \code{add_alpha} adds selected alpha diversity measures to the sample table of a
+#' tidytacos object.
+#'
+#' This function can add multiple different alpha diversity measures to the sample table, specified by the methods argument.
+#' @param ta A tidytacos object.
+#' @param methods A character vector of the diversity measure to use, see \code{\link[tidytacos]{add_alpha}} for examples.
+#' Optionally use 'all' to add all diversity measures.
+#' @export
 add_alphas <- function(ta, methods="all") {
 
   if (methods == "all") {

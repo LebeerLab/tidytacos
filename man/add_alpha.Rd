@@ -2,23 +2,29 @@
 % Please edit documentation in R/adders_samples.R
 \name{add_alpha}
 \alias{add_alpha}
-\title{Add alpha diversity measures}
+\title{Add alpha diversity measure}
 \usage{
 add_alpha(ta, method = "invsimpson")
 }
 \arguments{
 \item{ta}{A tidytacos object.}
 
-\item{method}{The diversity measure to use, see \code{\link[vegan]{diversity}} for examples.}
+\item{method}{The diversity measure to use, see \code{\link[vegan]{diversity}} for further information on these.}
 }
 \description{
-\code{add_alpha} adds two alpha diversity measures to the sample table of a
+\code{add_alpha} adds an alpha diversity measures to the sample table of a
 tidytacos object.
 }
 \details{
-This function adds two alpha diversity measures, observed richness and inverse
-Simpson index, to the sample table of a tidytacos object under the variable
-names "observed" and "inverse_simpson", respectively.
+This function can add different alpha diversity measures to the sample table, specified by the method argument.
+The following methods are available:
+- invsimpson: Inverse Simpson index
+- shannon: Shannon index
+- simpson: Simpson index
+- pielou: Pielou's evenness index
+- obs: Observed richness
+- s.chao1: Chao1 richness estimator
+- s.ace: ACE richness estimator
 }
 \examples{
 # Initiate counts matrix

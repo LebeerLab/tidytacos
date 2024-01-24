@@ -395,6 +395,13 @@ tacoplot_venn_ly <- function(ta, condition, ...) {
   ta %>% tacoplot_venn(!!condition, show_intersect=TRUE, ...)
 }
 
+#' Return a boxplot of every alpha metric per group in the samples table of a tidytaco object.
+#' If no alpha metrics are present, all available ones are added.
+#'
+#' @param ta A tidytacos object.
+#' @param group_by The name of a variable in the samples table on which to group the samples.
+#'
+#' @export
 tacoplot_alphas <- function(ta, group_by){
 
   ta_tmp <- ta
