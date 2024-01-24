@@ -20,7 +20,7 @@ these to the tidytacos object in the form of a table called logratios.
 }
 \details{
 If max_taxa is smaller than the number of taxa in the dataset, the taxa with the highest
-occurrence will be selected.
+prevalence will be selected.
 
 IMPORTANT: this function adds pseudocounts of one to all abundances before
 calculating the logratios.

@@ -395,6 +395,15 @@ tacoplot_venn_ly <- function(ta, condition, ...) {
   ta %>% tacoplot_venn(!!condition, show_intersect=TRUE, ...)
 }
 
+tacoplot_alphas <- function(ta, group_by){
+
+  ta_tmp <- ta
+  if (!any(alpha_metrics %in% ta$samples)){
+    ta_tmp <- add_alphas(ta_tmp)
+  }
+  ta_tmp
+}
+
 palette_paired <- c(
   "#e8e8e8", # light grey
   "#a6cee3", # light blue
