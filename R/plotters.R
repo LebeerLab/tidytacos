@@ -401,7 +401,12 @@ tacoplot_alphas <- function(ta, group_by){
   if (!any(alpha_metrics %in% ta$samples)){
     ta_tmp <- add_alphas(ta_tmp)
   }
-  ta_tmp
+  ta_tmp$samples %>% 
+    pivot_longer(any_of(alpha_metrics)) %>%
+    ggplot(aes(x=!!enquo(group_by), y=value, fill=!!enquo(group_by))) +
+    geom_boxplot() +
+    geom_jitter(alpha=0.1) +
+    facet_wrap(~name, scales="free")
 }
 
 palette_paired <- c(
