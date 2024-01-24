@@ -400,20 +400,44 @@ tacoplot_venn_ly <- function(ta, condition, ...) {
 #'
 #' @param ta A tidytacos object.
 #' @param group_by The name of a variable in the samples table on which to group the samples.
-#'
+#' @param compare_means Add the result of a statistical test to the plot, comparing the means of the groups. 
+#' See \code{\link[ggpubr]{stat_compare_means}} for additional arguments that can be given for this test. 
+#' The default is FALSE.
 #' @export
-tacoplot_alphas <- function(ta, group_by){
+tacoplot_alphas <- function(ta, group_by, compare_means=FALSE, ...){
 
+  group_by <- rlang::enquo(group_by)
+  if (rlang::quo_is_missing(group_by)){
+    stop("Argument group_by missing. Please supply the name of a categorical value, to be used as the grouping variable.")
+  }
   ta_tmp <- ta
+
+  if (rlang::quo_is_null(group_by)){
+    group_by <- "all.samples"
+    ta_tmp$samples$all.samples <- "all.samples"
+  }
+
   if (!any(alpha_metrics %in% ta$samples)){
     ta_tmp <- add_alphas(ta_tmp)
   }
-  ta_tmp$samples %>% 
-    pivot_longer(any_of(alpha_metrics)) %>%
-    ggplot(aes(x=!!enquo(group_by), y=value, fill=!!enquo(group_by))) +
-    geom_boxplot() +
+  plt <- ta_tmp$samples %>% 
+    pivot_longer(any_of(sapply(alpha_metrics, tolower, USE.NAMES=F))) %>%
+    ggplot(aes(x=!!group_by, y=value, fill=!!group_by)) +
+    geom_violin() +
     geom_jitter(alpha=0.1) +
-    facet_wrap(~name, scales="free")
+    facet_wrap(~name, scales="free") + 
+    theme_classic() + 
+    theme(
+      strip.background = element_rect(
+        fill=alpha("lightblue", 0.4),
+        linewidth=0.5
+      )
+    )
+
+  if (!compare_means) return(plt)
+
+  force_optional_dependency("ggpubr")
+  plt + ggpubr::stat_compare_means(...)
 }
 
 palette_paired <- c(

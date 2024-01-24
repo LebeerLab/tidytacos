@@ -5,12 +5,16 @@
 \title{Return a boxplot of every alpha metric per group in the samples table of a tidytaco object.
 If no alpha metrics are present, all available ones are added.}
 \usage{
-tacoplot_alphas(ta, group_by)
+tacoplot_alphas(ta, group_by, compare_means = FALSE, ...)
 }
 \arguments{
 \item{ta}{A tidytacos object.}
 
 \item{group_by}{The name of a variable in the samples table on which to group the samples.}
+
+\item{compare_means}{Add the result of a statistical test to the plot, comparing the means of the groups. 
+See \code{\link[ggpubr]{stat_compare_means}} for additional arguments that can be given for this test. 
+The default is FALSE.}
 }
 \description{
 Return a boxplot of every alpha metric per group in the samples table of a tidytaco object.
