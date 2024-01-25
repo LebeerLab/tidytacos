@@ -258,9 +258,14 @@ tacoplot_ord_ly <- function(ta, x=NULL, samplenames = sample_id, ord="pcoa", dim
 #'   groups.
 #'
 #' @export
-tacoplot_ord <- function(ta, x=sample_id, palette = NULL, ord = "pcoa", distance="bray", stat.method="mantel",title = NULL, ...) {
+tacoplot_ord <- function(ta, x=NULL, palette = NULL, ord = "pcoa", distance="bray", stat.method=NULL,title = NULL, ...) {
 
-  x <- enquo(x)
+  # convert promise to formula
+  x <- rlang::enquo(x)
+  if (rlang::quo_is_null(x)) {
+    stop("Argument x missing. Please supply the name of a categorical value, to be used as the color for the pcoa plot.")
+  }
+
   if (is.null(title)){ 
     title <- paste(ord, "plot")
   }
@@ -269,8 +274,9 @@ tacoplot_ord <- function(ta, x=sample_id, palette = NULL, ord = "pcoa", distance
     stop(error_message)
   }
 
-  if (quo_name(x) == "sample_id") {
+  if (quo_name(x) == "sample_id" || quo_name(x) == "sample") {
     x <- NULL
+    stat.method <- NULL
   }
   
   # fallback to default palette
