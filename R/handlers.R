@@ -208,12 +208,12 @@ aggregate_taxa <- function(ta, rank = NULL) {
     rank_names(ta) %>% intersect(names(ta$taxa))
   )
   # Add new unique taxon label
-  if (!is.na(rank)){
+  if (!is.null(rank)){
     include_species = eval(rank=="species")
     ta <- ta %>% 
       add_taxon_name(include_species = include_species) %>% 
       mutate_taxa(taxon = taxon_name) %>% 
-      select(-taxon_name)
+      select_taxa(-taxon_name)
   }
   ta
 }

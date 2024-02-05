@@ -92,16 +92,23 @@ add_total_count <- function(ta) {
 
 }
 
-#' Add alpha diversity measures
+#' Add alpha diversity measure
 #'
-#' \code{add_alpha} adds two alpha diversity measures to the sample table of a
+#' \code{add_alpha} adds an alpha diversity measures to the sample table of a
 #' tidytacos object.
 #'
-#' This function adds two alpha diversity measures, observed richness and inverse
-#' Simpson index, to the sample table of a tidytacos object under the variable
-#' names "observed" and "inverse_simpson", respectively.
+#' This function can add different alpha diversity measures to the sample table, specified by the method argument.
+#' The following methods are available:
+#' - invsimpson: Inverse Simpson index
+#' - shannon: Shannon index
+#' - simpson: Simpson index
+#' - pielou: Pielou's evenness index
+#' - obs: Observed richness
+#' - s.chao1: Chao1 richness estimator
+#' - s.ace: ACE richness estimator
 #'
 #' @param ta A tidytacos object.
+#' @param method The diversity measure to use, see \code{\link[vegan]{diversity}} for further information on these.
 #'
 #' @examples
 #' # Initiate counts matrix
@@ -122,31 +129,81 @@ add_total_count <- function(ta) {
 #'  add_alpha()
 #'
 #' @export
-add_alpha <- function(ta) {
+add_alpha <- function(ta, method="invsimpson") {
 
-  # if rel abundances not present: add temporarily
-  rel_abundance_tmp <- ! "rel_abundance" %in% names(ta$counts)
-  if (rel_abundance_tmp) ta <- add_rel_abundance(ta)
+  vegan_standard_methods <- c("invsimpson","shannon","simpson")
+  vegan_estimateR_methods <- c("obs", "s.chao1", "s.ace")
 
-  # make table with sample, divObserved and divInvSimpson
-  diversities <- ta$counts %>%
-    filter(count > 0) %>%
-    group_by(sample_id) %>%
-    summarize(
-      observed = n(),
-      inverse_simpson = 1 / sum(rel_abundance ^ 2)
-    ) %>%
-    ungroup()
+  method <- tolower(method)
+
+  if (!method %in% lapply(alpha_metrics, tolower)) {
+    stop(paste("Select a method from", paste0(alpha_metrics, collapse=", ")))
+  }
+
+  if (method %in% vegan_standard_methods) {
+    M <- ta %>% counts_matrix(sample_name=sample_id, taxon_name=taxon_id)
+    D <- vegan::diversity(M, index=method)
+    diversities <- tibble::tibble(sample_id = names(D), !!method := D)
+  }
+
+  if (method %in% vegan_estimateR_methods) {
+    M <- ta %>% counts_matrix(sample_name=sample_id, taxon_name=taxon_id)
+    D <- vegan::estimateR(M)
+    selection <- grepl(method, rownames(D), ignore.case = TRUE)
+    selection_names <- rownames(D)[selection]
+    Dt <- D %>% t()
+    Dt <- Dt[,selection_names]
+
+    diversities <- Dt %>% 
+      tibble::as_tibble() %>% 
+      dplyr::mutate(sample_id = names(D[1,]))
+
+    if (is.null(dim(Dt))) {
+      diversities <- diversities %>% 
+        dplyr::rename(!!method := value)
+    }
+  }
+
+  if (method == "pielou") diversities <- calculate_alpha_pielou(ta)
 
   # add diversity measure to sample table
   ta$samples = left_join(ta$samples, diversities, by = "sample_id")
 
-  # cleanup
-  if (rel_abundance_tmp) ta$counts$rel_abundance <- NULL
-
   # return ta object
   ta
 
+}
+
+#' Add alpha diversity measures
+#'
+#' \code{add_alpha} adds selected alpha diversity measures to the sample table of a
+#' tidytacos object.
+#'
+#' This function can add multiple different alpha diversity measures to the sample table, specified by the methods argument.
+#' @param ta A tidytacos object.
+#' @param methods A character vector of the diversity measure to use, see \code{\link[tidytacos]{add_alpha}} for examples.
+#' Optionally use 'all' to add all diversity measures.
+#' @export
+add_alphas <- function(ta, methods="all") {
+
+  if (methods == "all") {
+    methods <- alpha_metrics
+  }
+
+  for (method in methods) {
+    ta <- add_alpha(ta, method)
+  }
+  ta
+}
+
+
+calculate_alpha_pielou <- function(ta) {
+
+  M <- ta %>% counts_matrix(sample_name=sample_id, taxon_name=taxon_id)
+  H <- vegan::diversity(M, index="shannon")
+  J <- H / log(vegan::specnumber(M))
+
+  tibble(sample_id = names(J), pielou = J)
 }
 
 #' Add clustering-based sample order

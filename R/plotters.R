@@ -258,9 +258,14 @@ tacoplot_ord_ly <- function(ta, x=NULL, samplenames = sample_id, ord="pcoa", dim
 #'   groups.
 #'
 #' @export
-tacoplot_ord <- function(ta, x=sample_id, palette = NULL, ord = "pcoa", distance="bray", stat.method="mantel",title = NULL, ...) {
+tacoplot_ord <- function(ta, x=NULL, palette = NULL, ord = "pcoa", distance="bray", stat.method=NULL,title = NULL, ...) {
 
-  x <- enquo(x)
+  # convert promise to formula
+  x <- rlang::enquo(x)
+  if (rlang::quo_is_null(x)) {
+    stop("Argument x missing. Please supply the name of a categorical value, to be used as the color for the pcoa plot.")
+  }
+
   if (is.null(title)){ 
     title <- paste(ord, "plot")
   }
@@ -269,8 +274,9 @@ tacoplot_ord <- function(ta, x=sample_id, palette = NULL, ord = "pcoa", distance
     stop(error_message)
   }
 
-  if (quo_name(x) == "sample_id") {
+  if (quo_name(x) == "sample_id" || quo_name(x) == "sample") {
     x <- NULL
+    stat.method <- NULL
   }
   
   # fallback to default palette
@@ -393,6 +399,51 @@ tacoplot_venn_ly <- function(ta, condition, ...) {
   }
 
   ta %>% tacoplot_venn(!!condition, show_intersect=TRUE, ...)
+}
+
+#' Return a boxplot of every alpha metric per group in the samples table of a tidytaco object.
+#' If no alpha metrics are present, all available ones are added.
+#'
+#' @param ta A tidytacos object.
+#' @param group_by The name of a variable in the samples table on which to group the samples.
+#' @param compare_means Add the result of a statistical test to the plot, comparing the means of the groups. 
+#' See \code{\link[ggpubr]{stat_compare_means}} for additional arguments that can be given for this test. 
+#' The default is FALSE.
+#' @export
+tacoplot_alphas <- function(ta, group_by, compare_means=FALSE, ...){
+
+  group_by <- rlang::enquo(group_by)
+  if (rlang::quo_is_missing(group_by)){
+    stop("Argument group_by missing. Please supply the name of a categorical value, to be used as the grouping variable.")
+  }
+  ta_tmp <- ta
+
+  if (rlang::quo_is_null(group_by)){
+    group_by <- "all.samples"
+    ta_tmp$samples$all.samples <- "all.samples"
+  }
+
+  if (!any(alpha_metrics %in% ta$samples)){
+    ta_tmp <- add_alphas(ta_tmp)
+  }
+  plt <- ta_tmp$samples %>% 
+    pivot_longer(any_of(sapply(alpha_metrics, tolower, USE.NAMES=F))) %>%
+    ggplot(aes(x=!!group_by, y=value, fill=!!group_by)) +
+    geom_violin() +
+    geom_jitter(alpha=0.1) +
+    facet_wrap(~name, scales="free") + 
+    theme_classic() + 
+    theme(
+      strip.background = element_rect(
+        fill=alpha("lightblue", 0.4),
+        linewidth=0.5
+      )
+    )
+
+  if (!compare_means) return(plt)
+
+  force_optional_dependency("ggpubr")
+  plt + ggpubr::stat_compare_means(...)
 }
 
 palette_paired <- c(
