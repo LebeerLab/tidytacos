@@ -186,7 +186,7 @@ add_alpha <- function(ta, method="invsimpson") {
 #' @export
 add_alphas <- function(ta, methods="all") {
 
-  if (methods == "all") {
+  if (any(methods == "all")) {
     methods <- alpha_metrics
   }
 
