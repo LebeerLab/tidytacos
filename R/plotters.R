@@ -417,17 +417,18 @@ tacoplot_alphas <- function(ta, group_by, compare_means=FALSE, ...){
     stop("Argument group_by missing. Please supply the name of a categorical value, to be used as the grouping variable.")
   }
   ta_tmp <- ta
+  clean_alpha_metrics <- sapply(alpha_metrics, tolower, USE.NAMES=F)
 
   if (rlang::quo_is_null(group_by)){
     group_by <- "all.samples"
     ta_tmp$samples$all.samples <- "all.samples"
   }
 
-  if (!any(alpha_metrics %in% ta$samples)){
+  if (!any(clean_alpha_metrics %in% ta$samples)){
     ta_tmp <- add_alphas(ta_tmp)
   }
   plt <- ta_tmp$samples %>% 
-    pivot_longer(any_of(sapply(alpha_metrics, tolower, USE.NAMES=F))) %>%
+    pivot_longer(any_of(clean_alpha_metrics)) %>%
     ggplot(aes(x=!!group_by, y=value, fill=!!group_by)) +
     geom_violin() +
     geom_jitter(alpha=0.1) +
