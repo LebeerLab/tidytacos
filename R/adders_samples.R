@@ -224,7 +224,7 @@ calculate_alpha_pielou <- function(ta) {
 add_sample_clustered <- function(ta) {
 
   # make relative abundance matrix
-  rel_abundance_matrix <- rel_abundance_matrix(ta)
+  rel_abundance_matrix <- rel_abundance_matrix(ta, sample_name=sample_id, taxon_name=taxon_id)
 
   # make Bray-Curtis distance matrix
   dist_matrix <- vegdist(rel_abundance_matrix, method = "bray")
@@ -489,7 +489,7 @@ add_spike_ratio <- function(ta, spike_taxon) {
 cluster_samples<- function(ta, n_clusters) {
 
   # make relative abundance matrix
-  rel_abundance_matrix <- rel_abundance_matrix(ta)
+  rel_abundance_matrix <- rel_abundance_matrix(ta, sample_name=sample_id, taxon_name=taxon_id)
 
   # make Bray-Curtis distance matrix
   dist_matrix <- vegdist(rel_abundance_matrix, method = "bray")

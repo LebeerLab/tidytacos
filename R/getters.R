@@ -342,7 +342,7 @@ rel_abundance_matrix <- function(ta, sample_name = sample, taxon_name = taxon) {
 
   ta %>%
     counts_matrix(
-      sample_name = sample_name, taxon_name = taxon_name, value =rel_abundance
+      sample_name = {{sample_name}}, taxon_name = {{taxon_name}}, value =rel_abundance
     )
 
 }
