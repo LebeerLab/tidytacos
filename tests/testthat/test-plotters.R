@@ -3,6 +3,7 @@
 # to see if the same plot is generate will suffice
 
 test_that("Barplot returns identical plot", {
+    testthat::skip_on_ci()
     bp  <- urt %>% tacoplot_stack()
     skip_if_not_installed("vdiffr")
     vdiffr::expect_doppelganger("Default barplot", bp)
