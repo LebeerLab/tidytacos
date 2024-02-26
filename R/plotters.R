@@ -424,7 +424,7 @@ tacoplot_alphas <- function(ta, group_by, compare_means=FALSE, ...){
     ta_tmp$samples$all.samples <- "all.samples"
   }
 
-  if (!any(clean_alpha_metrics %in% ta$samples)){
+  if (!any(clean_alpha_metrics %in% colnames(ta$samples))){
     ta_tmp <- add_alphas(ta_tmp)
   }
   plt <- ta_tmp$samples %>% 
