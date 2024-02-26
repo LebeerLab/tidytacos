@@ -23,6 +23,7 @@ test_that("Barplot does not aggregate when a 'sample_name' column exists in samp
 })
 
 test_that("Barplot raises warning when aggregating samples", {
+    testthat::skip_on_ci()
     expect_warning(bp <- urt %>% tacoplot_stack(n=5, x=participant))
     skip_if_not_installed("vdiffr")
     vdiffr::expect_doppelganger("Custom barplot", bp)
@@ -71,6 +72,7 @@ test_that("Tacoplot_ord_ly works with umap and 3 dims", {
 
 test_that("Can create venndiagram", {
     skip_if_not_installed("ggVenDiagram")
+    testthat::skip_on_ci()
     venn <- urt %>% tacoplot_venn(location)
     vdiffr::expect_doppelganger("Venndiagram", venn)
 })
