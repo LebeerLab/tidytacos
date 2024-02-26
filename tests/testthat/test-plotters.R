@@ -8,6 +8,19 @@ test_that("Barplot returns identical plot", {
     vdiffr::expect_doppelganger("Default barplot", bp)
 })
 
+# unit test for bug where sample_name column would cause samples to aggregate on x axis.
+test_that("Barplot does not aggregate when a 'sample_name' column exists in sample table",{
+    urt_w_sample_name <- urt
+    urt_w_sample_name$samples$sample_name <- urt$samples$sample
+
+    plt_w_sample_name <- urt_w_sample_name %>% tacoplot_stack()
+
+    expect_length(
+        ggplot_build(plt_w_sample_name)$layout$panel_params[[1]]$x$get_labels(),
+        length(urt %>% remove_empty_samples() %>% samples %>% pull(sample))  
+    )
+})
+
 test_that("Barplot raises warning when aggregating samples", {
     expect_warning(bp <- urt %>% tacoplot_stack(n=5, x=participant))
     skip_if_not_installed("vdiffr")
