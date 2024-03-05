@@ -353,7 +353,7 @@ add_ord <- function(ta, distance="bray", method="pcoa", dims=2, binary=FALSE, ..
   }
 
   # make relative abundance matrix
-  rel_abundance_matrix <- rel_abundance_matrix(ta)
+  rel_abundance_matrix <- rel_abundance_matrix(ta, sample_name=sample_id, taxon_name=taxon_id)
 
   if (distance == "aitchison") {
     # Euclidean distance between CLR transformed abundances
