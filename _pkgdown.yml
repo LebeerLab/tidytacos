@@ -43,7 +43,7 @@ reference:
       - rel_abundance_matrix
       - add_rel_abundance
       - add_mean_rel_abundance
-      - mean_rel_abundance
+      - mean_rel_abundances
       - add_absolute_abundance
       - add_spike_ratio
       - add_density
