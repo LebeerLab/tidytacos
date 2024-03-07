@@ -41,9 +41,9 @@
     </div>
 
     <div class="section level2">
-      <h2 id="all-functions">All functions<a class="anchor" aria-label="anchor" href="#all-functions"></a></h2>
+      <h2 id="tidytacos">Tidytacos<a class="anchor" aria-label="anchor" href="#tidytacos"></a></h2>
       
-      
+      <p class="section-desc"></p><p>Package overview</p>
 
       
     </div><div id="" class="section level2">
@@ -53,179 +53,35 @@
 
       <dl><dt>
           
-          <code><a href="add_absolute_abundance.html">add_absolute_abundance()</a></code> 
+          <code><a href="tidytacos.html">tidytacos</a></code> 
         </dt>
-        <dd>Add absolute abundances to count table</dd>
+        <dd>tidytacos: Functions to manipulate and visualize amplicon count data.</dd>
+      </dl></div><div class="section level2">
+      <h2 id="file-handling">File handling<a class="anchor" aria-label="anchor" href="#file-handling"></a></h2>
+      
+      <p class="section-desc"></p><p>Functions for loading in or creating tidytaco objects or converting to another datatype.</p>
+
+      
+    </div><div id="" class="section level2">
+      
+      
+      
+
+      <dl><dt>
+          
+          <code><a href="read_tidytacos.html">read_tidytacos()</a></code> 
+        </dt>
+        <dd>Read community data written by tidytacos</dd>
       </dl><dl><dt>
           
-          <code><a href="add_alpha.html">add_alpha()</a></code> 
+          <code><a href="write_tidytacos.html">write_tidytacos()</a></code> 
         </dt>
-        <dd>Add alpha diversity measures</dd>
+        <dd>Write community data in tidytacos format</dd>
       </dl><dl><dt>
           
-          <code><a href="add_clr_abundance.html">add_clr_abundance()</a></code> 
+          <code><a href="merge_tidytacos.html">merge_tidytacos()</a></code> 
         </dt>
-        <dd>Perform a centered log ratio transformation on the readcounts.</dd>
-      </dl><dl><dt>
-          
-          <code><a href="add_codifab.html">add_codifab()</a></code> 
-        </dt>
-        <dd>Perform compositional differential abundance analysis</dd>
-      </dl><dl><dt>
-          
-          <code><a href="add_copca.html">add_copca()</a></code> 
-        </dt>
-        <dd>Add compositional principal components to the sample table</dd>
-      </dl><dl><dt>
-          
-          <code><a href="add_density.html">add_density()</a></code> 
-        </dt>
-        <dd>Add density to count table</dd>
-      </dl><dl><dt>
-          
-          <code><a href="add_eigentaxa.html">add_eigentaxa()</a></code> 
-        </dt>
-        <dd>Calculates eigentaxa values based on SparCC - MCL generated clusters per sample. 
-It is advised to run <code>cluster_taxa</code> on the tidyamplicons object
-before running this function to add the clusters if you want to stray from any default parameters.</dd>
-      </dl><dl><dt>
-          
-          <code><a href="add_jervis_bardy.html">add_jervis_bardy()</a></code> 
-        </dt>
-        <dd>Apply the taxon QC method of Jervis-Bardy</dd>
-      </dl><dl><dt>
-          
-          <code><a href="add_logratio.html">add_logratio()</a></code> 
-        </dt>
-        <dd>Add logratios</dd>
-      </dl><dl><dt>
-          
-          <code><a href="add_mean_rel_abundance.html">add_mean_rel_abundance()</a></code> 
-        </dt>
-        <dd>Add average relative abundances to taxa table</dd>
-      </dl><dl><dt>
-          
-          <code><a href="add_metadata.html">add_metadata()</a></code> 
-        </dt>
-        <dd>Add metadata to the tidytacos object</dd>
-      </dl><dl><dt>
-          
-          <code><a href="add_ord.html">add_ord()</a></code> 
-        </dt>
-        <dd>Add ordination</dd>
-      </dl><dl><dt>
-          
-          <code><a href="add_prevalence.html">add_prevalence()</a></code> 
-        </dt>
-        <dd>Add taxon prevalences to the taxon table</dd>
-      </dl><dl><dt>
-          
-          <code><a href="add_rel_abundance.html">add_rel_abundance()</a></code> 
-        </dt>
-        <dd>Add relative abundances to count table</dd>
-      </dl><dl><dt>
-          
-          <code><a href="add_sample_clustered.html">add_sample_clustered()</a></code> 
-        </dt>
-        <dd>Add clustering-based sample order</dd>
-      </dl><dl><dt>
-          
-          <code><a href="add_spike_ratio.html">add_spike_ratio()</a></code> 
-        </dt>
-        <dd>Add spike ratio</dd>
-      </dl><dl><dt>
-          
-          <code><a href="add_taxon_name.html">add_taxon_name()</a></code> 
-        </dt>
-        <dd>Add sensible taxon name to taxon table</dd>
-      </dl><dl><dt>
-          
-          <code><a href="add_taxon_name_color.html">add_taxon_name_color()</a></code> 
-        </dt>
-        <dd>Add taxon color for visualization.</dd>
-      </dl><dl><dt>
-          
-          <code><a href="add_total_absolute_abundance.html">add_total_absolute_abundance()</a></code> 
-        </dt>
-        <dd>Add total absolute abundances of samples</dd>
-      </dl><dl><dt>
-          
-          <code><a href="add_total_count.html">add_total_count()</a></code> 
-        </dt>
-        <dd>Add total read count per sample</dd>
-      </dl><dl><dt>
-          
-          <code><a href="add_total_density.html">add_total_density()</a></code> 
-        </dt>
-        <dd>Add total densities of samples</dd>
-      </dl><dl><dt>
-          
-          <code><a href="aggregate_samples.html">aggregate_samples()</a></code> 
-        </dt>
-        <dd>Aggregate samples with identical values for all metadata</dd>
-      </dl><dl><dt>
-          
-          <code><a href="aggregate_taxa.html">aggregate_taxa()</a></code> 
-        </dt>
-        <dd>Aggregate taxa on a given taxonomic rank</dd>
-      </dl><dl><dt>
-          
-          <code><a href="as_phyloseq.html">as_phyloseq()</a></code> 
-        </dt>
-        <dd>Convert tidytacos object to phyloseq object</dd>
-      </dl><dl><dt>
-          
-          <code><a href="betas.html">betas()</a></code> 
-        </dt>
-        <dd>Get beta diversity table</dd>
-      </dl><dl><dt>
-          
-          <code><a href="change_id_samples.html">change_id_samples()</a></code> 
-        </dt>
-        <dd>Change sample IDs to a given expression</dd>
-      </dl><dl><dt>
-          
-          <code><a href="change_id_taxa.html">change_id_taxa()</a></code> 
-        </dt>
-        <dd>Change taxon IDs to a given expression</dd>
-      </dl><dl><dt>
-          
-          <code><a href="classify_taxa.html">classify_taxa()</a></code> 
-        </dt>
-        <dd>(Re)classify amplicon sequences</dd>
-      </dl><dl><dt>
-          
-          <code><a href="cluster_network.html">cluster_network()</a></code> 
-        </dt>
-        <dd>Performs Markov Clustering on a sparcc network matrix generated by <code>filter_network</code>. 
-and returns a tibble with clusters and taxon identifiers. Optionally, the network can be visualized.</dd>
-      </dl><dl><dt>
-          
-          <code><a href="cluster_samples.html">cluster_samples()</a></code> 
-        </dt>
-        <dd>Clusters samples into n clusters</dd>
-      </dl><dl><dt>
-          
-          <code><a href="cluster_taxa.html">cluster_taxa()</a></code> 
-        </dt>
-        <dd>Performs SparCC network analysis on a tidytacos object 
-and then performs Markov Clustering on the network to 
-annotate taxa of the largest clusters in the tidytacos object.</dd>
-      </dl><dl><dt>
-          
-          <code><a href="counts.html">counts()</a></code> 
-        </dt>
-        <dd>Extract the count table</dd>
-      </dl><dl><dt>
-          
-          <code><a href="counts_matrix.html">counts_matrix()</a></code> 
-        </dt>
-        <dd>Return a counts matrix</dd>
-      </dl><dl><dt>
-          
-          <code><a href="counts_tidy.html">counts_tidy()</a></code> 
-        </dt>
-        <dd>Convert matrix with counts to tidy data frame</dd>
+        <dd>Merge two tidytacos objects</dd>
       </dl><dl><dt>
           
           <code><a href="create_tidytacos.html">create_tidytacos()</a></code> 
@@ -233,30 +89,14 @@ annotate taxa of the largest clusters in the tidytacos object.</dd>
         <dd>Initiate tidytacos object</dd>
       </dl><dl><dt>
           
-          <code><a href="everything.html">everything()</a></code> 
+          <code><a href="make_tidytacos.html">make_tidytacos()</a></code> 
         </dt>
-        <dd>Get all data in one single table</dd>
+        <dd>Create a tidytacos object from three tidy tables</dd>
       </dl><dl><dt>
           
-          <code><a href="filter_counts.html">filter_counts()</a></code> 
+          <code><a href="add_metadata.html">add_metadata()</a></code> 
         </dt>
-        <dd>Filter the counts</dd>
-      </dl><dl><dt>
-          
-          <code><a href="filter_network.html">filter_network()</a></code> 
-        </dt>
-        <dd>Filters the output of <code>network</code> to a minimal treshold 
-and transforms to matrixfor downstream clustering or heatplot visualization.</dd>
-      </dl><dl><dt>
-          
-          <code><a href="filter_samples.html">filter_samples()</a></code> 
-        </dt>
-        <dd>Filter the samples</dd>
-      </dl><dl><dt>
-          
-          <code><a href="filter_taxa.html">filter_taxa()</a></code> 
-        </dt>
-        <dd>Filter the taxa</dd>
+        <dd>Add metadata to the tidytacos object</dd>
       </dl><dl><dt>
           
           <code><a href="from_dada.html">from_dada()</a></code> 
@@ -269,95 +109,35 @@ and transforms to matrixfor downstream clustering or heatplot visualization.</dd
         <dd>Convert phyloseq object to tidytacos object</dd>
       </dl><dl><dt>
           
-          <code><a href="make_tidytacos.html">make_tidytacos()</a></code> 
+          <code><a href="as_phyloseq.html">as_phyloseq()</a></code> 
         </dt>
-        <dd>Create a tidytacos object from three tidy tables</dd>
-      </dl><dl><dt>
-          
-          <code><a href="mean_rel_abundances.html">mean_rel_abundances()</a></code> 
-        </dt>
-        <dd>Get mean relative abundances of taxa in general or per condition</dd>
-      </dl><dl><dt>
-          
-          <code><a href="merge_tidytacos.html">merge_tidytacos()</a></code> 
-        </dt>
-        <dd>Merge two tidytacos objects</dd>
-      </dl><dl><dt>
-          
-          <code><a href="mutate_counts.html">mutate_counts()</a></code> 
-        </dt>
-        <dd>Create extra variables in the count table</dd>
-      </dl><dl><dt>
-          
-          <code><a href="mutate_samples.html">mutate_samples()</a></code> 
-        </dt>
-        <dd>Create extra variables in the sample table</dd>
-      </dl><dl><dt>
-          
-          <code><a href="mutate_taxa.html">mutate_taxa()</a></code> 
-        </dt>
-        <dd>Create extra variables in the taxa table</dd>
-      </dl><dl><dt>
-          
-          <code><a href="network.html">network()</a></code> 
-        </dt>
-        <dd>Perform network inference with SparCC on a tidytacos object, 
-after rarefaction of the taxa. See sparcc.</dd>
-      </dl><dl><dt>
-          
-          <code><a href="perform_adonis.html">perform_adonis()</a></code> 
-        </dt>
-        <dd>Perform an adonis test</dd>
-      </dl><dl><dt>
-          
-          <code><a href="perform_anosim.html">perform_anosim()</a></code> 
-        </dt>
-        <dd>Perform anosim test</dd>
-      </dl><dl><dt>
-          
-          <code><a href="perform_mantel_test.html">perform_mantel_test()</a></code> 
-        </dt>
-        <dd>Determine the correlation between the distance of the counts in a tidytacos object and a sample variable, multiple sample variables or another matrix.</dd>
-      </dl><dl><dt>
-          
-          <code><a href="prevalences.html">prevalences()</a></code> 
-        </dt>
-        <dd>Get prevalences of taxa in general or per condition</dd>
-      </dl><dl><dt>
-          
-          <code><a href="rank_names.html">rank_names()</a></code> 
-        </dt>
-        <dd>Return rank names associated with a tidytacos object</dd>
-      </dl><dl><dt>
-          
-          <code><a href="rarefy.html">rarefy()</a></code> 
-        </dt>
-        <dd>Rarefy the samples to a given number of reads</dd>
-      </dl><dl><dt>
-          
-          <code><a href="read_tidytacos.html">read_tidytacos()</a></code> 
-        </dt>
-        <dd>Read community data written by tidytacos</dd>
-      </dl><dl><dt>
-          
-          <code><a href="rel_abundance_matrix.html">rel_abundance_matrix()</a></code> 
-        </dt>
-        <dd>Return a relative abundance matrix</dd>
-      </dl><dl><dt>
-          
-          <code><a href="remove_empty_samples.html">remove_empty_samples()</a></code> 
-        </dt>
-        <dd>Removes empty samples from the tidytacos object</dd>
-      </dl><dl><dt>
-          
-          <code><a href="reset_ids.html">reset_ids()</a></code> 
-        </dt>
-        <dd>Reset the taxon and sample IDs</dd>
-      </dl><dl><dt>
+        <dd>Convert tidytacos object to phyloseq object</dd>
+      </dl></div><div class="section level2">
+      <h2 id="table-manipulation">Table manipulation<a class="anchor" aria-label="anchor" href="#table-manipulation"></a></h2>
+      
+      <p class="section-desc"></p><p>Functions for manipulation of the three distinct tables using tidy-related functions.</p>
+
+      
+    </div><div id="" class="section level2">
+      
+      
+      
+
+      <dl><dt>
           
           <code><a href="samples.html">samples()</a></code> 
         </dt>
         <dd>Extract the sample table</dd>
+      </dl><dl><dt>
+          
+          <code><a href="taxa.html">taxa()</a></code> 
+        </dt>
+        <dd>Extract the taxon table</dd>
+      </dl><dl><dt>
+          
+          <code><a href="counts.html">counts()</a></code> 
+        </dt>
+        <dd>Extract the count table</dd>
       </dl><dl><dt>
           
           <code><a href="select_counts.html">select_counts()</a></code> 
@@ -375,10 +155,157 @@ after rarefaction of the taxa. See sparcc.</dd>
         <dd>Retain or remove a set of taxon variables</dd>
       </dl><dl><dt>
           
-          <code><a href="set_rank_names.html">set_rank_names()</a></code> 
+          <code><a href="mutate_counts.html">mutate_counts()</a></code> 
         </dt>
-        <dd>Set rank names for a tidytacos object</dd>
+        <dd>Create extra variables in the count table</dd>
       </dl><dl><dt>
+          
+          <code><a href="mutate_samples.html">mutate_samples()</a></code> 
+        </dt>
+        <dd>Create extra variables in the sample table</dd>
+      </dl><dl><dt>
+          
+          <code><a href="mutate_taxa.html">mutate_taxa()</a></code> 
+        </dt>
+        <dd>Create extra variables in the taxa table</dd>
+      </dl><dl><dt>
+          
+          <code><a href="filter_counts.html">filter_counts()</a></code> 
+        </dt>
+        <dd>Filter the counts</dd>
+      </dl><dl><dt>
+          
+          <code><a href="filter_samples.html">filter_samples()</a></code> 
+        </dt>
+        <dd>Filter the samples</dd>
+      </dl><dl><dt>
+          
+          <code><a href="filter_taxa.html">filter_taxa()</a></code> 
+        </dt>
+        <dd>Filter the taxa</dd>
+      </dl><dl><dt>
+          
+          <code><a href="aggregate_samples.html">aggregate_samples()</a></code> 
+        </dt>
+        <dd>Aggregate samples with identical values for all metadata</dd>
+      </dl><dl><dt>
+          
+          <code><a href="aggregate_taxa.html">aggregate_taxa()</a></code> 
+        </dt>
+        <dd>Aggregate taxa on a given taxonomic rank</dd>
+      </dl><dl><dt>
+          
+          <code><a href="everything.html">everything()</a></code> 
+        </dt>
+        <dd>Get all data in one single table</dd>
+      </dl></div><div class="section level2">
+      <h2 id="relative-abundance-prevalence-and-other-count-computations">Relative abundance, prevalence and other count computations<a class="anchor" aria-label="anchor" href="#relative-abundance-prevalence-and-other-count-computations"></a></h2>
+      
+      <p class="section-desc"></p><p>Functions for transforming the count table to different matrix representations or pairwise comparison.</p>
+
+      
+    </div><div id="" class="section level2">
+      
+      
+      
+
+      <dl><dt>
+          
+          <code><a href="counts_matrix.html">counts_matrix()</a></code> 
+        </dt>
+        <dd>Return a counts matrix</dd>
+      </dl><dl><dt>
+          
+          <code><a href="rel_abundance_matrix.html">rel_abundance_matrix()</a></code> 
+        </dt>
+        <dd>Return a relative abundance matrix</dd>
+      </dl><dl><dt>
+          
+          <code><a href="add_rel_abundance.html">add_rel_abundance()</a></code> 
+        </dt>
+        <dd>Add relative abundances to count table</dd>
+      </dl><dl><dt>
+          
+          <code><a href="add_mean_rel_abundance.html">add_mean_rel_abundance()</a></code> 
+        </dt>
+        <dd>Add average relative abundances to taxa table</dd>
+      </dl><dl><dt>
+          
+          <code><a href="mean_rel_abundances.html">mean_rel_abundances()</a></code> 
+        </dt>
+        <dd>Get mean relative abundances of taxa in general or per condition</dd>
+      </dl><dl><dt>
+          
+          <code><a href="add_absolute_abundance.html">add_absolute_abundance()</a></code> 
+        </dt>
+        <dd>Add absolute abundances to count table</dd>
+      </dl><dl><dt>
+          
+          <code><a href="add_spike_ratio.html">add_spike_ratio()</a></code> 
+        </dt>
+        <dd>Add spike ratio</dd>
+      </dl><dl><dt>
+          
+          <code><a href="add_density.html">add_density()</a></code> 
+        </dt>
+        <dd>Add density to count table</dd>
+      </dl><dl><dt>
+          
+          <code><a href="add_logratio.html">add_logratio()</a></code> 
+        </dt>
+        <dd>Add logratios</dd>
+      </dl><dl><dt>
+          
+          <code><a href="add_clr_abundance.html">add_clr_abundance()</a></code> 
+        </dt>
+        <dd>Perform a centered log ratio transformation on the readcounts.</dd>
+      </dl><dl><dt>
+          
+          <code><a href="add_jervis_bardy.html">add_jervis_bardy()</a></code> 
+        </dt>
+        <dd>Apply the taxon QC method of Jervis-Bardy</dd>
+      </dl><dl><dt>
+          
+          <code><a href="prevalences.html">prevalences()</a></code> 
+        </dt>
+        <dd>Get prevalences of taxa in general or per condition</dd>
+      </dl><dl><dt>
+          
+          <code><a href="add_prevalence.html">add_prevalence()</a></code> 
+        </dt>
+        <dd>Add taxon prevalences to the taxon table</dd>
+      </dl><dl><dt>
+          
+          <code><a href="counts_tidy.html">counts_tidy()</a></code> 
+        </dt>
+        <dd>Convert matrix with counts to tidy data frame</dd>
+      </dl><dl><dt>
+          
+          <code><a href="add_total_absolute_abundance.html">add_total_absolute_abundance()</a></code> 
+        </dt>
+        <dd>Add total absolute abundances of samples</dd>
+      </dl><dl><dt>
+          
+          <code><a href="add_total_count.html">add_total_count()</a></code> 
+        </dt>
+        <dd>Add total read count per sample</dd>
+      </dl><dl><dt>
+          
+          <code><a href="add_total_density.html">add_total_density()</a></code> 
+        </dt>
+        <dd>Add total densities of samples</dd>
+      </dl></div><div class="section level2">
+      <h2 id="plotting">Plotting<a class="anchor" aria-label="anchor" href="#plotting"></a></h2>
+      
+      <p class="section-desc"></p><p>Functions for various plots that can be made with the data in a tidytacos object.</p>
+
+      
+    </div><div id="" class="section level2">
+      
+      
+      
+
+      <dl><dt>
           
           <code><a href="tacoplot_codifab.html">tacoplot_codifab()</a></code> 
         </dt>
@@ -418,26 +345,204 @@ after rarefaction of the taxa. See sparcc.</dd>
           <code><a href="tacoplot_zoom.html">tacoplot_zoom()</a></code> 
         </dt>
         <dd>Return a visualization designed for a small number of samples</dd>
+      </dl></div><div class="section level2">
+      <h2 id="statistical-tests">Statistical tests<a class="anchor" aria-label="anchor" href="#statistical-tests"></a></h2>
+      
+      <p class="section-desc"></p><p>Functions for various statistical tests that can be performed on a tidytacos object.</p>
+
+      
+    </div><div id="" class="section level2">
+      
+      
+      
+
+      <dl><dt>
+          
+          <code><a href="perform_adonis.html">perform_adonis()</a></code> 
+        </dt>
+        <dd>Perform an adonis test</dd>
       </dl><dl><dt>
           
-          <code><a href="tacosum.html">tacosum()</a></code> 
+          <code><a href="perform_anosim.html">perform_anosim()</a></code> 
         </dt>
-        <dd>Return some descriptive numbers</dd>
+        <dd>Perform anosim test</dd>
       </dl><dl><dt>
           
-          <code><a href="taxa.html">taxa()</a></code> 
+          <code><a href="perform_mantel_test.html">perform_mantel_test()</a></code> 
         </dt>
-        <dd>Extract the taxon table</dd>
+        <dd>Determine the correlation between the distance of the counts in a tidytacos object and a sample variable, multiple sample variables or another matrix.</dd>
       </dl><dl><dt>
           
-          <code><a href="taxonlist_per_condition.html">taxonlist_per_condition()</a></code> 
+          <code><a href="add_codifab.html">add_codifab()</a></code> 
         </dt>
-        <dd>Return a list of taxon IDs per condition</dd>
+        <dd>Perform compositional differential abundance analysis</dd>
+      </dl></div><div class="section level2">
+      <h2 id="taxonomy-related-functions">Taxonomy related functions<a class="anchor" aria-label="anchor" href="#taxonomy-related-functions"></a></h2>
+      
+      <p class="section-desc"></p><p>Functions to manipulate taxonomy names.</p>
+
+      
+    </div><div id="" class="section level2">
+      
+      
+      
+
+      <dl><dt>
+          
+          <code><a href="rank_names.html">rank_names()</a></code> 
+        </dt>
+        <dd>Return rank names associated with a tidytacos object</dd>
       </dl><dl><dt>
           
-          <code><a href="test_taco.html">test_taco()</a></code> 
+          <code><a href="set_rank_names.html">set_rank_names()</a></code> 
         </dt>
-        <dd>Create a tidytacos object for testing/example purporses</dd>
+        <dd>Set rank names for a tidytacos object</dd>
+      </dl><dl><dt>
+          
+          <code><a href="add_taxon_name.html">add_taxon_name()</a></code> 
+        </dt>
+        <dd>Add sensible taxon name to taxon table</dd>
+      </dl><dl><dt>
+          
+          <code><a href="add_taxon_name_color.html">add_taxon_name_color()</a></code> 
+        </dt>
+        <dd>Add taxon color for visualization.</dd>
+      </dl><dl><dt>
+          
+          <code><a href="add_eigentaxa.html">add_eigentaxa()</a></code> 
+        </dt>
+        <dd>Calculates eigentaxa values based on SparCC - MCL generated clusters per sample. 
+It is advised to run <code>cluster_taxa</code> on the tidyamplicons object
+before running this function to add the clusters if you want to stray from any default parameters.</dd>
+      </dl></div><div class="section level2">
+      <h2 id="diversity-analysis">Diversity analysis<a class="anchor" aria-label="anchor" href="#diversity-analysis"></a></h2>
+      
+      <p class="section-desc"></p><p>Functions to add various diversity metrics to the tidytacos object.</p>
+
+      
+    </div><div id="" class="section level2">
+      
+      
+      
+
+      <dl><dt>
+          
+          <code><a href="add_alpha.html">add_alpha()</a></code> 
+        </dt>
+        <dd>Add alpha diversity measures</dd>
+      </dl><dl><dt>
+          
+          <code><a href="betas.html">betas()</a></code> 
+        </dt>
+        <dd>Get beta diversity table</dd>
+      </dl><dl><dt>
+          
+          <code><a href="add_ord.html">add_ord()</a></code> 
+        </dt>
+        <dd>Add ordination</dd>
+      </dl><dl><dt>
+          
+          <code><a href="add_copca.html">add_copca()</a></code> 
+        </dt>
+        <dd>Add compositional principal components to the sample table</dd>
+      </dl></div><div class="section level2">
+      <h2 id="clustering">Clustering<a class="anchor" aria-label="anchor" href="#clustering"></a></h2>
+      
+      <p class="section-desc"></p><p>Functions to cluster the sample and taxa table.</p>
+
+      
+    </div><div id="" class="section level2">
+      
+      
+      
+
+      <dl><dt>
+          
+          <code><a href="cluster_samples.html">cluster_samples()</a></code> 
+        </dt>
+        <dd>Clusters samples into n clusters</dd>
+      </dl><dl><dt>
+          
+          <code><a href="cluster_taxa.html">cluster_taxa()</a></code> 
+        </dt>
+        <dd>Performs SparCC network analysis on a tidytacos object 
+and then performs Markov Clustering on the network to 
+annotate taxa of the largest clusters in the tidytacos object.</dd>
+      </dl><dl><dt>
+          
+          <code><a href="add_sample_clustered.html">add_sample_clustered()</a></code> 
+        </dt>
+        <dd>Add clustering-based sample order</dd>
+      </dl></div><div class="section level2">
+      <h2 id="network-analysis">Network analysis<a class="anchor" aria-label="anchor" href="#network-analysis"></a></h2>
+      
+      <p class="section-desc"></p><p>Functions to perform network inference, clustering and filtering the resulting clusters.</p>
+
+      
+    </div><div id="" class="section level2">
+      
+      
+      
+
+      <dl><dt>
+          
+          <code><a href="network.html">network()</a></code> 
+        </dt>
+        <dd>Perform network inference with SparCC on a tidytacos object, 
+after rarefaction of the taxa. See <a href="https://rdrr.io/pkg/SpiecEasi/man/sparcc.html" class="external-link">sparcc</a>.</dd>
+      </dl><dl><dt>
+          
+          <code><a href="filter_network.html">filter_network()</a></code> 
+        </dt>
+        <dd>Filters the output of <code>network</code> to a minimal treshold 
+and transforms to matrixfor downstream clustering or heatplot visualization.</dd>
+      </dl><dl><dt>
+          
+          <code><a href="cluster_network.html">cluster_network()</a></code> 
+        </dt>
+        <dd>Performs Markov Clustering on a sparcc network matrix generated by <code>filter_network</code>. 
+and returns a tibble with clusters and taxon identifiers. Optionally, the network can be visualized.</dd>
+      </dl></div><div class="section level2">
+      <h2 id="miscellaneous">Miscellaneous<a class="anchor" aria-label="anchor" href="#miscellaneous"></a></h2>
+      
+      <p class="section-desc"></p><p>Functions to tidy up the three tables or convert to other data structures.</p>
+
+      
+    </div><div id="" class="section level2">
+      
+      
+      
+
+      <dl><dt>
+          
+          <code><a href="trim_asvs.html">trim_asvs()</a></code> 
+        </dt>
+        <dd>Trim all sequences</dd>
+      </dl><dl><dt>
+          
+          <code><a href="classify_taxa.html">classify_taxa()</a></code> 
+        </dt>
+        <dd>(Re)classify amplicon sequences</dd>
+      </dl><dl><dt>
+          
+          <code><a href="reset_ids.html">reset_ids()</a></code> 
+        </dt>
+        <dd>Reset the taxon and sample IDs</dd>
+      </dl><dl><dt>
+          
+          <code><a href="change_id_taxa.html">change_id_taxa()</a></code> 
+        </dt>
+        <dd>Change taxon IDs to a given expression</dd>
+      </dl><dl><dt>
+          
+          <code><a href="change_id_samples.html">change_id_samples()</a></code> 
+        </dt>
+        <dd>Change sample IDs to a given expression</dd>
+      </dl><dl><dt>
+          
+          <code><a href="remove_empty_samples.html">remove_empty_samples()</a></code> 
+        </dt>
+        <dd>Removes empty samples from the tidytacos object</dd>
       </dl><dl><dt>
           
           <code><a href="tidy_count_to_matrix.html">tidy_count_to_matrix()</a></code> 
@@ -445,21 +550,27 @@ after rarefaction of the taxa. See sparcc.</dd>
         <dd>Convert counts tidy data frame to matrix</dd>
       </dl><dl><dt>
           
-          <code><a href="tidytacos.html">tidytacos</a></code> 
+          <code><a href="rarefy.html">rarefy()</a></code> 
         </dt>
-        <dd>tidytacos: Functions to manipulate and visualize amplicon count data.</dd>
+        <dd>Rarefy the samples to a given number of reads</dd>
       </dl><dl><dt>
           
-          <code><a href="trim_asvs.html">trim_asvs()</a></code> 
+          <code><a href="test_taco.html">test_taco()</a></code> 
         </dt>
-        <dd>Trim all sequences</dd>
+        <dd>Create a tidytacos object for testing/example purporses</dd>
       </dl><dl><dt>
           
-          <code><a href="write_tidytacos.html">write_tidytacos()</a></code> 
+          <code><a href="taxonlist_per_condition.html">taxonlist_per_condition()</a></code> 
         </dt>
-        <dd>Write community data in tidytacos format</dd>
+        <dd>Return a list of taxon IDs per condition</dd>
+      </dl><dl><dt>
+          
+          <code><a href="tacosum.html">tacosum()</a></code> 
+        </dt>
+        <dd>Return some descriptive numbers</dd>
       </dl></div>
-  </main></div>
+  </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
+    </nav></aside></div>
 
 
     <footer><div class="pkgdown-footer-left">
