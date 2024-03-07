@@ -72,7 +72,7 @@ reference:
     contents:
       - rank_names
       - set_rank_names
-      - startswith("add_taxon_")
+      - starts_with("add_taxon_")
       - add_eigentaxa
       
   - title: "Diversity analysis"
