@@ -2,3 +2,115 @@ template:
   bootstrap: 5
   bootswatch: flatly
 url: https://lebeerlab.github.io/tidytacos/
+reference:
+  - title: "Tidytacos"
+    desc: >
+      Package overview
+    contents:
+      - tidytacos
+  - title: "File handling"
+    desc: >
+      Functions for loading in or creating tidytaco objects or converting to another datatype. 
+    contents:
+      - read_tidytacos
+      - write_tidytacos
+      - merge_tidytacos
+      - create_tidytacos
+      - make_tidytacos
+      - add_metadata
+      - from_dada
+      - from_phyloseq
+      - as_phyloseq
+  - title: "Table manipulation"
+    desc: >
+      Functions for manipulation of the three distinct tables using tidy-related functions.
+    contents:
+      - samples
+      - taxa
+      - counts
+      - starts_with("select_")
+      - starts_with("mutate_")
+      - filter_counts
+      - filter_samples
+      - filter_taxa
+      - starts_with("aggregate")
+      - everything
+  - title: "Relative abundance, prevalence and other count computations"
+    desc: >
+      Functions for transforming the count table to different matrix representations or pairwise comparison.
+    contents:
+      - counts_matrix
+      - rel_abundance_matrix
+      - add_rel_abundance
+      - add_mean_rel_abundance
+      - mean_rel_abundance
+      - add_absolute_abundance
+      - add_spike_ratio
+      - add_density
+      - add_logratio
+      - add_clr_abundance
+      - add_jervis_bardy
+      - prevalences
+      - add_prevalence
+      - counts_tidy
+      - starts_with("add_total")
+      
+  - title: "Plotting"
+    desc: >
+      Functions for various plots that can be made with the data in a tidytacos object.
+    contents:
+      - starts_with("tacoplot")
+  - title: "Statistical tests"
+    desc: >
+      Functions for various statistical tests that can be performed on a tidytacos object.
+    contents:
+      - starts_with("perform")
+      - add_codifab
+  - title: "Taxonomy related functions"
+    desc: >
+      Functions to manipulate taxonomy names.
+    contents:
+      - get_rank_names
+      - set_rank_names
+      - startswith("add_taxon_")
+      - add_eigentaxa
+      
+  - title: "Diversity analysis"
+    desc: >
+      Functions to add various diversity metrics to the tidytacos object.
+    contents:
+      - add_alpha
+      - betas
+      - add_ord
+      - add_copca
+
+  - title: "Clustering"
+    desc: >
+      Functions to cluster the sample and taxa table.
+    contents:
+      - cluster_samples
+      - cluster_taxa
+      - add_sample_clustered
+  - title: "Network analysis"
+    desc: >
+      Functions to perform network inference, clustering and filtering the resulting clusters.
+    contents:
+      - network
+      - filter_network
+      - cluster_network
+  
+  - title: "Miscellaneous"
+    desc: >
+      Functions to tidy up the three tables or convert to other data structures.
+    contents:
+      - trim_asvs
+      - classify_taxa
+      - reset_ids
+      - change_id_taxa
+      - change_id_samples
+      - remove_empty_samples
+      - tidy_count_to_matrix
+      - rarefy
+      - test_taco
+      - taxonlist_per_condition
+      - tacosum
