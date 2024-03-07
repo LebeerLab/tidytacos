@@ -70,7 +70,7 @@ reference:
     desc: >
       Functions to manipulate taxonomy names.
     contents:
-      - get_rank_names
+      - rank_names
       - set_rank_names
       - startswith("add_taxon_")
       - add_eigentaxa
