@@ -9,7 +9,7 @@ prepare_for_bp <- function(ta, n = 12, extended = TRUE) {
 
   # add sample_clustered if not present
   if (!"sample_clustered" %in% names(ta$samples)) {
-    ta <- add_sample_clustered(ta)
+      ta <- add_sample_clustered(ta)
   }
 
   # add taxon_name_color if not present
@@ -36,10 +36,11 @@ prepare_for_bp <- function(ta, n = 12, extended = TRUE) {
 #' @param ta A tidytacos object.
 #' @param x A string, representing the column name used to label the x-axis
 #' @param n An integer, representing the amount of colors used to depict
-#' @param geom_bar A boolean, whether or not to add geom_bar to the plot. Default is TRUE.
+#' @param pie A boolean, whether or not to represent the profile in a pie chart. 
+#' Default is FALSE, as pie chart representations can be misleading to interpret.
 #'
 #' @export
-tacoplot_stack <- function(ta, n = 12, x = sample_clustered, geom_bar = T) {
+tacoplot_stack <- function(ta, n = 12, x = sample_clustered, pie = FALSE) {
   # convert promise to formula
   x <- rlang::enquo(x)
 
@@ -63,19 +64,20 @@ tacoplot_stack <- function(ta, n = 12, x = sample_clustered, geom_bar = T) {
     ggplot(aes(
       x = forcats::fct_reorder(!!x, as.integer(sample_clustered)),
       y = rel_abundance, fill = taxon_name_color)) +
-    scale_fill_brewer(palette = "Paired", name = "Taxon") +
-    xlab("sample") +
-    ylab("relative abundance") +
-    theme(
-      axis.text.x = element_text(angle = 90),
-      axis.ticks.x = element_blank(),
-      panel.background = element_rect(fill = "white", colour = "white")
+    list(
+      geom_bar(stat = "identity"),
+      scale_fill_brewer(palette = "Paired", name = "Taxon"),
+      if (pie) coord_polar("y", start = 0, clip="off"),
+      xlab("sample"),
+      ylab("relative abundance"),
+      theme(
+        axis.text.x = element_text(angle = 90),
+        axis.ticks.x = element_blank(),
+        panel.background = element_rect(fill = "white", colour = "white")
+      ),
+      if(pie) xlab(""),
+      if(pie) theme(axis.text.x = element_blank())
     )
-
-  # add geom_bar if requested
-  if (geom_bar) {
-    plot <- plot + geom_bar(stat = "identity")
-  }
 
   # Add > 12 colors if asked for
   if (n > 12) { 
