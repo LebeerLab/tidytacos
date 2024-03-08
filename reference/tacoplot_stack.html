@@ -48,7 +48,7 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">tacoplot_stack</span><span class="op">(</span><span class="va">ta</span>, n <span class="op">=</span> <span class="fl">12</span>, x <span class="op">=</span> <span class="va">sample_clustered</span>, geom_bar <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">tacoplot_stack</span><span class="op">(</span><span class="va">ta</span>, n <span class="op">=</span> <span class="fl">12</span>, x <span class="op">=</span> <span class="va">sample_clustered</span>, pie <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -65,8 +65,9 @@
 <dd><p>A string, representing the column name used to label the x-axis</p></dd>
 
 
-<dt>geom_bar</dt>
-<dd><p>A boolean, whether or not to add geom_bar to the plot. Default is TRUE.</p></dd>
+<dt>pie</dt>
+<dd><p>A boolean, whether or not to represent the profile in a pie chart. 
+Default is FALSE, as pie chart representations can be misleading to interpret.</p></dd>
 
 </dl></div>
 
