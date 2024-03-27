@@ -70,7 +70,7 @@ tacoplot_stack <- function(ta, n = 12, x = sample_clustered, pie = FALSE, ...) {
   }
 
   # make plot and return
-  plot <- prepare_for_bp(ta, n, extended=T, enquos(...)) %>%
+  plot <- prepare_for_bp(ta, n, extended=T, if(length(list(...))) enquos(...) else NULL) %>%
     ggplot(aes(
       x = forcats::fct_reorder(!!x, as.integer(sample_clustered)),
       y = rel_abundance, fill = taxon_name_color)) +
@@ -120,7 +120,7 @@ tacoplot_stack_ly <- function(ta, n = 12, x = sample_clustered, ...) {
   plot <- rlang::eval_tidy(rlang::quo_squash(
     quo({
       # make plot and return
-      prepare_for_bp(ta, n, extended=T, enquos(...)) %>%
+      prepare_for_bp(ta, n, extended=T, if(length(list(...))) enquos(...) else NULL) %>%
         plotly::plot_ly(
           x = ~forcats::fct_reorder(!!x, as.integer(sample_clustered)),
           y = ~rel_abundance,
