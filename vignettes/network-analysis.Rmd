@@ -15,6 +15,7 @@ knitr::opts_chunk$set(
 ```
 
 ```{r setup}
+library(tidyverse)
 library(tidytacos)
 
 urt.nf <- urt %>% 
@@ -54,7 +55,7 @@ urt.net <- urt.nf %>%
     taxon_name=taxon_name)
 
 # The network object is a list with two elements:
-urt.net$Cor # Correlation matrix
+urt.net$Cor %>% head(2)# Correlation matrix
 # urt.net$Cov (covariance matrix)
 # urt.net$names (names of the taxa on x and y-axes)
 ```
@@ -71,7 +72,7 @@ install.packages("igraph")
 
 We remove weak correlations (here set to 0.1) take the absolute value of the correlation matrix and remove the diagonal.
 This is all handled with the `filter_network` function, but we show the code here for clarity and to plot the network graph before clustering.
-```{r, network-filter}
+```{r, network-filter, fig.width=7, fig.height=7}
 library(Matrix)
 library(igraph)
 
@@ -94,19 +95,19 @@ The `cluster_network` function has the `MCL` package as a dependency.
 ```{r, eval=FALSE}
 install.packages("MCL")
 ```
-```{r, network-clustering}
+```{r, network-clustering, fig.width=7, fig.height=7}
 urt.net.clust <- urt.net.filt %>% 
   cluster_network(min_n=5, visualize=T)
 
 urt.net.clust %>% 
-  dplyr::group_by(cluster) %>% 
-  dplyr::summarize(n=n())
+  group_by(cluster) %>% 
+  summarize(n=n())
 
 ```
 
 Using the new clustered taxa ("eigentaxa") we can visualize the clusters in the microbiome profile.
 
-```{r}
+```{r, fig.width=8, fig.height=5}
 urt.nf$taxa <- urt.nf$taxa %>% 
   left_join(urt.net.clust, by=c("taxon_name"="taxon")) 
 urt.nf <- urt.nf %>%
