@@ -92,6 +92,38 @@ merge_redundant_taxa <- function(ta) {
 
 }
 
+
+aggregate_trimmed_asvs <- function(ta){
+
+  distinct_or_na <- function(x) {
+    x <- unique(x)
+    if (length(x) == 1) return(x)
+    as.character(NA)
+  }
+
+  rn <- ta %>% rank_names()
+  seq_group <- ta$taxa %>% group_by(sequence)
+  seq_ungroup <- seq_group %>% summarize(taxon_id = first(taxon_id))
+  
+  get_distinct_taxa <- function(rank) {
+    seq_group %>%
+      summarize(distinct_or_na(!!sym(rank))) %>% 
+      pull()
+  }
+  aggregated_tax <- lapply(rev(rn), get_distinct_taxa)
+  suppressWarnings(
+    tib <- do.call(cbind, aggregated_tax) %>% 
+    as_tibble()
+  )
+  names(tib) <- rev(rn)
+  tib$taxon_id <- seq_ungroup$taxon_id
+  tib$sequence <- seq_ungroup$sequence
+  ta$taxa <- tib
+  
+  ta
+
+}
+
 retain_taxon_id <- function(ta) {
   if ((! "taxon_id" %in% names(ta$taxa)) ||
   (! "taxon_id" %in% names(ta$counts)) ||
