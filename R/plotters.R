@@ -5,7 +5,14 @@
 # @param ta a tidytacos object
 # @param n an integer
 #
-prepare_for_bp <- function(ta, n = 12, extended = TRUE) {
+prepare_for_bp <- function(ta, n = 12, extended = TRUE, order_by=NULL) {
+
+  # custom order
+  if (!is.null(order_by)) {
+    order_by <- rlang::enquo(order_by)
+    ta$samples <- ta$samples %>% arrange(!!order_by)
+    ta$samples$sample_clustered <- as.factor(ta$samples$sample_id)
+  }
 
   # add sample_clustered if not present
   if (!"sample_clustered" %in% names(ta$samples)) {
@@ -38,14 +45,17 @@ prepare_for_bp <- function(ta, n = 12, extended = TRUE) {
 #' @param n An integer, representing the amount of colors used to depict
 #' @param pie A boolean, whether or not to represent the profile in a pie chart. 
 #' Default is FALSE, as pie chart representations can be misleading to interpret.
+#' @param order_by an optional column name to order the samples by. 
+#' For examples order_by=sample would order the x-axis by the sample names instead of by similar profiles.
 #'
 #' @export
-tacoplot_stack <- function(ta, n = 12, x = sample_clustered, pie = FALSE) {
+tacoplot_stack <- function(ta, n = 12, x = sample_clustered, pie = FALSE, ...) {
   # convert promise to formula
   x <- rlang::enquo(x)
 
   warning_message_label = paste0("Label \'", rlang::quo_name(x),"\' not found in the samples table.")
   warning_message_aggregate = "Sample labels not unique, samples are aggregated."
+  
   if (rlang::quo_name(x) != "sample_clustered" &&
     !is.element(rlang::quo_name(x), names(ta$samples))
   ) {
@@ -60,7 +70,7 @@ tacoplot_stack <- function(ta, n = 12, x = sample_clustered, pie = FALSE) {
   }
 
   # make plot and return
-  plot <- prepare_for_bp(ta, n) %>%
+  plot <- prepare_for_bp(ta, n, extended=T, enquos(...)) %>%
     ggplot(aes(
       x = forcats::fct_reorder(!!x, as.integer(sample_clustered)),
       y = rel_abundance, fill = taxon_name_color)) +
@@ -98,18 +108,19 @@ tacoplot_stack <- function(ta, n = 12, x = sample_clustered, pie = FALSE) {
 #' @param n An integer, representing the amount of colors used to depict
 #'   different taxa.
 #' @param x A string, representing the column name used to label the x-axis
-#'
+#' @param order_by an optional column name to order the samples by. 
+#' For examples order_by=sample would order the x-axis by the sample names instead of by similar profiles.
 #' @export
-tacoplot_stack_ly <- function(ta, n = 12, x = sample_clustered) {
+tacoplot_stack_ly <- function(ta, n = 12, x = sample_clustered, ...) {
   force_optional_dependency("plotly")
   # convert promise to formula
-  x <- enquo(x)
+  x <- rlang::enquo(x)
 
   # wrap in eval and quosure shenannigans
   plot <- rlang::eval_tidy(rlang::quo_squash(
     quo({
       # make plot and return
-      prepare_for_bp(ta, n) %>%
+      prepare_for_bp(ta, n, extended=T, enquos(...)) %>%
         plotly::plot_ly(
           x = ~forcats::fct_reorder(!!x, as.integer(sample_clustered)),
           y = ~rel_abundance,
@@ -370,7 +381,7 @@ tacoplot_venn <- function(ta, condition, ...) {
   force_optional_dependency("ggVennDiagram")
 
 
-  condition <- enquo(condition)
+  condition <- rlang::enquo(condition)
   ltpc <- taxonlist_per_condition(ta, !!condition)
 
   if ("show_intersect" %in% names(list(...))) {
@@ -394,7 +405,7 @@ tacoplot_venn <- function(ta, condition, ...) {
 #' @export
 tacoplot_venn_ly <- function(ta, condition, ...) {
 
-  condition <- enquo(condition)
+  condition <- rlang::enquo(condition)
 
   if (!"taxon_name" %in% names(ta$taxa)){
     ta <- ta %>% add_taxon_name()
