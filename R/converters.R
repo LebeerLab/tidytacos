@@ -36,6 +36,12 @@ create_tidytacos <- function(counts_matrix, taxa_are_columns = TRUE) {
   ) stop("first argument should be a numeric matrix")
 
   if (! taxa_are_columns) counts_matrix = t(counts_matrix)
+  if (counts_matrix %>% rownames() %>% length() == 0) {
+    rownames(counts_matrix) <- str_c("s",seq(1:dim(counts_matrix)[1]))
+  }
+  if (counts_matrix %>% colnames() %>% length() == 0) {
+    colnames(counts_matrix) <- str_c("s",seq(1:dim(counts_matrix)[2]))
+  }
 
   counts_matrix <-
     counts_matrix[, colSums(counts_matrix) != 0]
