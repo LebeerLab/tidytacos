@@ -223,6 +223,12 @@ calculate_alpha_pielou <- function(ta) {
 #' @export
 add_sample_clustered <- function(ta) {
 
+  # if only one sample => no clustering
+  if (length(ta$samples$sample_id) == 1) {
+    ta$samples$sample_clustered <- factor(ta$samples$sample_id)
+    return(ta) 
+  } 
+
   # make relative abundance matrix
   rel_abundance_matrix <- rel_abundance_matrix(ta, sample_name=sample_id, taxon_name=taxon_id)
 
