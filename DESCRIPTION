@@ -25,6 +25,7 @@ Imports:
     vegan
 Suggests:
     tidyverse, 
+    devtools,
     covr,
     compositions,
     vdiffr,
