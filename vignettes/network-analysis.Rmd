@@ -41,7 +41,7 @@ the aspirate method.
 The first step in the analysis is creating a sparcc network from our taxonomic counts.
 For this the [SpiecEasi package](https://github.com/zdk123/SpiecEasi) is used.
 
-```{r, install-spieceasi, eval=FALSE}
+```{r, install-spieceasi}
 devtools::install_github('zdk123/SpiecEasi')
 ```
 
