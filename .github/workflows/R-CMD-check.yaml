@@ -55,6 +55,7 @@ jobs:
         with:
           extra-packages: |
               any::rcmdcheck
+              any::tidyverse
               any::plotly
               any::vdiffr
               any::compositions
