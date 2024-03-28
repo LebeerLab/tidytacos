@@ -35,7 +35,7 @@ Suggests:
     plotly,
     MCL,
     Matrix,
-    zdk123/SpiecEasi,
+    igraph,
     rmarkdown,
     roxygen2,
     testthat (>= 3.1.9)
