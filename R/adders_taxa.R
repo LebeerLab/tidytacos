@@ -317,7 +317,7 @@ add_jervis_bardy <- function(ta, dna_conc, sample_condition = T, min_pres = 3) {
 
 #' Add taxon prevalences to the taxon table
 #'
-#' \code{add_prevalence} calculates taxon prevalences (overall or per condition) and adds it to the taxa table under the column name "occurrence". Prevalence can be expressed as the number of samples where a taxon occurs or the ratio of samples where a taxon occurs and the total amount of samples.
+#' \code{add_prevalence} calculates taxon prevalences (overall or per condition) and adds it to the taxa table under the column name "prevalence". Prevalence can be expressed as the number of samples where a taxon occurs or the ratio of samples where a taxon occurs and the total amount of samples.
 #'
 #' If 'condition' is specified, the prevalences will be calculated separately for each group defined by the condition variable. This variable should be present in the sample table.
 #'
@@ -334,7 +334,8 @@ add_jervis_bardy <- function(ta, dna_conc, sample_condition = T, min_pres = 3) {
 add_prevalence <- function(
   ta, condition = NULL, relative = F, fischer_test = F
   ) {
-
+  prev <- "prevalence"
+  prev_in <- "prevalence_in"
   if (is.null(condition)) {
 
     taxa_prevalences <-
@@ -362,17 +363,17 @@ add_prevalence <- function(
     taxa_prevalences <-
       prevalences %>%
       filter(presence == "present") %>%
-      select(taxon_id, !! condition_sym, occurrence = n) %>%
-      mutate_at(condition, ~ str_c("occurrence_in", ., sep = "_")) %>%
-      spread(value = "occurrence", key = condition) %>%
+      select(taxon_id, !! condition_sym, prevalence = n) %>%
+      mutate_at(condition, ~ str_c(prev_in, ., sep = "_")) %>%
+      spread(value = prev, key = condition) %>%
       left_join(taxa_fischer, by = "taxon_id")
 
   } else {
 
     taxa_prevalences <-
       prevalences(ta, condition = condition) %>%
-      mutate_at(condition, ~ str_c("occurrence_in", ., sep = "_")) %>%
-      spread(value = "occurrence", key = condition)
+      mutate_at(condition, ~ str_c(prev_in, ., sep = "_")) %>%
+      spread(value = prev, key = condition)
 
   }
 
@@ -380,7 +381,7 @@ add_prevalence <- function(
 
     taxa_prevalences <-
       taxa_prevalences %>%
-      mutate(occurrence = occurrence / nrow(ta$samples))
+      mutate(prevalence = prevalence / nrow(ta$samples))
 
   }
 
@@ -396,8 +397,8 @@ add_prevalence <- function(
 
       con <- conditions[[condition]][con_ix]
       n_samples <- conditions[["n"]][con_ix]
-      taxa_prevalences[[str_c("occurrence_in_", con)]] <-
-        taxa_prevalences[[str_c("occurrence_in_", con)]] / n_samples
+      taxa_prevalences[[str_c(prev_in, con, sep="_")]] <-
+        taxa_prevalences[[str_c(prev_in, con, sep="_")]] / n_samples
 
     }
 

@@ -5,15 +5,7 @@
 \title{Perform network inference with SparCC on a tidytacos object, 
 after rarefaction of the taxa. See \link[SpiecEasi]{sparcc}.}
 \usage{
-network(
-  ta,
-  rarefact = 0.05,
-  iter = 20,
-  inner_iter = 10,
-  th = 0.1,
-  taxon_name = taxon,
-  sample_name = sample
-)
+network(ta, rarefact = 0.05, taxon_name = taxon, sample_name = sample, ...)
 }
 \arguments{
 \item{ta}{a tidytacos object}

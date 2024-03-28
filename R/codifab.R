@@ -4,7 +4,7 @@
 #' these to the tidytacos object in the form of a table called logratios.
 #'
 #' If max_taxa is smaller than the number of taxa in the dataset, the taxa with the highest
-#' occurrence will be selected.
+#' prevalence will be selected.
 #'
 #' IMPORTANT: this function adds pseudocounts of one to all abundances before
 #' calculating the logratios.
@@ -23,7 +23,7 @@ add_logratio <- function(ta, max_taxa = 50) {
 
     ta$taxa <-
       ta$taxa %>%
-      arrange(desc(occurrence)) %>%
+      arrange(desc(prevalence)) %>%
       mutate(keep = F) %>%
       {.$keep[1:max_taxa] <- T; .}
 

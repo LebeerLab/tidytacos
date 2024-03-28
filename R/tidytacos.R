@@ -24,6 +24,6 @@
 globalVariables(c(
     "sample_id", "samples",
     "taxon_id", "taxa", "taxon", "taxon_name_color",  
-    "count", "rel_abundance", "presence"
+    "count", "rel_abundance", "presence", "alpha_metrics"
 ))
 NULL

@@ -33,7 +33,7 @@ perform_mantel_test <- function(ta, comparison, ...) {
     } 
 
     if (length(comparison) > 1) { 
-        comparison <- ta$samples %>% select(comparison)
+        comparison <- ta$samples %>% select(all_of(comparison))
         return(mantel_test_list(dmatrix, comparison, ...))
     }
 

@@ -6,11 +6,11 @@
 \usage{
 tacoplot_ord(
   ta,
-  x = sample_id,
+  x = NULL,
   palette = NULL,
   ord = "pcoa",
   distance = "bray",
-  stat.method = "mantel",
+  stat.method = NULL,
   title = NULL,
   ...
 )
