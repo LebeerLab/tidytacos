@@ -60,7 +60,7 @@ filter_network <- function(network, threshold = 0.1) {
 #'
 #' @param network network network in matrix form.
 #' @param min_n minimum number of taxa per cluster, smaller clusters are filtered out.
-#' @param visualize wether to visualize the network clusters or not. 
+#' @param visualize whether to visualize the network clusters or not. 
 #' 
 #' @export
 cluster_network <- function(network, min_n = 3, visualize = F) {

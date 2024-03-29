@@ -321,7 +321,7 @@ add_jervis_bardy <- function(ta, dna_conc, sample_condition = T, min_pres = 3) {
 #'
 #' If 'condition' is specified, the prevalences will be calculated separately for each group defined by the condition variable. This variable should be present in the sample table.
 #'
-#' If `condition` is specified, differential prevalence testing can be performed by setting the `fischer_test` argument. Options are F (default) or T. When set to T, significance of differential prevalence will be added to the taxa table under column name "fischer_p".
+#' If `condition` is specified, differential prevalence testing can be performed by setting the `fisher_test` argument. Options are F (default) or T. When set to T, significance of differential prevalence will be added to the taxa table under column name "fischer_p".
 #'
 #' Condition should be a categorical variable present in the samples table.
 #' Supply condition as a string.

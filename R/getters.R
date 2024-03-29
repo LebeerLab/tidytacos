@@ -118,7 +118,7 @@ betas <- function(ta, unique = T, method = "bray", binary = F) {
 #'
 #' @param ta A tidytacos object.
 #' @param condition A string denoting a categorical variable in the sample table.
-#' @param pres_abs Whether to resort to presence/absense screening.
+#' @param pres_abs Whether to resort to presence/absence screening.
 #' @export
 prevalences <- function(ta, condition = NULL, pres_abs = F) {
 

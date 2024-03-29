@@ -76,3 +76,9 @@ test_that("Can create venndiagram", {
     venn <- urt %>% tacoplot_venn(location)
     vdiffr::expect_doppelganger("Venndiagram", venn)
 })
+
+test_that("Tacoplot_alphas works", {
+    expect_no_error(
+            urt %>% tacoplot_alphas(location)
+    )
+})

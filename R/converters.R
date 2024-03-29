@@ -380,7 +380,7 @@ tidy_count_to_matrix <- function(counts, value = count) {
 #'
 #' This function will merge two tidytacos objects into one. It is useful if
 #' one wants to merge data obtained from different sequencing runs. Therefore,
-#' this function requirers that both tidytacos objects contain a "run"
+#' this function requires that both tidytacos objects contain a "run"
 #' variable in their samples table, indicating their origin.
 #'
 #' @param ta1 The first tidytacos object.

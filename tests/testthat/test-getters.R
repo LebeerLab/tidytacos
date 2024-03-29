@@ -25,7 +25,7 @@ test_that("Prevalences are calculated",{
     expect_equal(sum(occ$prevalence), 7693)
 })
 
-test_that("Presence/absense is calculated", {
+test_that("Presence/absence is calculated", {
     pres_ab <- urt %>% prevalences("location", pres_abs=TRUE)
     expect_equal(dim(pres_ab), c(4*len_taxa, 4))
     expect_true(all(c("location", "presence", "n") %in% names(pres_ab)))
