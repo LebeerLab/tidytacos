@@ -71,7 +71,7 @@ cluster_network <- function(network, min_n = 3, visualize = F) {
   if (visualize) {
     force_optional_dependency("igraph")
     gd <- igraph::graph.adjacency(res$Equilibrium.state.matrix, mode = "undirected")
-    V(gd)$name <- colnames(network)
+    igraph::V(gd)$name <- colnames(network)
     plot(gd)
   }
 

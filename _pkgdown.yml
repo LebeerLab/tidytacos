@@ -2,6 +2,12 @@ template:
   bootstrap: 5
   bootswatch: flatly
 url: https://lebeerlab.github.io/tidytacos/
+articles:
+  - title: "Tutorials"
+    contents: 
+    - getting-started
+    - stacked-barplot
+    - network-analysis     
 reference:
   - title: "Tidytacos"
     desc: >
@@ -21,6 +27,8 @@ reference:
       - from_dada
       - from_phyloseq
       - as_phyloseq
+      - to_biom
+      - to_fasta
   - title: "Table manipulation"
     desc: >
       Functions for manipulation of the three distinct tables using tidy-related functions.
@@ -80,6 +88,7 @@ reference:
       Functions to add various diversity metrics to the tidytacos object.
     contents:
       - add_alpha
+      - add_alphas
       - betas
       - add_ord
       - add_copca

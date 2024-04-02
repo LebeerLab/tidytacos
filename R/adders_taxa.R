@@ -321,18 +321,18 @@ add_jervis_bardy <- function(ta, dna_conc, sample_condition = T, min_pres = 3) {
 #'
 #' If 'condition' is specified, the prevalences will be calculated separately for each group defined by the condition variable. This variable should be present in the sample table.
 #'
-#' If `condition` is specified, differential prevalence testing can be performed by setting the `fisher_test` argument. Options are F (default) or T. When set to T, significance of differential prevalence will be added to the taxa table under column name "fischer_p".
+#' If `condition` is specified, differential prevalence testing can be performed by setting the `fisher_test` argument. Options are F (default) or T. When set to T, significance of differential prevalence will be added to the taxa table under column name "fisher_p".
 #'
 #' Condition should be a categorical variable present in the samples table.
 #' Supply condition as a string.
 #' @importFrom stats fisher.test
 #' @param ta A tidytacos object.
 #' @param condition A categorical variable (string).
-#' @param relative Whether to use relative occurences.
-#' @param fischer_test Whether to perform a fischer test and add the p-values of the test to the taxa table.
+#' @param relative Whether to use relative occurrences.
+#' @param fisher_test Whether to perform a fisher test and add the p-values of the test to the taxa table.
 #' @export
 add_prevalence <- function(
-  ta, condition = NULL, relative = F, fischer_test = F
+  ta, condition = NULL, relative = F, fisher_test = F
   ) {
   prev <- "prevalence"
   prev_in <- "prevalence_in"
@@ -341,14 +341,14 @@ add_prevalence <- function(
     taxa_prevalences <-
       prevalences(ta, condition = condition)
 
-  } else if (fischer_test) {
+  } else if (fisher_test) {
 
     prevalences <-
       prevalences(ta, condition = condition, pres_abs = T)
 
     condition_sym <- sym(condition)
 
-    taxa_fischer <-
+    taxa_fisher <-
       prevalences %>%
       group_by(taxon_id) %>%
       arrange(!! condition_sym, presence) %>%
@@ -366,7 +366,7 @@ add_prevalence <- function(
       select(taxon_id, !! condition_sym, prevalence = n) %>%
       mutate_at(condition, ~ str_c(prev_in, ., sep = "_")) %>%
       spread(value = prev, key = condition) %>%
-      left_join(taxa_fischer, by = "taxon_id")
+      left_join(taxa_fisher, by = "taxon_id")
 
   } else {
 

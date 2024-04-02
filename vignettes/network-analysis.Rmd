@@ -15,8 +15,10 @@ knitr::opts_chunk$set(
 ```
 
 ```{r setup}
-library(tidyverse)
-library(tidytacos)
+suppressMessages({
+  library(tidyverse)
+  library(tidytacos)
+})
 
 urt.nf <- urt %>% 
 filter_samples(location == "NF") %>%
@@ -71,20 +73,9 @@ install.packages("igraph")
 ```
 
 We remove weak correlations (here set to 0.1) take the absolute value of the correlation matrix and remove the diagonal.
-This is all handled with the `filter_network` function, but we show the code here for clarity and to plot the network graph before clustering.
+This is all handled with the `filter_network` function.
 ```{r, network-filter, fig.width=7, fig.height=7}
-library(Matrix)
-library(igraph)
-
 urt.net.filt <- urt.net %>% filter_network(threshold = 0.1)
-# this is what the function does:
-se.sparcc.graph <- abs(urt.net$Cor) >= 0.1 # the treshold, absolutes as analysis is undirected
-diag(se.sparcc.graph) <- 0 # remove diagonal correlations (= always 1)
-sparcc.graph <- Matrix::Matrix(se.sparcc.graph, sparse = TRUE)
-rownames(sparcc.graph) <- urt.net$names
-graph <- igraph::graph_from_adjacency_matrix(sparcc.graph, mode = "undirected")
-plot(graph)
-
 ```
 
 # Step 3: Clustering of the network
@@ -118,6 +109,5 @@ urt.nf <- urt.nf %>%
 urt.nf  %>% tacoplot_stack()
 
 urt.net.clust %>% filter(cluster == unique(urt.net.clust$cluster)[[4]])
-
 ```
 Here cluster `r unique(urt.net.clust$cluster)[[4]]` and its composition are displayed.

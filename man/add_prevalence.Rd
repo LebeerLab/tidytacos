@@ -4,16 +4,16 @@
 \alias{add_prevalence}
 \title{Add taxon prevalences to the taxon table}
 \usage{
-add_prevalence(ta, condition = NULL, relative = F, fischer_test = F)
+add_prevalence(ta, condition = NULL, relative = F, fisher_test = F)
 }
 \arguments{
 \item{ta}{A tidytacos object.}
 
 \item{condition}{A categorical variable (string).}
 
-\item{relative}{Whether to use relative occurences.}
+\item{relative}{Whether to use relative occurrences.}
 
-\item{fischer_test}{Whether to perform a fischer test and add the p-values of the test to the taxa table.}
+\item{fisher_test}{Whether to perform a fisher test and add the p-values of the test to the taxa table.}
 }
 \description{
 \code{add_prevalence} calculates taxon prevalences (overall or per condition) and adds it to the taxa table under the column name "prevalence". Prevalence can be expressed as the number of samples where a taxon occurs or the ratio of samples where a taxon occurs and the total amount of samples.
@@ -21,7 +21,7 @@ add_prevalence(ta, condition = NULL, relative = F, fischer_test = F)
 \details{
 If 'condition' is specified, the prevalences will be calculated separately for each group defined by the condition variable. This variable should be present in the sample table.
 
-If `condition` is specified, differential prevalence testing can be performed by setting the `fisher_test` argument. Options are F (default) or T. When set to T, significance of differential prevalence will be added to the taxa table under column name "fischer_p".
+If `condition` is specified, differential prevalence testing can be performed by setting the `fisher_test` argument. Options are F (default) or T. When set to T, significance of differential prevalence will be added to the taxa table under column name "fisher_p".
 
 Condition should be a categorical variable present in the samples table.
 Supply condition as a string.
