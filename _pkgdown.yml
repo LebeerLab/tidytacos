@@ -8,6 +8,7 @@ articles:
     - getting-started
     - stacked-barplot
     - network-analysis     
+    - data-processing
 reference:
   - title: "Tidytacos"
     desc: >
