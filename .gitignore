@@ -12,3 +12,5 @@ wiki
 docs
 pkgdown
 inst/doc
+/doc/
+/Meta/

@@ -71,7 +71,7 @@ filter_network <- function(network, threshold = 0.1) {
 cluster_network <- function(network, min_n = 3, visualize = F) {
   force_optional_dependency("MCL")
   network[network < 0] <- 0
-  res <- MCL::mcl(network, ESM = T)
+  res <- MCL::mcl(network, ESM = T, addLoops=F)
 
   if (visualize) {
     force_optional_dependency("igraph")
