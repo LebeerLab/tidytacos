@@ -70,8 +70,10 @@ filter_network <- function(network, threshold = 0.1) {
 #' @export
 cluster_network <- function(network, min_n = 3, visualize = F) {
   force_optional_dependency("MCL")
+  force_optional_dependency("Matrix")
   network[network < 0] <- 0
-  res <- MCL::mcl(network, ESM = T, addLoops=F)
+  res <- MCL::mcl(network, ESM = T, addLoops=T)
+  Matrix::diag(res$Equilibrium.state.matrix) <- 0
 
   if (visualize) {
     force_optional_dependency("igraph")
