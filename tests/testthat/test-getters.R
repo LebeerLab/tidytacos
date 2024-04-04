@@ -18,14 +18,14 @@ test_that("Beta diversity table can be generated", {
     expect_equal(dim(beta_table), c(22791, 1+cols_samples*2))
 })
 
-test_that("Occurences are calculated",{
+test_that("Prevalences are calculated",{
     occ <- urt %>% prevalences("location")
     expect_equal(dim(occ), c(2*len_taxa, 3))
-    expect_true(all(c("location","occurrence") %in% names(occ)))
-    expect_equal(sum(occ$occurrence), 7693)
+    expect_true(all(c("location","prevalence") %in% names(occ)))
+    expect_equal(sum(occ$prevalence), 7693)
 })
 
-test_that("Presence/absense is calculated", {
+test_that("Presence/absence is calculated", {
     pres_ab <- urt %>% prevalences("location", pres_abs=TRUE)
     expect_equal(dim(pres_ab), c(4*len_taxa, 4))
     expect_true(all(c("location", "presence", "n") %in% names(pres_ab)))

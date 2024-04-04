@@ -56,23 +56,23 @@ test_that("Add taxon name color raises error when uring none existant method", {
     expect_error(urt %>% add_taxon_name_color(method="do something", include_species=TRUE))
 })
 
-test_that("Occurence can not be higher than amount of samples", {
+test_that("Prevalence can not be higher than amount of samples", {
     ta_occ <- urt %>% add_prevalence()
-    expect_lte(max(ta_occ$taxa$occurrence), dim(urt$samples)[1])
+    expect_lte(max(ta_occ$taxa$prevalence), dim(urt$samples)[1])
 })
 
-test_that("Occurence in conditions with fischer test can be run", {
-    ta_occ <- urt %>% add_prevalence(condition="location", fischer_test=TRUE)
-    expect_true(all(c("occurrence_in_N","occurrence_in_NF","fisher_p") %in% names(ta_occ$taxa)))
-    expect_lte(max(ta_occ$taxa$occurrence_in_NF), dim(urt$samples)[1])
-    expect_lte(max(ta_occ$taxa$occurrence_in_N), dim(urt$samples)[1])
+test_that("Prevalence in conditions with fisher test can be run", {
+    ta_occ <- urt %>% add_prevalence(condition="location", fisher_test=TRUE)
+    expect_true(all(c("prevalence_in_N","prevalence_in_NF","fisher_p") %in% names(ta_occ$taxa)))
+    expect_lte(max(ta_occ$taxa$prevalence_in_NF), dim(urt$samples)[1])
+    expect_lte(max(ta_occ$taxa$prevalence_in_N), dim(urt$samples)[1])
 })
 
-test_that("Relative occurences in conditions with fischer test can be run", {
-    ta_occ <- urt %>% add_prevalence(condition="location", fischer_test=TRUE)
-    expect_true(all(c("occurrence_in_N","occurrence_in_NF","fisher_p") %in% names(ta_occ$taxa)))
-    expect_lte(max(ta_occ$taxa$occurrence_in_NF), dim(urt$samples)[1])
-    expect_lte(max(ta_occ$taxa$occurrence_in_N), dim(urt$samples)[1])
+test_that("Relative prevalences in conditions with fisher test can be run", {
+    ta_occ <- urt %>% add_prevalence(condition="location", fisher_test=TRUE)
+    expect_true(all(c("prevalence_in_N","prevalence_in_NF","fisher_p") %in% names(ta_occ$taxa)))
+    expect_lte(max(ta_occ$taxa$prevalence_in_NF), dim(urt$samples)[1])
+    expect_lte(max(ta_occ$taxa$prevalence_in_N), dim(urt$samples)[1])
 })
 
 test_that("Can add mean rel abundance", {

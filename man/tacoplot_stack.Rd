@@ -4,7 +4,7 @@
 \alias{tacoplot_stack}
 \title{Return a bar plot of the samples}
 \usage{
-tacoplot_stack(ta, n = 12, x = sample_clustered, pie = FALSE)
+tacoplot_stack(ta, n = 12, x = sample_clustered, pie = FALSE, ...)
 }
 \arguments{
 \item{ta}{A tidytacos object.}
@@ -15,6 +15,9 @@ tacoplot_stack(ta, n = 12, x = sample_clustered, pie = FALSE)
 
 \item{pie}{A boolean, whether or not to represent the profile in a pie chart. 
 Default is FALSE, as pie chart representations can be misleading to interpret.}
+
+\item{order_by}{an optional column name to order the samples by. 
+For examples order_by=sample would order the x-axis by the sample names instead of by similar profiles.}
 }
 \description{
 Plots a stacked bar plot of the samples in the tidytacos object to inspect the taxonomic profile.

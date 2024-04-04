@@ -69,7 +69,7 @@ tacosum <- function(ta) {
 betas <- function(ta, unique = T, method = "bray", binary = F) {
 
   # make "dist" object with beta values
-  rel_abundance_matrix <- rel_abundance_matrix(ta)
+  rel_abundance_matrix <- rel_abundance_matrix(ta, sample_name=sample_id)
   betas_dist <- vegdist(rel_abundance_matrix, method = method, binary = binary)
 
   # save number of betas in betas_dist in shortcut variable
@@ -118,7 +118,7 @@ betas <- function(ta, unique = T, method = "bray", binary = F) {
 #'
 #' @param ta A tidytacos object.
 #' @param condition A string denoting a categorical variable in the sample table.
-#' @param pres_abs Whether to resort to presence/absense screening.
+#' @param pres_abs Whether to resort to presence/absence screening.
 #' @export
 prevalences <- function(ta, condition = NULL, pres_abs = F) {
 
@@ -131,7 +131,7 @@ prevalences <- function(ta, condition = NULL, pres_abs = F) {
 
     abundances_extended %>%
       count(taxon_id) %>%
-      rename(occurrence = n)
+      rename(prevalence = n)
 
   } else if (pres_abs) {
 
@@ -150,8 +150,8 @@ prevalences <- function(ta, condition = NULL, pres_abs = F) {
 
     abundances_extended %>%
       count(taxon_id, !! condition) %>%
-      rename(occurrence = n) %>%
-      complete(taxon_id, !! condition, fill = list(occurrence = 0))
+      rename(prevalence = n) %>%
+      complete(taxon_id, !! condition, fill = list(prevalence = 0))
 
   }
 

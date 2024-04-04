@@ -163,7 +163,7 @@ urt_rar <- urt %>%
   add_alphas()
 ```
 
-We can visualize alpha diversities of nose versus the nasopoharynx:
+We can visualize alpha diversities of nose versus the nasopharynx:
 
 The `add_total_count` function will add total sample read numbers to the
 sample table.

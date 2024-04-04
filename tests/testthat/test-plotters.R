@@ -71,8 +71,14 @@ test_that("Tacoplot_ord_ly works with umap and 3 dims", {
 })
 
 test_that("Can create venndiagram", {
-    skip_if_not_installed("ggVenDiagram")
+    skip_if_not_installed("ggVennDiagram")
     testthat::skip_on_ci()
     venn <- urt %>% tacoplot_venn(location)
     vdiffr::expect_doppelganger("Venndiagram", venn)
+})
+
+test_that("Tacoplot_alphas works", {
+    expect_no_error(
+            urt %>% tacoplot_alphas(location)
+    )
 })
