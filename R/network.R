@@ -18,6 +18,11 @@ network <- function(ta, rarefact = 0.05, taxon_name = taxon, sample_name = sampl
 
   sample_name <- rlang::enquo(sample_name)
   taxon_name <- rlang::enquo(taxon_name)
+  if (!quo_name(taxon_name) %in% names(ta$taxa)) {
+    warning(paste(quo_name(taxon_name), "not found in the taxa table, resorting to add_taxon_name"))
+    ta <- ta %>% add_taxon_name()
+    taxon_name <- sym("taxon_name")
+  }
 
   cutoff <- nrow(ta$samples) * rarefact
   if (!"prevalence" %in% names(ta$taxa)) {
@@ -66,7 +71,7 @@ filter_network <- function(network, threshold = 0.1) {
 cluster_network <- function(network, min_n = 3, visualize = F) {
   force_optional_dependency("MCL")
   network[network < 0] <- 0
-  res <- MCL::mcl(network, addLoops = T, ESM = T)
+  res <- MCL::mcl(network, ESM = T)
 
   if (visualize) {
     force_optional_dependency("igraph")
