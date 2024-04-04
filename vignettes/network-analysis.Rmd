@@ -72,7 +72,7 @@ install.packages("Matrix")
 install.packages("igraph")
 ```
 
-We remove weak correlations (here set to 0.1) take the absolute value of the correlation matrix and remove the diagonal.
+We remove weak correlations (here set to an absolute value of <=0.1) and remove the diagonal.
 This is all handled with the `filter_network` function.
 ```{r, network-filter, fig.width=7, fig.height=7}
 urt.net.filt <- urt.net %>% filter_network(threshold = 0.1)
@@ -82,6 +82,7 @@ urt.net.filt <- urt.net %>% filter_network(threshold = 0.1)
 
 Now the taxa in the network are clustered using an unsupervised clustering algorithm, the [Markov Cluster Algorithm (MCL)](https://micans.org/mcl/).
 The `cluster_network` function has the `MCL` package as a dependency.
+The algorithm cannot handle negative interactions so any correlation <0 will be set to 0.
 
 ```{r, eval=FALSE}
 install.packages("MCL")
