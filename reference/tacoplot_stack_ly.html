@@ -21,6 +21,9 @@
       <ul class="navbar-nav me-auto"><li class="active nav-item">
   <a class="nav-link" href="../reference/index.html">Reference</a>
 </li>
+<li class="nav-item">
+  <a class="nav-link" href="../articles/index.html">Articles</a>
+</li>
       </ul><form class="form-inline my-2 my-lg-0" role="search">
         <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off"></form>
 
@@ -48,7 +51,7 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">tacoplot_stack_ly</span><span class="op">(</span><span class="va">ta</span>, n <span class="op">=</span> <span class="fl">12</span>, x <span class="op">=</span> <span class="va">sample_clustered</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">tacoplot_stack_ly</span><span class="op">(</span><span class="va">ta</span>, n <span class="op">=</span> <span class="fl">12</span>, x <span class="op">=</span> <span class="va">sample_clustered</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -64,6 +67,11 @@ different taxa.</p></dd>
 
 <dt>x</dt>
 <dd><p>A string, representing the column name used to label the x-axis</p></dd>
+
+
+<dt>order_by</dt>
+<dd><p>an optional column name to order the samples by. 
+For examples order_by=sample would order the x-axis by the sample names instead of by similar profiles.</p></dd>
 
 </dl></div>
 

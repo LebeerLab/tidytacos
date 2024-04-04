@@ -21,6 +21,9 @@
       <ul class="navbar-nav me-auto"><li class="active nav-item">
   <a class="nav-link" href="../reference/index.html">Reference</a>
 </li>
+<li class="nav-item">
+  <a class="nav-link" href="../articles/index.html">Articles</a>
+</li>
       </ul><form class="form-inline my-2 my-lg-0" role="search">
         <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off"></form>
 
@@ -112,6 +115,16 @@
           <code><a href="as_phyloseq.html">as_phyloseq()</a></code> 
         </dt>
         <dd>Convert tidytacos object to phyloseq object</dd>
+      </dl><dl><dt>
+          
+          <code><a href="to_biom.html">to_biom()</a></code> 
+        </dt>
+        <dd>Write the counts of the tidytacos object to a biom file</dd>
+      </dl><dl><dt>
+          
+          <code><a href="to_fasta.html">to_fasta()</a></code> 
+        </dt>
+        <dd>Write the sequences of the taxa table to a fasta file</dd>
       </dl></div><div class="section level2">
       <h2 id="table-manipulation">Table manipulation<a class="anchor" aria-label="anchor" href="#table-manipulation"></a></h2>
       
@@ -307,6 +320,12 @@
 
       <dl><dt>
           
+          <code><a href="tacoplot_alphas.html">tacoplot_alphas()</a></code> 
+        </dt>
+        <dd>Return a boxplot of every alpha metric per group in the samples table of a tidytaco object.
+If no alpha metrics are present, all available ones are added.</dd>
+      </dl><dl><dt>
+          
           <code><a href="tacoplot_codifab.html">tacoplot_codifab()</a></code> 
         </dt>
         <dd>Generate a compositional differential abundance plot</dd>
@@ -429,6 +448,11 @@ before running this function to add the clusters if you want to stray from any d
           
           <code><a href="add_alpha.html">add_alpha()</a></code> 
         </dt>
+        <dd>Add alpha diversity measure</dd>
+      </dl><dl><dt>
+          
+          <code><a href="add_alphas.html">add_alphas()</a></code> 
+        </dt>
         <dd>Add alpha diversity measures</dd>
       </dl><dl><dt>
           
@@ -489,13 +513,13 @@ annotate taxa of the largest clusters in the tidytacos object.</dd>
           <code><a href="network.html">network()</a></code> 
         </dt>
         <dd>Perform network inference with SparCC on a tidytacos object, 
-after rarefaction of the taxa. See sparcc.</dd>
+after rarefaction of the taxa. See <a href="https://rdrr.io/pkg/SpiecEasi/man/sparcc.html" class="external-link">sparcc</a>.</dd>
       </dl><dl><dt>
           
           <code><a href="filter_network.html">filter_network()</a></code> 
         </dt>
-        <dd>Filters the output of <code>network</code> to a minimal treshold 
-and transforms to matrixfor downstream clustering or heatplot visualization.</dd>
+        <dd>Filters the output of <code>network</code> to a minimal threshold 
+and transforms to matrix for downstream clustering or heatplot visualization.</dd>
       </dl><dl><dt>
           
           <code><a href="cluster_network.html">cluster_network()</a></code> 

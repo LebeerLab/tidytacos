@@ -29,6 +29,9 @@ annotate taxa of the largest clusters in the tidytacos object."><meta property="
       <ul class="navbar-nav me-auto"><li class="active nav-item">
   <a class="nav-link" href="../reference/index.html">Reference</a>
 </li>
+<li class="nav-item">
+  <a class="nav-link" href="../articles/index.html">Articles</a>
+</li>
       </ul><form class="form-inline my-2 my-lg-0" role="search">
         <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off"></form>
 
@@ -63,7 +66,7 @@ annotate taxa of the largest clusters in the tidytacos object.</p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">cluster_taxa</span><span class="op">(</span></span>
 <span>  <span class="va">ta</span>,</span>
 <span>  rarefact <span class="op">=</span> <span class="fl">0.05</span>,</span>
-<span>  network_tresh <span class="op">=</span> <span class="fl">0.1</span>,</span>
+<span>  network_thresh <span class="op">=</span> <span class="fl">0.1</span>,</span>
 <span>  min_n_cluster <span class="op">=</span> <span class="fl">3</span>,</span>
 <span>  taxon_name <span class="op">=</span> <span class="va">taxon</span>,</span>
 <span>  sample_name <span class="op">=</span> <span class="va">sample</span></span>
@@ -80,7 +83,7 @@ annotate taxa of the largest clusters in the tidytacos object.</p>
 <dd><p>Rarefaction degree: percentage of samples the taxon needs to be present in.</p></dd>
 
 
-<dt>network_tresh</dt>
+<dt>network_thresh</dt>
 <dd><p>absolute value of correlations below this threshold are 
 filtered out.</p></dd>
 

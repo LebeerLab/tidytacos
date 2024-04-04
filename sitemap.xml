@@ -7,6 +7,21 @@
     <loc>https://lebeerlab.github.io/tidytacos/LICENSE-text.html</loc>
   </url>
   <url>
+    <loc>https://lebeerlab.github.io/tidytacos/articles/data-processing.html</loc>
+  </url>
+  <url>
+    <loc>https://lebeerlab.github.io/tidytacos/articles/getting-started.html</loc>
+  </url>
+  <url>
+    <loc>https://lebeerlab.github.io/tidytacos/articles/index.html</loc>
+  </url>
+  <url>
+    <loc>https://lebeerlab.github.io/tidytacos/articles/network-analysis.html</loc>
+  </url>
+  <url>
+    <loc>https://lebeerlab.github.io/tidytacos/articles/stacked-barplot.html</loc>
+  </url>
+  <url>
     <loc>https://lebeerlab.github.io/tidytacos/authors.html</loc>
   </url>
   <url>
@@ -17,6 +32,9 @@
   </url>
   <url>
     <loc>https://lebeerlab.github.io/tidytacos/reference/add_alpha.html</loc>
+  </url>
+  <url>
+    <loc>https://lebeerlab.github.io/tidytacos/reference/add_alphas.html</loc>
   </url>
   <url>
     <loc>https://lebeerlab.github.io/tidytacos/reference/add_clr_abundance.html</loc>
@@ -211,6 +229,9 @@
     <loc>https://lebeerlab.github.io/tidytacos/reference/set_rank_names.html</loc>
   </url>
   <url>
+    <loc>https://lebeerlab.github.io/tidytacos/reference/tacoplot_alphas.html</loc>
+  </url>
+  <url>
     <loc>https://lebeerlab.github.io/tidytacos/reference/tacoplot_codifab.html</loc>
   </url>
   <url>
@@ -254,6 +275,12 @@
   </url>
   <url>
     <loc>https://lebeerlab.github.io/tidytacos/reference/tidytacos.html</loc>
+  </url>
+  <url>
+    <loc>https://lebeerlab.github.io/tidytacos/reference/to_biom.html</loc>
+  </url>
+  <url>
+    <loc>https://lebeerlab.github.io/tidytacos/reference/to_fasta.html</loc>
   </url>
   <url>
     <loc>https://lebeerlab.github.io/tidytacos/reference/trim_asvs.html</loc>
