@@ -5,13 +5,17 @@
 # @param ta a tidytacos object
 # @param n an integer
 #
-prepare_for_bp <- function(ta, n = 12, extended = TRUE, order_by=NULL) {
+prepare_for_bp <- function(ta, n = 12, extended = TRUE, ...) {
 
+  extParams <- list()
+  if (length(list(...))) {
+    extParams <- unlist(list(...))
+  }
   # custom order
-  if (!is.null(order_by)) {
-    order_by <- rlang::enquo(order_by)
-    ta$samples <- ta$samples %>% arrange(!!order_by)
-    ta$samples$sample_clustered <- as.factor(ta$samples$sample_id)
+  if (!is.null(extParams[["order_by"]])) {
+    order_by <- extParams[["order_by"]]
+    ta$samples <- ta$samples %>% arrange(order_by)
+    ta$samples$sample_clustered <- as.factor(ta$samples[[order_by]])
   }
 
   # add sample_clustered if not present
@@ -34,6 +38,28 @@ prepare_for_bp <- function(ta, n = 12, extended = TRUE, order_by=NULL) {
     ta <- ta %>% everything()
   }
   ta
+}
+
+# Calculate beta diversity statistics to display on an ordination plot.
+#
+#
+# @param ta a tidytacos object
+# @param x the variable of interest
+# @param stat.method the statistic to calculate, choice from anosim or permanova
+# @param distance the beta dissimilarity metric to use
+#
+get_ord_stat <- function(ta, x, stat.method, distance=distance) {
+  stat.method <- tolower(stat.method)
+  if (stat.method == "anosim") {
+      stat <- perform_anosim(ta, !!x, distance=distance)
+  } else if (stat.method == "permanova" || stat.method == "adonis") {
+      res <- perform_adonis(ta, c(rlang::as_name(x)), distance=distance)
+      stat <- list(statistic = res$R2[[1]], signif = res$`Pr(>F)`[[1]])
+  }
+  else {
+      simpleError("stat.method not recognized. Please choose from anosim or permanova.")
+  }
+  stat
 }
 
 #' Return a bar plot of the samples
@@ -70,7 +96,7 @@ tacoplot_stack <- function(ta, n = 12, x = sample_clustered, pie = FALSE, ...) {
   }
 
   # make plot and return
-  plot <- prepare_for_bp(ta, n, extended=T, if(length(list(...))) enquos(...) else NULL) %>%
+  plot <- prepare_for_bp(ta, n, extended=T, ...) %>%
     ggplot(aes(
       x = forcats::fct_reorder(!!x, as.integer(sample_clustered)),
       y = rel_abundance, fill = taxon_name_color)) +
@@ -162,12 +188,12 @@ tacoplot_stack_ly <- function(ta, n = 12, x = sample_clustered, ...) {
 #'
 #' @export
 tacoplot_ord_ly <- function(ta, x=NULL, samplenames = sample_id, ord="pcoa", dims=2, 
-                            distance="bray", stat.method="mantel", palette = NULL, title = NULL, ...) {
+                            distance="bray", stat.method=NULL, palette = NULL, title = NULL, ...) {
   force_optional_dependency("plotly")
 
 
   if (is.null(title)){ 
-    title <- paste(ord, "plot")
+    title <- paste(toupper(ord),"plot")
   }
   
   # convert promise to formula
@@ -195,13 +221,6 @@ tacoplot_ord_ly <- function(ta, x=NULL, samplenames = sample_id, ord="pcoa", dim
   # prepare ord if needed
   if (!all(ordnames %in% names(ta$samples))) {
     ta <- add_ord(ta, distance=distance, method=ord, dims=dims, ...)
-  }
-
-  # calculate statistic
-  if (stat.method == "anosim") {
-    stat <- perform_anosim(ta, !!x, distance=distance)
-  } else {
-    stat <- perform_mantel_test(ta, rlang::quo_name(x))
   }
 
   if (dims == 2) {
@@ -246,6 +265,11 @@ tacoplot_ord_ly <- function(ta, x=NULL, samplenames = sample_id, ord="pcoa", dim
     })
   ))
   }
+
+  if (is.null(stat.method)) {
+    return(plot)
+  }
+  stat <- get_ord_stat(ta, x, stat.method, distance=distance)
   plot %>% plotly::add_annotations(
     x= 0.1,
     y= 1,
@@ -255,6 +279,8 @@ tacoplot_ord_ly <- function(ta, x=NULL, samplenames = sample_id, ord="pcoa", dim
     showarrow = F
   )
 }
+
+
 
 #' Return an ordination plot of the samples
 #'
@@ -309,24 +335,23 @@ tacoplot_ord <- function(ta, x=NULL, palette = NULL, ord = "pcoa", distance="bra
     ta <- add_ord(ta, distance=distance, method=ord, ...)
   } 
 
-  plt <- ta$samples %>% ggplot(aes(x=ord1, y=ord2, color=!!x)) + 
-    geom_point() + 
+  plt <- ta$samples %>% ggplot(aes(x = ord1, y = ord2, color=!!x)) +
+    geom_point() +
     theme_classic() +
-    ggtitle(title)
+    ggtitle(title) +
+    labs(subtitle = paste("Distance measure: ", distance))
 
   # calculate stats
-  if (!is.null(stat.method)){
-    if (stat.method == "anosim") {
-      stat <- perform_anosim(ta, !!x, distance=distance)
-    } else {
-      stat <- perform_mantel_test(ta, rlang::quo_name(x))
-    }
-    plt + annotate("text", x=min(ta$samples$ord1)+0.05, y=max(ta$samples$ord2)-0.05, 
-      label=paste0(toupper(stat.method),":\nR= ", signif(stat$statistic, 3), "\nP= ", signif(stat$signif, 3)))
-  } 
-  else {
-    plt
+  if (is.null(stat.method)){
+    return(plt)
   }
+  stat <- get_ord_stat(ta, x, stat.method, distance=distance)
+
+  plt +
+  annotate("text", x = min(ta$samples$ord1) + 0.05, y = max(ta$samples$ord2) - 0.05,
+    label=paste0(toupper(stat.method),
+    ":\nR= ", signif(stat$statistic, 3), "\nP= ", signif(stat$signif, 3)))
+
 }
 
 #' Return a visualization designed for a small number of samples

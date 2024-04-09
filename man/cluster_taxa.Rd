@@ -8,7 +8,7 @@ annotate taxa of the largest clusters in the tidytacos object.}
 \usage{
 cluster_taxa(
   ta,
-  rarefact = 0.05,
+  min_occurrence = 0.05,
   network_thresh = 0.1,
   min_n_cluster = 3,
   taxon_name = taxon,
@@ -18,7 +18,7 @@ cluster_taxa(
 \arguments{
 \item{ta}{a tidytacos object.}
 
-\item{rarefact}{Rarefaction degree: percentage of samples the taxon needs to be present in.}
+\item{min_occurrence}{Percentage of samples the taxon needs to be present in for it to be considered in the analysis.}
 
 \item{network_thresh}{absolute value of correlations below this threshold are 
 filtered out.}

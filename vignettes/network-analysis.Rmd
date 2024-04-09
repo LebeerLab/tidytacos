@@ -1,5 +1,5 @@
 ---
-title: "network-analysis"
+title: "Network Analysis"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{network-analysis}
@@ -50,7 +50,7 @@ devtools::install_github('zdk123/SpiecEasi')
 ```{r, sparcc-network }
 urt.net <- urt.nf %>%
   network(
-    rarefact = 0.05, # rarefaction level
+    min_occurrence = 0.05, # the minimum percentage of samples that needs to have a taxa for it to be included in the network
     iter=20, # number of iterations of the outer loop of sparcc 
     inner_iter=10, # number of iterations of the inner loop of sparcc
     th=0.1, # correlations beneath this threshold are set to 0
