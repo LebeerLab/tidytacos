@@ -11,7 +11,7 @@ tacoplot_ord_ly(
   ord = "pcoa",
   dims = 2,
   distance = "bray",
-  stat.method = "mantel",
+  stat.method = NULL,
   palette = NULL,
   title = NULL,
   ...

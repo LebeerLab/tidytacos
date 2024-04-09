@@ -2,14 +2,14 @@
 #' after rarefaction of the taxa. See \link[SpiecEasi]{sparcc}.
 #'
 #' @param ta a tidytacos object
-#' @param rarefact Rarefaction degree: percentage of samples the taxon needs to be present in.
+#' @param min_occurrence Percentage of samples the taxon needs to be present in for it to be considered in the analysis.
 #' @param iter Number of iterations in the outer loop
 #' @param inner_iter Number of iterations in the inner loop
 #' @param th absolute value of correlations below this threshold are 
 #' considered zero by the inner SparCC loop.
 #' 
 #'@export
-network <- function(ta, rarefact = 0.05, taxon_name = taxon, sample_name = sample, ...) {
+network <- function(ta, min_occurrence = 0.05, taxon_name = taxon, sample_name = sample, ...) {
   force_optional_dependency(
     "SpiecEasi",
     "\nInstall using: install_github('zdk123/SpiecEasi')"
@@ -24,7 +24,7 @@ network <- function(ta, rarefact = 0.05, taxon_name = taxon, sample_name = sampl
     taxon_name <- sym("taxon_name")
   }
 
-  cutoff <- nrow(ta$samples) * rarefact
+  cutoff <- nrow(ta$samples) * min_occurrence
   if (!"prevalence" %in% names(ta$taxa)) {
     ta_occ <- ta %>% add_prevalence()
   } else {
@@ -97,7 +97,7 @@ cluster_network <- function(network, min_n = 3, visualize = F) {
 #' annotate taxa of the largest clusters in the tidytacos object.
 #'
 #' @param ta a tidytacos object.
-#' @param rarefact Rarefaction degree: percentage of samples the taxon needs to be present in.
+#' @param min_occurrence Percentage of samples the taxon needs to be present in for it to be considered in the analysis.
 #' @param network_thresh absolute value of correlations below this threshold are 
 #' filtered out.  
 #' @param min_n_cluster minimum number of taxa per cluster, smaller clusters are filtered out. 
@@ -107,14 +107,14 @@ cluster_network <- function(network, min_n = 3, visualize = F) {
 #' @export
 cluster_taxa <- function(
     ta,
-    rarefact = 0.05, network_thresh = 0.1, min_n_cluster = 3,
+    min_occurrence = 0.05, network_thresh = 0.1, min_n_cluster = 3,
     taxon_name = taxon, sample_name = sample) {
   sample_name <- rlang::enquo(sample_name)
   taxon_name <- rlang::enquo(taxon_name)
 
   clusters <- ta %>%
     network(
-      rarefact = rarefact,
+      min_occurrence = min_occurrence,
       sample_name = !!sample_name, taxon_name = !!taxon_name
     ) %>%
     filter_network(threshold = network_thresh) %>%
