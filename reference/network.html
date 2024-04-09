@@ -57,7 +57,13 @@ after rarefaction of the taxa. See <a href="https://rdrr.io/pkg/SpiecEasi/man/sp
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">network</span><span class="op">(</span><span class="va">ta</span>, rarefact <span class="op">=</span> <span class="fl">0.05</span>, taxon_name <span class="op">=</span> <span class="va">taxon</span>, sample_name <span class="op">=</span> <span class="va">sample</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">network</span><span class="op">(</span></span>
+<span>  <span class="va">ta</span>,</span>
+<span>  min_occurrence <span class="op">=</span> <span class="fl">0.05</span>,</span>
+<span>  taxon_name <span class="op">=</span> <span class="va">taxon</span>,</span>
+<span>  sample_name <span class="op">=</span> <span class="va">sample</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -66,8 +72,8 @@ after rarefaction of the taxa. See <a href="https://rdrr.io/pkg/SpiecEasi/man/sp
 <dd><p>a tidytacos object</p></dd>
 
 
-<dt>rarefact</dt>
-<dd><p>Rarefaction degree: percentage of samples the taxon needs to be present in.</p></dd>
+<dt>min_occurrence</dt>
+<dd><p>Percentage of samples the taxon needs to be present in for it to be considered in the analysis.</p></dd>
 
 
 <dt>iter</dt>
