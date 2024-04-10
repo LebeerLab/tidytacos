@@ -13,6 +13,7 @@ test_that("Can add eigentaxa", {
     skip_if_not_installed("MCL")
     skip_if_not_installed("SpiecEasi")
     skip_if_not_installed("Matrix")
+    skip_if_not_installed("compositions")
     urt_eigen <- urt %>% add_eigentaxa(taxon_name=sequence)
     expect_gt(length(urt_eigen$samples), length(urt$samples))
 })

@@ -11,7 +11,7 @@ prevalences(ta, condition = NULL, pres_abs = F)
 
 \item{condition}{A string denoting a categorical variable in the sample table.}
 
-\item{pres_abs}{Whether to resort to presence/absense screening.}
+\item{pres_abs}{Whether to resort to presence/absence screening.}
 }
 \description{
 Returns a tidy table of prevalences: taxon presence counts in samples,

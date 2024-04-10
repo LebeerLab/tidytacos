@@ -55,6 +55,7 @@ jobs:
         with:
           extra-packages: |
               any::rcmdcheck
+              any::tidyverse
               any::plotly
               any::vdiffr
               any::compositions
@@ -63,6 +64,7 @@ jobs:
               any::umap
               any::Rtsne
               any::fastDummies
+              any::ggVennDiagram
               bioc::dada2
               bioc::phyloseq
               github::zdk123/SpiecEasi

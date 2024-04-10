@@ -1,0 +1,114 @@
+---
+title: "Network Analysis"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{network-analysis}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+suppressMessages({
+  library(tidyverse)
+  library(tidytacos)
+})
+
+urt.nf <- urt %>% 
+filter_samples(location == "NF") %>%
+add_taxon_name() 
+
+```
+
+This is a brief guide on how to perform network analysis on microbiome
+count data using a similar strategy as performed in the [Isala study](https://www.nature.com/articles/s41564-023-01500-0) using tidytacos. 
+
+The method clusters taxa based on their co-occurrence patterns across the samples. 
+
+As per usual the test dataset used is a human microbiome samples from the upper respiratory
+tract (URT), taken from [this
+paper](https://www.frontiersin.org/articles/10.3389/fmicb.2017.02372/full)
+by De Boeck et al. It contains nose as well as nasopharynx samples. Most
+samples were taken using a swab method, but a minority was taking with
+the aspirate method.
+
+## Step 1: Creating a network
+
+The first step in the analysis is creating a sparcc network from our taxonomic counts.
+For this the [SpiecEasi package](https://github.com/zdk123/SpiecEasi) is used.
+
+```{r, install-spieceasi}
+devtools::install_github('zdk123/SpiecEasi')
+```
+
+```{r, sparcc-network }
+urt.net <- urt.nf %>%
+  network(
+    min_occurrence = 0.05, # the minimum percentage of samples that needs to have a taxa for it to be included in the network
+    iter=20, # number of iterations of the outer loop of sparcc 
+    inner_iter=10, # number of iterations of the inner loop of sparcc
+    th=0.1, # correlations beneath this threshold are set to 0
+    taxon_name=taxon_name)
+
+# The network object is a list with two elements:
+urt.net$Cor %>% head(2)# Correlation matrix
+# urt.net$Cov (covariance matrix)
+# urt.net$names (names of the taxa on x and y-axes)
+```
+
+# Step 2: Filtering the network matrix
+
+Next up we filter the output correlation matrix to remove weak correlations.
+For this we use the `filter_network` function, which has the `Matrix` package as a dependency.
+We also install the `igraph` package, which can be used for the visualization of the network.
+```{r, eval=FALSE}
+install.packages("Matrix")
+install.packages("igraph")
+```
+
+We remove weak correlations (here set to an absolute value of <=0.1) and remove the diagonal.
+This is all handled with the `filter_network` function.
+```{r, network-filter, fig.width=7, fig.height=7}
+urt.net.filt <- urt.net %>% filter_network(threshold = 0.1)
+```
+
+# Step 3: Clustering of the network
+
+Now the taxa in the network are clustered using an unsupervised clustering algorithm, the [Markov Cluster Algorithm (MCL)](https://micans.org/mcl/).
+The `cluster_network` function has the `MCL` package as a dependency.
+The algorithm cannot handle negative interactions so any correlation <0 will be set to 0.
+
+```{r, eval=FALSE}
+install.packages("MCL")
+```
+```{r, network-clustering, fig.width=7, fig.height=7}
+urt.net.clust <- urt.net.filt %>% 
+  cluster_network(min_n=5, visualize=T)
+
+urt.net.clust %>% 
+  group_by(cluster) %>% 
+  summarize(n=n())
+
+```
+
+Using the new clustered taxa ("eigentaxa") we can visualize the clusters in the microbiome profile.
+
+```{r, fig.width=8, fig.height=5}
+urt.nf$taxa <- urt.nf$taxa %>% 
+  left_join(urt.net.clust, by=c("taxon_name"="taxon")) 
+urt.nf <- urt.nf %>%
+  add_taxon_name() %>% 
+  mutate_taxa(cluster= ifelse(is.na(cluster), taxon_name, cluster)) %>% 
+  set_rank_names(c("cluster")) %>% 
+  aggregate_taxa(rank="cluster")
+urt.nf  %>% tacoplot_stack()
+
+urt.net.clust %>% filter(cluster == unique(urt.net.clust$cluster)[[4]])
+```
+Here cluster `r unique(urt.net.clust$cluster)[[4]]` and its composition are displayed.

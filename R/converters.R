@@ -36,6 +36,12 @@ create_tidytacos <- function(counts_matrix, taxa_are_columns = TRUE) {
   ) stop("first argument should be a numeric matrix")
 
   if (! taxa_are_columns) counts_matrix = t(counts_matrix)
+  if (counts_matrix %>% rownames() %>% length() == 0) {
+    rownames(counts_matrix) <- str_c("s",seq(1:dim(counts_matrix)[1]))
+  }
+  if (counts_matrix %>% colnames() %>% length() == 0) {
+    colnames(counts_matrix) <- str_c("s",seq(1:dim(counts_matrix)[2]))
+  }
 
   counts_matrix <-
     counts_matrix[, colSums(counts_matrix) != 0]
@@ -374,7 +380,7 @@ tidy_count_to_matrix <- function(counts, value = count) {
 #'
 #' This function will merge two tidytacos objects into one. It is useful if
 #' one wants to merge data obtained from different sequencing runs. Therefore,
-#' this function requirers that both tidytacos objects contain a "run"
+#' this function requires that both tidytacos objects contain a "run"
 #' variable in their samples table, indicating their origin.
 #'
 #' @param ta1 The first tidytacos object.
@@ -453,3 +459,82 @@ make_tidytacos <- function(samples, taxa, counts,
 
 }
 
+create_biom_header <- function(type="OTU table"){
+    list(
+    id="null", 
+    format="1.0.0",
+    format_url="http://biom-format.org",
+    type=type,
+    generated_by=paste("tidytacos revision", packageVersion("tidytacos")),
+    date=format(Sys.time(), "%Y-%m-%dT%H:%M:%S")
+    )
+}
+
+#' Write the counts of the tidytacos object to a biom file
+#'
+#' Uses the taxon_id and sample_id columns to create a dense biom file (v1, json). 
+#' By default this is on ASV/OTU level. 
+#' To do it at any other taxonomy level, one first needs to aggregate the taxa. 
+#' @param ta A tidytacos object.
+#' @param filename The name of the resulting biom table file, defaults to 'asvs.biom'.
+#' @export
+to_biom <- function(ta, filename="asvs.biom"){
+
+  force_optional_dependency('jsonlite')  
+
+  if (! "tidytacos" %in% class(ta)) {
+    stop("Input is not a tidytacos object")
+  }
+
+  split_id_and_metadata_taxa <- function(row){
+    list(
+      id=row["taxon_id"],
+      metadata=as.list(row[ta%>%rank_names()])
+    )
+  }  
+
+  split_id_and_metadata_sample <- function(row){
+    list(
+      id=row["sample_id"],
+      metadata=as.list(row[
+        names(ta$samples)[which(!names(ta$samples) %in% c())]])
+    )
+  }
+  ta <- remove_empty_samples(ta)  
+  biom <- create_biom_header()
+  biom[["rows"]] <- apply(ta$taxa, MARGIN=1, split_id_and_metadata_taxa)
+  biom[["columns"]] <- apply(ta$samples, MARGIN=1, split_id_and_metadata_sample)
+  biom[["matrix_type"]] <- "dense"
+  biom[["matrix_element_type"]] <- "int"
+  biom[["shape"]] <- c(nrow(ta$taxa), nrow(ta$samples))
+  biom[["data"]] <- ta %>% counts_matrix(taxon_name=taxon_id, sample_name=sample_id) %>% t()
+  biom.json <- biom %>% jsonlite::toJSON(auto_unbox = TRUE)
+  write(biom.json, file=filename)
+}
+
+#' Write the sequences of the taxa table to a fasta file
+#'
+#' Uses the taxon_col and sequence_col columns to write the sequences into a fasta file per taxon. 
+#' @param ta A tidytacos object.
+#' @param filename The name of the resulting biom table file, defaults to 'asvs.fasta'.
+#' @param taxon_col The name of the column in the taxa table which is to be used as id for the sequences (taxon_id by default).
+#' @param seq_col The name of the sequence column in the taxa table (sequence by default).
+#' @export
+to_fasta <- function(ta, filename="asvs.fasta", taxon_col=taxon_id, seq_col=sequence) {
+  force_optional_dependency("seqinr")
+  seq <- rlang::enquo(seq_col)
+  taxon <- rlang::enquo(taxon_col)
+
+  if (!rlang::quo_name(seq) %in% names(ta$taxa)) {
+    stop(paste("Column", seq, "not found in taxa table"))
+  }
+  sequences <- ta$taxa %>% pull(!!seq)
+  if (grepl("![ACTGU]", strsplit(sequences[1], "\\s*"))) {
+    warning("Sequences contain non-standard characters. Make sure to check the output if the correct sequence columns is used.")
+  }
+  
+  seqinr::write.fasta(
+    sequences=as.list(ta$taxa %>% pull(!!seq)), 
+    names=ta$taxa %>% pull(!!taxon), 
+    file.out = filename)
+}

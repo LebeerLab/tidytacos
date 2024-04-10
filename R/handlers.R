@@ -238,6 +238,8 @@ trim_asvs <- function(ta, start, end) {
         start = !!start, end = !!end
       ))
   }
+
+  ta <- aggregate_trimmed_asvs(ta)
   ta <- merge_redundant_taxa(ta)
 
   ta

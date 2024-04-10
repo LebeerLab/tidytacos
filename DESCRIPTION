@@ -23,7 +23,9 @@ Imports:
     tibble,
     tidyr,
     vegan
-Suggests: 
+Suggests:
+    tidyverse, 
+    devtools,
     covr,
     compositions,
     vdiffr,
@@ -32,6 +34,9 @@ Suggests:
     knitr,
     phyloseq,
     plotly,
+    MCL,
+    Matrix,
+    igraph,
     rmarkdown,
     roxygen2,
     testthat (>= 3.1.9)

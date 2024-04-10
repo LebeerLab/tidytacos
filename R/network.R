@@ -2,14 +2,14 @@
 #' after rarefaction of the taxa. See \link[SpiecEasi]{sparcc}.
 #'
 #' @param ta a tidytacos object
-#' @param rarefact Rarefaction degree: percentage of samples the taxon needs to be present in.
+#' @param min_occurrence Percentage of samples the taxon needs to be present in for it to be considered in the analysis.
 #' @param iter Number of iterations in the outer loop
 #' @param inner_iter Number of iterations in the inner loop
 #' @param th absolute value of correlations below this threshold are 
 #' considered zero by the inner SparCC loop.
 #' 
 #'@export
-network <- function(ta, rarefact = 0.05, iter=20, inner_iter=10, th=0.1, taxon_name = taxon, sample_name = sample) {
+network <- function(ta, min_occurrence = 0.05, taxon_name = taxon, sample_name = sample, ...) {
   force_optional_dependency(
     "SpiecEasi",
     "\nInstall using: install_github('zdk123/SpiecEasi')"
@@ -18,34 +18,39 @@ network <- function(ta, rarefact = 0.05, iter=20, inner_iter=10, th=0.1, taxon_n
 
   sample_name <- rlang::enquo(sample_name)
   taxon_name <- rlang::enquo(taxon_name)
+  if (!quo_name(taxon_name) %in% names(ta$taxa)) {
+    warning(paste(quo_name(taxon_name), "not found in the taxa table, resorting to add_taxon_name"))
+    ta <- ta %>% add_taxon_name()
+    taxon_name <- sym("taxon_name")
+  }
 
-  cutoff <- nrow(ta$samples) * rarefact
-  if (!"occurrence" %in% names(ta$taxa)) {
+  cutoff <- nrow(ta$samples) * min_occurrence
+  if (!"prevalence" %in% names(ta$taxa)) {
     ta_occ <- ta %>% add_prevalence()
   } else {
     ta_occ <- ta
   }
   ta_occ <- ta_occ %>%
-    filter_taxa(occurrence >= cutoff)
+    filter_taxa(prevalence >= cutoff)
   counts <- ta_occ %>%
     counts_matrix(sample_name = !!sample_name, taxon_name = !!taxon_name)
-  network.out <- SpiecEasi::sparcc(counts)
+  network.out <- SpiecEasi::sparcc(counts, ...)
   network.out$names <- colnames(counts)
   network.out
 }
 
-#' Filters the output of \code{\link{network}} to a minimal treshold 
-#' and transforms to matrixfor downstream clustering or heatplot visualization. 
+#' Filters the output of \code{\link{network}} to a minimal threshold 
+#' and transforms to matrix for downstream clustering or heatplot visualization. 
 #'
 #'
 #' @param ta a tidytacos object
-#' @param treshold absolute value of correlations below this threshold are 
+#' @param threshold absolute value of correlations below this threshold are 
 #' filtered out.
 #' 
 #'@export
-filter_network <- function(network, treshold = 0.1) {
+filter_network <- function(network, threshold = 0.1) {
   force_optional_dependency("Matrix")
-  se.network.graph <- abs(network$Cor) >= treshold
+  se.network.graph <- abs(network$Cor) >= threshold
   Matrix::diag(se.network.graph) <- 0
   network.graph <- Matrix::Matrix(se.network.graph, sparse = T)
   network.elist <- as.data.frame(as.matrix(summary(network.graph * network$Cor)))
@@ -60,17 +65,20 @@ filter_network <- function(network, treshold = 0.1) {
 #'
 #' @param network network network in matrix form.
 #' @param min_n minimum number of taxa per cluster, smaller clusters are filtered out.
-#' @param visualize wether to visualize the network clusters or not. 
+#' @param visualize whether to visualize the network clusters or not. 
 #' 
 #' @export
 cluster_network <- function(network, min_n = 3, visualize = F) {
   force_optional_dependency("MCL")
+  force_optional_dependency("Matrix")
   network[network < 0] <- 0
-  res <- MCL::mcl(network, addLoops = T, ESM = T)
+  res <- MCL::mcl(network, ESM = T, addLoops=T)
+  Matrix::diag(res$Equilibrium.state.matrix) <- 0
 
   if (visualize) {
     force_optional_dependency("igraph")
-    gd <- igraph::graph.adjacency(res$Equilibrium.state.matrix)
+    gd <- igraph::graph.adjacency(res$Equilibrium.state.matrix, mode = "undirected")
+    igraph::V(gd)$name <- colnames(network)
     plot(gd)
   }
 
@@ -89,8 +97,8 @@ cluster_network <- function(network, min_n = 3, visualize = F) {
 #' annotate taxa of the largest clusters in the tidytacos object.
 #'
 #' @param ta a tidytacos object.
-#' @param rarefact Rarefaction degree: percentage of samples the taxon needs to be present in.
-#' @param network_tresh absolute value of correlations below this threshold are 
+#' @param min_occurrence Percentage of samples the taxon needs to be present in for it to be considered in the analysis.
+#' @param network_thresh absolute value of correlations below this threshold are 
 #' filtered out.  
 #' @param min_n_cluster minimum number of taxa per cluster, smaller clusters are filtered out. 
 #' @param taxon_name unique name to use for the taxa, by default taxon_id is used. 
@@ -99,17 +107,17 @@ cluster_network <- function(network, min_n = 3, visualize = F) {
 #' @export
 cluster_taxa <- function(
     ta,
-    rarefact = 0.05, network_tresh = 0.1, min_n_cluster = 3,
+    min_occurrence = 0.05, network_thresh = 0.1, min_n_cluster = 3,
     taxon_name = taxon, sample_name = sample) {
   sample_name <- rlang::enquo(sample_name)
   taxon_name <- rlang::enquo(taxon_name)
 
   clusters <- ta %>%
     network(
-      rarefact = rarefact,
+      min_occurrence = min_occurrence,
       sample_name = !!sample_name, taxon_name = !!taxon_name
     ) %>%
-    filter_network(treshold = network_tresh) %>%
+    filter_network(threshold = network_thresh) %>%
     cluster_network(min_n = min_n_cluster)
 
   ta$taxa <- ta$taxa %>% left_join(clusters, by=join_by(!!taxon_name==taxon))

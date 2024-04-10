@@ -7,18 +7,16 @@ after rarefaction of the taxa. See \link[SpiecEasi]{sparcc}.}
 \usage{
 network(
   ta,
-  rarefact = 0.05,
-  iter = 20,
-  inner_iter = 10,
-  th = 0.1,
+  min_occurrence = 0.05,
   taxon_name = taxon,
-  sample_name = sample
+  sample_name = sample,
+  ...
 )
 }
 \arguments{
 \item{ta}{a tidytacos object}
 
-\item{rarefact}{Rarefaction degree: percentage of samples the taxon needs to be present in.}
+\item{min_occurrence}{Percentage of samples the taxon needs to be present in for it to be considered in the analysis.}
 
 \item{iter}{Number of iterations in the outer loop}
 

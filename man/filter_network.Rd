@@ -2,18 +2,18 @@
 % Please edit documentation in R/network.R
 \name{filter_network}
 \alias{filter_network}
-\title{Filters the output of \code{\link{network}} to a minimal treshold 
-and transforms to matrixfor downstream clustering or heatplot visualization.}
+\title{Filters the output of \code{\link{network}} to a minimal threshold 
+and transforms to matrix for downstream clustering or heatplot visualization.}
 \usage{
-filter_network(network, treshold = 0.1)
+filter_network(network, threshold = 0.1)
 }
 \arguments{
-\item{treshold}{absolute value of correlations below this threshold are 
+\item{threshold}{absolute value of correlations below this threshold are 
 filtered out.}
 
 \item{ta}{a tidytacos object}
 }
 \description{
-Filters the output of \code{\link{network}} to a minimal treshold 
-and transforms to matrixfor downstream clustering or heatplot visualization.
+Filters the output of \code{\link{network}} to a minimal threshold 
+and transforms to matrix for downstream clustering or heatplot visualization.
 }
