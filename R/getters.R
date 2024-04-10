@@ -284,7 +284,7 @@ perform_adonis <- function(ta, predictors, permutations = 999, ...) {
 #' @return A matrix with count values.
 #'
 #' @export
-counts_matrix <- function(ta, sample_name = sample, taxon_name = taxon, value = count) {
+counts_matrix <- function(ta, sample_name = sample_id, taxon_name = taxon_id, value = count) {
 
   value <- rlang::enquo(value)
   if ("tidytacos" %in% class(ta)) {
@@ -326,7 +326,7 @@ counts_matrix <- function(ta, sample_name = sample, taxon_name = taxon, value = 
 #' @return A matrix with abundance values.
 #'
 #' @export
-rel_abundance_matrix <- function(ta, sample_name = sample, taxon_name = taxon) {
+rel_abundance_matrix <- function(ta, sample_name = sample_id, taxon_name = taxon_id) {
 
   if (
     ! "tidytacos" %in% class(ta)
