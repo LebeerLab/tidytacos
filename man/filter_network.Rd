@@ -5,10 +5,12 @@
 \title{Filters the output of \code{\link{network}} to a minimal threshold 
 and transforms to matrix for downstream clustering or heatplot visualization.}
 \usage{
-filter_network(network, threshold = 0.1)
+filter_network(network, threshold = 0.1, fdr = NULL, ...)
 }
 \arguments{
-\item{threshold}{absolute value of correlations below this threshold are 
+\item{threshold}{absolute value of correlations below this threshold are}
+
+\item{fdr}{the threshold for false discovery rate (if pvalues are calculated for the network)
 filtered out.}
 
 \item{ta}{a tidytacos object}
