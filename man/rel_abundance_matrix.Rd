@@ -4,7 +4,7 @@
 \alias{rel_abundance_matrix}
 \title{Return a relative abundance matrix}
 \usage{
-rel_abundance_matrix(ta, sample_name = sample, taxon_name = taxon)
+rel_abundance_matrix(ta, sample_name = sample_id, taxon_name = taxon_id)
 }
 \arguments{
 \item{ta}{A tidytacos object.}
