@@ -410,6 +410,10 @@ tacoplot_venn <- function(ta, condition, ...) {
   ltpc <- taxonlist_per_condition(ta, !!condition)
 
   if ("show_intersect" %in% names(list(...))) {
+
+    if (!"taxon_name" %in% colnames(ta$taxa)) {
+      ta <- ta %>% add_taxon_name()
+    }
     match_taxon_name <- function(taxid) {
       ta$taxa[which(ta$taxa$taxon_id %in% taxid),] %>% 
           dplyr::pull(taxon_name)
@@ -437,6 +441,26 @@ tacoplot_venn_ly <- function(ta, condition, ...) {
   }
 
   ta %>% tacoplot_venn(!!condition, show_intersect=TRUE, ...)
+}
+
+#' Return an euler diagram of overlapping taxon_ids between conditions
+#'
+#' @param ta A tidytacos object.
+#' @param condition The name of a variable in the samples table that contains a
+#'   categorical value.
+#' @param shape shape to plot the groups in; choice from circle or ellipse
+#'
+#' @export
+tacoplot_euler <- function(ta, condition, shape="ellipse", ...) {
+
+  force_optional_dependency("eulerr")
+
+  condition <- rlang::enquo(condition)
+  ltpc <- taxonlist_per_condition(ta, !!condition)
+
+  fit <- eulerr::euler(ltpc, shape)
+  plot(fit, quantities=T, ...)
+
 }
 
 #' Return a boxplot of every alpha metric per group in the samples table of a tidytaco object.
