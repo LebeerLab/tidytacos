@@ -60,7 +60,10 @@ add_logratio <- function(ta, max_taxa = 50) {
 #' Perform compositional differential abundance analysis
 #'
 #' This function performs a differential abundance test for all pairwise ratios
-#' between taxa.
+#' between taxa.Taxa that have a relatively high number of significantly different 
+#' ratios, can be considered more abundant in one condition versus the other. The 
+#'  \code{\link{tacoplot_codifab}} function allows better interpretation of these 
+#' results.
 #'
 #' A table called taxon_pairs will be added to the tidytacos object, with
 #' for each pair of a taxon and a reference taxon, the differential abundance of
@@ -72,6 +75,8 @@ add_logratio <- function(ta, max_taxa = 50) {
 #' It is possible to supply the conditions to compare through the conditions
 #' argument. Other conditions than the two supplied will be removed from the
 #' data.
+#'
+#' This method is based on the principle introduced by Aitchison in "The statistical analysis of compositional data." Journal of the Royal Statistical Society: Series B (Methodological) 44.2 (1982): 139-16
 #'
 #' @param ta A tidytacos object.
 #' @param condition A binary variable in the sample table (unquoted).
@@ -140,7 +145,9 @@ add_codifab <- function(ta, condition, conditions = NULL, max_taxa = 30) {
 #' This function returns a plot to visualize differential abundance of taxa
 #' between conditions, compared to all other taxa as references. These
 #' differential abundances should already have been calculated with
-#' \code{\link{add_codifab}}.
+#' \code{\link{add_codifab}}. Taxa that have a relatively high number of
+#' significantly different ratios, can be considered more abundant in one 
+#' condition versus the other.
 #'
 #' Significance of tests is determined by capping the false discovery rate at
 #' 10%, using the method of Benjamini and Yekutieli, which is developed for
