@@ -1,18 +1,21 @@
-#' Perform network inference with SparCC on a tidytacos object, 
+#' Perform network inference with SparCC on a tidytacos object,
 #' after dropping rare taxa. See \link[SpiecEasi]{sparcc}.
 #'
 #' @param ta a tidytacos object
-#' @param min_occurrence Percentage of samples the taxon needs to be present in for it to be considered in the analysis.
-#' @param calculate_p whether to calculate p-values or not. 
-#' This can be time consuming. 
-#' Iterations can be set with the R parameter and multiple cores through ncpus.
+#' @param min_occurrence Percentage of samples the taxon
+#' needs to be present in for it to be considered in the analysis.
 #' @param iter Number of iterations in the outer loop
 #' @param inner_iter Number of iterations in the inner loop
-#' @param th absolute value of correlations below this threshold are 
+#' @param th absolute value of correlations below this threshold are
 #' considered zero by the inner SparCC loop.
-#' 
+#' @param calculate_p whether to calculate p-values or not.
+#' This can be time consuming due to the many iterations needed.
+#' Iterations can be set with the R parameter and multiple cores through ncpus.
+#'
 #'@export
-network <- function(ta, calculate_p=TRUE, min_occurrence = 0.05, taxon_name = taxon, sample_name = sample, ...) {
+network <- function(ta,
+  min_occurrence = 0.05, taxon_name = taxon, sample_name = sample,
+  calculate_p=FALSE, ...) {
   force_optional_dependency(
     "SpiecEasi",
     "\nInstall using: install_github('zdk123/SpiecEasi')"
@@ -22,7 +25,8 @@ network <- function(ta, calculate_p=TRUE, min_occurrence = 0.05, taxon_name = ta
   sample_name <- rlang::enquo(sample_name)
   taxon_name <- rlang::enquo(taxon_name)
   if (!quo_name(taxon_name) %in% names(ta$taxa)) {
-    warning(paste(quo_name(taxon_name), "not found in the taxa table, resorting to add_taxon_name"))
+    warning(paste(quo_name(taxon_name), 
+    "not found in the taxa table, resorting to add_taxon_name"))
     ta <- ta %>% add_taxon_name()
     taxon_name <- sym("taxon_name")
   }
@@ -37,14 +41,14 @@ network <- function(ta, calculate_p=TRUE, min_occurrence = 0.05, taxon_name = ta
     filter_taxa(prevalence >= cutoff)
   counts <- ta_occ %>%
     counts_matrix(sample_name = !!sample_name, taxon_name = !!taxon_name)
-  network.out <- SpiecEasi::sparcc(counts)
-  
+  network.out <- SpiecEasi::sparcc(counts, ...)
+
   if (calculate_p){
     args <- list(...)
     if (!"R" %in% names(args)) {
-      network.boot <- SpiecEasi::sparccboot(counts, R=1000, ...)
+      network.boot <- SpiecEasi::sparccboot(counts, R=1000)
     } else {
-      network.boot <- SpiecEasi::sparccboot(counts, ...)
+      network.boot <- SpiecEasi::sparccboot(counts, args$R)
     }
     network.pvals <- SpiecEasi::pval.sparccboot(network.boot)
 
@@ -64,17 +68,17 @@ network <- function(ta, calculate_p=TRUE, min_occurrence = 0.05, taxon_name = ta
   network.out
 }
 
-#' Filters the output of \code{\link{network}} to a minimal threshold 
-#' and transforms to matrix for downstream clustering or heatplot visualization. 
+#' Filters the output of \code{\link{network}} to a minimal threshold
+#' and transforms to matrix for downstream clustering or heatplot visualization.
 #'
 #'
 #' @param ta a tidytacos object
-#' @param threshold absolute value of correlations below this threshold are 
-#' @param fdr the threshold for false discovery rate (if pvalues are calculated for the network)
-#' filtered out.
+#' @param threshold absolute value of correlations below this threshold are
+#' @param fdr the threshold for false discovery rate
+#' (if pvalues are calculated for the network) filtered out.
 #' 
 #'@export
-filter_network <- function(network, threshold = 0.1, fdr=NULL, ...) {
+filter_network <- function(network, threshold = 0.1, fdr = NULL, ...) {
   force_optional_dependency("Matrix")
   se.network.graph <- abs(network$Cor) >= threshold
   Matrix::diag(se.network.graph) <- 0
