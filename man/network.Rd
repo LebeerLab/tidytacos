@@ -3,10 +3,11 @@
 \name{network}
 \alias{network}
 \title{Perform network inference with SparCC on a tidytacos object, 
-after rarefaction of the taxa. See \link[SpiecEasi]{sparcc}.}
+after dropping rare taxa. See \link[SpiecEasi]{sparcc}.}
 \usage{
 network(
   ta,
+  calculate_p = TRUE,
   min_occurrence = 0.05,
   taxon_name = taxon,
   sample_name = sample,
@@ -15,6 +16,10 @@ network(
 }
 \arguments{
 \item{ta}{a tidytacos object}
+
+\item{calculate_p}{whether to calculate p-values or not. 
+This can be time consuming. 
+Iterations can be set with the R parameter and multiple cores through ncpus.}
 
 \item{min_occurrence}{Percentage of samples the taxon needs to be present in for it to be considered in the analysis.}
 
@@ -27,5 +32,5 @@ considered zero by the inner SparCC loop.}
 }
 \description{
 Perform network inference with SparCC on a tidytacos object, 
-after rarefaction of the taxa. See \link[SpiecEasi]{sparcc}.
+after dropping rare taxa. See \link[SpiecEasi]{sparcc}.
 }

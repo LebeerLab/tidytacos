@@ -19,7 +19,9 @@ A ggplot object
 This function returns a plot to visualize differential abundance of taxa
 between conditions, compared to all other taxa as references. These
 differential abundances should already have been calculated with
-\code{\link{add_codifab}}.
+\code{\link{add_codifab}}. Taxa that have a relatively high number of
+significantly different ratios, can be considered more abundant in one 
+condition versus the other.
 }
 \details{
 Significance of tests is determined by capping the false discovery rate at
