@@ -10,8 +10,12 @@ add_copca(ta)
 \item{ta}{A tidytacos object.}
 }
 \description{
-\code{add_copca} performs a principal components analysis and adds the first two principal components to the sample table under column names "pca_1" and "pca_2".
+\code{add_copca} performs a principal components analysis and 
+adds the first two principal components to the sample table 
+under column names "pca_1" and "pca_2".
 }
 \details{
-Note that this function uses only the 50 most prevalant taxa unless \code{\link{add_logratio}} was executed with another value for 'max_taxa'.
+Note that this function uses only the 50 most prevalant taxa 
+unless \code{\link{add_logratio}} was executed with 
+another value for 'max_taxa'.
 }

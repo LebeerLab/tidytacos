@@ -2,7 +2,6 @@
 % Please edit documentation in R/tidytacos.R
 \docType{package}
 \name{tidytacos}
-\alias{-package}
 \alias{tidytacos}
 \title{tidytacos: Functions to manipulate and visualize amplicon count data.}
 \description{

@@ -21,7 +21,10 @@ A tidytacos object with an extra table taxon_pairs
 }
 \description{
 This function performs a differential abundance test for all pairwise ratios
-between taxa.
+between taxa.Taxa that have a relatively high number of significantly different 
+ratios, can be considered more abundant in one condition versus the other. The 
+ \code{\link{tacoplot_codifab}} function allows better interpretation of these 
+results.
 }
 \details{
 A table called taxon_pairs will be added to the tidytacos object, with
@@ -34,4 +37,9 @@ all pairwise differences between the samples).
 It is possible to supply the conditions to compare through the conditions
 argument. Other conditions than the two supplied will be removed from the
 data.
+
+This method is based on the principle introduced by Aitchison in 
+"The statistical analysis of compositional data." 
+Journal of the Royal Statistical Society: 
+Series B (Methodological) 44.2 (1982): 139-16
 }

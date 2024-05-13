@@ -76,7 +76,10 @@ add_logratio <- function(ta, max_taxa = 50) {
 #' argument. Other conditions than the two supplied will be removed from the
 #' data.
 #'
-#' This method is based on the principle introduced by Aitchison in "The statistical analysis of compositional data." Journal of the Royal Statistical Society: Series B (Methodological) 44.2 (1982): 139-16
+#' This method is based on the principle introduced by Aitchison in 
+#' "The statistical analysis of compositional data." 
+#' Journal of the Royal Statistical Society: 
+#' Series B (Methodological) 44.2 (1982): 139-16
 #'
 #' @param ta A tidytacos object.
 #' @param condition A binary variable in the sample table (unquoted).
@@ -217,9 +220,13 @@ tacoplot_codifab <- function(ta, diffabun_var) {
 
 #' Add compositional principal components to the sample table
 #'
-#' \code{add_copca} performs a principal components analysis and adds the first two principal components to the sample table under column names "pca_1" and "pca_2". 
+#' \code{add_copca} performs a principal components analysis and 
+#' adds the first two principal components to the sample table 
+#' under column names "pca_1" and "pca_2". 
 #'
-#'Note that this function uses only the 50 most prevalant taxa unless \code{\link{add_logratio}} was executed with another value for 'max_taxa'.
+#' Note that this function uses only the 50 most prevalant taxa 
+#' unless \code{\link{add_logratio}} was executed with 
+#' another value for 'max_taxa'.
 #'
 #' @importFrom stats prcomp
 #' @param ta A tidytacos object.
