@@ -11,7 +11,7 @@ tacoplot_stack(ta, n = 12, x = sample_clustered, pie = FALSE, ...)
 
 \item{n}{An integer, representing the amount of colors used to depict}
 
-\item{x}{A string, representing the column name used to label the x-axis}
+\item{x}{The name of the column name used to represent samples on the x-axis}
 
 \item{pie}{A boolean, whether or not to represent the profile in a pie chart. 
 Default is FALSE, as pie chart representations can be misleading to interpret.}

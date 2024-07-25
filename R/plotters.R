@@ -67,7 +67,7 @@ get_ord_stat <- function(ta, x, stat.method, distance=distance) {
 #' Plots a stacked bar plot of the samples in the tidytacos object to inspect the taxonomic profile.
 #' 
 #' @param ta A tidytacos object.
-#' @param x A string, representing the column name used to label the x-axis
+#' @param x The name of the column name used to represent samples on the x-axis
 #' @param n An integer, representing the amount of colors used to depict
 #' @param pie A boolean, whether or not to represent the profile in a pie chart. 
 #' Default is FALSE, as pie chart representations can be misleading to interpret.
@@ -77,22 +77,29 @@ get_ord_stat <- function(ta, x, stat.method, distance=distance) {
 #' @export
 tacoplot_stack <- function(ta, n = 12, x = sample_clustered, pie = FALSE, ...) {
   # convert promise to formula
-  x <- rlang::enquo(x)
 
-  warning_message_label = paste0("Label \'", rlang::quo_name(x),"\' not found in the samples table.")
+  try(x <- rlang::sym(x), silent=TRUE) #in case the column is given as a string
+  x <- rlang::enquo(x)  
+  
+  error_message_label = paste0("Label \'", rlang::quo_name(x),"\' not found in the samples table.")
+  error_message_pie = "This visualization type is meant to be used for a single sample."
   warning_message_aggregate = "Sample labels not unique, samples are aggregated."
   
   if (rlang::quo_name(x) != "sample_clustered" &&
     !is.element(rlang::quo_name(x), names(ta$samples))
   ) {
     # Warning, so tidy functions can be performed on the label
-    warning(warning_message_label)
+    stop(error_message_label)
   }
 
   if (quo_name(x) != "sample_clustered" &&
     length(unique(ta$samples %>% pull(!!x))) < nrow(ta$samples)
   ) {
     warning(warning_message_aggregate)
+  }
+
+  if (pie & length(ta$samples) > 1) {
+    stop(error_message_pie)
   }
 
   # make plot and return
