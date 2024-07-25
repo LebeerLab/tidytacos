@@ -1,13 +1,12 @@
 pandoc: 3.1.11
-pkgdown: 2.0.9
+pkgdown: 2.1.0
 pkgdown_sha: ~
 articles:
   data-processing: data-processing.html
   getting-started: getting-started.html
   network-analysis: network-analysis.html
   stacked-barplot: stacked-barplot.html
-last_built: 2024-05-13T13:41Z
+last_built: 2024-07-25T16:50Z
 urls:
   reference: https://lebeerlab.github.io/tidytacos/reference
   article: https://lebeerlab.github.io/tidytacos/articles
-
