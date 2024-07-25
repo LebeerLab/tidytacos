@@ -78,11 +78,16 @@ get_ord_stat <- function(ta, x, stat.method, distance=distance) {
 tacoplot_stack <- function(ta, n = 12, x = sample_clustered, pie = FALSE, ...) {
   # convert promise to formula
 
-  if (is.function(x)) {
-    x <- as.character(substitute(x))
-  }
-
-  try(x <- rlang::sym(x), silent=TRUE) #in case the column is given as a string
+  
+  try({
+    if (is.function(x)) {
+      x <- as.character(substitute(x))
+    }
+    x <- rlang::sym(x)
+  },
+    
+     silent=TRUE
+    ) #in case the column is given as a string
   x <- rlang::enquo(x)  
   
   error_message_label = paste0("Label \'", rlang::quo_name(x),"\' not found in the samples table.")
