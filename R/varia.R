@@ -42,7 +42,7 @@ process_count_selection <- function(ta) {
 
 }
 
-#' Return rank names associated with a tidytacos object
+#' Return rank names associated with a tidytacos object if these are defined. In case of undefined rank names, the function returns the taxon_id field.
 #'
 #' @export
 rank_names <- function(ta) {
@@ -50,12 +50,19 @@ rank_names <- function(ta) {
   if (! is.null(ta$rank_names)) {
     ta$rank_names
   } else {
-    c("kingdom", "phylum", "class", "order", "family", "genus")
+    warning("No rank names have been set for this tidytacos object. Please define them using the set_rank_names function.")
+    c("taxon_id")
   }
 
 }
 
 #' Set rank names for a tidytacos object
+#' 
+#' The rank names are used to describe the taxa in the taxa table. 
+#' Tidytacos expects a vector of different names of the ranks used to describe the taxa. 
+#' The order of the names should be from the highest rank to the lowest rank.
+#' 
+#' Eg: c('Phylum', 'Class', 'Order', 'Family', 'Genus', 'Species')
 #'
 #' @param ta a tidytacos object
 #' @param rank_names a vector containing the names of the ranks used to describe the taxa
