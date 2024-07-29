@@ -114,7 +114,7 @@ read_tidytacos <- function(din, samples = "samples.csv", taxa = "taxa.csv",
         rename(count=abundance)
       message("Converted tidyamplicons to tidytacos object.")
   } else {
-    stop(paste("File", counts, ", containing count data not found in", dir))
+    stop(paste("File", counts, ", containing count data not found in", din))
   }
 
   expected_rank_names <- colnames(taxa)[!colnames(taxa) %in% c("taxon","taxon_id","sequence")]  
