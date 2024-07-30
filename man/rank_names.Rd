@@ -2,10 +2,10 @@
 % Please edit documentation in R/varia.R
 \name{rank_names}
 \alias{rank_names}
-\title{Return rank names associated with a tidytacos object}
+\title{Return rank names associated with a tidytacos object if these are defined. In case of undefined rank names, the function returns the taxon_id field.}
 \usage{
 rank_names(ta)
 }
 \description{
-Return rank names associated with a tidytacos object
+Return rank names associated with a tidytacos object if these are defined. In case of undefined rank names, the function returns the taxon_id field.
 }

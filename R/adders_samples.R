@@ -137,6 +137,8 @@ add_alpha <- function(ta, method="invsimpson") {
 
   method <- tolower(method)
 
+  ta <- remove_empty_samples(ta)
+
   if (!method %in% lapply(alpha_metrics, tolower)) {
     stop(paste("Select a method from", paste0(alpha_metrics, collapse=", ")))
   }

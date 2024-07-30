@@ -228,12 +228,8 @@ tacoplot_ord_ly <- function(ta, x=NULL, samplenames = sample_id, ord="pcoa", dim
   }
   
   # Check for empty samples
-  if (length(unique(ta$counts$sample_id)) < length(unique(ta$samples$sample_id)))
-  {
-    warning("Empty samples detected, removing them from the analysis")
-    ta <- ta %>% remove_empty_samples()
-  }
-
+  ta <- ta %>% remove_empty_samples()
+  
   # prepare ord if needed
   if (!all(ordnames %in% names(ta$samples))) {
     ta <- add_ord(ta, distance=distance, method=ord, dims=dims, ...)
@@ -340,12 +336,8 @@ tacoplot_ord <- function(ta, x=NULL, palette = NULL, ord = "pcoa", distance="bra
   }
 
   # Check for empty samples
-  if (length(unique(ta$counts$sample_id)) < length(unique(ta$samples$sample_id)))
-  {
-    warning("Empty samples detected, removing them from the analysis")
-    ta <- ta %>% remove_empty_samples()
-  }
-
+  ta <- ta %>% remove_empty_samples()
+  
   # prepare pcoa if needed
   if (!all(c("ord1", "ord2") %in% names(ta$samples))) {
     ta <- add_ord(ta, distance=distance, method=ord, ...)

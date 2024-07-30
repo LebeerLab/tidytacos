@@ -15,5 +15,10 @@ set_rank_names(ta, rank_names)
 An updated tidytacos object.
 }
 \description{
-Set rank names for a tidytacos object
+The rank names are used to describe the taxa in the taxa table. 
+Tidytacos expects a vector of different names of the ranks used to describe the taxa. 
+The order of the names should be from the highest rank to the lowest rank.
+}
+\details{
+Eg: c('Phylum', 'Class', 'Order', 'Family', 'Genus', 'Species')
 }
