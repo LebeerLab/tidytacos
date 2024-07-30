@@ -4,7 +4,7 @@
 \alias{tacoplot_stack}
 \title{Return a bar plot of the samples}
 \usage{
-tacoplot_stack(ta, n = 12, x = sample_clustered, pie = FALSE, ...)
+tacoplot_stack(ta, n = 12, x = sample_clustered, pie = FALSE, order_by = NULL)
 }
 \arguments{
 \item{ta}{A tidytacos object.}

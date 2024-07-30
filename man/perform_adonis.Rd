@@ -13,6 +13,8 @@ perform_adonis(ta, predictors, permutations = 999, ...)
 
 \item{permutations}{The number of permutations (more permutations takes
 longer but gives a more accurate p-value).}
+
+\item{...}{Additional arguments to pass to the \link[vegan]{adonis2} function.}
 }
 \value{
 An object of class "adonis" (see \link[vegan]{adonis}).

@@ -8,6 +8,8 @@ mutate_counts(ta, ...)
 }
 \arguments{
 \item{ta}{A tidytacos object.}
+
+\item{...}{Mutate criteria for the counts table.}
 }
 \description{
 Create extra variables in the count table

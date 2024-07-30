@@ -8,6 +8,8 @@ filter_samples(ta, ...)
 }
 \arguments{
 \item{ta}{A tidytacos object.}
+
+\item{...}{Filter criteria for the samples table.}
 }
 \description{
 Filter the samples

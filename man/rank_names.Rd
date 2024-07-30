@@ -6,6 +6,9 @@
 \usage{
 rank_names(ta)
 }
+\arguments{
+\item{ta}{a tidytacos object}
+}
 \description{
 Return rank names associated with a tidytacos object if these are defined. In case of undefined rank names, the function returns the taxon_id field.
 }

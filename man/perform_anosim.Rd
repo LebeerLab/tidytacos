@@ -11,9 +11,29 @@ perform_anosim(ta, group, ...)
 
 \item{group}{A column in the sample table to group the samples on.}
 
-\item{distance}{The dissimilarity measure to use.}
-
-\item{permutations}{The number of permutations.}
+\item{...}{
+  Arguments passed on to \code{\link[vegan:anosim]{vegan::anosim}}
+  \describe{
+    \item{\code{x}}{Data matrix or data frame in which rows are samples and
+    columns are response variable(s), or a dissimilarity object or a
+    symmetric square matrix of dissimilarities.}
+    \item{\code{grouping}}{Factor for grouping observations.}
+    \item{\code{permutations}}{a list of control values for the permutations
+    as returned by the function \code{\link[permute]{how}}, or the
+    number of permutations required, or a permutation matrix where each
+    row gives the permuted indices.}
+    \item{\code{distance}}{Choice of distance metric that measures the
+    dissimilarity between two observations. See \code{\link[vegan]{vegdist}} for
+    options.  This will be used if \code{x} was not a dissimilarity
+    structure or a symmetric square matrix.}
+    \item{\code{strata}}{An integer vector or factor specifying the strata for
+    permutation. If supplied, observations are permuted only within the
+    specified strata.}
+    \item{\code{parallel}}{Number of parallel processes or a predefined socket
+    cluster.  With \code{parallel = 1} uses ordinary, non-parallel
+    processing. The parallel processing is done with \pkg{parallel}
+    package.}
+  }}
 }
 \description{
 \code{perform_anosim} performs the anosim test for statistical difference

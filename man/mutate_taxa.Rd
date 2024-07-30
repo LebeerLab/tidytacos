@@ -8,6 +8,8 @@ mutate_taxa(ta, ...)
 }
 \arguments{
 \item{ta}{A tidytacos object.}
+
+\item{...}{Mutate criteria for the taxa table.}
 }
 \description{
 Create extra variables in the taxa table

@@ -33,8 +33,7 @@ jobs:
           - {os: ubuntu-latest,   r: 'release'}
           - {os: ubuntu-latest,   r: 'oldrel-1'}
           - {os: ubuntu-latest,   r: 'oldrel-2'}
-          # bunch of packages need atleast R 4.1
-          - {os: ubuntu-latest,   r: '4.1'}
+
 
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
@@ -73,5 +72,5 @@ jobs:
       - uses: r-lib/actions/check-r-package@v2
         with:
           upload-snapshots: true
-          error-on: '"error"'
+          error-on: '"warning"'
 

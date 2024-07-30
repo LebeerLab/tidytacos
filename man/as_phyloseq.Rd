@@ -21,5 +21,5 @@ as_phyloseq(ta, sample = sample, taxon = taxon_id)
 \details{
 This function will convert a tidytacos object into a phyloseq object for
 alternative processing using the phyloseq package. To convert from a phyloseq
-object to a tidytacos object use \code{\link{as_tidytacos}}.
+object to a tidytacos object use \code{\link{from_phyloseq}}.
 }

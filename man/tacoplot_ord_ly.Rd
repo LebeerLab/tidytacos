@@ -37,6 +37,8 @@ groups on.}
 
 \item{title}{a string to display as title of the plot.
 groups.}
+
+\item{...}{Extra arguments to pass to the add_ord function.}
 }
 \description{
 Creates an interactive ordination plot of the beta diversity of the samples in the tidytacos object.

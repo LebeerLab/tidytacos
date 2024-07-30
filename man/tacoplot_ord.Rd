@@ -29,6 +29,10 @@ groups.}
 \item{distance}{the distance algorithm to use, see \code{\link[vegan]{vegdist}}.}
 
 \item{stat.method}{the statistic to print on the figure, choice from mantel and anosim.}
+
+\item{title}{a string to display as title of the plot.}
+
+\item{...}{Extra arguments to pass to the add_ord function.}
 }
 \description{
 Creates an ordination plot of the beta diversity of the samples in the tidytacos object.
