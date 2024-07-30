@@ -10,6 +10,8 @@ merge_tidytacos(ta1, ta2, taxon_identifier = sequence)
 \item{ta1}{The first tidytacos object.}
 
 \item{ta2}{The second tidytacos object.}
+
+\item{taxon_identifier}{The column name in the taxa tables which identify unique taxa. Default is sequence.}
 }
 \description{
 \code{merge_tidytacos} merges two tidytacos objects and returns one

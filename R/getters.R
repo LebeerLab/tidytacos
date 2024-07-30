@@ -245,7 +245,7 @@ counts <- function(ta) ta$counts
 #' @param predictors A character vector with predictors to include in the model.
 #' @param permutations The number of permutations (more permutations takes
 #'   longer but gives a more accurate p-value).
-#'
+#' @param ... Additional arguments to pass to the \link[vegan]{adonis2} function.
 #' @return An object of class "adonis" (see \link[vegan]{adonis}).
 #'
 #' @export
@@ -281,6 +281,8 @@ perform_adonis <- function(ta, predictors, permutations = 999, ...) {
 #'   names (unquoted).
 #' @param taxon_name The name of the variable in the taxon table to use as
 #'   column names (unquoted).
+#' @param value The name of the variable in the counts table to use as count
+#' 
 #' @return A matrix with count values.
 #'
 #' @export
@@ -355,6 +357,8 @@ rel_abundance_matrix <- function(ta, sample_name = sample_id, taxon_name = taxon
 #' @param ta A tidytacos object.
 #' @param condition The name of a variable in the sample table that contains a
 #'   categorical value.
+#' @param read_treshold The minimum read count to consider a taxon.
+#' 
 #' @return A list of taxon_id vectors.
 #'
 #' @export

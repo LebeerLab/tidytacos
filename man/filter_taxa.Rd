@@ -8,6 +8,8 @@ filter_taxa(ta, ...)
 }
 \arguments{
 \item{ta}{A tidytacos object.}
+
+\item{...}{Filter criteria for the taxa table.}
 }
 \description{
 Filter the taxa

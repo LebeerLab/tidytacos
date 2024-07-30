@@ -19,6 +19,8 @@ are "pcoa", "tsne", "umap".}
 
 \item{binary}{Perform presence/absence standardisation before distance
 computation or not.}
+
+\item{...}{Additional arguments to pass to the ordination function.}
 }
 \description{
 \code{add_ord} adds the first n dimensions of a dimensionality reduction

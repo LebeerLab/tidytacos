@@ -8,6 +8,8 @@ mutate_samples(ta, ...)
 }
 \arguments{
 \item{ta}{A tidytacos object.}
+
+\item{...}{Mutate criteria for the samples table.}
 }
 \description{
 Create extra variables in the sample table

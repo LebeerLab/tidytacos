@@ -8,6 +8,8 @@ select_taxa(ta, ...)
 }
 \arguments{
 \item{ta}{A tidytacos object.}
+
+\item{...}{Selection criteria for the taxa table.}
 }
 \description{
 Retain or remove a set of taxon variables

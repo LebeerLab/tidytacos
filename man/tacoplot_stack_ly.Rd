@@ -4,7 +4,7 @@
 \alias{tacoplot_stack_ly}
 \title{Return an interactive bar plot of the samples}
 \usage{
-tacoplot_stack_ly(ta, n = 12, x = sample_clustered, ...)
+tacoplot_stack_ly(ta, n = 12, x = sample_clustered, order_by = NULL)
 }
 \arguments{
 \item{ta}{A tidytacos object.}

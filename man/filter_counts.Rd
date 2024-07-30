@@ -8,6 +8,8 @@ filter_counts(ta, ...)
 }
 \arguments{
 \item{ta}{A tidytacos object.}
+
+\item{...}{Filter criteria for the counts table.}
 }
 \description{
 Filter the counts

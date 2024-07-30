@@ -167,6 +167,7 @@ infer_rank_names <- function(ta){
 #' Reset the taxon and sample IDs
 #'
 #' @param ta A tidytacos object.
+#' @param keep_prev A logical scalar. Should the previous IDs be kept in a column called taxon_id_prev?
 #' @export
 reset_ids <- function(ta, keep_prev = F) {
 
@@ -191,7 +192,7 @@ reset_ids <- function(ta, keep_prev = F) {
 #'
 #' This function will convert a tidytacos object into a phyloseq object for
 #' alternative processing using the phyloseq package. To convert from a phyloseq
-#' object to a tidytacos object use \code{\link{as_tidytacos}}.
+#' object to a tidytacos object use \code{\link{from_phyloseq}}.
 #'
 #' @param ta A tidytacos object.
 #' @param sample The sample names required for a phyloseq object. Default is
@@ -297,13 +298,14 @@ from_phyloseq <- function(ps) {
 #'
 #' @param seqtab Sequence table, output of dada2::makeSequenceTable.
 #' @param taxa Taxa table, output of dada2::assignTaxonomy.
+#' @param taxa_are_columns A logical scalar. Are the taxa defined in columns?
 #'
 #' @export
 from_dada <- function(seqtab, taxa, taxa_are_columns=FALSE) {
     
     if ("matrix" %in% class(seqtab)) {
 
-    } else if (class(seqtab) == "character") {
+    } else if (inherits(seqtab, "character")) {
       # generate matrix from input file
       suppressMessages(table <- readr::read_tsv(seqtab))
       seqtab <- as.matrix(table %>% select(-1))
@@ -316,7 +318,7 @@ from_dada <- function(seqtab, taxa, taxa_are_columns=FALSE) {
     if ("data.frame" %in% class(taxa)) {
       taxon <- rownames(taxa)
       taxa <- cbind(as_tibble(taxa), taxon)
-    } else if (class(taxa) == "character") {
+    } else if (inherits(taxa,"character")) {
       suppressMessages(taxa <- readr::read_tsv(taxa))
     } else {
       stop(paste("Could not interpret", taxa))
@@ -414,6 +416,7 @@ tidy_count_to_matrix <- function(counts, value = count) {
 #'
 #' @param ta1 The first tidytacos object.
 #' @param ta2 The second tidytacos object.
+#' @param taxon_identifier The column name in the taxa tables which identify unique taxa. Default is sequence.
 #'
 #' @export
 merge_tidytacos <- function(ta1, ta2, taxon_identifier = sequence) {

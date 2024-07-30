@@ -7,6 +7,8 @@
 rarefy(ta, n, replace = F)
 }
 \arguments{
+\item{ta}{A tidytacos object.}
+
 \item{n}{Subsample size for rarefying the community.}
 
 \item{replace}{Whether to replace the read after it has been selected for the subsample so it can be sampled again. Default is FALSE.}

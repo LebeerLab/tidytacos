@@ -10,6 +10,10 @@ add_eigentaxa(ta, taxon_name = taxon, sample_name = sample)
 }
 \arguments{
 \item{ta}{a tidytacos object.}
+
+\item{taxon_name}{Column name of the taxon identifier, by default taxon.}
+
+\item{sample_name}{Column name of the sample identifier, by default sample.}
 }
 \description{
 Calculates eigentaxa values based on SparCC - MCL generated clusters per sample. 

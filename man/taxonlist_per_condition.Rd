@@ -11,6 +11,8 @@ taxonlist_per_condition(ta, condition, read_treshold = 0)
 
 \item{condition}{The name of a variable in the sample table that contains a
 categorical value.}
+
+\item{read_treshold}{The minimum read count to consider a taxon.}
 }
 \value{
 A list of taxon_id vectors.
