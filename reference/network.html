@@ -43,10 +43,10 @@ after dropping rare taxa. See <a href="https://rdrr.io/pkg/SpiecEasi/man/sparcc.
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">network</span><span class="op">(</span></span>
 <span>  <span class="va">ta</span>,</span>
-<span>  calculate_p <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  min_occurrence <span class="op">=</span> <span class="fl">0.05</span>,</span>
 <span>  taxon_name <span class="op">=</span> <span class="va">taxon</span>,</span>
 <span>  sample_name <span class="op">=</span> <span class="va">sample</span>,</span>
+<span>  calculate_p <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -59,14 +59,15 @@ after dropping rare taxa. See <a href="https://rdrr.io/pkg/SpiecEasi/man/sparcc.
 <dd><p>a tidytacos object</p></dd>
 
 
+<dt id="arg-min-occurrence">min_occurrence<a class="anchor" aria-label="anchor" href="#arg-min-occurrence"></a></dt>
+<dd><p>Percentage of samples the taxon
+needs to be present in for it to be considered in the analysis.</p></dd>
+
+
 <dt id="arg-calculate-p">calculate_p<a class="anchor" aria-label="anchor" href="#arg-calculate-p"></a></dt>
 <dd><p>whether to calculate p-values or not.
-This can be time consuming.
+This can be time consuming due to the many iterations needed.
 Iterations can be set with the R parameter and multiple cores through ncpus.</p></dd>
-
-
-<dt id="arg-min-occurrence">min_occurrence<a class="anchor" aria-label="anchor" href="#arg-min-occurrence"></a></dt>
-<dd><p>Percentage of samples the taxon needs to be present in for it to be considered in the analysis.</p></dd>
 
 
 <dt id="arg-iter">iter<a class="anchor" aria-label="anchor" href="#arg-iter"></a></dt>
