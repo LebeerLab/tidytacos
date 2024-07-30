@@ -35,12 +35,12 @@
 #' add_metadata(sample_tibble)
 #'
 #' @export
-add_metadata <- function(ta, metadata_tibble, table_type = "sample") {
+add_metadata <- function(ta, metadata, table_type = "sample") {
 
   if (table_type == "sample") {
-    purrr::modify_at(ta, "samples", left_join, metadata_tibble)
+    purrr::modify_at(ta, "samples", left_join, metadata)
   } else if (table_type == "taxa") {
-    ta <- purrr::modify_at(ta, "taxa", left_join, metadata_tibble)
+    ta <- purrr::modify_at(ta, "taxa", left_join, metadata)
     infer_rank_names(ta)
   } else {
     stop("table_type must be either 'sample' or 'taxa'")

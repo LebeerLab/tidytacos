@@ -73,7 +73,8 @@ get_ord_stat <- function(ta, x, stat.method, distance=distance) {
 #' Default is FALSE, as pie chart representations can be misleading to interpret.
 #' @param order_by an optional column name to order the samples by. 
 #' For examples order_by=sample would order the x-axis by the sample names instead of by similar profiles.
-#'
+#' @param ... Extra arguments to prepare the plot. Currently only `order_by` is supported.
+#' 
 #' @export
 tacoplot_stack <- function(ta, n = 12, x = sample_clustered, pie = FALSE, ...) {
   # convert promise to formula

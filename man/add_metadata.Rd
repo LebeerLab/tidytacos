@@ -4,18 +4,18 @@
 \alias{add_metadata}
 \title{Add metadata to the tidytacos object}
 \usage{
-add_metadata(ta, metadata_tibble, table_type = "sample")
+add_metadata(ta, metadata, table_type = "sample")
 }
 \arguments{
 \item{ta}{A tidytacos object.}
-
-\item{table_type}{The type of table to add, either 'sample' or 'taxa'.}
 
 \item{metadata}{A tibble containing data for each sample or taxon.
 Samples/taxa should be rows, while metadata variables should be columns. At
 least one column name needs to be shared with the sample or taxa table of
 the tidytacos object. The default shared column name is 'sample' for
 samples and 'taxon' for taxa.}
+
+\item{table_type}{The type of table to add, either 'sample' or 'taxa'.}
 }
 \description{
 \code{add_metadata} adds sample or taxon metadata to the sample or taxon

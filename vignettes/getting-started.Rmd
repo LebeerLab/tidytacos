@@ -81,7 +81,7 @@ The first step will usually be the conversion our data into a usable
 tidytacos format. If, for example, you used DADA2 as explained
 [here](http://rstudio-pubs-static.s3.amazonaws.com/273862_8258982fdfac49a8ba9d6ed651b9b539.html),
 you can hand off the data to tidytacos using `from_dada`. You can also
-convert a phyloseq object to a tidytacos object using the `as_tidytacos`
+convert a phyloseq object to a tidytacos object using the `from_phyloseq`
 function. More options to import and convert your data can be found
 [here](https://github.com/LebeerLab/tidytacos/blob/dev/R/converters.R).
 

@@ -16,6 +16,8 @@ tacoplot_stack(ta, n = 12, x = sample_clustered, pie = FALSE, ...)
 \item{pie}{A boolean, whether or not to represent the profile in a pie chart. 
 Default is FALSE, as pie chart representations can be misleading to interpret.}
 
+\item{...}{Extra arguments to prepare the plot. Currently only `order_by` is supported.}
+
 \item{order_by}{an optional column name to order the samples by. 
 For examples order_by=sample would order the x-axis by the sample names instead of by similar profiles.}
 }

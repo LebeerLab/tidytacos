@@ -191,7 +191,7 @@ reset_ids <- function(ta, keep_prev = F) {
 #'
 #' This function will convert a tidytacos object into a phyloseq object for
 #' alternative processing using the phyloseq package. To convert from a phyloseq
-#' object to a tidytacos object use \code{\link{as_tidytacos}}.
+#' object to a tidytacos object use \code{\link{from_phyloseq}}.
 #'
 #' @param ta A tidytacos object.
 #' @param sample The sample names required for a phyloseq object. Default is
@@ -303,7 +303,7 @@ from_dada <- function(seqtab, taxa, taxa_are_columns=FALSE) {
     
     if ("matrix" %in% class(seqtab)) {
 
-    } else if (class(seqtab) == "character") {
+    } else if (inherits(seqtab, "character")) {
       # generate matrix from input file
       suppressMessages(table <- readr::read_tsv(seqtab))
       seqtab <- as.matrix(table %>% select(-1))
@@ -316,7 +316,7 @@ from_dada <- function(seqtab, taxa, taxa_are_columns=FALSE) {
     if ("data.frame" %in% class(taxa)) {
       taxon <- rownames(taxa)
       taxa <- cbind(as_tibble(taxa), taxon)
-    } else if (class(taxa) == "character") {
+    } else if (inherits(taxa,"character")) {
       suppressMessages(taxa <- readr::read_tsv(taxa))
     } else {
       stop(paste("Could not interpret", taxa))
