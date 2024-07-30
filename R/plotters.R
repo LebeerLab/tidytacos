@@ -228,12 +228,8 @@ tacoplot_ord_ly <- function(ta, x=NULL, samplenames = sample_id, ord="pcoa", dim
   }
   
   # Check for empty samples
-  if (length(unique(ta$counts$sample_id)) < length(unique(ta$samples$sample_id)))
-  {
-    warning("Empty samples detected, removing them from the analysis")
-    ta <- ta %>% remove_empty_samples()
-  }
-
+  ta <- ta %>% remove_empty_samples()
+  
   # prepare ord if needed
   if (!all(ordnames %in% names(ta$samples))) {
     ta <- add_ord(ta, distance=distance, method=ord, dims=dims, ...)
@@ -340,12 +336,8 @@ tacoplot_ord <- function(ta, x=NULL, palette = NULL, ord = "pcoa", distance="bra
   }
 
   # Check for empty samples
-  if (length(unique(ta$counts$sample_id)) < length(unique(ta$samples$sample_id)))
-  {
-    warning("Empty samples detected, removing them from the analysis")
-    ta <- ta %>% remove_empty_samples()
-  }
-
+  ta <- ta %>% remove_empty_samples()
+  
   # prepare pcoa if needed
   if (!all(c("ord1", "ord2") %in% names(ta$samples))) {
     ta <- add_ord(ta, distance=distance, method=ord, ...)
@@ -523,6 +515,54 @@ tacoplot_alphas <- function(ta, group_by, compare_means=FALSE, ...){
 
   force_optional_dependency("ggpubr")
   plt + ggpubr::stat_compare_means(...)
+}
+
+#' Return a heatmap of all taxa above a certain threshold prevalence per condition, clusters them and compares prevalences with a fisher_test. 
+#'
+#' See pheatmap for additional arguments that can be given for this heatmap.
+#' Example usage: tacoplot_prevalences(urt,location,treeheight_row=0, cutree_rows=4,fontsize=6,cellwidth=15)
+#'
+#' @param ta A tidytacos object.
+#' @param condition The row name of the condition which rrevalences are to be compared.
+#' @param cutoff The minimum prevalence of a taxon to be included in the heatmap.
+#' @param fisher Run a fisher test on the relative prevalences in each condition 
+#' and plot the resulting adjusted p-values as *(<.05), **(<.01), ***(<.001) or ****(<.0001).
+#' @param adjp_method The method to adjust the p-values, see \code{\link[rstatix]{adjust_pvalue}}.
+#' @export
+tacoplot_prevalences <- function(ta, condition, cutoff=0.1, fisher=T, adjp_method="fdr", ...){
+    
+    force_optional_dependency("pheatmap")
+    force_optional_dependency("rstatix")
+    condition <- rlang::enquo(condition)
+
+    prevalences <- ta %>%
+    `if`(!"taxon_name" %in% ta$taxa, add_taxon_name(.), .) %>%
+    add_prevalence(condition=rlang::as_name(condition), relative=T, fisher_test=fisher) %>%
+    taxa()
+    
+    prevalences.M <- prevalences %>% 
+      dplyr::select(starts_with("prevalence_in_")) %>%
+      as.matrix()
+    if (fisher) {
+      fp <- prevalences %>% 
+            dplyr::select(fisher_p) %>% 
+            rstatix::adjust_pvalue(method=adjp_method)
+      fp_sig <- dplyr::case_when(
+          fp < 0.0001 ~ " (****)",
+          fp < 0.001 ~ " (***)",
+          fp < 0.01 ~ " (**)",
+          fp < 0.05 ~ " (*)",
+          TRUE ~ ""
+      )
+
+      row.names(prevalences.M) <- str_c(prevalences$taxon_name, fp_sig)
+    } else {
+      row.names(prevalences.M) <- prevalences$taxon_name
+    }
+
+    prevalences.M <- prevalences.M[prevalences.M %>% rowSums() > cutoff,]
+
+    pheatmap::pheatmap(prevalences.M, ...)
 }
 
 palette_paired <- c(

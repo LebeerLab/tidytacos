@@ -2,7 +2,7 @@
 % Please edit documentation in R/network.R
 \name{filter_network}
 \alias{filter_network}
-\title{Filters the output of \code{\link{network}} to a minimal threshold 
+\title{Filters the output of \code{\link{network}} to a minimal threshold
 and transforms to matrix for downstream clustering or heatplot visualization.}
 \usage{
 filter_network(network, threshold = 0.1, fdr = NULL, ...)
@@ -10,12 +10,12 @@ filter_network(network, threshold = 0.1, fdr = NULL, ...)
 \arguments{
 \item{threshold}{absolute value of correlations below this threshold are}
 
-\item{fdr}{the threshold for false discovery rate (if pvalues are calculated for the network)
-filtered out.}
+\item{fdr}{the threshold for false discovery rate
+(if pvalues are calculated for the network) filtered out.}
 
 \item{ta}{a tidytacos object}
 }
 \description{
-Filters the output of \code{\link{network}} to a minimal threshold 
+Filters the output of \code{\link{network}} to a minimal threshold
 and transforms to matrix for downstream clustering or heatplot visualization.
 }

@@ -40,7 +40,8 @@ add_metadata <- function(ta, metadata_tibble, table_type = "sample") {
   if (table_type == "sample") {
     purrr::modify_at(ta, "samples", left_join, metadata_tibble)
   } else if (table_type == "taxa") {
-    purrr::modify_at(ta, "taxa", left_join, metadata_tibble)
+    ta <- purrr::modify_at(ta, "taxa", left_join, metadata_tibble)
+    infer_rank_names(ta)
   } else {
     stop("table_type must be either 'sample' or 'taxa'")
   }
@@ -135,6 +136,8 @@ add_alpha <- function(ta, method="invsimpson") {
   vegan_estimateR_methods <- c("obs", "s.chao1", "s.ace")
 
   method <- tolower(method)
+
+  ta <- remove_empty_samples(ta)
 
   if (!method %in% lapply(alpha_metrics, tolower)) {
     stop(paste("Select a method from", paste0(alpha_metrics, collapse=", ")))

@@ -14,11 +14,12 @@ test_that("Barplot does not aggregate when a 'sample_name' column exists in samp
     urt_w_sample_name <- urt
     urt_w_sample_name$samples$sample_name <- urt$samples$sample
 
+        
     plt_w_sample_name <- urt_w_sample_name %>% tacoplot_stack()
 
     expect_length(
         ggplot_build(plt_w_sample_name)$layout$panel_params[[1]]$x$get_labels(),
-        length(urt %>% remove_empty_samples() %>% samples %>% pull(sample))  
+        suppressWarnings(length(urt %>% remove_empty_samples() %>% samples %>% pull(sample)))  
     )
 })
 
@@ -37,7 +38,8 @@ test_that("Tacoplot_ord works with tsne", {
     skip_if_not_installed("Rtsne")
     expect_no_error(
         expect_warning(
-            urt %>% tacoplot_ord(x=location, ord="tsne")
+            urt %>% tacoplot_ord(x=location, ord="tsne"),
+            "Removed 3 empty samples."
         ) # empty samples
     )
 })
@@ -53,7 +55,8 @@ test_that("Tacoplot_ord_ly works", {
     skip_if_not_installed("plotly")
     expect_no_error(
         expect_warning(
-            urt %>% tacoplot_ord_ly(x=location)
+            urt %>% tacoplot_ord_ly(x=location),
+            "Removed 3 empty samples."
         ) # empty samples
     )
 
@@ -79,6 +82,9 @@ test_that("Can create venndiagram", {
 
 test_that("Tacoplot_alphas works", {
     expect_no_error(
-            urt %>% tacoplot_alphas(location)
+        expect_warning(
+            urt %>% tacoplot_alphas(location),
+            "Removed 3 empty samples."
+        )
     )
 })

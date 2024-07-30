@@ -75,6 +75,11 @@ create_tidytacos <- function(counts_matrix, taxa_are_columns = TRUE) {
     tibble(taxon = .) %>%
     mutate(taxon_id = !! taxon_ids)
 
+  # set rank names
+  expected_rank_names <- colnames(ta$taxa)[!colnames(ta$taxa) %in% c("taxon","taxon_id","sequence")]
+
+
+
   ta
 
 }
@@ -117,22 +122,46 @@ read_tidytacos <- function(din, samples = "samples.csv", taxa = "taxa.csv",
     stop(paste("File", counts, ", containing count data not found in", din))
   }
 
-  expected_rank_names <- colnames(taxa)[!colnames(taxa) %in% c("taxon","taxon_id","sequence")]  
-
 
   ta <- make_tidytacos(
     samples, taxa, counts, sample_name = sample_id, taxon_name = taxon_id
   )
+  
+  infer_rank_names(ta)
 
-  if ( !all(ta %>% rank_names() %in% expected_rank_names)) {
+}
+
+infer_rank_names <- function(ta){
+  
+  nonranks <- c("taxon","taxon_id","sequence")
+  default_rank_names <- c('domain', 'phylum', 'class', 'order', 'family', 'genus', 'species')
+  expected_rank_names <- colnames(ta$taxa)[!colnames(ta$taxa) %in% nonranks]  
+  
+  if (length(expected_rank_names) == 0){
+    stop(
+      paste0(
+      "No rank names found in taxa table.\n",
+      "Please add some fields to the taxa table with field names differing from '",
+      paste(nonranks,collapse="', '"),"'."
+      )
+    )
+  }
+
+  suppressWarnings({
+    rn <- ta %>% rank_names()
+  })
+
+  if ( !all(rn %in% default_rank_names)) {
+
+    ranks <- colnames(ta$taxa)[!colnames(ta$taxa) %in% nonranks]
+
     warning(paste0(
       "Not all default rank names found. Replacing them with:\n c(\"", 
-      paste(expected_rank_names, collapse='","'), 
-      "\")\n\nIf these are not the rank names of your taxon table, \nplease set ",
+      paste(ranks, collapse='","'), 
+      "\")\n\nIf these are not the rank names of your taxon table in descending order, \nplease set ",
       "them manually using 'set_rank_names()'"))
-    ta <- ta %>% set_rank_names(expected_rank_names)
+    ta <- ta %>% set_rank_names(ranks)
   }    
-    ta
 }
 
 #' Reset the taxon and sample IDs

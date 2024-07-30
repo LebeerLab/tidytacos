@@ -49,7 +49,7 @@ test_that("Can add spike-ratio", {
 
 test_that("Can perform anosim test", {
 
-    expect_warning(
+    suppressWarnings(
         anosim <- urt %>% perform_anosim("plate")
         ) # empty samples
     expect_gt(anosim$signif, 0.05)
