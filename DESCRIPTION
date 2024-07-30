@@ -9,7 +9,7 @@ Authors@R: c(
     person("Sarah", "Lebeer", "sarah.lebeer@uantwerpen.be", role = c("fnd")))
 Description: A toolkit for processing and visualizing taxonomic composition data
     of microbial communities, based on the tidyverse framework.
-License: GPL-3
+License: GPL-3 + file LICENSE
 Depends: R (>= 4.1.0)
 Imports:
     dplyr,

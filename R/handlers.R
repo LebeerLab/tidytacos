@@ -3,6 +3,7 @@
 #' This function performs rarefying. Make sure that all samples contain at least
 #' the minimum number of reads; otherwise, an error might be thrown.
 #'
+#' @param ta A tidytacos object.
 #' @param n Subsample size for rarefying the community.
 #' @param replace Whether to replace the read after it has been selected for the subsample so it can be sampled again. Default is FALSE.
 #'
@@ -248,6 +249,7 @@ trim_asvs <- function(ta, start, end) {
 #' Retain or remove a set of sample variables
 #' 
 #' @param ta A tidytacos object.
+#' @param ... Selection criteria for the samples table.
 #' @export
 select_samples <- function(ta, ...) {
   ta$samples <- ta$samples %>%
@@ -263,6 +265,7 @@ select_samples <- function(ta, ...) {
 #' Retain or remove a set of taxon variables
 #'
 #' @param ta A tidytacos object.
+#' @param ... Selection criteria for the taxa table.
 #' @export
 select_taxa <- function(ta, ...) {
   ta$taxa <- ta$taxa %>%
@@ -276,6 +279,7 @@ select_taxa <- function(ta, ...) {
 #' Retain or remove a set of count variables
 #'
 #' @param ta A tidytacos object.
+#' @param ... Selection criteria for the counts table.
 #' @export
 select_counts <- function(ta, ...) {
   ta$counts <- ta$counts %>%
@@ -291,6 +295,7 @@ select_counts <- function(ta, ...) {
 #' Create extra variables in the sample table
 #'
 #' @param ta A tidytacos object.
+#' @param ... Mutate criteria for the samples table.
 #' @export
 mutate_samples <- function(ta, ...) {
   ta$samples <- ta$samples %>%
@@ -303,6 +308,7 @@ mutate_samples <- function(ta, ...) {
 #' Create extra variables in the taxa table
 #'
 #' @param ta A tidytacos object.
+#' @param ... Mutate criteria for the taxa table.
 #' @export
 mutate_taxa <- function(ta, ...) {
   ta$taxa <- ta$taxa %>%
@@ -315,6 +321,7 @@ mutate_taxa <- function(ta, ...) {
 #' Create extra variables in the count table
 #'
 #' @param ta A tidytacos object.
+#' @param ... Mutate criteria for the counts table.
 #' @export
 mutate_counts <- function(ta, ...) {
   ta$counts <- ta$counts %>%
@@ -329,6 +336,7 @@ mutate_counts <- function(ta, ...) {
 #' Filter the samples
 #'
 #' @param ta A tidytacos object.
+#' @param ... Filter criteria for the samples table.
 #' @export
 filter_samples <- function(ta, ...) {
   ta$samples <- ta$samples %>%
@@ -344,6 +352,7 @@ filter_samples <- function(ta, ...) {
 #' Filter the taxa
 #'
 #' @param ta A tidytacos object.
+#' @param ... Filter criteria for the taxa table.
 #' @export
 filter_taxa <- function(ta, ...) {
   ta$taxa <- ta$taxa %>%
@@ -359,6 +368,7 @@ filter_taxa <- function(ta, ...) {
 #' Filter the counts
 #'
 #' @param ta A tidytacos object.
+#' @param ... Filter criteria for the counts table.
 #' @export
 filter_counts <- function(ta, ...) {
   ta$counts <- ta$counts %>%

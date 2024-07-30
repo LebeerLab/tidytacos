@@ -24,6 +24,8 @@ tacoplot_prevalences(
 and plot the resulting adjusted p-values as *(<.05), **(<.01), ***(<.001) or ****(<.0001).}
 
 \item{adjp_method}{The method to adjust the p-values, see \code{\link[rstatix]{adjust_pvalue}}.}
+
+\item{...}{Extra arguments to pass to the pheatmap function.}
 }
 \description{
 See pheatmap for additional arguments that can be given for this heatmap.

@@ -8,6 +8,7 @@
 #'  - The name of the variable in the sample table to use for comparison
 #'  - A list of names of variables in the sample table.
 #'  - A distance matrix.
+#' @param ... Additional arguments to pass to the mantel function.
 #' 
 #' @return The mantel test statistics
 #'

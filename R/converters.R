@@ -167,6 +167,7 @@ infer_rank_names <- function(ta){
 #' Reset the taxon and sample IDs
 #'
 #' @param ta A tidytacos object.
+#' @param keep_prev A logical scalar. Should the previous IDs be kept in a column called taxon_id_prev?
 #' @export
 reset_ids <- function(ta, keep_prev = F) {
 
@@ -297,6 +298,7 @@ from_phyloseq <- function(ps) {
 #'
 #' @param seqtab Sequence table, output of dada2::makeSequenceTable.
 #' @param taxa Taxa table, output of dada2::assignTaxonomy.
+#' @param taxa_are_columns A logical scalar. Are the taxa defined in columns?
 #'
 #' @export
 from_dada <- function(seqtab, taxa, taxa_are_columns=FALSE) {
@@ -414,6 +416,7 @@ tidy_count_to_matrix <- function(counts, value = count) {
 #'
 #' @param ta1 The first tidytacos object.
 #' @param ta2 The second tidytacos object.
+#' @param taxon_identifier The column name in the taxa tables which identify unique taxa. Default is sequence.
 #'
 #' @export
 merge_tidytacos <- function(ta1, ta2, taxon_identifier = sequence) {

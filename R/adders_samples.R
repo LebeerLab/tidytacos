@@ -327,6 +327,7 @@ perform_umap <- function(ta, dist_matrix, dims=2, ...) {
 #' @param dims The amount of dimensions to reduce the dissimilarities to.
 #' @param binary Perform presence/absence standardisation before distance
 #'   computation or not.
+#' @param ... Additional arguments to pass to the ordination function.
 #'
 #' @examples
 #' # Initiate counts matrix
@@ -699,8 +700,7 @@ add_total_density <- function(ta, spike_taxon, spike_added = spike_added, materi
 #'
 #' @param ta A tidytacos object.
 #' @param group A column in the sample table to group the samples on.
-#' @param distance The dissimilarity measure to use.
-#' @param permutations The number of permutations.
+#' @inheritDotParams vegan::anosim
 #'
 #' @export
 perform_anosim <- function(ta, group, ...){

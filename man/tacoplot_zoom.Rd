@@ -10,6 +10,10 @@ tacoplot_zoom(ta, sample = sample_id, n = 15, nrow = NULL)
 \item{ta}{A tidytacos object.}
 
 \item{sample}{A string, representing the unique sample name of interest}
+
+\item{n}{An integer, representing the amount of colors used to depict taxa}
+
+\item{nrow}{An integer, representing the amount of rows in the facet_wrap}
 }
 \description{
 Return a visualization designed for a small number of samples

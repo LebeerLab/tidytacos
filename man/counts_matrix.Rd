@@ -19,6 +19,8 @@ names (unquoted).}
 
 \item{taxon_name}{The name of the variable in the taxon table to use as
 column names (unquoted).}
+
+\item{value}{The name of the variable in the counts table to use as count}
 }
 \value{
 A matrix with count values.

@@ -8,6 +8,8 @@ select_counts(ta, ...)
 }
 \arguments{
 \item{ta}{A tidytacos object.}
+
+\item{...}{Selection criteria for the counts table.}
 }
 \description{
 Retain or remove a set of count variables

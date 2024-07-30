@@ -13,6 +13,8 @@ perform_mantel_test(ta, comparison, ...)
 - The name of the variable in the sample table to use for comparison
 - A list of names of variables in the sample table.
 - A distance matrix.}
+
+\item{...}{Additional arguments to pass to the mantel function.}
 }
 \value{
 The mantel test statistics

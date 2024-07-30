@@ -5,15 +5,10 @@
 # @param ta a tidytacos object
 # @param n an integer
 #
-prepare_for_bp <- function(ta, n = 12, extended = TRUE, ...) {
+prepare_for_bp <- function(ta, n = 12, extended = TRUE, order_by=NULL) {
 
-  extParams <- list()
-  if (length(list(...))) {
-    extParams <- unlist(list(...))
-  }
   # custom order
-  if (!is.null(extParams[["order_by"]])) {
-    order_by <- extParams[["order_by"]]
+  if (!is.null(order_by)) {
     ta$samples <- ta$samples %>% arrange(order_by)
     ta$samples$sample_clustered <- as.factor(ta$samples[[order_by]])
   }
@@ -73,10 +68,8 @@ get_ord_stat <- function(ta, x, stat.method, distance=distance) {
 #' Default is FALSE, as pie chart representations can be misleading to interpret.
 #' @param order_by an optional column name to order the samples by. 
 #' For examples order_by=sample would order the x-axis by the sample names instead of by similar profiles.
-#' @param ... Extra arguments to prepare the plot. Currently only `order_by` is supported.
-#' 
 #' @export
-tacoplot_stack <- function(ta, n = 12, x = sample_clustered, pie = FALSE, ...) {
+tacoplot_stack <- function(ta, n = 12, x = sample_clustered, pie = FALSE, order_by=NULL) {
   # convert promise to formula
 
   
@@ -113,7 +106,7 @@ tacoplot_stack <- function(ta, n = 12, x = sample_clustered, pie = FALSE, ...) {
   }
 
   # make plot and return
-  plot <- prepare_for_bp(ta, n, extended=T, ...) %>%
+  plot <- prepare_for_bp(ta, n, extended=T, order_by=order_by) %>%
     ggplot(aes(
       x = forcats::fct_reorder(!!x, as.integer(sample_clustered)),
       y = rel_abundance, fill = taxon_name_color)) +
@@ -153,8 +146,9 @@ tacoplot_stack <- function(ta, n = 12, x = sample_clustered, pie = FALSE, ...) {
 #' @param x A string, representing the column name used to label the x-axis
 #' @param order_by an optional column name to order the samples by. 
 #' For examples order_by=sample would order the x-axis by the sample names instead of by similar profiles.
+#' 
 #' @export
-tacoplot_stack_ly <- function(ta, n = 12, x = sample_clustered, ...) {
+tacoplot_stack_ly <- function(ta, n = 12, x = sample_clustered, order_by=NULL) {
   force_optional_dependency("plotly")
   # convert promise to formula
   x <- rlang::enquo(x)
@@ -163,7 +157,7 @@ tacoplot_stack_ly <- function(ta, n = 12, x = sample_clustered, ...) {
   plot <- rlang::eval_tidy(rlang::quo_squash(
     quo({
       # make plot and return
-      prepare_for_bp(ta, n, extended=T, if(length(list(...))) enquos(...) else NULL) %>%
+      prepare_for_bp(ta, n, extended=T, order_by=order_by) %>%
         plotly::plot_ly(
           x = ~forcats::fct_reorder(!!x, as.integer(sample_clustered)),
           y = ~rel_abundance,
@@ -202,6 +196,7 @@ tacoplot_stack_ly <- function(ta, n = 12, x = sample_clustered, ...) {
 #' @param palette A vector of colors, used as the palette for coloring sample
 #' @param title a string to display as title of the plot.
 #'   groups.
+#' @param ... Extra arguments to pass to the add_ord function.
 #'
 #' @export
 tacoplot_ord_ly <- function(ta, x=NULL, samplenames = sample_id, ord="pcoa", dims=2, 
@@ -308,7 +303,8 @@ tacoplot_ord_ly <- function(ta, x=NULL, samplenames = sample_id, ord="pcoa", dim
 #' @param stat.method the statistic to print on the figure, choice from mantel and anosim.
 #' @param palette A vector of colors, used as the palette for coloring sample
 #'   groups.
-#'
+#' @param title a string to display as title of the plot.
+#' @param ... Extra arguments to pass to the add_ord function.
 #' @export
 tacoplot_ord <- function(ta, x=NULL, palette = NULL, ord = "pcoa", distance="bray", stat.method=NULL,title = NULL, ...) {
 
@@ -367,6 +363,8 @@ tacoplot_ord <- function(ta, x=NULL, palette = NULL, ord = "pcoa", distance="bra
 #'
 #' @param ta A tidytacos object.
 #' @param sample A string, representing the unique sample name of interest
+#' @param n An integer, representing the amount of colors used to depict taxa
+#' @param nrow An integer, representing the amount of rows in the facet_wrap
 #' 
 #' @export
 tacoplot_zoom <- function(ta, sample = sample_id, n = 15, nrow = NULL) {
@@ -408,7 +406,7 @@ tacoplot_zoom <- function(ta, sample = sample_id, n = 15, nrow = NULL) {
 #' @param ta A tidytacos object.
 #' @param condition The name of a variable in the samples table that contains a
 #'   categorical value.
-#'
+#' @param ... Extra arguments to pass to the \code{\link[ggVennDiagram]{ggVennDiagram}} function.
 #' @export
 tacoplot_venn <- function(ta, condition, ...) {
 
@@ -439,6 +437,7 @@ tacoplot_venn <- function(ta, condition, ...) {
 #' @param ta A tidytacos object.
 #' @param condition The name of a variable in the samples table that contains a
 #'   categorical value.
+#' @param ... Extra arguments to pass to the \code{\link[ggVennDiagram]{ggVennDiagram}} function.
 #'
 #' @export
 tacoplot_venn_ly <- function(ta, condition, ...) {
@@ -458,7 +457,7 @@ tacoplot_venn_ly <- function(ta, condition, ...) {
 #' @param condition The name of a variable in the samples table that contains a
 #'   categorical value.
 #' @param shape shape to plot the groups in; choice from circle or ellipse
-#'
+#' @param ... Extra arguments to pass to the \code{\link[eulerr]{euler}} function.
 #' @export
 tacoplot_euler <- function(ta, condition, shape="ellipse", ...) {
 
@@ -477,9 +476,8 @@ tacoplot_euler <- function(ta, condition, shape="ellipse", ...) {
 #'
 #' @param ta A tidytacos object.
 #' @param group_by The name of a variable in the samples table on which to group the samples.
-#' @param compare_means Add the result of a statistical test to the plot, comparing the means of the groups. 
-#' See \code{\link[ggpubr]{stat_compare_means}} for additional arguments that can be given for this test. 
-#' The default is FALSE.
+#' @param compare_means Add the result of a statistical test to the plot, comparing the means of the groups. Default is FALSE. 
+#' @param ... See \code{\link[ggpubr]{stat_compare_means}} for additional arguments that can be given for this test. 
 #' @export
 tacoplot_alphas <- function(ta, group_by, compare_means=FALSE, ...){
 
@@ -529,6 +527,7 @@ tacoplot_alphas <- function(ta, group_by, compare_means=FALSE, ...){
 #' @param fisher Run a fisher test on the relative prevalences in each condition 
 #' and plot the resulting adjusted p-values as *(<.05), **(<.01), ***(<.001) or ****(<.0001).
 #' @param adjp_method The method to adjust the p-values, see \code{\link[rstatix]{adjust_pvalue}}.
+#' @param ... Extra arguments to pass to the pheatmap function.
 #' @export
 tacoplot_prevalences <- function(ta, condition, cutoff=0.1, fisher=T, adjp_method="fdr", ...){
     

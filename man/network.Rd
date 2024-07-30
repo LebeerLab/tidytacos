@@ -20,16 +20,23 @@ network(
 \item{min_occurrence}{Percentage of samples the taxon
 needs to be present in for it to be considered in the analysis.}
 
+\item{taxon_name}{Column name of the taxon identifier, by default taxon.}
+
+\item{sample_name}{Column name of the sample identifier, by default sample.
+considered zero by the inner SparCC loop.}
+
 \item{calculate_p}{whether to calculate p-values or not.
 This can be time consuming due to the many iterations needed.
 Iterations can be set with the R parameter and multiple cores through ncpus.}
 
-\item{iter}{Number of iterations in the outer loop}
-
-\item{inner_iter}{Number of iterations in the inner loop}
-
-\item{th}{absolute value of correlations below this threshold are
-considered zero by the inner SparCC loop.}
+\item{...}{
+  Arguments passed on to \code{\link[SpiecEasi:sparcc]{SpiecEasi::sparcc}}
+  \describe{
+    \item{\code{data}}{Community count data matrix}
+    \item{\code{iter}}{Number of iterations in the outer loop}
+    \item{\code{inner_iter}}{Number of iterations in the inner loop}
+    \item{\code{th}}{absolute value of correlations below this threshold are considered zero by the inner SparCC loop.}
+  }}
 }
 \description{
 Perform network inference with SparCC on a tidytacos object,

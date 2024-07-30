@@ -8,6 +8,8 @@ select_samples(ta, ...)
 }
 \arguments{
 \item{ta}{A tidytacos object.}
+
+\item{...}{Selection criteria for the samples table.}
 }
 \description{
 Retain or remove a set of sample variables

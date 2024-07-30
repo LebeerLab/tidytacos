@@ -8,6 +8,8 @@ reset_ids(ta, keep_prev = F)
 }
 \arguments{
 \item{ta}{A tidytacos object.}
+
+\item{keep_prev}{A logical scalar. Should the previous IDs be kept in a column called taxon_id_prev?}
 }
 \description{
 Reset the taxon and sample IDs

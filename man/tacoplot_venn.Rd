@@ -11,6 +11,8 @@ tacoplot_venn(ta, condition, ...)
 
 \item{condition}{The name of a variable in the samples table that contains a
 categorical value.}
+
+\item{...}{Extra arguments to pass to the \code{\link[ggVennDiagram]{ggVennDiagram}} function.}
 }
 \description{
 Return a venn diagram of overlapping taxon_ids between conditions
