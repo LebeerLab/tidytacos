@@ -34,6 +34,9 @@ remove_empty_samples <- function(ta){
     dplyr::count() %>% pull(sample_id)
   empty_samples <- ta$samples$sample_id[!(ta$samples$sample_id %in% present_samples)]
   ta <- ta %>% filter_samples(!sample_id %in% empty_samples)
+  if (length(empty_samples) > 0) {
+    warning(paste("Removed", length(empty_samples), "empty samples."))
+  }
   ta
 }
 
