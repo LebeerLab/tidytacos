@@ -14,6 +14,18 @@ mean_rel_abundance.}
 
 \item{include_species}{Whether to include the species name or not.}
 }
+\value{
+A tidytacos object.
+}
 \description{
-\code{add_taxon_name} creates sensible taxa names by -under default conditions- combining the genus name with a number. The number is only added if there is more than one taxon of that genus. The number indicates the rank of abundance, with 1 indicating the taxon has the highest mean relative abundance of the dataset, within the genus. If genus classification is not available the next most detailed taxonomic rank which is available is used. The sensible taxon name is added to the taxon table under the column name "taxon_name".
+\code{add_taxon_name} creates sensible taxa names by -under default conditions- combining the genus name with a number. 
+The number is only added if there is more than one taxon of that genus. 
+The number indicates the rank of abundance, with 1 indicating the taxon has the highest mean relative abundance of the dataset, 
+within the genus. If genus classification is not available the next most detailed taxonomic rank which is available is used. 
+The sensible taxon name is added to the taxon table under the column name "taxon_name".
+}
+\examples{
+urt_g <- urt \%>\% add_taxon_name()
+# add the species name if present (which is often uncertain in amplicon data)
+urt_s <- urt \%>\% add_taxon_name(include_species = TRUE)
 }

@@ -22,6 +22,9 @@ computation or not.}
 
 \item{...}{Additional arguments to pass to the ordination function.}
 }
+\value{
+A tidytacos object with the ordination coordinates added.
+}
 \description{
 \code{add_ord} adds the first n dimensions of a dimensionality reduction
 method performed on a given dissimilarity matrix as new variables to the
@@ -52,4 +55,6 @@ data <- create_tidytacos(x,
 data <- data \%>\%
  add_ord()
 
+# The variances of the ordination dimensions can be accessed with
+data$ord_variances
 }

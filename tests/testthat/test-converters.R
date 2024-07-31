@@ -1,10 +1,10 @@
 test_that("Can read tidytacos object.", {
-  ta <- read_tidytacos(test_path("data/urt"))
+  testthat::expect_warning(ta <- read_tidytacos(test_path("data/urt")))
   expect_equal(attr(ta, "class"), "tidytacos")
 })
 
 test_that("Can read tidyamplicons object and informs on conversion", {
-  expect_message(ta <- read_tidytacos(test_path("data/ta_urt")))
+  expect_warning(ta <- read_tidytacos(test_path("data/ta_urt")))
   expect_equal(attr(ta, "class"), "tidytacos")
 })
 
@@ -58,4 +58,14 @@ test_that("Can convert counts matrix to tibble", {
 
   tib <- urt %>% counts_matrix() %>% counts_tidy()
   expect_true(dplyr::is.tbl(tib))
+})
+
+test_that("Can write sequences to fasta file", {
+  skip_if_not_installed("seqinr")
+  urt %>% 
+   filter_taxa(taxon_id == "t1") %>% 
+   to_fasta("test.fasta")
+  f <- seqinr::read.fasta("test.fasta")
+  expect_equal(seqinr::GC(f$t1), 0.51, tolerance=0.01)
+  unlink("test.fasta")
 })

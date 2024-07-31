@@ -11,6 +11,9 @@ aggregate_taxa(ta, rank = NULL)
 
 \item{rank}{An optional rank to aggregate on.}
 }
+\value{
+A tidytacos object.
+}
 \description{
 There are two ways to call this function:
 }
@@ -19,4 +22,7 @@ There are two ways to call this function:
 as an argument.
 * If not, delete all taxon variables except taxon_id and the ranks you are
 still interested in prior to calling this function.
+}
+\examples{
+urt \%>\% aggregate_taxa(rank = "class")
 }

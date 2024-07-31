@@ -11,6 +11,18 @@ select_taxa(ta, ...)
 
 \item{...}{Selection criteria for the taxa table.}
 }
+\value{
+A tidytacos object.
+}
 \description{
 Retain or remove a set of taxon variables
+}
+\examples{
+
+# drop the sequence column
+urt \%>\% select_taxa(-sequence)
+
+# keep only the taxon_id and genus columns
+urt \%>\% select_taxa(taxon_id, genus)
+
 }

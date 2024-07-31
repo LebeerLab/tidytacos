@@ -11,6 +11,15 @@ mutate_samples(ta, ...)
 
 \item{...}{Mutate criteria for the samples table.}
 }
+\value{
+A tidytacos object.
+}
 \description{
 Create extra variables in the sample table
+}
+\examples{
+
+# change the sample column to lowercase
+urt <- urt \%>\% mutate_samples(sample = tolower(sample))
+
 }

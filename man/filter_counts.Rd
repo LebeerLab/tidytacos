@@ -11,6 +11,11 @@ filter_counts(ta, ...)
 
 \item{...}{Filter criteria for the counts table.}
 }
+\value{
+A tidytacos object.
+# remove singletons
+urt <- urt %>% filter_counts(count > 1)
+}
 \description{
 Filter the counts
 }

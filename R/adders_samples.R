@@ -10,7 +10,7 @@
 #'   the tidytacos object. The default shared column name is 'sample' for
 #'   samples and 'taxon' for taxa.
 #' @param table_type The type of table to add, either 'sample' or 'taxa'.
-#'
+#' @return A tidytacos object with the metadata added.
 #' @examples
 #' # Initiate counts matrix
 #' x <- matrix(
@@ -34,6 +34,15 @@
 #' data <- data %>%
 #' add_metadata(sample_tibble)
 #'
+#' # Initiate taxon tibble
+#' genera <- c("Lactobacillus","Limosilactobacillus")
+#' species <- c("crispatus","reuteri")
+#' taxonomy <- tibble::tibble(taxon=rownames(x),genera,species)
+#' 
+#' # Add taxon tibble to tidytacos object
+#' data <- data %>%
+#'   add_metadata(taxonomy, table_type="taxa") 
+#'
 #' @export
 add_metadata <- function(ta, metadata, table_type = "sample") {
 
@@ -54,7 +63,7 @@ add_metadata <- function(ta, metadata, table_type = "sample") {
 #' table of a tidytacos object under the variable name total_count.
 #'
 #' @param ta A tidytacos object.
-#'
+#' @return A tidytacos object with the total read count per sample added.
 #' @examples
 #' # Initiate counts matrix
 #' x <- matrix(
@@ -110,7 +119,7 @@ add_total_count <- function(ta) {
 #'
 #' @param ta A tidytacos object.
 #' @param method The diversity measure to use, see \code{\link[vegan]{diversity}} for further information on these.
-#'
+#' @return A tidytacos object with the alpha diversity measure added.
 #' @examples
 #' # Initiate counts matrix
 #' x <- matrix(
@@ -125,9 +134,12 @@ add_total_count <- function(ta) {
 #'                      taxa_are_columns = FALSE
 #'                      )
 #'
-#' # Add total abundance
+#' # Add alpha diversity measures
 #' data <- data %>%
 #'  add_alpha()
+#' 
+#' data <- data %>% 
+#'  add_alpha(method="shannon")
 #'
 #' @export
 add_alpha <- function(ta, method="invsimpson") {
@@ -186,6 +198,9 @@ add_alpha <- function(ta, method="invsimpson") {
 #' @param ta A tidytacos object.
 #' @param methods A character vector of the diversity measure to use, see \code{\link[tidytacos]{add_alpha}} for examples.
 #' Optionally use 'all' to add all diversity measures.
+#' @return A tidytacos object with the selected alpha diversity measures added.
+#' @examples
+#' urt_all_alphas <- urt %>% add_alphas()
 #' @export
 add_alphas <- function(ta, methods="all") {
 
@@ -331,7 +346,7 @@ perform_umap <- function(ta, dist_matrix, dims=2, ...) {
 #' @param binary Perform presence/absence standardisation before distance
 #'   computation or not.
 #' @param ... Additional arguments to pass to the ordination function.
-#'
+#' @return A tidytacos object with the ordination coordinates added.
 #' @examples
 #' # Initiate counts matrix
 #' x <- matrix(
@@ -350,6 +365,8 @@ perform_umap <- function(ta, dist_matrix, dims=2, ...) {
 #' data <- data %>%
 #'  add_ord()
 #'
+#' # The variances of the ordination dimensions can be accessed with
+#' data$ord_variances
 #' @export
 add_ord <- function(ta, distance="bray", method="pcoa", dims=2, binary=FALSE, ...) {
 
@@ -475,7 +492,7 @@ add_spike_ratio <- function(ta, spike_taxon) {
 #'
 #' @param ta A tidytacos object.
 #' @param n_clusters The number of desired clusters.
-#'
+#' @return A tidytacos object with a cluster column in the samples table.
 #' @examples
 #' # Initiate count matrix
 #' x <- matrix(

@@ -11,6 +11,16 @@ select_counts(ta, ...)
 
 \item{...}{Selection criteria for the counts table.}
 }
+\value{
+A tidytacos object.
+}
 \description{
 Retain or remove a set of count variables
+}
+\examples{
+
+# add a column to the counts table
+leaf_ab <- leaf \%>\% add_rel_abundance()
+# remove that column again
+leaf_ab \%>\% select_counts(-rel_abundance)
 }
