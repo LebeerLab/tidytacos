@@ -27,5 +27,5 @@ The sensible taxon name is added to the taxon table under the column name "taxon
 \examples{
 urt_g <- urt \%>\% add_taxon_name()
 # add the species name if present (which is often uncertain in amplicon data)
-urt_s <- urt \%>\% add_taxon_name(include_species = T)
+urt_s <- urt \%>\% add_taxon_name(include_species = TRUE)
 }
