@@ -331,11 +331,11 @@ add_jervis_bardy <- function(ta, dna_conc, sample_condition = T, min_pres = 3) {
 #' @examples 
 #' # add prevalences of all taxa
 #' urtp <- urt %>% add_prevalence()
-#' urtp$taxa %>% select(taxon_id, prevalence)
+#' urtp$taxa %>% dplyr::select(taxon_id, prevalence)
 #' 
 #' # add prevalences and fisher test for location
 #' urtpf <- urt %>% add_prevalence(condition="location", fisher_test=T, relative=T)
-#' urtpf$taxa %>% select(taxon_id, prevalence_in_N, prevalence_in_NF, fisher_p)
+#' urtpf$taxa %>% dplyr::select(taxon_id, prevalence_in_N, prevalence_in_NF, fisher_p)
 #' 
 #' @export
 add_prevalence <- function(
