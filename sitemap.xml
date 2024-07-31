@@ -52,6 +52,7 @@
 <url><loc>https://lebeerlab.github.io/tidytacos/reference/from_dada.html</loc></url>
 <url><loc>https://lebeerlab.github.io/tidytacos/reference/from_phyloseq.html</loc></url>
 <url><loc>https://lebeerlab.github.io/tidytacos/reference/index.html</loc></url>
+<url><loc>https://lebeerlab.github.io/tidytacos/reference/leaf.html</loc></url>
 <url><loc>https://lebeerlab.github.io/tidytacos/reference/make_tidytacos.html</loc></url>
 <url><loc>https://lebeerlab.github.io/tidytacos/reference/mean_rel_abundances.html</loc></url>
 <url><loc>https://lebeerlab.github.io/tidytacos/reference/merge_tidytacos.html</loc></url>
@@ -96,6 +97,7 @@
 <url><loc>https://lebeerlab.github.io/tidytacos/reference/to_biom.html</loc></url>
 <url><loc>https://lebeerlab.github.io/tidytacos/reference/to_fasta.html</loc></url>
 <url><loc>https://lebeerlab.github.io/tidytacos/reference/trim_asvs.html</loc></url>
+<url><loc>https://lebeerlab.github.io/tidytacos/reference/urt.html</loc></url>
 <url><loc>https://lebeerlab.github.io/tidytacos/reference/write_tidytacos.html</loc></url>
 </urlset>
 

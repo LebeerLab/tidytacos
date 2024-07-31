@@ -59,12 +59,40 @@ between microbial communities in the groups of samples.</p>
 <dd><p>A column in the sample table to group the samples on.</p></dd>
 
 
-<dt id="arg-distance">distance<a class="anchor" aria-label="anchor" href="#arg-distance"></a></dt>
-<dd><p>The dissimilarity measure to use.</p></dd>
+<dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
+<dd><p>Arguments passed on to <code><a href="https://rdrr.io/pkg/vegan/man/anosim.html" class="external-link">vegan::anosim</a></code></p><dl><dt><code>x</code></dt>
+<dd><p>Data matrix or data frame in which rows are samples and
+    columns are response variable(s), or a dissimilarity object or a
+    symmetric square matrix of dissimilarities.</p></dd>
+
+    <dt><code>grouping</code></dt>
+<dd><p>Factor for grouping observations.</p></dd>
+
+    <dt><code>permutations</code></dt>
+<dd><p>a list of control values for the permutations
+    as returned by the function <code><a href="https://rdrr.io/pkg/permute/man/how.html" class="external-link">how</a></code>, or the
+    number of permutations required, or a permutation matrix where each
+    row gives the permuted indices.</p></dd>
+
+    <dt><code>distance</code></dt>
+<dd><p>Choice of distance metric that measures the
+    dissimilarity between two observations. See <code><a href="https://rdrr.io/pkg/vegan/man/vegdist.html" class="external-link">vegdist</a></code> for
+    options.  This will be used if <code>x</code> was not a dissimilarity
+    structure or a symmetric square matrix.</p></dd>
+
+    <dt><code>strata</code></dt>
+<dd><p>An integer vector or factor specifying the strata for
+    permutation. If supplied, observations are permuted only within the
+    specified strata.</p></dd>
+
+    <dt><code>parallel</code></dt>
+<dd><p>Number of parallel processes or a predefined socket
+    cluster.  With <code>parallel = 1</code> uses ordinary, non-parallel
+    processing. The parallel processing is done with <span class="pkg">parallel</span>
+    package.</p></dd>
 
 
-<dt id="arg-permutations">permutations<a class="anchor" aria-label="anchor" href="#arg-permutations"></a></dt>
-<dd><p>The number of permutations.</p></dd>
+</dl></dd>
 
 </dl></div>
 

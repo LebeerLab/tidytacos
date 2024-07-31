@@ -64,23 +64,36 @@ after dropping rare taxa. See <a href="https://rdrr.io/pkg/SpiecEasi/man/sparcc.
 needs to be present in for it to be considered in the analysis.</p></dd>
 
 
+<dt id="arg-taxon-name">taxon_name<a class="anchor" aria-label="anchor" href="#arg-taxon-name"></a></dt>
+<dd><p>Column name of the taxon identifier, by default taxon.</p></dd>
+
+
+<dt id="arg-sample-name">sample_name<a class="anchor" aria-label="anchor" href="#arg-sample-name"></a></dt>
+<dd><p>Column name of the sample identifier, by default sample.
+considered zero by the inner SparCC loop.</p></dd>
+
+
 <dt id="arg-calculate-p">calculate_p<a class="anchor" aria-label="anchor" href="#arg-calculate-p"></a></dt>
 <dd><p>whether to calculate p-values or not.
 This can be time consuming due to the many iterations needed.
 Iterations can be set with the R parameter and multiple cores through ncpus.</p></dd>
 
 
-<dt id="arg-iter">iter<a class="anchor" aria-label="anchor" href="#arg-iter"></a></dt>
+<dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
+<dd><p>Arguments passed on to <code><a href="https://rdrr.io/pkg/SpiecEasi/man/sparcc.html" class="external-link">SpiecEasi::sparcc</a></code></p><dl><dt><code>data</code></dt>
+<dd><p>Community count data matrix</p></dd>
+
+    <dt><code>iter</code></dt>
 <dd><p>Number of iterations in the outer loop</p></dd>
 
-
-<dt id="arg-inner-iter">inner_iter<a class="anchor" aria-label="anchor" href="#arg-inner-iter"></a></dt>
+    <dt><code>inner_iter</code></dt>
 <dd><p>Number of iterations in the inner loop</p></dd>
 
+    <dt><code>th</code></dt>
+<dd><p>absolute value of correlations below this threshold are considered zero by the inner SparCC loop.</p></dd>
 
-<dt id="arg-th">th<a class="anchor" aria-label="anchor" href="#arg-th"></a></dt>
-<dd><p>absolute value of correlations below this threshold are
-considered zero by the inner SparCC loop.</p></dd>
+
+</dl></dd>
 
 </dl></div>
 
