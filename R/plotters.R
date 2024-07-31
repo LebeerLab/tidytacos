@@ -330,7 +330,16 @@ tacoplot_ord <- function(ta, x=NULL, palette = NULL, ord = "pcoa", distance="bra
     stop(error_message)
   }
 
-  if (quo_name(x) == "sample_id" || quo_name(x) == "sample") {
+  if ((quo_name(x) == "sample_id" || 
+       quo_name(x) == "sample") && 
+       (length(ta$samples$sample_id)>20)) {
+    warning(
+      paste0(
+        "Ignoring sample_id or sample as colouring variable for this many samples. ", 
+        "\nUse tacoplot_ord_ly(x=<group_var>, samplenames=sample_id) ",
+        "if you wish to view the samples by name or id."
+      )
+    )
     x <- NULL
     stat.method <- NULL
   }
