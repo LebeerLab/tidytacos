@@ -17,6 +17,9 @@ samples and 'taxon' for taxa.}
 
 \item{table_type}{The type of table to add, either 'sample' or 'taxa'.}
 }
+\value{
+A tidytacos object with the metadata added.
+}
 \description{
 \code{add_metadata} adds sample or taxon metadata to the sample or taxon
 table, respectively, of a tidytacos object.
@@ -43,5 +46,14 @@ sample_tibble <- tibble::tibble(sample, environment)
 # Add sample tibble to tidytacos object
 data <- data \%>\%
 add_metadata(sample_tibble)
+
+# Initiate taxon tibble
+genera <- c("Lactobacillus","Limosilactobacillus")
+species <- c("crispatus","reuteri")
+taxonomy <- tibble::tibble(taxon=rownames(x),genera,species)
+
+# Add taxon tibble to tidytacos object
+data <- data \%>\%
+  add_metadata(taxonomy, table_type="taxa") 
 
 }

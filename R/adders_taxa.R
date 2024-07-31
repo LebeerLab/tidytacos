@@ -77,14 +77,22 @@ classify_taxa <- function(
 
 #' Add sensible taxon name to taxon table
 #'
-#' \code{add_taxon_name} creates sensible taxa names by -under default conditions- combining the genus name with a number. The number is only added if there is more than one taxon of that genus. The number indicates the rank of abundance, with 1 indicating the taxon has the highest mean relative abundance of the dataset, within the genus. If genus classification is not available the next most detailed taxonomic rank which is available is used. The sensible taxon name is added to the taxon table under the column name "taxon_name".
+#' \code{add_taxon_name} creates sensible taxa names by -under default conditions- combining the genus name with a number. 
+#' The number is only added if there is more than one taxon of that genus. 
+#' The number indicates the rank of abundance, with 1 indicating the taxon has the highest mean relative abundance of the dataset, 
+#' within the genus. If genus classification is not available the next most detailed taxonomic rank which is available is used. 
+#' The sensible taxon name is added to the taxon table under the column name "taxon_name".
 #'
 #'
 #' @param ta A tidytacos object.
 #' @param method The method by which to arrange the taxon names. Currently only
 #'   mean_rel_abundance.
 #' @param include_species Whether to include the species name or not.
-#'
+#' @return A tidytacos object.
+#' @examples 
+#' urt_g <- urt %>% add_taxon_name()
+#' # add the species name if present (which is often uncertain in amplicon data)
+#' urt_s <- urt %>% add_taxon_name(include_species = T)
 #' @importFrom stats na.omit
 #' @export
 add_taxon_name <- function(
@@ -165,26 +173,21 @@ add_taxon_name <- function(
 #' @param samples An optional vector of sample_id's of interest.
 #' @param taxa An optional vector of taxon_id's of interest.
 #' @param rank An optional rank to aggregate taxa on.
-#'
+#' @return A tidytacos object.
+#' 
+#' @examples
+#' # display the 5 most abundant taxa at genus lvl
+#' urt %>% add_taxon_name_color(n=5, rank='genus') %>% tacoplot_stack()
+#' 
 #' @export
 add_taxon_name_color <- function(
   ta, method = "mean_rel_abundance", n = 12, samples = NULL, taxa = NULL,
   rank = NULL
   ) {
 
-  # Recursive function to add taxon name color on different rank
-  add_colnames_rank <- function(ta, rank_col) {
-    colnames <- ta %>%
-      aggregate_taxa(rank = rank_col) %>%
-      add_taxon_name_color(method=method, n=n)
-
-    col_per_sample <- colnames$counts %>%
-      inner_join(colnames$taxa, by="taxon_id") %>%
-      dplyr::select(sample_id, taxon_name_color, taxon_id)
-
-    ta$taxa <- ta$taxa %>% left_join(col_per_sample, by="taxon_id")
-    ta
-
+  # aggregate rank if asked for
+  if(! is.null(rank)) {
+    ta <- aggregate_taxa(ta, rank = rank)
   }
 
   # if taxon_name not present: add temporarily
@@ -232,12 +235,6 @@ add_taxon_name_color <- function(
     ta$taxa %>%
     mutate(taxon_name_color = if_else(taxon_name %in% levels, taxon_name, "Other taxa")) %>%
     mutate(taxon_name_color = factor(taxon_name_color, levels = levels))
-
-  # overwrite colors with higher rank if asked for
-  if(! is.null(rank)) {
-    ta$taxa <- ta$taxa %>% dplyr::select(-one_of("taxon_name_color"))
-    ta <- add_colnames_rank(ta, rank)
-  }
 
   # cleanup
   if (taxon_name_tmp) ta$taxa$taxon_name <- NULL
@@ -330,6 +327,16 @@ add_jervis_bardy <- function(ta, dna_conc, sample_condition = T, min_pres = 3) {
 #' @param condition A categorical variable (string).
 #' @param relative Whether to use relative occurrences.
 #' @param fisher_test Whether to perform a fisher test and add the p-values of the test to the taxa table.
+#' @return A tidytacos object.
+#' @examples 
+#' # add prevalences of all taxa
+#' urtp <- urt %>% add_prevalence()
+#' urtp$taxa %>% select(taxon_id, prevalence)
+#' 
+#' # add prevalences and fisher test for location
+#' urtpf <- urt %>% add_prevalence(condition="location", fisher_test=T, relative=T)
+#' urtpf$taxa %>% select(taxon_id, prevalence_in_N, prevalence_in_NF, fisher_p)
+#' 
 #' @export
 add_prevalence <- function(
   ta, condition = NULL, relative = F, fisher_test = F

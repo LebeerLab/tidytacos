@@ -11,6 +11,9 @@ add_alpha(ta, method = "invsimpson")
 
 \item{method}{The diversity measure to use, see \code{\link[vegan]{diversity}} for further information on these.}
 }
+\value{
+A tidytacos object with the alpha diversity measure added.
+}
 \description{
 \code{add_alpha} adds an alpha diversity measures to the sample table of a
 tidytacos object.
@@ -40,8 +43,11 @@ data <- create_tidytacos(x,
                      taxa_are_columns = FALSE
                      )
 
-# Add total abundance
+# Add alpha diversity measures
 data <- data \%>\%
  add_alpha()
+
+data <- data \%>\% 
+ add_alpha(method="shannon")
 
 }

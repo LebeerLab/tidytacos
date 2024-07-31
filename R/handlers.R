@@ -181,7 +181,7 @@ aggregate_taxa <- function(ta, rank = NULL) {
 
     rank_index <- which(rank_names == rank)
     rank_names_to_keep <- rank_names[1:rank_index]
-    ta <- select_taxa(ta, taxon_id, !!rank_names_to_keep)
+    ta <- suppressWarnings(select_taxa(ta, taxon_id, !!rank_names_to_keep))
   }
 
   ta$taxa <-
@@ -229,7 +229,7 @@ aggregate_taxa <- function(ta, rank = NULL) {
     ta <- ta %>% 
       add_taxon_name(include_species = include_species) %>% 
       mutate_taxa(taxon = taxon_name) %>% 
-      select_taxa(-taxon_name)
+      suppressWarnings(select_taxa(-taxon_name))
   }
   ta
 }

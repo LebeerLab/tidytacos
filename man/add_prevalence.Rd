@@ -15,6 +15,9 @@ add_prevalence(ta, condition = NULL, relative = F, fisher_test = F)
 
 \item{fisher_test}{Whether to perform a fisher test and add the p-values of the test to the taxa table.}
 }
+\value{
+A tidytacos object.
+}
 \description{
 \code{add_prevalence} calculates taxon prevalences (overall or per condition) and adds it to the taxa table under the column name "prevalence". Prevalence can be expressed as the number of samples where a taxon occurs or the ratio of samples where a taxon occurs and the total amount of samples.
 }
@@ -25,4 +28,14 @@ If `condition` is specified, differential prevalence testing can be performed by
 
 Condition should be a categorical variable present in the samples table.
 Supply condition as a string.
+}
+\examples{
+# add prevalences of all taxa
+urtp <- urt \%>\% add_prevalence()
+urtp$taxa \%>\% select(taxon_id, prevalence)
+
+# add prevalences and fisher test for location
+urtpf <- urt \%>\% add_prevalence(condition="location", fisher_test=T, relative=T)
+urtpf$taxa \%>\% select(taxon_id, prevalence_in_N, prevalence_in_NF, fisher_p)
+
 }

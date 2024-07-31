@@ -9,6 +9,9 @@ add_total_count(ta)
 \arguments{
 \item{ta}{A tidytacos object.}
 }
+\value{
+A tidytacos object with the total read count per sample added.
+}
 \description{
 \code{add_total_count} adds the total read count per sample to the sample
 table of a tidytacos object under the variable name total_count.
