@@ -18,6 +18,8 @@ create_tidytacos(counts_matrix, taxa_are_columns = TRUE)
 This function initiates a tidytacos object based on a numeric matrix. It
 will automatically create a dummy taxa table and sample table which will need to be
 updated using the function \code{\link{add_metadata}}.
+When the taxa table is updated, the rank names can be set using the function \code{\link{set_rank_names}}
+to make the tidytacos object aware of the taxonomy levels.
 }
 \examples{
 # Initiate count matrix
@@ -31,10 +33,21 @@ colnames(x) <- c("sample1", "sample2")
 # Convert to tidytacos object
 data <- create_tidytacos(x,
                      taxa_are_columns = FALSE)
+# Add taxonomy information
+taxonomy <- tibble::tibble(
+  taxon = c("taxon1","taxon2"),
+  domain = c("Bacteria","Bacteria"),
+  phylum = c("Bacillota","Pseudomonadota"),
+  class = c("Bacilli","Gammaproteobacteria"),
+  order = c("Lactobacillales","Enterobacteriales"),
+  family = c("Lactobacillaceae","Enterobacteriaceae"),
+  genus = c("Lactobacillus","Escherichia"),
+  species = c("Lactobacillus crispatus","Escherichia coli")
+)
 
-
-\dontrun{
-tidytacos("a")
-}
+data <- add_metadata(data, taxonomy, table_type="taxa")
+# rank names are inferred from the taxa table, but can be set manually
+# if we're not happy with the inferred rank names.
+data <- set_rank_names(data, c("domain", "phylum", "class", "order", "family", "genus"))
 
 }
