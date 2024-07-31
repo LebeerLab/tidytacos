@@ -108,7 +108,12 @@ reference:
       - network
       - filter_network
       - cluster_network
-  
+  - title: "Datasets"
+    desc: >
+      Test datasets used as examples.
+    contents:
+      - urt
+      - leaf
   - title: "Miscellaneous"
     desc: >
       Functions to tidy up the three tables or convert to other data structures.
