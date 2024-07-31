@@ -11,6 +11,13 @@ filter_taxa(ta, ...)
 
 \item{...}{Filter criteria for the taxa table.}
 }
+\value{
+A tidytacos object.
+}
 \description{
 Filter the taxa
+}
+\examples{
+# keep only bacterial reads
+leaf <- leaf \%>\% filter_taxa(kingdom == "Bacteria")
 }

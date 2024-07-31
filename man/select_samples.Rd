@@ -11,6 +11,15 @@ select_samples(ta, ...)
 
 \item{...}{Selection criteria for the samples table.}
 }
+\value{
+A tidytacos object.
+}
 \description{
 Retain or remove a set of sample variables
+}
+\examples{
+# remove the condition column from the samples table
+urt \%>\% select_samples(-condition)
+# keep only the sample_id, location and method columns
+urt \%>\% select_samples(sample_id, location, method)
 }

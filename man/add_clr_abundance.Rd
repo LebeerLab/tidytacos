@@ -11,6 +11,9 @@ add_clr_abundance(ta, overwrite = F)
 
 \item{overwrite}{Whether or not the counts table is to be overwritten with the transformed counts.}
 }
+\value{
+A tidytacos object.
+}
 \description{
 \code{add_clr_abundance} calculates the log ration transformed values for each taxon in each sample and adds these data in a new table, clr_counts. Alternatively, using 'overwrite', the clr transformed data can replace the 'counts' column in the count table.
 }

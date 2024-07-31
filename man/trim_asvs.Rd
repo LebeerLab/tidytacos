@@ -13,7 +13,15 @@ trim_asvs(ta, start, end)
 
 \item{end}{Index of where to stop trimming.}
 }
+\value{
+A tidytacos object.
+}
 \description{
-\code{trim_asvs} trims sequence ends of the sequence supplied in the taxa table. This function assumes that the sequence variable in the taxon table is called
+\code{trim_asvs} trims sequence ends of the sequence supplied in the taxa table. 
+This function assumes that the sequence variable in the taxon table is called
 "sequence".
+}
+\examples{
+# keep only the first 200 nucleotides of the sequences
+urt \%>\% trim_asvs(0, 200)
 }

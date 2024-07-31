@@ -11,6 +11,12 @@ mutate_taxa(ta, ...)
 
 \item{...}{Mutate criteria for the taxa table.}
 }
+\value{
+A tidytacos object.
+}
 \description{
 Create extra variables in the taxa table
+}
+\examples{
+urt <- urt \%>\% mutate_taxa(species = paste(genus, species))
 }

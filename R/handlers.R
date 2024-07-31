@@ -6,7 +6,17 @@
 #' @param ta A tidytacos object.
 #' @param n Subsample size for rarefying the community.
 #' @param replace Whether to replace the read after it has been selected for the subsample so it can be sampled again. Default is FALSE.
-#'
+#' @return A tidytacos object.
+#' 
+#' @examples
+#' # discard samples with less than 1000 reads
+#' urt_1000 <- urt %>% 
+#'   add_total_count() %>% 
+#'   filter_samples(total_count >= 1000)
+#' 
+#' # then rarefy to 1000 reads
+#' urt_1000 <- urt_1000 %>% rarefy(1000)
+#' 
 #' @export
 rarefy <- function(ta, n, replace = F) {
   ta$counts <- try(
@@ -100,6 +110,7 @@ change_id_taxa <- function(ta, taxon_id_new) {
 #'
 #' @param ta A tidytacos object.
 #'
+#' @return A tidytacos object.
 #' @export
 aggregate_samples <- function(ta) {
   # sample table with only old and new sample names
@@ -142,6 +153,10 @@ aggregate_samples <- function(ta) {
 #'
 #' @param ta A tidytacos object.
 #' @param rank An optional rank to aggregate on.
+#' @return A tidytacos object.
+#' 
+#' @examples 
+#' urt %>% aggregate_taxa(rank = "class")
 #' @export
 aggregate_taxa <- function(ta, rank = NULL) {
   
@@ -221,13 +236,18 @@ aggregate_taxa <- function(ta, rank = NULL) {
 
 #' Trim all sequences
 #'
-#' \code{trim_asvs} trims sequence ends of the sequence supplied in the taxa table. This function assumes that the sequence variable in the taxon table is called
+#' \code{trim_asvs} trims sequence ends of the sequence supplied in the taxa table. 
+#' This function assumes that the sequence variable in the taxon table is called
 #' "sequence".
 #'
 #' @param ta A tidytacos object.
 #' @param start Index of where to start trimming.
 #' @param end Index of where to stop trimming.
 #'
+#' @return A tidytacos object.
+#' @examples 
+#' # keep only the first 200 nucleotides of the sequences
+#' urt %>% trim_asvs(0, 200)
 #' @export
 trim_asvs <- function(ta, start, end) {
   ta$taxa <- ta$taxa %>%
@@ -250,6 +270,13 @@ trim_asvs <- function(ta, start, end) {
 #' 
 #' @param ta A tidytacos object.
 #' @param ... Selection criteria for the samples table.
+#' @return A tidytacos object.
+#' 
+#' @examples 
+#' # remove the condition column from the samples table
+#' urt %>% select_samples(-condition)
+#' # keep only the sample_id, location and method columns
+#' urt %>% select_samples(sample_id, location, method)
 #' @export
 select_samples <- function(ta, ...) {
   ta$samples <- ta$samples %>%
@@ -266,6 +293,15 @@ select_samples <- function(ta, ...) {
 #'
 #' @param ta A tidytacos object.
 #' @param ... Selection criteria for the taxa table.
+#' @return A tidytacos object.
+#' @examples 
+#' 
+#' # drop the sequence column
+#' urt %>% select_taxa(-sequence)
+#' 
+#' # keep only the taxon_id and genus columns
+#' urt %>% select_taxa(taxon_id, genus)
+#' 
 #' @export
 select_taxa <- function(ta, ...) {
   ta$taxa <- ta$taxa %>%
@@ -273,13 +309,20 @@ select_taxa <- function(ta, ...) {
 
   retain_taxon_id(ta)
 
-  ta
+  infer_rank_names(ta)
 }
 
 #' Retain or remove a set of count variables
 #'
 #' @param ta A tidytacos object.
 #' @param ... Selection criteria for the counts table.
+#' @return A tidytacos object.
+#' @examples 
+#' 
+#' # add a column to the counts table
+#' leaf_ab <- leaf %>% add_rel_abundance()
+#' # remove that column again
+#' leaf_ab %>% select_counts(-rel_abundance)
 #' @export
 select_counts <- function(ta, ...) {
   ta$counts <- ta$counts %>%
@@ -296,6 +339,12 @@ select_counts <- function(ta, ...) {
 #'
 #' @param ta A tidytacos object.
 #' @param ... Mutate criteria for the samples table.
+#' @return A tidytacos object.
+#' @examples 
+#' 
+#' # change the sample column to lowercase
+#' urt <- urt %>% mutate_samples(sample = tolower(sample))
+#' 
 #' @export
 mutate_samples <- function(ta, ...) {
   ta$samples <- ta$samples %>%
@@ -309,6 +358,9 @@ mutate_samples <- function(ta, ...) {
 #'
 #' @param ta A tidytacos object.
 #' @param ... Mutate criteria for the taxa table.
+#' @return A tidytacos object.
+#' @examples
+#' urt <- urt %>% mutate_taxa(species = paste(genus, species))
 #' @export
 mutate_taxa <- function(ta, ...) {
   ta$taxa <- ta$taxa %>%
@@ -322,6 +374,10 @@ mutate_taxa <- function(ta, ...) {
 #'
 #' @param ta A tidytacos object.
 #' @param ... Mutate criteria for the counts table.
+#' @return A tidytacos object.
+#' @examples
+#' # add a column to the counts table
+#' urt %>% mutate_counts(cl10 = log10(count))
 #' @export
 mutate_counts <- function(ta, ...) {
   ta$counts <- ta$counts %>%
@@ -337,6 +393,16 @@ mutate_counts <- function(ta, ...) {
 #'
 #' @param ta A tidytacos object.
 #' @param ... Filter criteria for the samples table.
+#' @return A tidytacos object.
+#' @examples 
+#' 
+#' # subset urt to keep only nasopharynx samples
+#' urt_nf <- urt %>% filter_samples(location == "NF")
+#' # subset urt to keep only samples from plate 1 and 2
+#' urt_plate_1_2 <- urt %>% filter_samples(plate %in% c(1,2))
+#' # subset the blanks in leaf
+#' leaf_blanks <- leaf %>% filter_samples(startsWith(description, "BLANK"))
+#' 
 #' @export
 filter_samples <- function(ta, ...) {
   ta$samples <- ta$samples %>%
@@ -353,6 +419,10 @@ filter_samples <- function(ta, ...) {
 #'
 #' @param ta A tidytacos object.
 #' @param ... Filter criteria for the taxa table.
+#' @return A tidytacos object.
+#' @examples 
+#' # keep only bacterial reads
+#' leaf <- leaf %>% filter_taxa(kingdom == "Bacteria")
 #' @export
 filter_taxa <- function(ta, ...) {
   ta$taxa <- ta$taxa %>%
@@ -369,6 +439,9 @@ filter_taxa <- function(ta, ...) {
 #'
 #' @param ta A tidytacos object.
 #' @param ... Filter criteria for the counts table.
+#' @return A tidytacos object.
+#' # remove singletons
+#' urt <- urt %>% filter_counts(count > 1)
 #' @export
 filter_counts <- function(ta, ...) {
   ta$counts <- ta$counts %>%
@@ -387,6 +460,7 @@ filter_counts <- function(ta, ...) {
 #'
 #' @param ta A tidytacos object.
 #' @param overwrite Whether or not the counts table is to be overwritten with the transformed counts.
+#' @return A tidytacos object.
 #' @export
 add_clr_abundance <- function(
     ta,

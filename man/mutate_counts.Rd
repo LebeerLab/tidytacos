@@ -11,6 +11,13 @@ mutate_counts(ta, ...)
 
 \item{...}{Mutate criteria for the counts table.}
 }
+\value{
+A tidytacos object.
+}
 \description{
 Create extra variables in the count table
+}
+\examples{
+# add a column to the counts table
+urt \%>\% mutate_counts(cl10 = log10(count))
 }
