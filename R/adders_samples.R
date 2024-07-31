@@ -277,6 +277,9 @@ get_dimensions <- function(dim_df, names, dims) {
 perform_pcoa <- function(ta, dist_matrix, dims=2, ...){
 
   ord <- list()
+  if (length(ta$samples$sample_id)<3) {
+    stop("PCoA requires at least 3 samples. Try ord='umap' or ord='tsne' if you wish to proceed with fewer samples.")
+  }
   pcoa <- stats::cmdscale(dist_matrix, k = dims, eig = T, list = T, ...)
   ord$variances <- pcoa$eig / sum(pcoa$eig)
   ord$dimensions <- get_dimensions(

@@ -18,8 +18,7 @@ tacoplot_ord(
 \arguments{
 \item{ta}{A tidytacos object.}
 
-\item{x}{A string, representing the column name used to color the sample
-groups on.}
+\item{x}{The column name used to color the sample groups on.}
 
 \item{palette}{A vector of colors, used as the palette for coloring sample
 groups.}
@@ -37,4 +36,13 @@ groups.}
 \description{
 Creates an ordination plot of the beta diversity of the samples in the tidytacos object.
 This can be used to gauge the similarity between samples.
+}
+\examples{
+
+tacoplot_ord(urt, x=location)
+
+# set plate to character, to avoid it being treated as a continuous variable
+urt <- urt \%>\% mutate_samples(plate=as.character(plate))
+tacoplot_ord(urt, x=plate, ord="umap", distance="aitchison",stat.method="permanova")
+
 }
