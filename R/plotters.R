@@ -46,15 +46,15 @@ prepare_for_bp <- function(ta, n = 12, extended = TRUE, order_by=NULL) {
 get_ord_stat <- function(ta, x, stat.method, distance=distance) {
   stat.method <- tolower(stat.method)
   if (stat.method == "anosim") {
-      stat <- perform_anosim(ta, !!x, distance=distance)
+      stat.result <- perform_anosim(ta, !!x, distance=distance)
   } else if (stat.method == "permanova" || stat.method == "adonis") {
       res <- perform_adonis(ta, c(rlang::as_name(x)), distance=distance)
-      stat <- list(statistic = res$R2[[1]], signif = res$`Pr(>F)`[[1]])
+      stat.result <- list(statistic = res$R2[[1]], signif = res$`Pr(>F)`[[1]])
   }
   else {
-      simpleError("stat.method not recognized. Please choose from anosim or permanova.")
+      stop("stat.method not recognized. Please choose from anosim or permanova.")
   }
-  stat
+  stat.result
 }
 
 #' Return a bar plot of the samples
@@ -296,8 +296,7 @@ tacoplot_ord_ly <- function(ta, x=NULL, samplenames = sample_id, ord="pcoa", dim
 #' This can be used to gauge the similarity between samples.
 #' 
 #' @param ta A tidytacos object.
-#' @param x A string, representing the column name used to color the sample
-#'   groups on.
+#' @param x The column name used to color the sample groups on.
 #' @param ord the ordination technique to use. Choice from pcoa, tsne and umap.
 #' @param distance the distance algorithm to use, see \code{\link[vegan]{vegdist}}.
 #' @param stat.method the statistic to print on the figure, choice from mantel and anosim.
@@ -305,6 +304,15 @@ tacoplot_ord_ly <- function(ta, x=NULL, samplenames = sample_id, ord="pcoa", dim
 #'   groups.
 #' @param title a string to display as title of the plot.
 #' @param ... Extra arguments to pass to the add_ord function.
+#' 
+#' @examples 
+#' 
+#' tacoplot_ord(urt, x=location)
+#' 
+#' # set plate to character, to avoid it being treated as a continuous variable
+#' urt <- urt %>% mutate_samples(plate=as.character(plate))
+#' tacoplot_ord(urt, x=plate, ord="umap", distance="aitchison",stat.method="permanova")
+#' 
 #' @export
 tacoplot_ord <- function(ta, x=NULL, palette = NULL, ord = "pcoa", distance="bray", stat.method=NULL,title = NULL, ...) {
 
@@ -350,12 +358,12 @@ tacoplot_ord <- function(ta, x=NULL, palette = NULL, ord = "pcoa", distance="bra
   if (is.null(stat.method)){
     return(plt)
   }
-  stat <- get_ord_stat(ta, x, stat.method, distance=distance)
+  stat.result <- get_ord_stat(ta, x, stat.method, distance=distance)
 
   plt +
   annotate("text", x = min(ta$samples$ord1) + 0.05, y = max(ta$samples$ord2) - 0.05,
     label=paste0(toupper(stat.method),
-    ":\nR= ", signif(stat$statistic, 3), "\nP= ", signif(stat$signif, 3)))
+    ":\nR= ", signif(stat.result$statistic, 3), "\nP= ", signif(stat.result$signif, 3)))
 
 }
 
