@@ -79,6 +79,10 @@ computation or not.</p></dd>
 
 </dl></div>
     <div class="section level2">
+    <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
+    <p>A tidytacos object with the ordination coordinates added.</p>
+    </div>
+    <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>This function calculates the dissimilarities between samples followed by
 an ordination analysis. It will then add the first n dimensions to
@@ -106,6 +110,9 @@ function will also add relative abundances if not present using
 <span class="r-in"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="va">data</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
 <span class="r-in"><span> <span class="fu">add_ord</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># The variances of the ordination dimensions can be accessed with</span></span></span>
+<span class="r-in"><span><span class="va">data</span><span class="op">$</span><span class="va">ord_variances</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1.000000e+00 7.325738e-16 0.000000e+00</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

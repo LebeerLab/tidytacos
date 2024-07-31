@@ -57,6 +57,10 @@ tidytacos object.</p>
 
 </dl></div>
     <div class="section level2">
+    <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
+    <p>A tidytacos object with the alpha diversity measure added.</p>
+    </div>
+    <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>This function can add different alpha diversity measures to the sample table, specified by the method argument.
 The following methods are available:
@@ -84,9 +88,12 @@ The following methods are available:
 <span class="r-in"><span>                     taxa_are_columns <span class="op">=</span> <span class="cn">FALSE</span></span></span>
 <span class="r-in"><span>                     <span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Add total abundance</span></span></span>
+<span class="r-in"><span><span class="co"># Add alpha diversity measures</span></span></span>
 <span class="r-in"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="va">data</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
 <span class="r-in"><span> <span class="fu">add_alpha</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="va">data</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> </span></span>
+<span class="r-in"><span> <span class="fu">add_alpha</span><span class="op">(</span>method<span class="op">=</span><span class="st">"shannon"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

@@ -62,6 +62,10 @@
 
 </dl></div>
     <div class="section level2">
+    <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
+    <p>A tidytacos object.</p>
+    </div>
+    <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>If 'condition' is specified, the prevalences will be calculated separately for each group defined by the condition variable. This variable should be present in the sample table.</p>
 <p>If `condition` is specified, differential prevalence testing can be performed by setting the `fisher_test` argument. Options are F (default) or T. When set to T, significance of differential prevalence will be added to the taxa table under column name "fisher_p".</p>
@@ -69,6 +73,46 @@
 Supply condition as a string.</p>
     </div>
 
+    <div class="section level2">
+    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># add prevalences of all taxa</span></span></span>
+<span class="r-in"><span><span class="va">urtp</span> <span class="op">&lt;-</span> <span class="va">urt</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="fu">add_prevalence</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">urtp</span><span class="op">$</span><span class="va">taxa</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">taxon_id</span>, <span class="va">prevalence</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1,957 × 2</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    taxon_id prevalence</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> t1               86</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> t2              207</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> t3                7</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> t4                5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> t5               16</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> t6               22</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> t7              155</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> t8               25</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> t9               24</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> t10               1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 1,947 more rows</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># add prevalences and fisher test for location</span></span></span>
+<span class="r-in"><span><span class="va">urtpf</span> <span class="op">&lt;-</span> <span class="va">urt</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="fu">add_prevalence</span><span class="op">(</span>condition<span class="op">=</span><span class="st">"location"</span>, fisher_test<span class="op">=</span><span class="cn">TRUE</span>, relative<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">urtpf</span><span class="op">$</span><span class="va">taxa</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">taxon_id</span>, <span class="va">prevalence_in_N</span>, <span class="va">prevalence_in_NF</span>, <span class="va">fisher_p</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1,957 × 4</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    taxon_id prevalence_in_N prevalence_in_NF fisher_p</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> t1                0.326           0.443    0.088<span style="text-decoration: underline;">5</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> t2                0.988           0.931    0.043<span style="text-decoration: underline;">7</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> t3                0.023<span style="text-decoration: underline;">3</span>          0.038<span style="text-decoration: underline;">2</span>   0.706  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> t4                0.023<span style="text-decoration: underline;">3</span>          0.022<span style="text-decoration: underline;">9</span>   1      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> t5                0.058<span style="text-decoration: underline;">1</span>          0.084<span style="text-decoration: underline;">0</span>   0.599  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> t6                0.128           0.084<span style="text-decoration: underline;">0</span>   0.359  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> t7                0.814           0.649    0.012<span style="text-decoration: underline;">0</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> t8                0.046<span style="text-decoration: underline;">5</span>          0.160    0.009<span style="text-decoration: underline;">33</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> t9                0.034<span style="text-decoration: underline;">9</span>          0.160    0.003<span style="text-decoration: underline;">54</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> t10               0               0.007<span style="text-decoration: underline;">63</span>  1      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 1,947 more rows</span></span>
+<span class="r-in"><span></span></span>
+</code></pre></div>
+    </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
 

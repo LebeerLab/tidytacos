@@ -60,7 +60,23 @@ the minimum number of reads; otherwise, an error might be thrown.</p>
 <dd><p>Whether to replace the read after it has been selected for the subsample so it can be sampled again. Default is FALSE.</p></dd>
 
 </dl></div>
+    <div class="section level2">
+    <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
+    <p>A tidytacos object.</p>
+    </div>
 
+    <div class="section level2">
+    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># discard samples with less than 1000 reads</span></span></span>
+<span class="r-in"><span><span class="va">urt_1000</span> <span class="op">&lt;-</span> <span class="va">urt</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> </span></span>
+<span class="r-in"><span>  <span class="fu"><a href="add_total_count.html">add_total_count</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> </span></span>
+<span class="r-in"><span>  <span class="fu"><a href="filter_samples.html">filter_samples</a></span><span class="op">(</span><span class="va">total_count</span> <span class="op">&gt;=</span> <span class="fl">1000</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># then rarefy to 1000 reads</span></span></span>
+<span class="r-in"><span><span class="va">urt_1000</span> <span class="op">&lt;-</span> <span class="va">urt_1000</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="fu">rarefy</span><span class="op">(</span><span class="fl">1000</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+</code></pre></div>
+    </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
 
