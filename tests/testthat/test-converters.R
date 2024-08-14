@@ -69,3 +69,24 @@ test_that("Can write sequences to fasta file", {
   expect_equal(seqinr::GC(f$t1), 0.51, tolerance=0.01)
   unlink("test.fasta")
 })
+
+test_that("Can convert to biom format",{
+  expect_warning(urt %>% to_biom("test.biom"),
+                  "Removed 3 empty samples.")
+  expect_true(file.exists("test.biom"))
+})
+
+test_that("Converted biom format can be read correctly",{
+  skip_if_not_installed("biomformat")
+  urtb <- biomformat::read_biom("test.biom")
+  expect_equal(urtb$shape, c(1957, 214))
+})
+
+test_that("Can convert to phyloseq object",{
+  skip_if_not_installed("phyloseq")
+  urte <- urt %>% remove_empty_samples() %>% reset_ids()
+  urtph <- urte %>% as_phyloseq()
+
+  expect_no_error(u <- urtph %>% from_phyloseq())
+  
+})

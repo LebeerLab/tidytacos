@@ -2,6 +2,7 @@
 # but for now a heuristic test
 # to see if the same plot is generate will suffice
 
+## TACOPLOT_STACK
 test_that("Barplot returns identical plot", {
     testthat::skip_on_ci()
     bp  <- urt %>% tacoplot_stack()
@@ -32,6 +33,20 @@ test_that("Barplot raises warning when aggregating samples", {
 
 test_that("Barplot raises error when providing non-existant label", {
     expect_error(urt %>% tacoplot_stack(x=imagined))
+})
+
+test_that("Can run tacoplot zoom on a sample",{
+    tzoom <- urt %>% 
+      filter_samples(sample_id == "s3") %>% 
+      tacoplot_zoom()
+    vdiffr::expect_doppelganger("Zoomed barplot", tzoom)
+})
+
+
+## TACOPLOT_ORD
+test_that("get_ord_stat returns correct stats",{
+    stat <- urt %>% get_ord_stat("location", stat.method="permanova")
+    expect_equal(stat$signif, 0.001)
 })
 
 test_that("Tacoplot_ord works with tsne", {
@@ -73,6 +88,7 @@ test_that("Tacoplot_ord_ly works with umap and 3 dims", {
 
 })
 
+## TACOPLOT_VENN
 test_that("Can create venndiagram", {
     skip_if_not_installed("ggVennDiagram")
     testthat::skip_on_ci()
@@ -80,6 +96,23 @@ test_that("Can create venndiagram", {
     vdiffr::expect_doppelganger("Venndiagram", venn)
 })
 
+test_that("Can create interactive venndiagram",{
+    skip_if_not_installed("ggVennDiagram")
+    skip_if_not_installed("plotly")
+    testthat::skip_on_ci()
+    suppressWarnings(venn_ly <- urt %>% tacoplot_venn_ly(plate))
+    vdiffr::expect_doppelganger("Interactive Venndiagram", venn_ly)
+})
+
+test_that("Can create euler plot", {
+    skip_if_not_installed("eulerr")
+    testthat::skip_on_ci()
+    euler <- urt %>% tacoplot_euler(location)
+    expect_equal(euler$name, "euler.diagram")
+    expect_equal(rownames(euler$data$ellipses), c("NF","N"))
+})
+
+## TACOPLOT_ALPHAS
 test_that("Tacoplot_alphas works", {
     expect_no_error(
         expect_warning(
@@ -87,4 +120,12 @@ test_that("Tacoplot_alphas works", {
             "Removed 3 empty samples."
         )
     )
+})
+
+## TACOPLOT_PREVALENCES
+
+test_that("Tacoplot_prevalences works", {
+    skip_if_not_installed("rstatix")
+    p <- urt %>% tacoplot_prevalences(location)
+    expect_equal(class(p), "pheatmap")
 })
