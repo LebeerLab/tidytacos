@@ -387,9 +387,14 @@ tacoplot_ord <- function(ta, x=NULL, palette = NULL, ord = "pcoa", distance="bra
 tacoplot_zoom <- function(ta, sample = sample_id, n = 15, nrow = NULL) {
   ta <- prepare_for_bp(ta, n, extended = FALSE)
 
+
   sample <- rlang::enexpr(sample)
   if (sample != rlang::expr(sample_id)) {
     ta <- change_id_samples(ta, sample_id_new = !!sample)
+  }
+
+  if(ta$samples %>% nrow() > 1) {
+    stop("This visualization is meant to be used for a single sample.")
   }
 
   data <-
@@ -410,12 +415,16 @@ tacoplot_zoom <- function(ta, sample = sample_id, n = 15, nrow = NULL) {
     theme_bw() +
     scale_x_continuous(
       breaks = data$row,
-      labels = data$taxon_name,
+      labels = data$taxon_name_color,
       expand = c(0, 0)
     ) +
-    scale_fill_brewer(palette = "Paired", name = "taxon") +
+    {if(n<=12)scale_fill_brewer(palette = "Paired", name = "taxon")} +
+    {if(n>12)scale_fill_manual(values = colorRampPalette(palette_xgfs)(n))} +
     xlab("taxon name") +
-    ylab("relative abundance")
+    ylab("relative abundance") +
+    theme(
+      legend.position = "none"
+    )
 }
 
 #' Return a venn diagram of overlapping taxon_ids between conditions
