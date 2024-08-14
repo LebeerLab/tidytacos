@@ -1,7 +1,7 @@
 Type: Package
 Package: tidytacos
 Title: Manipulate Taxonomic Composition Data of Microbial Communities
-Version: 1.0.1
+Version: 1.0.1.9000
 Authors@R: c(
     person("Stijn", "Wittouck", , "stijn.wittouck@uantwerpen.be", role = c("aut", "cre")),
     person("Tim", "Van Rillaer", , "tim.vanrillaer@uantwerpen.be", role = c("aut")),
