@@ -249,7 +249,8 @@ add_taxon_name_color <- function(
 #' Apply the taxon QC method of Jervis-Bardy
 #'
 #' \code{add_jervis_bardy} calculates the spearman correlation between relative abundance and
-#' sample DNA concentration, for each taxon and adds the correlation metric and p-value to the taxa table under the column names "jb_cor" and "jb_p", respectively. If taxa show a distribution that is negatively correlated with DNA concentration, it indicates their potential as contaminants.
+#' sample DNA concentration, for each taxon and adds the correlation metric and p-value to the taxa table under the column names "jb_cor" and "jb_p", respectively. 
+#' If taxa show a distribution that is negatively correlated with DNA concentration, it indicates their potential as contaminants.
 #'
 #' See:
 #' J. Jervis-Bardy et al., “Deriving accurate microbiota profiles from
@@ -265,7 +266,25 @@ add_taxon_name_color <- function(
 #'   before calculations.
 #' @param min_pres The minimum number of samples a taxon has to be present in
 #'   for its correlation to be calculated.
-#'
+#' 
+#' @examples 
+#' # filter out blank samples
+#' plants <- leaf %>% 
+#'   filter_samples(Plant != "Blank")
+#' # assume Leafweight is a proxy for DNA concentration of the sample
+#' plants_jb <- plants %>% 
+#'   add_jervis_bardy(dna_conc = Leafweight)
+#' 
+#' # we can do this in one step!
+#' plants_jb <- leaf %>% 
+#'   add_jervis_bardy(dna_conc = Leafweight, sample_condition = Plant != "Blank")
+#' 
+#' # show the negative correlations
+#' plants_jb$taxa %>% 
+#'   select(taxon_id, starts_with("jb_")) %>% 
+#'   filter(jb_cor < 0) %>%
+#'   arrange(jb_p)
+
 #' @export
 add_jervis_bardy <- function(ta, dna_conc, sample_condition = T, min_pres = 3) {
 

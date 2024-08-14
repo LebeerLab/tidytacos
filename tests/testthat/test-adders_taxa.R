@@ -103,3 +103,13 @@ test_that("Can add mean rel abundance with condition and t-test", {
 test_that("Raise error when non defined test is used in add mean rel abundance", {
     expect_error(urt %>% add_mean_rel_abundance(condition="location", test="bogus-test"))
 })
+
+test_that("Can find possible contaminants using the jervis bardy method", {
+    jb <- leaf %>% 
+      add_jervis_bardy(dna_conc=Leafweight, Plant != "Blank")
+    
+    contams <- jb$taxa %>% 
+      select(taxon_id, starts_with("jb")) %>% 
+      filter(jb_cor < 0, jb_p < .05)
+    expect_equal(length(contams$taxon_id), 20)
+})
