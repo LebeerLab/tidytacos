@@ -507,7 +507,7 @@ make_tidytacos <- function(samples, taxa, counts,
 create_biom_header <- function(type="OTU table"){
     list(
     id="null", 
-    format="1.0.0",
+    format=packageDescription("tidytacos")$Version,
     format_url="http://biom-format.org",
     type=type,
     generated_by=paste("tidytacos revision", packageVersion("tidytacos")),
