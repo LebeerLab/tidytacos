@@ -30,6 +30,26 @@ install.packages("devtools")
 devtools::install_github("LebeerLab/tidytacos")
 ```
 
+## Getting started
+
+A tidytacos object is read and stored as three sparse tables (counts-, taxa- and samples.csv). 
+To read in existing data from a folder, [for example one called ‘leaf’ in the ‘data-raw/tidytacos’ folder](https://github.com/LebeerLab/tidytacos/tree/dev/data-raw/tidytacos/leaf) you would run:
+
+```R
+taco <- read_tidytacos("data-raw/tidytacos/leaf")
+```
+If you have data in the form of a phyloseq object you could convert it using:
+
+```R
+taco <- from_phyloseq(phylo_obj)
+```
+If your ASVs are counted and annotated using [dada2](https://benjjneb.github.io/dada2/), you can use the following function to convert the results to a tidytacos object:
+```R
+taco <- from_dada(seqtab.nochim, taxa)
+```
+Where seqtab.nochim and taxa refer to the R objects [as calculated in the dada2 tutorial](https://benjjneb.github.io/dada2/tutorial.html)
+
+
 ## Documentation
 
 [A documentation page (help page)](https://lebeerlab.github.io/tidytacos/reference/index.html) is available for all functions in the browser or in R. You can view it in R by running e.g. `?filter_samples`. Some useful tutorials can be found on the [wiki](https://github.com/LebeerLab/tidytacos/wiki). 
