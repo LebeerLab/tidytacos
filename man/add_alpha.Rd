@@ -9,7 +9,7 @@ add_alpha(ta, method = "invsimpson")
 \arguments{
 \item{ta}{A tidytacos object.}
 
-\item{method}{The diversity measure to use, see \code{\link[vegan]{diversity}} for further information on these.}
+\item{method}{The diversity measure to use, see [vegan::diversity()] for further information on these.}
 }
 \value{
 A tidytacos object with the alpha diversity measure added.

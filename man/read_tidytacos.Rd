@@ -21,5 +21,5 @@ read_tidytacos(
 \item{counts}{the name of the counts table, defaults to counts.csv}
 }
 \description{
-Read community data written by tidytacos
+`read_tidytacos()` reads the three .csv files created by the [write_tidytacos()] function and returns a tidytacos object.
 }

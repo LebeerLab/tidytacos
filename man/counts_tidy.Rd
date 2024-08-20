@@ -16,11 +16,11 @@ Default is TRUE.}
 is "counts".}
 }
 \description{
-\code{counts_tidy} returns a tidy data frame given a numerical counts
+`counts_tidy()` returns a tidy data frame given a numerical counts
 matrix.
 }
 \details{
 This function will convert a numerical counts matrix into a tidy data
 frame. To convert a tidy data frame into a numerical counts matrix
-use \code{\link{counts_matrix}}.
+use ´[counts_matrix()].
 }

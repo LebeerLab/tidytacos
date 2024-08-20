@@ -12,19 +12,19 @@ betas(ta, unique = T, method = "bray", binary = F)
 \item{unique}{A logical scalar. Avoid redundancy by removing all self sample
 comparisons and keep only one of two pairwise comparisons? Default is TRUE.}
 
-\item{method}{The dissimilarity index. See \code{\link[vegan]{vegdist}} for
+\item{method}{The dissimilarity index. See [vegan::vegdist()] for
 all options. Default is "bray".}
 
 \item{binary}{A logical scalar. Perform presence/absence standardization
-before analysis. See \code{\link[vegan]{vegdist}}. Default is FALSE.}
+before analysis. See [vegan::vegdist()]. Default is FALSE.}
 }
 \description{
-\code{betas} returns a tidy table with the beta diversity for each
+`betas()` returns a tidy table with the beta diversity for each
 combination of samples.
 }
 \details{
 This function calculates the beta diversity using the
-\code{\link[vegan]{vegdist}} function of Vegan. It will report one diversity
+[vegan::vegdist()] function of Vegan. It will report one diversity
 estimate for each combination of samples.
 }
 \examples{

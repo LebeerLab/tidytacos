@@ -21,7 +21,7 @@ samples and 'taxon' for taxa.}
 A tidytacos object with the metadata added.
 }
 \description{
-\code{add_metadata()} adds sample or taxon metadata to the sample or taxon
+`add_metadata()` adds sample or taxon metadata to the sample or taxon
 table, respectively, of a tidytacos object.
 }
 \examples{

@@ -26,7 +26,7 @@ computation or not.}
 A tidytacos object with the ordination coordinates added.
 }
 \description{
-\code{add_ord()} adds the first n dimensions of a dimensionality reduction
+`add_ord()` adds the first n dimensions of a dimensionality reduction
 method performed on a given dissimilarity matrix as new variables to the
 sample table of a tidytacos object.
 }

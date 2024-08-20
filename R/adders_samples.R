@@ -1,6 +1,6 @@
 #' Add metadata to the tidytacos object
 #'
-#' \code{add_metadata()} adds sample or taxon metadata to the sample or taxon
+#' `add_metadata()` adds sample or taxon metadata to the sample or taxon
 #' table, respectively, of a tidytacos object.
 #'
 #' @param ta A tidytacos object.
@@ -59,7 +59,7 @@ add_metadata <- function(ta, metadata, table_type = "sample") {
 
 #' Add total read count per sample
 #'
-#' \code{add_total_count()} adds the total read count per sample to the sample
+#' `add_total_count()` adds the total read count per sample to the sample
 #' table of a tidytacos object under the variable name total_count.
 #'
 #' @param ta A tidytacos object.
@@ -118,7 +118,7 @@ add_total_count <- function(ta) {
 #' - s.ace: ACE richness estimator
 #'
 #' @param ta A tidytacos object.
-#' @param method The diversity measure to use, see \code{\link[vegan]{diversity}} for further information on these.
+#' @param method The diversity measure to use, see [vegan::diversity()] for further information on these.
 #' @return A tidytacos object with the alpha diversity measure added.
 #' @examples
 #' # Initiate counts matrix
@@ -192,12 +192,12 @@ add_alpha <- function(ta, method="invsimpson") {
 
 #' Add alpha diversity measures
 #'
-#' \code{add_alpha()} adds selected alpha diversity measures to the sample table of a
+#' `add_alpha()` adds selected alpha diversity measures to the sample table of a
 #' tidytacos object.
 #'
 #' This function can add multiple different alpha diversity measures to the sample table, specified by the methods argument.
 #' @param ta A tidytacos object.
-#' @param methods A character vector of the diversity measure to use, see \code{\link[tidytacos]{add_alpha}} for examples.
+#' @param methods A character vector of the diversity measure to use, see [add_alpha()] for examples.
 #' Optionally use 'all' to add all diversity measures.
 #' @return A tidytacos object with the selected alpha diversity measures added.
 #' @examples
@@ -331,7 +331,7 @@ perform_umap <- function(ta, dist_matrix, dims=2, ...) {
 
 #' Add ordination
 #'
-#' \code{add_ord()} adds the first n dimensions of a dimensionality reduction
+#' `add_ord()` adds the first n dimensions of a dimensionality reduction
 #' method performed on a given dissimilarity matrix as new variables to the
 #' sample table of a tidytacos object.
 #'

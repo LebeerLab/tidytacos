@@ -1,6 +1,6 @@
 #' Add logratios
 #'
-#' This function computes pairwise logratio values between all taxa and adds
+#' `add_logratio()` computes pairwise logratio values between all taxa and adds
 #' these to the tidytacos object in the form of a table called logratios.
 #'
 #' If `max_taxa` is smaller than the number of taxa in the dataset, the taxa with the highest
@@ -16,6 +16,8 @@
 #'
 #' @export
 add_logratio <- function(ta, max_taxa = 50) {
+
+  keep <- ref_taxon_id <- ref_abundance <- NULL
 
   if (nrow(ta$taxa) > max_taxa) {
 
@@ -167,6 +169,8 @@ add_codifab <- function(ta, condition, conditions = NULL, max_taxa = 30) {
 #' @export
 tacoplot_codifab <- function(ta, diffabun_var) {
 
+  wilcox_p <- median_diffabun <- ref_taxon <- direction <- NULL
+
   if (! "taxon_name" %in% names(ta$taxa)) {
     ta <- add_taxon_name(ta)
   }
@@ -233,6 +237,8 @@ tacoplot_codifab <- function(ta, diffabun_var) {
 #' @param ta A tidytacos object.
 #' @export
 add_copca <- function(ta) {
+
+  taxon_ids <- logratio <- NULL
 
   # if logratios not present: add temporarily
   logratios_tmp <- ! "logratios" %in% names(ta)

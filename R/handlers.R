@@ -106,13 +106,16 @@ change_id_taxa <- function(ta, taxon_id_new) {
 
 #' Aggregate samples with identical values for all metadata
 #'
-#' \code{aggregate_samples} merges sample content of samples which have identical values for all columns in the sample table (except sample_id).
+#' `aggregate_samples()` merges sample content of samples which have identical values for all columns in the sample table (except sample_id).
 #'
 #' @param ta A tidytacos object.
 #'
 #' @return A tidytacos object.
 #' @export
 aggregate_samples <- function(ta) {
+
+  sample_id_new <- NULL
+
   # sample table with only old and new sample names
   metadata <- setdiff(names(ta$samples), "sample_id")
   names <- ta$samples %>%
@@ -159,6 +162,8 @@ aggregate_samples <- function(ta) {
 #' urt %>% aggregate_taxa(rank = "class")
 #' @export
 aggregate_taxa <- function(ta, rank = NULL) {
+
+  taxon_id_new <- NULL
   
   # Temporarily replace any NA's with strings as they interfere with aggregation
   ta$taxa[is.na(ta$taxa)] <- "unknown"
@@ -236,7 +241,7 @@ aggregate_taxa <- function(ta, rank = NULL) {
 
 #' Trim all sequences
 #'
-#' \code{trim_asvs} trims sequence ends of the sequence supplied in the taxa table. 
+#' `trim_asvs()` trims sequence ends of the sequence supplied in the taxa table. 
 #' This function assumes that the sequence variable in the taxon table is called
 #' "sequence".
 #'
@@ -456,7 +461,7 @@ filter_counts <- function(ta, ...) {
 
 #' Perform a centered log ratio transformation on the readcounts.
 #'
-#' \code{add_clr_abundance} calculates the log ration transformed values for each taxon in each sample and adds these data in a new table, clr_counts. Alternatively, using 'overwrite', the clr transformed data can replace the 'counts' column in the count table.
+#' `add_clr_abundance()` calculates the log ration transformed values for each taxon in each sample and adds these data in a new table, clr_counts. Alternatively, using 'overwrite', the clr transformed data can replace the 'counts' column in the count table.
 #'
 #' @param ta A tidytacos object.
 #' @param overwrite Whether or not the counts table is to be overwritten with the transformed counts.

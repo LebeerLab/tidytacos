@@ -14,7 +14,7 @@ merge_tidytacos(ta1, ta2, taxon_identifier = sequence)
 \item{taxon_identifier}{The column name in the taxa tables which identify unique taxa. Default is sequence.}
 }
 \description{
-\code{merge_tidytacos} merges two tidytacos objects and returns one
+`merge_tidytacos()` merges two tidytacos objects and returns one
 single tidytacos object.
 }
 \details{

@@ -190,7 +190,7 @@ tacoplot_stack_ly <- function(ta, n = 12, x = sample_clustered, order_by=NULL) {
 #'   groups on.
 #' @param samplenames the column in the sample table with the samplenames, defaults to sample_id.
 #' @param ord the ordination technique to use. Choice from pcoa, tsne and umap.
-#' @param distance the distance algorithm to use, see \code{\link[vegan]{vegdist}}.
+#' @param distance the distance algorithm to use, see [vegan::vegdist()].
 #' @param dims the amount of dimensions to plot, 2 or 3.
 #' @param stat.method the statistic to print on the figure, choice from mantel and anosim.
 #' @param palette A vector of colors, used as the palette for coloring sample
@@ -298,7 +298,7 @@ tacoplot_ord_ly <- function(ta, x=NULL, samplenames = sample_id, ord="pcoa", dim
 #' @param ta A tidytacos object.
 #' @param x The column name used to color the sample groups on.
 #' @param ord the ordination technique to use. Choice from pcoa, tsne and umap.
-#' @param distance the distance algorithm to use, see \code{\link[vegan]{vegdist}}.
+#' @param distance the distance algorithm to use, see [vegan::vegdist()].
 #' @param stat.method the statistic to print on the figure, choice from mantel and anosim.
 #' @param palette A vector of colors, used as the palette for coloring sample
 #'   groups.
@@ -432,7 +432,7 @@ tacoplot_zoom <- function(ta, sample = sample_id, n = 15, nrow = NULL) {
 #' @param ta A tidytacos object.
 #' @param condition The name of a variable in the samples table that contains a
 #'   categorical value.
-#' @param ... Extra arguments to pass to the \code{\link[ggVennDiagram]{ggVennDiagram}} function.
+#' @param ... Extra arguments to pass to the [ggVennDiagram::ggVennDiagram()] function.
 #' @export
 tacoplot_venn <- function(ta, condition, ...) {
 
@@ -463,7 +463,7 @@ tacoplot_venn <- function(ta, condition, ...) {
 #' @param ta A tidytacos object.
 #' @param condition The name of a variable in the samples table that contains a
 #'   categorical value.
-#' @param ... Extra arguments to pass to the \code{\link[ggVennDiagram]{ggVennDiagram}} function.
+#' @inheritDotParams ggVennDiagram::ggVennDiagram
 #'
 #' @export
 tacoplot_venn_ly <- function(ta, condition, ...) {
@@ -506,6 +506,8 @@ tacoplot_euler <- function(ta, condition, shape="ellipse", ...) {
 #' @inheritDotParams ggpubr::stat_compare_means
 #' @export
 tacoplot_alphas <- function(ta, group_by, compare_means=FALSE, ...){
+
+  value <- NULL
 
   group_by <- rlang::enquo(group_by)
   if (rlang::quo_is_missing(group_by)){
@@ -552,13 +554,14 @@ tacoplot_alphas <- function(ta, group_by, compare_means=FALSE, ...){
 #' @param cutoff The minimum prevalence of a taxon to be included in the heatmap.
 #' @param fisher Run a fisher test on the relative prevalences in each condition 
 #' and plot the resulting adjusted p-values as *(<.05), **(<.01), ***(<.001) or ****(<.0001).
-#' @param adjp_method The method to adjust the p-values, see \code{\link[rstatix]{adjust_pvalue}}.
+#' @param adjp_method The method to adjust the p-values, see [rstatix::adjust_pvalue()].
 #' @inheritDotParams pheatmap::pheatmap
 #' @export
 tacoplot_prevalences <- function(ta, condition, cutoff=0.1, fisher=T, adjp_method="fdr", ...){
     
     force_optional_dependency("pheatmap")
     force_optional_dependency("rstatix")
+    fisher_p <- NULL
     condition <- rlang::enquo(condition)
 
     prevalences <- ta %>%

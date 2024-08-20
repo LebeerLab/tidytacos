@@ -16,10 +16,10 @@ as_phyloseq(ta, sample = sample, taxon = taxon_id)
 "taxon_id" column in the taxon table of the tidytacos object.}
 }
 \description{
-\code{as_phyloseq} returns a phyloseq object given a tidytacos object.
+`as_phyloseq()` returns a phyloseq object given a tidytacos object.
 }
 \details{
 This function will convert a tidytacos object into a phyloseq object for
 alternative processing using the phyloseq package. To convert from a phyloseq
-object to a tidytacos object use \code{\link{from_phyloseq}}.
+object to a tidytacos object use [from_phyloseq()].
 }

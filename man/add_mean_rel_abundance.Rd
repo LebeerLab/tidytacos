@@ -17,7 +17,7 @@ add_mean_rel_abundance(ta, condition = NULL, test = NULL)
 A tidytacos object
 }
 \description{
-\code{add_mean_rel_abundance()} adds mean relative abundance values for each taxon to the taxa
+`add_mean_rel_abundance()` adds mean relative abundance values for each taxon to the taxa
 table, overall or per sample group.
 }
 \details{

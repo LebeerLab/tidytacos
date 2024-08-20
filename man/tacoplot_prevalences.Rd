@@ -23,7 +23,7 @@ tacoplot_prevalences(
 \item{fisher}{Run a fisher test on the relative prevalences in each condition 
 and plot the resulting adjusted p-values as *(<.05), **(<.01), ***(<.001) or ****(<.0001).}
 
-\item{adjp_method}{The method to adjust the p-values, see \code{\link[rstatix]{adjust_pvalue}}.}
+\item{adjp_method}{The method to adjust the p-values, see [rstatix::adjust_pvalue()].}
 
 \item{...}{
   Arguments passed on to \code{\link[pheatmap:pheatmap]{pheatmap::pheatmap}}

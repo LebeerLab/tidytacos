@@ -12,7 +12,30 @@ tacoplot_venn_ly(ta, condition, ...)
 \item{condition}{The name of a variable in the samples table that contains a
 categorical value.}
 
-\item{...}{Extra arguments to pass to the \code{\link[ggVennDiagram]{ggVennDiagram}} function.}
+\item{...}{
+  Arguments passed on to \code{\link[ggVennDiagram:ggVennDiagram]{ggVennDiagram::ggVennDiagram}}
+  \describe{
+    \item{\code{x}}{list of items}
+    \item{\code{category.names}}{default is names(x)}
+    \item{\code{show_intersect}}{if TRUE the text can be visualized by `plotly`}
+    \item{\code{set_color}}{color of set labels ("black")}
+    \item{\code{set_size}}{size of set labels (NA)}
+    \item{\code{label}}{format of region labels, select one from c("count","percent","both","none")}
+    \item{\code{label_alpha}}{set 0 to remove the background of region labels}
+    \item{\code{label_geom}}{layer of region labels, choose from c("label", "text")}
+    \item{\code{label_color}}{color of region labels ("black")}
+    \item{\code{label_size}}{size of region labels (NA)}
+    \item{\code{label_percent_digit}}{number of digits when formatting percent label (0)}
+    \item{\code{label_txtWidth}}{width of text used in showing intersect members, will be ignored unless show_intersection is TRUE (40)}
+    \item{\code{edge_lty}}{line type of set edges ("solid")}
+    \item{\code{edge_size}}{line width of set edges (1)}
+    \item{\code{force_upset}}{if TRUE, will always produce Upset plot no matter how many sets have (FALSE)}
+    \item{\code{nintersects}}{number of intersects. If NULL, all intersections will show.}
+    \item{\code{order.intersect.by}}{'size', 'name', or "none"}
+    \item{\code{order.set.by}}{'size', 'name', or "none"}
+    \item{\code{relative_height}}{the relative height of top panel in upset plot}
+    \item{\code{relative_width}}{the relative width of left panel in upset plot}
+  }}
 }
 \description{
 Return an interactive venn diagram of overlapping taxon_ids between conditions

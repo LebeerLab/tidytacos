@@ -10,11 +10,11 @@ from_phyloseq(ps)
 \item{ps}{Phyloseq object.}
 }
 \description{
-\code{from_phyloseq} returns a tidytacos object given a phyloseq
+`from_phyloseq()` returns a tidytacos object given a phyloseq
 object.
 }
 \details{
 This function will convert a phyloseq object into a tidytacos object. To
 convert from a tidytacos object to a phyloseq object use
-\code{\link{as_phyloseq}}.
+[as_phyloseq()].
 }

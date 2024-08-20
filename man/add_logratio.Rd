@@ -15,7 +15,7 @@ add_logratio(ta, max_taxa = 50)
 A tidytacos object with an extra table logratios
 }
 \description{
-This function computes pairwise logratio values between all taxa and adds
+`add_logratio()` computes pairwise logratio values between all taxa and adds
 these to the tidytacos object in the form of a table called logratios.
 }
 \details{
