@@ -14,7 +14,7 @@ reference:
     desc: >
       Package overview
     contents:
-      - tidytacos
+      - tidytacos-package
   - title: "File handling"
     desc: >
       Functions for loading in or creating tidytaco objects or converting to another datatype. 
