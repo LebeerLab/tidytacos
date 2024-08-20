@@ -14,7 +14,97 @@ tacoplot_alphas(ta, group_by, compare_means = FALSE, ...)
 
 \item{compare_means}{Add the result of a statistical test to the plot, comparing the means of the groups. Default is FALSE.}
 
-\item{...}{See \code{\link[ggpubr]{stat_compare_means}} for additional arguments that can be given for this test.}
+\item{...}{
+  Arguments passed on to \code{\link[ggpubr:stat_compare_means]{ggpubr::stat_compare_means}}
+  \describe{
+    \item{\code{mapping}}{Set of aesthetic mappings created by \code{\link[ggplot2:aes]{aes()}}. If specified and
+\code{inherit.aes = TRUE} (the default), it is combined with the default mapping
+at the top level of the plot. You must supply \code{mapping} if there is no plot
+mapping.}
+    \item{\code{data}}{The data to be displayed in this layer. There are three
+options:
+
+If \code{NULL}, the default, the data is inherited from the plot
+data as specified in the call to \code{\link[ggplot2:ggplot]{ggplot()}}.
+
+A \code{data.frame}, or other object, will override the plot
+data. All objects will be fortified to produce a data frame. See
+\code{\link[ggplot2:fortify]{fortify()}} for which variables will be created.
+
+A \code{function} will be called with a single argument,
+the plot data. The return value must be a \code{data.frame}, and
+will be used as the layer data. A \code{function} can be created
+from a \code{formula} (e.g. \code{~ head(.x, 10)}).}
+    \item{\code{method}}{a character string indicating which method to be used for
+comparing means.}
+    \item{\code{paired}}{a logical indicating whether you want a paired test. Used only
+in \code{\link[stats]{t.test}} and in \link[stats]{wilcox.test}.}
+    \item{\code{method.args}}{a list of additional arguments used for the test method.
+For example one might use \code{method.args = list(alternative = "greater")}
+for wilcoxon test.}
+    \item{\code{ref.group}}{a character string specifying the reference group. If
+ specified, for a given grouping variable, each of the group levels will be
+ compared to the reference group (i.e. control group).
+
+ \code{ref.group} can be also \code{".all."}. In this case, each of the
+ grouping variable levels is compared to all (i.e. basemean).}
+    \item{\code{comparisons}}{A list of length-2 vectors. The entries in the vector are
+either the names of 2 values on the x-axis or the 2 integers that correspond
+to the index of the groups of interest, to be compared.}
+    \item{\code{hide.ns}}{logical value. If TRUE, hide ns symbol when displaying
+significance levels.}
+    \item{\code{label.sep}}{a character string to separate the terms. Default is ", ", to
+separate the correlation coefficient and the p.value.}
+    \item{\code{label}}{character string specifying label type. Allowed values include
+"p.signif" (shows the significance levels), "p.format" (shows the formatted
+p value).}
+    \item{\code{label.x.npc,label.y.npc}}{can be \code{numeric} or \code{character}
+vector of the same length as the number of groups and/or panels. If too
+short they will be recycled. \itemize{ \item If \code{numeric}, value should
+be between 0 and 1. Coordinates to be used for positioning the label,
+expressed in "normalized parent coordinates". \item If \code{character},
+allowed values include: i) one of c('right', 'left', 'center', 'centre',
+'middle') for x-axis; ii) and one of c( 'bottom', 'top', 'center', 'centre',
+'middle') for y-axis.}}
+    \item{\code{label.x,label.y}}{\code{numeric} Coordinates (in data units) to be used
+for absolute positioning of the label. If too short they will be recycled.}
+    \item{\code{vjust}}{move the text up or down relative to the bracket.}
+    \item{\code{tip.length}}{numeric vector with the fraction of total height that the
+ bar goes down to indicate the precise column. Default is 0.03. Can be of
+ same length as the number of comparisons to adjust specifically the tip
+ lenth of each comparison. For example tip.length = c(0.01, 0.03).
+
+ If too short they will be recycled.}
+    \item{\code{bracket.size}}{Width of the lines of the bracket.}
+    \item{\code{step.increase}}{numeric vector with the increase in fraction of total
+height for every additional comparison to minimize overlap.}
+    \item{\code{symnum.args}}{a list of arguments to pass to the function
+ \code{\link[stats]{symnum}} for symbolic number coding of p-values. For
+ example, \code{symnum.args <- list(cutpoints = c(0, 0.0001, 0.001,
+ 0.01, 0.05, Inf), symbols = c("****", "***", "**", "*",  "ns"))}.
+
+ In other words, we use the following convention for symbols indicating
+ statistical significance: \itemize{ \item \code{ns}: p > 0.05 \item
+ \code{*}: p <= 0.05 \item \code{**}: p <= 0.01 \item \code{***}: p <= 0.001 \item \code{****}:  p <= 0.0001 }}
+    \item{\code{geom}}{The geometric object to use to display the data, either as a
+\code{ggproto} \code{Geom} subclass or as a string naming the geom stripped of the
+\code{geom_} prefix (e.g. \code{"point"} rather than \code{"geom_point"})}
+    \item{\code{position}}{Position adjustment, either as a string naming the adjustment
+(e.g. \code{"jitter"} to use \code{position_jitter}), or the result of a call to a
+position adjustment function. Use the latter if you need to change the
+settings of the adjustment.}
+    \item{\code{na.rm}}{If FALSE (the default), removes missing values with a warning. If
+TRUE silently removes missing values.}
+    \item{\code{show.legend}}{logical. Should this layer be included in the legends?
+\code{NA}, the default, includes if any aesthetics are mapped.
+\code{FALSE} never includes, and \code{TRUE} always includes.
+It can also be a named logical vector to finely select the aesthetics to
+display.}
+    \item{\code{inherit.aes}}{If \code{FALSE}, overrides the default aesthetics,
+rather than combining with them. This is most useful for helper functions
+that define both data and aesthetics and shouldn't inherit behaviour from
+the default plot specification, e.g. \code{\link[ggplot2:borders]{borders()}}.}
+  }}
 }
 \description{
 Return a boxplot of every alpha metric per group in the samples table of a tidytaco object.

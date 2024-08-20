@@ -15,7 +15,7 @@ add_alpha(ta, method = "invsimpson")
 A tidytacos object with the alpha diversity measure added.
 }
 \description{
-\code{add_alpha} adds an alpha diversity measures to the sample table of a
+`add_alpha()` adds an alpha diversity measures to the sample table of a
 tidytacos object.
 }
 \details{

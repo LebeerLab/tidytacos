@@ -15,7 +15,7 @@ cluster_samples(ta, n_clusters)
 A tidytacos object with a cluster column in the samples table.
 }
 \description{
-\code{cluster_samples} clusters the samples into n clusters and adds these
+`cluster_samples()` clusters the samples into n clusters and adds these
 clusters to a new variable "cluster" in the sample table.
 }
 \details{

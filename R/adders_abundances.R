@@ -1,6 +1,6 @@
 #' Add relative abundances to count table
 #'
-#' \code{add_rel_abundance} calculates relative abundances of taxa in samples
+#' `add_rel_abundance()` calculates relative abundances of taxa in samples
 #' and adds them to the count table of a tidytacos object under the column name
 #' "rel_abundance".
 #'
@@ -37,7 +37,7 @@ add_rel_abundance <- function(ta) {
 
 #' Add absolute abundances to count table
 #'
-#' \code{add_absolute_abundance} calculates absolute abundances of taxa in
+#' `add_absolute_abundance()` calculates absolute abundances of taxa in
 #' samples given a taxon that was spiked into all of the samples during library
 #' prep. The function then adds these absolute abundances to the count table of
 #' the tidytacos object under the column name "absolute_abundance".
@@ -126,7 +126,7 @@ add_absolute_abundance <- function(ta, spike_taxon, spike_added = spike_added) {
 
 #' Add density to count table
 #'
-#' \code{add_density} adds densities (bacterial biomass per sample mass or
+#' `add_density()` adds densities (bacterial biomass per sample mass or
 #' volume) to the count table of a tidytacos object under the column name
 #' "density". Can only be used of a taxon was spiked into samples during library prep.
 #'

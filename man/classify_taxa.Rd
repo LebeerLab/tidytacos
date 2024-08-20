@@ -40,7 +40,7 @@ An updated tidytacos object.
 This function requires the DADA2 package to be installed.
 }
 \details{
-This function will (re)classify either all or a subset of the taxa, given
+\code{classify_taxa()} will (re)classify either all or a subset of the taxa, given
 that a variable is present in the taxon table that contains (representative)
 sequences of the taxa.
 
@@ -51,4 +51,19 @@ supplied as just a character vector with the rank names; in that case, it is
 assumed that the database taxonomy string follows the default order {domain,
 phylum, class, order, family, genus, species}. If no ranks are supplied, taxa
 will be (re)classified at all default ranks.
+}
+\examples{
+x <- c(
+">Level1;Level2;Level3;Level4;Level5;Level6;", 
+"ACCTAGAAAGTCGTAGATCGAAGTTGAAGCATCGCCCGATGATCGTCTGAAGCTGTAGCATGAGTCGATTTTCACATTCAGGGATACCATAGGATAC", 
+">Level1;Level2;Level3;Level4;Level5;",
+"CGCTAGAAAGTCGTAGAAGGCTCGGAGGTTTGAAGCATCGCCCGATGGGATCTCGTTGCTGTAGCATGAGTACGGACATTCAGGGATCATAGGATAC"
+)
+write(x, file="tmp-db.fna")
+
+urt_reclass <- classify_taxa(
+  urt, "tmp-db.fna", n_ranks = 6, 
+  ranks=c("kingdom","phylum", "class", "order", "family", "genus")
+)
+
 }

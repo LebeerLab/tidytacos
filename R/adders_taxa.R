@@ -2,7 +2,7 @@
 #'
 #' This function requires the DADA2 package to be installed.
 #'
-#' This function will (re)classify either all or a subset of the taxa, given
+#' \code{classify_taxa()} will (re)classify either all or a subset of the taxa, given
 #' that a variable is present in the taxon table that contains (representative)
 #' sequences of the taxa.
 #'
@@ -25,6 +25,19 @@
 #' @param n_ranks The number of ranks present in the reference database.
 #'
 #' @return An updated tidytacos object.
+#' @examples 
+#' x <- c(
+#' ">Level1;Level2;Level3;Level4;Level5;Level6;", 
+#' "ACCTAGAAAGTCGTAGATCGAAGTTGAAGCATCGCCCGATGATCGTCTGAAGCTGTAGCATGAGTCGATTTTCACATTCAGGGATACCATAGGATAC", 
+#' ">Level1;Level2;Level3;Level4;Level5;",
+#' "CGCTAGAAAGTCGTAGAAGGCTCGGAGGTTTGAAGCATCGCCCGATGGGATCTCGTTGCTGTAGCATGAGTACGGACATTCAGGGATCATAGGATAC"
+#' )
+#' write(x, file="tmp-db.fna")
+#' 
+#' urt_reclass <- classify_taxa(
+#'   urt, "tmp-db.fna", n_ranks = 6, 
+#'   ranks=c("kingdom","phylum", "class", "order", "family", "genus")
+#' )
 #'
 #' @export
 classify_taxa <- function(
@@ -77,7 +90,7 @@ classify_taxa <- function(
 
 #' Add sensible taxon name to taxon table
 #'
-#' \code{add_taxon_name} creates sensible taxa names by -under default conditions- combining the genus name with a number. 
+#' \code{add_taxon_name()} creates sensible taxa names by -under default conditions- combining the genus name with a number. 
 #' The number is only added if there is more than one taxon of that genus. 
 #' The number indicates the rank of abundance, with 1 indicating the taxon has the highest mean relative abundance of the dataset, 
 #' within the genus. If genus classification is not available the next most detailed taxonomic rank which is available is used. 
@@ -163,7 +176,7 @@ add_taxon_name <- function(
 
 #' Add taxon color for visualization.
 #'
-#' \code{add_rel_abundance} determines the most abundant taxa and assigns them a color for consistent color codes of each taxon in visualizations. A rank can be supplied to aggregate colors higher than the current rank.
+#' \code{add_rel_abundance()} determines the most abundant taxa and assigns them a color for consistent color codes of each taxon in visualizations. A rank can be supplied to aggregate colors higher than the current rank.
 #'
 #' @param ta A tidytacos object.
 #' @param method The method by which to arrange the taxon names. Currently only
@@ -248,7 +261,7 @@ add_taxon_name_color <- function(
 
 #' Apply the taxon QC method of Jervis-Bardy
 #'
-#' \code{add_jervis_bardy} calculates the spearman correlation between relative abundance and
+#' `add_jervis_bardy()` calculates the spearman correlation between relative abundance and
 #' sample DNA concentration, for each taxon and adds the correlation metric and p-value to the taxa table under the column names "jb_cor" and "jb_p", respectively. 
 #' If taxa show a distribution that is negatively correlated with DNA concentration, it indicates their potential as contaminants.
 #'
@@ -268,6 +281,7 @@ add_taxon_name_color <- function(
 #'   for its correlation to be calculated.
 #' 
 #' @examples 
+#' library(dplyr)
 #' # filter out blank samples
 #' plants <- leaf %>% 
 #'   filter_samples(Plant != "Blank")
@@ -333,7 +347,7 @@ add_jervis_bardy <- function(ta, dna_conc, sample_condition = T, min_pres = 3) {
 
 #' Add taxon prevalences to the taxon table
 #'
-#' \code{add_prevalence} calculates taxon prevalences (overall or per condition) and adds it to the taxa table under the column name "prevalence". Prevalence can be expressed as the number of samples where a taxon occurs or the ratio of samples where a taxon occurs and the total amount of samples.
+#' \code{add_prevalence()} calculates taxon prevalences (overall or per condition) and adds it to the taxa table under the column name "prevalence". Prevalence can be expressed as the number of samples where a taxon occurs or the ratio of samples where a taxon occurs and the total amount of samples.
 #'
 #' If 'condition' is specified, the prevalences will be calculated separately for each group defined by the condition variable. This variable should be present in the sample table.
 #'
@@ -437,7 +451,7 @@ add_prevalence <- function(
 
 #' Add average relative abundances to taxa table
 #'
-#' This function adds mean relative abundance values for each taxon to the taxa
+#' \code{add_mean_rel_abundance()} adds mean relative abundance values for each taxon to the taxa
 #' table, overall or per sample group.
 #'
 #' If `condition` is specified, the mean relative abundances will be calculated
@@ -445,8 +459,8 @@ add_prevalence <- function(
 #' should be present in the sample table.
 #'
 #' If `condition` is specified, differential abundance testing can be performed
-#' by setting the `test` argument. Options are NULL (default), "wilcox" or
-#' "t-test".
+#' by setting the `test` argument. Options are `NULL` (default), `"wilcox"` or
+#' `"t-test"`.
 #'
 #' @importFrom stats t.test wilcox.test
 #' @param ta A tidytacos object.

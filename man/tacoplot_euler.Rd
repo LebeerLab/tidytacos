@@ -14,7 +14,12 @@ categorical value.}
 
 \item{shape}{shape to plot the groups in; choice from circle or ellipse}
 
-\item{...}{Extra arguments to pass to the \code{\link[eulerr]{euler}} function.}
+\item{...}{
+  Arguments passed on to \code{\link[eulerr:euler]{eulerr::euler}}
+  \describe{
+    \item{\code{combinations}}{set relationships as a named numeric vector, matrix, or
+data.frame (see \strong{methods (by class)})}
+  }}
 }
 \description{
 Return an euler diagram of overlapping taxon_ids between conditions

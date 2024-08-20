@@ -1,3 +1,6 @@
+#' @keywords internal
+"_PACKAGE"
+
 #' tidytacos: Functions to manipulate and visualize amplicon count data.
 #'
 #' tidytacos is an R package for the analysis of amplicon count data:
@@ -15,6 +18,8 @@
 #' @section Author(s):
 #' Stijn Wittouck \email{wittouck_stijn@@hotmail.com}
 #'
+
+## usethis namespace: start
 #' @import ggplot2
 #' @import tidyr
 #' @import dplyr
@@ -23,7 +28,13 @@
 #' @importFrom tibble tibble
 globalVariables(c(
     "sample_id", "samples",
-    "taxon_id", "taxa", "taxon", "taxon_name_color",  
-    "count", "rel_abundance", "presence", "alpha_metrics"
+    "taxon_id", "taxa", "taxon", "taxon_name", "taxon_name_color",  
+    "count", "rel_abundance", "presence", "alpha_metrics",
+    "sample_clustered", "prevalence", "cluster",
+    "spike_count", "total_count", "mean_rel_abundance", "spike_abundance",
+    "total_count", "prevalence", "total_density",
+    ".", "packageVersion", "packageDescription", "ord1", "ord2",
+    "colorRampPalette"
 ))
+## usethis namespace: end
 NULL

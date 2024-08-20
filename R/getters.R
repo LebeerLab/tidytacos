@@ -67,7 +67,7 @@ tacosum <- function(ta) {
 #'
 #' @export
 betas <- function(ta, unique = T, method = "bray", binary = F) {
-
+  sample_id_1 <- sample_id_2 <- NULL
   # make "dist" object with beta values
   rel_abundance_matrix <- rel_abundance_matrix(ta, sample_name=sample_id)
   betas_dist <- vegdist(rel_abundance_matrix, method = method, binary = binary)

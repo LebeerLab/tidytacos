@@ -3,7 +3,7 @@
 #' This function computes pairwise logratio values between all taxa and adds
 #' these to the tidytacos object in the form of a table called logratios.
 #'
-#' If max_taxa is smaller than the number of taxa in the dataset, the taxa with the highest
+#' If `max_taxa` is smaller than the number of taxa in the dataset, the taxa with the highest
 #' prevalence will be selected.
 #'
 #' IMPORTANT: this function adds pseudocounts of one to all abundances before
@@ -59,10 +59,10 @@ add_logratio <- function(ta, max_taxa = 50) {
 
 #' Perform compositional differential abundance analysis
 #'
-#' This function performs a differential abundance test for all pairwise ratios
+#' `add_codifab()` performs a differential abundance test for all pairwise ratios
 #' between taxa.Taxa that have a relatively high number of significantly different 
 #' ratios, can be considered more abundant in one condition versus the other. The 
-#'  \code{\link{tacoplot_codifab}} function allows better interpretation of these 
+#'  [tacoplot_codifab()] function allows better interpretation of these 
 #' results.
 #'
 #' A table called taxon_pairs will be added to the tidytacos object, with
@@ -92,6 +92,7 @@ add_logratio <- function(ta, max_taxa = 50) {
 #' @export
 add_codifab <- function(ta, condition, conditions = NULL, max_taxa = 30) {
 
+  ref_taxon_id <- taxon_ids <- logratio <- wilcox <- NULL
   ta_sub <- ta
 
   condition <- rlang::enquo(condition)
@@ -148,7 +149,7 @@ add_codifab <- function(ta, condition, conditions = NULL, max_taxa = 30) {
 #' This function returns a plot to visualize differential abundance of taxa
 #' between conditions, compared to all other taxa as references. These
 #' differential abundances should already have been calculated with
-#' \code{\link{add_codifab}}. Taxa that have a relatively high number of
+#' [add_codifab()]. Taxa that have a relatively high number of
 #' significantly different ratios, can be considered more abundant in one 
 #' condition versus the other.
 #'
@@ -220,12 +221,12 @@ tacoplot_codifab <- function(ta, diffabun_var) {
 
 #' Add compositional principal components to the sample table
 #'
-#' \code{add_copca} performs a principal components analysis and 
+#' `add_copca()` performs a principal components analysis and 
 #' adds the first two principal components to the sample table 
 #' under column names "pca_1" and "pca_2". 
 #'
 #' Note that this function uses only the 50 most prevalant taxa 
-#' unless \code{\link{add_logratio}} was executed with 
+#' unless [add_logratio()] was executed with 
 #' another value for 'max_taxa'.
 #'
 #' @importFrom stats prcomp
@@ -248,6 +249,7 @@ add_copca <- function(ta) {
     }
 
   pca <- prcomp(logratio_matrix[, colSums(logratio_matrix) != 0], scale. = T)
+  ta$pca <- pca
   samples_pca <- tibble(
     sample_id = rownames(pca$x),
     pca_1 = unname(pca$x[, 1]),

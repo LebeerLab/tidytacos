@@ -19,7 +19,7 @@ before calculations.}
 for its correlation to be calculated.}
 }
 \description{
-\code{add_jervis_bardy} calculates the spearman correlation between relative abundance and
+`add_jervis_bardy()` calculates the spearman correlation between relative abundance and
 sample DNA concentration, for each taxon and adds the correlation metric and p-value to the taxa table under the column names "jb_cor" and "jb_p", respectively. 
 If taxa show a distribution that is negatively correlated with DNA concentration, it indicates their potential as contaminants.
 }
@@ -31,6 +31,7 @@ of Illumina MiSeq data,” Microbiome, vol. 3, no. 1, Art. no. 1, 2015, doi:
 10.1186/s40168-015-0083-8.
 }
 \examples{
+library(dplyr)
 # filter out blank samples
 plants <- leaf \%>\% 
   filter_samples(Plant != "Blank")

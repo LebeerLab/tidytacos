@@ -13,7 +13,7 @@ add_total_count(ta)
 A tidytacos object with the total read count per sample added.
 }
 \description{
-\code{add_total_count} adds the total read count per sample to the sample
+\code{add_total_count()} adds the total read count per sample to the sample
 table of a tidytacos object under the variable name total_count.
 }
 \examples{

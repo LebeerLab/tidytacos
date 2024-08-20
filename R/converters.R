@@ -183,7 +183,7 @@ infer_rank_names <- function(ta){
 #' @param keep_prev A logical scalar. Should the previous IDs be kept in a column called taxon_id_prev?
 #' @export
 reset_ids <- function(ta, keep_prev = F) {
-
+  taxon_id_new <- sample_id_new <- NULL
   if (keep_prev) {
 
     ta <-

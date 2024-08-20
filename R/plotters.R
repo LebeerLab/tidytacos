@@ -483,7 +483,7 @@ tacoplot_venn_ly <- function(ta, condition, ...) {
 #' @param condition The name of a variable in the samples table that contains a
 #'   categorical value.
 #' @param shape shape to plot the groups in; choice from circle or ellipse
-#' @param ... Extra arguments to pass to the \code{\link[eulerr]{euler}} function.
+#' @inheritDotParams eulerr::euler
 #' @export
 tacoplot_euler <- function(ta, condition, shape="ellipse", ...) {
 
@@ -503,7 +503,7 @@ tacoplot_euler <- function(ta, condition, shape="ellipse", ...) {
 #' @param ta A tidytacos object.
 #' @param group_by The name of a variable in the samples table on which to group the samples.
 #' @param compare_means Add the result of a statistical test to the plot, comparing the means of the groups. Default is FALSE. 
-#' @param ... See \code{\link[ggpubr]{stat_compare_means}} for additional arguments that can be given for this test. 
+#' @inheritDotParams ggpubr::stat_compare_means
 #' @export
 tacoplot_alphas <- function(ta, group_by, compare_means=FALSE, ...){
 
@@ -553,7 +553,7 @@ tacoplot_alphas <- function(ta, group_by, compare_means=FALSE, ...){
 #' @param fisher Run a fisher test on the relative prevalences in each condition 
 #' and plot the resulting adjusted p-values as *(<.05), **(<.01), ***(<.001) or ****(<.0001).
 #' @param adjp_method The method to adjust the p-values, see \code{\link[rstatix]{adjust_pvalue}}.
-#' @param ... Extra arguments to pass to the pheatmap function.
+#' @inheritDotParams pheatmap::pheatmap
 #' @export
 tacoplot_prevalences <- function(ta, condition, cutoff=0.1, fisher=T, adjp_method="fdr", ...){
     
@@ -589,6 +589,27 @@ tacoplot_prevalences <- function(ta, condition, cutoff=0.1, fisher=T, adjp_metho
     prevalences.M <- prevalences.M[prevalences.M %>% rowSums() > cutoff,]
 
     pheatmap::pheatmap(prevalences.M, ...)
+}
+
+
+#' Return a scree plot to visualize the eigenvalues of the PCA.
+#' 
+#' 
+#' @param ta A tidytacos object.
+#' @inheritDotParams factoextra::fviz_eig
+#' @examples 
+#' urt %>% tacoplot_scree()
+#' @export
+tacoplot_scree <- function(ta, ...) {
+  force_optional_dependency("factoextra")
+
+  if (!"pca" %in% names(ta)) {
+    ta <- suppressWarnings(add_copca(ta))
+  }
+
+  factoextra::fviz_eig(ta$pca, ...)
+
+
 }
 
 palette_paired <- c(

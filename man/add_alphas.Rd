@@ -16,7 +16,7 @@ Optionally use 'all' to add all diversity measures.}
 A tidytacos object with the selected alpha diversity measures added.
 }
 \description{
-\code{add_alpha} adds selected alpha diversity measures to the sample table of a
+\code{add_alpha()} adds selected alpha diversity measures to the sample table of a
 tidytacos object.
 }
 \details{
