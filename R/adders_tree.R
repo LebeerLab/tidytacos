@@ -43,7 +43,7 @@ add_tree <- function(ta, sequence_var=sequence, outgroup_taxon_id=NULL, aln_args
     fit <- phangorn::pml(treeNJ, data=ph_aln)
     fitGTR <- update(fit, k=4, inv=0.2)
 
-    if (!any(c("optInv", "optGamma", "rearrangements")) %in% names(tree_fit_args)) {
+    if (!any(c("optInv", "optGamma", "rearrangements") %in% names(tree_fit_args))) {
         # use default values
         tree_fit_args["optInv"] <- TRUE
         tree_fit_args["optGamma"] <- TRUE
