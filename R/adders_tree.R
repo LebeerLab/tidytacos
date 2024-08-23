@@ -1,16 +1,32 @@
 #' Construct a phylogenetic tree from the sequences in the taxa table of a tidytacos object.
 #'
 #' `add_tree()` performs a multiple sequence alignment on the ASV sequences in
-#' the taxa table and then constructs a phylogenetic tree. 
+#' the taxa table and then constructs a phylogenetic tree.
 #' The tree is added to the tidytacos object under a variable called `tree`.
 #'
 #' @param ta A tidytacos object.
-#' @param method The method by which to arrange the taxon names. Currently only
-#'   mean_rel_abundance.
 #' @param sequence_var The name of the column in the taxa table that contains the sequence
+#' @param outgroup_taxon_id The taxon_id of the outgroup to root the tree. If NULL, the tree will be unrooted.
 #' @param aln_args An optional list of arguments to pass to the [DECIPHER::AlignSeqs()] function.
 #' @param tree_fit_args An optional list of arguments to pass to the [phangorn::optim.pml()] function.
 #' @return A tidytacos object with a phylotree slot.
+#' @examples 
+#' # filter taxa to speed up calculation time
+#' \dontrun{urt_sub <- urt %>% 
+#'   filter_taxa(taxon_id %in% head(urt$taxa$taxon_id))
+#' urt_sub_tree <- add_tree(urt_sub, 
+#'                          sequence_var="sequence", 
+#'                          outgroup_taxon_id="t4", 
+#'                          aln_args=list(verbose=FALSE)
+#'                         )
+#' # our new rooted tree
+#' urt_sub_tree$tree
+#' 
+#' urt_sub_unrooted <- add_tree(urt_sub,aln_args=list(verbose=FALSE))
+#' # an unrooted version of the tree
+#' urt_sub_unrooted$tree}
+#' @importFrom methods as
+#' @importFrom stats update
 #' @export
 add_tree <- function(ta, sequence_var=sequence, outgroup_taxon_id=NULL, aln_args=list(),tree_fit_args=list()) {
     force_optional_dependency('DECIPHER', instructions = 'It can be installed with:\n\tBiocManager::install("DECIPHER")')

@@ -17,18 +17,33 @@ add_tree(
 
 \item{sequence_var}{The name of the column in the taxa table that contains the sequence}
 
+\item{outgroup_taxon_id}{The taxon_id of the outgroup to root the tree. If NULL, the tree will be unrooted.}
+
 \item{aln_args}{An optional list of arguments to pass to the [DECIPHER::AlignSeqs()] function.}
 
 \item{tree_fit_args}{An optional list of arguments to pass to the [phangorn::optim.pml()] function.}
-
-\item{method}{The method by which to arrange the taxon names. Currently only
-mean_rel_abundance.}
 }
 \value{
 A tidytacos object with a phylotree slot.
 }
 \description{
 `add_tree()` performs a multiple sequence alignment on the ASV sequences in
-the taxa table and then constructs a phylogenetic tree. 
+the taxa table and then constructs a phylogenetic tree.
 The tree is added to the tidytacos object under a variable called `tree`.
+}
+\examples{
+# filter taxa to speed up calculation time
+\dontrun{urt_sub <- urt \%>\% 
+  filter_taxa(taxon_id \%in\% head(urt$taxa$taxon_id))
+urt_sub_tree <- add_tree(urt_sub, 
+                         sequence_var="sequence", 
+                         outgroup_taxon_id="t4", 
+                         aln_args=list(verbose=FALSE)
+                        )
+# our new rooted tree
+urt_sub_tree$tree
+
+urt_sub_unrooted <- add_tree(urt_sub,aln_args=list(verbose=FALSE))
+# an unrooted version of the tree
+urt_sub_unrooted$tree}
 }

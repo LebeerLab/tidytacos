@@ -330,6 +330,8 @@ perform_umap <- function(ta, dist_matrix, dims=2, ...) {
 }
 
 #' Calculate unifrac distance matrix from a tidytacos object with a rooted tree
+#' @param ta A tidytacos object with a rooted tree in the "tree" slot.
+#' @param ... Additional arguments to pass to the [phyloseq::UniFrac()] function.
 #' @export 
 calculate_unifrac_distances <- function(ta, ...) {
 
