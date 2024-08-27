@@ -23,7 +23,6 @@ reference:
       - write_tidytacos
       - merge_tidytacos
       - create_tidytacos
-      - make_tidytacos
       - add_metadata
       - from_dada
       - from_phyloseq
