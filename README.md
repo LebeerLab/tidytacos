@@ -49,6 +49,8 @@ taco <- from_dada(seqtab.nochim, taxa)
 ```
 Where seqtab.nochim and taxa refer to the R objects [as calculated in the dada2 tutorial](https://benjjneb.github.io/dada2/tutorial.html)
 
+Note that the taxa table includes all taxonomic levels from kingdom to species, in addition to the optional sequence variable (which refers to the nucleotide sequence) and the taxon_id variable which links the taxa table with the counts table in the tidytacos object.
+
 
 ## Documentation
 
