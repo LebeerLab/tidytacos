@@ -75,7 +75,7 @@ network <- function(ta,
 #' @param threshold absolute value of correlations below this threshold are
 #' @param fdr the threshold for false discovery rate
 #' (if pvalues are calculated for the network) filtered out.
-#' @param ... Extra arguments to pass to the [stat::p.adjust()] function.
+#' @inheritDotParams stats::p.adjust
 #' 
 #'@export
 filter_network <- function(network, threshold = 0.1, fdr = NULL, ...) {

@@ -64,7 +64,7 @@ test_that("Extract all three tables in one large tibble",{
 
 test_that("Perform adonis shows stable output", {
     set.seed(42)
-    adn <- urt %>% perform_adonis(c("location", "method"))
+    adn <- urt %>% perform_adonis(c("location", "method"), by="terms")
     expect_snapshot(adn)
 })
 

@@ -245,9 +245,12 @@ counts <- function(ta) ta$counts
 #' @param predictors A character vector with predictors to include in the model.
 #' @param permutations The number of permutations (more permutations takes
 #'   longer but gives a more accurate p-value).
-#' @param ... Additional arguments to pass to the \link[vegan]{adonis2} function.
+#' @inheritDotParams vegan::adonis2
 #' @return An object of class "adonis" (see \link[vegan]{adonis}).
-#'
+#' @examples
+#' res <- urt %>% 
+#'     perform_adonis(c("plate","method"), by="terms")
+#' res
 #' @export
 perform_adonis <- function(ta, predictors, permutations = 999, ...) {
 
