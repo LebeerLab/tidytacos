@@ -53,3 +53,12 @@ Where seqtab.nochim and taxa refer to the R objects [as calculated in the dada2 
 ## Documentation
 
 [A documentation page (help page)](https://lebeerlab.github.io/tidytacos/reference/index.html) is available for all functions in the browser or in R. You can view it in R by running e.g. `?filter_samples`. Some useful tutorials can be found on the [wiki](https://github.com/LebeerLab/tidytacos/wiki). 
+
+## Need support?
+
+Post on [GitHub issues](https://github.com/LebeerLab/tidytacos/issues) if you have questions, requests, or if you run into an issue.
+
+## Feel like contributing?
+
+Please read the [GitHub Developer Guide] (https://github.com/LebeerLab/tidytacos/wiki/Developer-Guide). Fork the dev branch, make your changes and make a pull request. Your suggestions will be reviewed and if approved, will be implemented in the next release.
+
