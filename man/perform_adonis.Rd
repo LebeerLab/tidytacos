@@ -14,7 +14,51 @@ perform_adonis(ta, predictors, permutations = 999, ...)
 \item{permutations}{The number of permutations (more permutations takes
 longer but gives a more accurate p-value).}
 
-\item{...}{Additional arguments to pass to the \link[vegan]{adonis2} function.}
+\item{...}{
+  Arguments passed on to \code{\link[vegan:adonis]{vegan::adonis2}}
+  \describe{
+    \item{\code{formula}}{Model formula. The left-hand side (LHS) of the formula
+    must be either a community data matrix or a dissimilarity matrix,
+    e.g., from \code{\link[vegan]{vegdist}} or \code{\link{dist}}.  If the LHS
+    is a data matrix, function \code{\link[vegan]{vegdist}} will be used to
+    find the dissimilarities. The right-hand side (RHS) of the formula
+    defines the independent variables. These can be continuous variables
+    or factors, they can be transformed within the formula, and they can
+    have interactions as in a typical \code{\link{formula}}.}
+    \item{\code{data}}{ the data frame for the independent variables, with rows
+    in the same order as the community data matrix or dissimilarity
+    matrix named on the LHS of \code{formula}.}
+    \item{\code{method}}{ the name of any method used in \code{\link[vegan]{vegdist}} to
+    calculate pairwise distances if the left hand side of the
+    \code{formula} was a data frame or a matrix. }
+    \item{\code{sqrt.dist}}{Take square root of dissimilarities. This often
+    euclidifies dissimilarities.}
+    \item{\code{add}}{Add a constant to the non-diagonal dissimilarities such
+    that all eigenvalues are non-negative in the underlying Principal
+    Co-ordinates Analysis (see \code{\link[vegan]{wcmdscale}} for
+    details). Choice \code{"lingoes"} (or \code{TRUE}) use the
+    recommended method of Legendre & Anderson (1999: \dQuote{method
+    1}) and \code{"cailliez"} uses their \dQuote{method 2}.}
+    \item{\code{by}}{\code{by = NULL} will assess the overall significance of all
+    terms together, \code{by = "terms"} will assess significance for each
+    term (sequentially from first to last), setting \code{by = "margin"}
+    will assess the marginal effects of the terms (each marginal term
+    analysed in a model with all other variables), \code{by = "onedf"}
+    will analyse one-degree-of-freedom contrasts sequentially. The
+    argument is passed on to \code{\link[vegan]{anova.cca}}.}
+    \item{\code{parallel}}{Number of parallel processes or a predefined socket
+    cluster.  With \code{parallel = 1} uses ordinary, non-parallel
+    processing. The parallel processing is done with \pkg{parallel}
+    package.}
+    \item{\code{na.action}}{Handling of missing values on the right-hand-side
+    of the formula (see \code{\link{na.fail}} for explanation and
+    alternatives). Missing values are not allowed on the
+    left-hand-side. NB, argument \code{subset} is not implemented.}
+    \item{\code{strata}}{Groups within which to constrain permutations. The
+    traditional non-movable strata are set as Blocks in the
+    \href{https://CRAN.R-project.org/package=permute}{\pkg{permute}} package, but some more flexible alternatives may
+    be more appropriate.}
+  }}
 }
 \value{
 An object of class "adonis" (see \link[vegan]{adonis}).
@@ -25,4 +69,9 @@ and returns the result.
 }
 \details{
 Samples where one or more predictors are NA are removed.
+}
+\examples{
+res <- urt \%>\% 
+    perform_adonis(c("plate","method"), by="terms")
+res
 }

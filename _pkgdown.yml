@@ -24,11 +24,9 @@ reference:
       - merge_tidytacos
       - create_tidytacos
       - add_metadata
-      - from_dada
-      - from_phyloseq
+      - starts_with("from_")
       - as_phyloseq
-      - to_biom
-      - to_fasta
+      - starts_with("to_")
   - title: "Table manipulation"
     desc: >
       Functions for manipulation of the three distinct tables using tidy-related functions.
@@ -92,6 +90,7 @@ reference:
       - betas
       - add_ord
       - add_copca
+      - calculate_unifrac_distances
 
   - title: "Clustering"
     desc: >
@@ -120,8 +119,7 @@ reference:
       - trim_asvs
       - classify_taxa
       - reset_ids
-      - change_id_taxa
-      - change_id_samples
+      - starts_with("change_id_")
       - remove_empty_samples
       - tidy_count_to_matrix
       - rarefy
