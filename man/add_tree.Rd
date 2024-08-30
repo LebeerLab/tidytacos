@@ -2,12 +2,11 @@
 % Please edit documentation in R/adders_tree.R
 \name{add_tree}
 \alias{add_tree}
-\title{Construct a phylogenetic tree from the sequences in the taxa table of a tidytacos object.}
+\title{Construct a phylogeny from ASV sequences}
 \usage{
 add_tree(
   ta,
   sequence_var = sequence,
-  outgroup_taxon_id = NULL,
   aln_args = list(),
   tree_fit_args = list()
 )
@@ -15,16 +14,17 @@ add_tree(
 \arguments{
 \item{ta}{A tidytacos object.}
 
-\item{sequence_var}{The name of the column in the taxa table that contains the sequence}
+\item{sequence_var}{The name of the column in the taxa table that contains 
+the ASV sequences}
 
-\item{outgroup_taxon_id}{The taxon_id of the outgroup to root the tree. If NULL, the tree will be unrooted.}
+\item{aln_args}{An optional list of arguments to pass to the 
+[DECIPHER::AlignSeqs()] function}
 
-\item{aln_args}{An optional list of arguments to pass to the [DECIPHER::AlignSeqs()] function.}
-
-\item{tree_fit_args}{An optional list of arguments to pass to the [phangorn::optim.pml()] function.}
+\item{tree_fit_args}{An optional list of arguments to pass to the 
+[phangorn::optim.pml()] function}
 }
 \value{
-A tidytacos object with a phylotree slot.
+A tidytacos object with a phylotree slot
 }
 \description{
 `add_tree()` performs a multiple sequence alignment on the ASV sequences in
@@ -32,18 +32,16 @@ the taxa table and then constructs a phylogenetic tree.
 The tree is added to the tidytacos object under a variable called `tree`.
 }
 \examples{
+\dontrun{
 # filter taxa to speed up calculation time
-\dontrun{urt_sub <- urt \%>\% 
-  filter_taxa(taxon_id \%in\% head(urt$taxa$taxon_id))
+urt_sub <- urt \%>\% filter_taxa(taxon_id \%in\% head(urt$taxa$taxon_id))
+# infer tree
 urt_sub_tree <- add_tree(urt_sub, 
                          sequence_var="sequence", 
-                         outgroup_taxon_id="t4", 
                          aln_args=list(verbose=FALSE)
                         )
-# our new rooted tree
+# inspect tree
 urt_sub_tree$tree
+}
 
-urt_sub_unrooted <- add_tree(urt_sub,aln_args=list(verbose=FALSE))
-# an unrooted version of the tree
-urt_sub_unrooted$tree}
 }
