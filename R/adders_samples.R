@@ -330,6 +330,18 @@ perform_umap <- function(ta, dist_matrix, dims=2, ...) {
   ord
 }
 
+#' Calculate unifrac distance matrix from a tidytacos object with a rooted tree
+#' @param ta A tidytacos object with a rooted tree in the "tree" slot.
+#' @param ... Additional arguments to pass to the [phyloseq::UniFrac()] function.
+#' @export 
+calculate_unifrac_distances <- function(ta, ...) {
+
+  ensure_tree(ta, rooted = TRUE)
+  ps <- ta %>% as_phyloseq(sample = sample_id)
+  ps <- phyloseq::merge_phyloseq(ps, ta$tree)
+  phyloseq::UniFrac(ps, ...)
+}
+
 #' Add ordination
 #'
 #' `add_ord()` adds the first n dimensions of a dimensionality reduction
@@ -375,7 +387,10 @@ perform_umap <- function(ta, dist_matrix, dims=2, ...) {
 #' @export
 add_ord <- function(ta, distance="bray", method="pcoa", dims=2, binary=FALSE, ...) {
 
-  methods = c("pcoa", "tsne", "umap")
+  methods <- c("pcoa", "tsne", "umap")
+  method <- tolower(method)
+  distance <- tolower(distance)
+
   if (!method %in% methods) {
     stop(paste("Select a method from", paste0(method, collapse=",")))
   }
@@ -395,9 +410,11 @@ add_ord <- function(ta, distance="bray", method="pcoa", dims=2, binary=FALSE, ..
     rel_abundance_matrix <- rel_abundance_matrix %>%
       vegan::decostand(method = "clr", pseudocount = 1)
     dist_matrix <- vegan::vegdist(rel_abundance_matrix, method = "euclidean")
+  } else if (distance == "unifrac") {
+    dist_matrix <- calculate_unifrac_distances(ta)
   } else {
     # make distance matrix
-    dist_matrix = vegan::vegdist(rel_abundance_matrix, method = distance, binary=binary)
+    dist_matrix <- vegan::vegdist(rel_abundance_matrix, method = distance, binary=binary)
   }
 
   if (method == "pcoa") {

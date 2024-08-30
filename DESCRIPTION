@@ -22,7 +22,8 @@ Imports:
     stringr,
     tibble,
     tidyr,
-    vegan
+    vegan,
+    methods
 Suggests:
     tidyverse, 
     devtools,
@@ -48,9 +49,12 @@ Suggests:
     fastDummies,
     SpiecEasi,
     Matrix,
+    Biostrings,
     igraph,
     rmarkdown,
     roxygen2,
+    ape,
+    phangorn,
     testthat (>= 3.1.9)
 VignetteBuilder: 
     knitr
