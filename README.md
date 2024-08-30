@@ -32,25 +32,31 @@ devtools::install_github("LebeerLab/tidytacos")
 
 ## Getting started
 
-A tidytacos object is read and stored as three sparse tables (counts-, taxa- and samples.csv). 
-To read in existing data from a folder, [for example one called ‘leaf’ in the ‘data-raw/tidytacos’ folder](https://github.com/LebeerLab/tidytacos/tree/dev/data-raw/tidytacos/leaf) you would run:
-
-```R
-taco <- read_tidytacos("data-raw/tidytacos/leaf")
-```
-If you have data in the form of a phyloseq object you could convert it using:
-
-```R
-taco <- from_phyloseq(phylo_obj)
-```
 If your ASVs are counted and annotated using [dada2](https://benjjneb.github.io/dada2/), you can use the following function to convert the results to a tidytacos object:
 ```R
 taco <- from_dada(seqtab.nochim, taxa)
 ```
-Where seqtab.nochim and taxa refer to the R objects [as calculated in the dada2 tutorial](https://benjjneb.github.io/dada2/tutorial.html)
 
-Note that the taxa table includes all taxonomic levels from kingdom to species, in addition to the optional sequence variable (which refers to the nucleotide sequence) and the taxon_id variable which links the taxa table with the counts table in the tidytacos object.
+If you have data in the form of a phyloseq object you could convert it using:
+```R
+taco <- from_phyloseq(phylo_obj)
+```
 
+Where seqtab.nochim and taxa refer to the R objects [as calculated in the dada2 tutorial](https://benjjneb.github.io/dada2/tutorial.html).
+
+You may wish to create a tidytacos object from your counts matrix, for example an OTU table where rownames are taxa and colnames are samples. After that is done, you can add your taxonomy table and sample data. The variable 'taxon' of the taxonomy table should align with the rownames of the OTU table. Furthermore it may include all taxonomic levels from 'kingdom' to 'species' and a 'sequence' variable (nucleotide sequence). The variable 'sample' of the sample data should align with the colnames of the OTU table.
+```R
+taco <- create_tidytacos(OTUtable, taxa_are_columns = FALSE)
+taco <- taco%>%
+  add_metadata(taxonomy, table_type="taxa")%>%
+  add_metadata(sampledata, table_type="sample")
+```
+
+A tidytacos object is read and stored as three sparse tables (counts-, taxa- and samples.csv). 
+To read in existing data from a folder, [for example one called ‘leaf’ in the ‘data-raw/tidytacos’ folder](https://github.com/LebeerLab/tidytacos/tree/dev/data-raw/tidytacos/leaf) you would run:
+```R
+taco <- read_tidytacos("data-raw/tidytacos/leaf")
+```
 
 ## Documentation
 
