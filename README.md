@@ -60,5 +60,5 @@ Post on [GitHub issues](https://github.com/LebeerLab/tidytacos/issues) if you ha
 
 ## Feel like contributing?
 
-Please read the [GitHub Developer Guide] (https://github.com/LebeerLab/tidytacos/wiki/Developer-Guide). Fork the dev branch, make your changes and make a pull request. Your suggestions will be reviewed and if approved, will be implemented in the next release.
+Please read the [GitHub Developer Guide](https://github.com/LebeerLab/tidytacos/wiki/Developer-Guide). Fork the dev branch, make your changes and make a pull request. Your suggestions will be reviewed and if approved, will be implemented in the next release.
 
