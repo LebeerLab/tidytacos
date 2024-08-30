@@ -109,13 +109,14 @@ add_total_count <- function(ta) {
 #'
 #' This function can add different alpha diversity measures to the sample table, specified by the method argument.
 #' The following methods are available:
-#' - invsimpson: Inverse Simpson index
-#' - shannon: Shannon index
-#' - simpson: Simpson index
-#' - pielou: Pielou's evenness index
-#' - obs: Observed richness
-#' - s.chao1: Chao1 richness estimator
-#' - s.ace: ACE richness estimator
+#'
+#' * invsimpson: Inverse Simpson index
+#' * shannon: Shannon index
+#' * simpson: Simpson index
+#' * pielou: Pielou's evenness index
+#' * obs: Observed richness
+#' * s.chao1: Chao1 richness estimator
+#' * s.ace: ACE richness estimator
 #'
 #' @param ta A tidytacos object.
 #' @param method The diversity measure to use, see [vegan::diversity()] for further information on these.
