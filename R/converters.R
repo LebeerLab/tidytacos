@@ -175,6 +175,7 @@ infer_rank_names <- function(ta){
       "them manually using 'set_rank_names()'"))
     ta <- ta %>% set_rank_names(ranks)
   }    
+  ta
 }
 
 #' Reset the taxon and sample IDs
