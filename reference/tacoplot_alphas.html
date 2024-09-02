@@ -9,7 +9,7 @@ If no alpha metrics are present, all available ones are added."><meta property="
 
     <a class="navbar-brand me-2" href="../index.html">tidytacos</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.1.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -61,7 +61,139 @@ If no alpha metrics are present, all available ones are added.</p>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
-<dd><p>See <code><a href="https://rpkgs.datanovia.com/ggpubr/reference/stat_compare_means.html" class="external-link">stat_compare_means</a></code> for additional arguments that can be given for this test.</p></dd>
+<dd><p>Arguments passed on to <code><a href="https://rpkgs.datanovia.com/ggpubr/reference/stat_compare_means.html" class="external-link">ggpubr::stat_compare_means</a></code></p><dl><dt><code>mapping</code></dt>
+<dd><p>Set of aesthetic mappings created by <code><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes()</a></code>. If specified and
+<code>inherit.aes = TRUE</code> (the default), it is combined with the default mapping
+at the top level of the plot. You must supply <code>mapping</code> if there is no plot
+mapping.</p></dd>
+
+    <dt><code>data</code></dt>
+<dd><p>The data to be displayed in this layer. There are three
+options:</p>
+<p>If <code>NULL</code>, the default, the data is inherited from the plot
+data as specified in the call to <code><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot()</a></code>.</p>
+<p>A <code>data.frame</code>, or other object, will override the plot
+data. All objects will be fortified to produce a data frame. See
+<code><a href="https://ggplot2.tidyverse.org/reference/fortify.html" class="external-link">fortify()</a></code> for which variables will be created.</p>
+<p>A <code>function</code> will be called with a single argument,
+the plot data. The return value must be a <code>data.frame</code>, and
+will be used as the layer data. A <code>function</code> can be created
+from a <code>formula</code> (e.g. <code>~ head(.x, 10)</code>).</p></dd>
+
+    <dt><code>method</code></dt>
+<dd><p>a character string indicating which method to be used for
+comparing means.</p></dd>
+
+    <dt><code>paired</code></dt>
+<dd><p>a logical indicating whether you want a paired test. Used only
+in <code><a href="https://rdrr.io/r/stats/t.test.html" class="external-link">t.test</a></code> and in <a href="https://rdrr.io/r/stats/wilcox.test.html" class="external-link">wilcox.test</a>.</p></dd>
+
+    <dt><code>method.args</code></dt>
+<dd><p>a list of additional arguments used for the test method.
+For example one might use <code>method.args = list(alternative = "greater")</code>
+for wilcoxon test.</p></dd>
+
+    <dt><code>ref.group</code></dt>
+<dd><p>a character string specifying the reference group. If
+ specified, for a given grouping variable, each of the group levels will be
+ compared to the reference group (i.e. control group).</p>
+<p><code>ref.group</code> can be also <code>".all."</code>. In this case, each of the
+ grouping variable levels is compared to all (i.e. basemean).</p></dd>
+
+    <dt><code>comparisons</code></dt>
+<dd><p>A list of length-2 vectors. The entries in the vector are
+either the names of 2 values on the x-axis or the 2 integers that correspond
+to the index of the groups of interest, to be compared.</p></dd>
+
+    <dt><code>hide.ns</code></dt>
+<dd><p>logical value. If TRUE, hide ns symbol when displaying
+significance levels.</p></dd>
+
+    <dt><code>label.sep</code></dt>
+<dd><p>a character string to separate the terms. Default is ", ", to
+separate the correlation coefficient and the p.value.</p></dd>
+
+    <dt><code>label</code></dt>
+<dd><p>character string specifying label type. Allowed values include
+"p.signif" (shows the significance levels), "p.format" (shows the formatted
+p value).</p></dd>
+
+    <dt><code>label.x.npc,label.y.npc</code></dt>
+<dd><p>can be <code>numeric</code> or <code>character</code>
+vector of the same length as the number of groups and/or panels. If too
+short they will be recycled.</p><ul><li><p>If <code>numeric</code>, value should
+be between 0 and 1. Coordinates to be used for positioning the label,
+expressed in "normalized parent coordinates".</p></li>
+<li><p>If <code>character</code>,
+allowed values include: i) one of c('right', 'left', 'center', 'centre',
+'middle') for x-axis; ii) and one of c( 'bottom', 'top', 'center', 'centre',
+'middle') for y-axis.</p></li>
+</ul></dd>
+
+    <dt><code>label.x,label.y</code></dt>
+<dd><p><code>numeric</code> Coordinates (in data units) to be used
+for absolute positioning of the label. If too short they will be recycled.</p></dd>
+
+    <dt><code>vjust</code></dt>
+<dd><p>move the text up or down relative to the bracket.</p></dd>
+
+    <dt><code>tip.length</code></dt>
+<dd><p>numeric vector with the fraction of total height that the
+ bar goes down to indicate the precise column. Default is 0.03. Can be of
+ same length as the number of comparisons to adjust specifically the tip
+ lenth of each comparison. For example tip.length = c(0.01, 0.03).</p>
+<p>If too short they will be recycled.</p></dd>
+
+    <dt><code>bracket.size</code></dt>
+<dd><p>Width of the lines of the bracket.</p></dd>
+
+    <dt><code>step.increase</code></dt>
+<dd><p>numeric vector with the increase in fraction of total
+height for every additional comparison to minimize overlap.</p></dd>
+
+    <dt><code>symnum.args</code></dt>
+<dd><p>a list of arguments to pass to the function
+ <code><a href="https://rdrr.io/r/stats/symnum.html" class="external-link">symnum</a></code> for symbolic number coding of p-values. For
+ example, <code>symnum.args &lt;- list(cutpoints = c(0, 0.0001, 0.001,
+ 0.01, 0.05, Inf), symbols = c("****", "***", "**", "*",  "ns"))</code>.</p>
+<p>In other words, we use the following convention for symbols indicating
+ statistical significance:</p><ul><li><p><code>ns</code>: p &gt; 0.05</p></li>
+<li><p><code>*</code>: p &lt;= 0.05</p></li>
+<li><p><code>**</code>: p &lt;= 0.01</p></li>
+<li><p><code>***</code>: p &lt;= 0.001</p></li>
+<li><p><code>****</code>:  p &lt;= 0.0001</p></li>
+</ul></dd>
+
+    <dt><code>geom</code></dt>
+<dd><p>The geometric object to use to display the data, either as a
+<code>ggproto</code> <code>Geom</code> subclass or as a string naming the geom stripped of the
+<code>geom_</code> prefix (e.g. <code>"point"</code> rather than <code>"geom_point"</code>)</p></dd>
+
+    <dt><code>position</code></dt>
+<dd><p>Position adjustment, either as a string naming the adjustment
+(e.g. <code>"jitter"</code> to use <code>position_jitter</code>), or the result of a call to a
+position adjustment function. Use the latter if you need to change the
+settings of the adjustment.</p></dd>
+
+    <dt><code>na.rm</code></dt>
+<dd><p>If FALSE (the default), removes missing values with a warning. If
+TRUE silently removes missing values.</p></dd>
+
+    <dt><code>show.legend</code></dt>
+<dd><p>logical. Should this layer be included in the legends?
+<code>NA</code>, the default, includes if any aesthetics are mapped.
+<code>FALSE</code> never includes, and <code>TRUE</code> always includes.
+It can also be a named logical vector to finely select the aesthetics to
+display.</p></dd>
+
+    <dt><code>inherit.aes</code></dt>
+<dd><p>If <code>FALSE</code>, overrides the default aesthetics,
+rather than combining with them. This is most useful for helper functions
+that define both data and aesthetics and shouldn't inherit behaviour from
+the default plot specification, e.g. <code><a href="https://ggplot2.tidyverse.org/reference/borders.html" class="external-link">borders()</a></code>.</p></dd>
+
+
+</dl></dd>
 
 </dl></div>
 
@@ -70,7 +202,7 @@ If no alpha metrics are present, all available ones are added.</p>
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Stijn Wittouck, Tim Van Rillaer, Wenke Smets, Sarah <a href="mailto:sarah.lebeer@uantwerpen.be" class="email">sarah.lebeer@uantwerpen.be</a> Lebeer.</p>
+  <p>Developed by Stijn Wittouck, Tim Van Rillaer, Wenke Smets, Sarah Lebeer.</p>
 </div>
 
 <div class="pkgdown-footer-right">

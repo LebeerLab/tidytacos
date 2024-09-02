@@ -30,10 +30,12 @@
 <url><loc>https://lebeerlab.github.io/tidytacos/reference/add_total_absolute_abundance.html</loc></url>
 <url><loc>https://lebeerlab.github.io/tidytacos/reference/add_total_count.html</loc></url>
 <url><loc>https://lebeerlab.github.io/tidytacos/reference/add_total_density.html</loc></url>
+<url><loc>https://lebeerlab.github.io/tidytacos/reference/add_tree.html</loc></url>
 <url><loc>https://lebeerlab.github.io/tidytacos/reference/aggregate_samples.html</loc></url>
 <url><loc>https://lebeerlab.github.io/tidytacos/reference/aggregate_taxa.html</loc></url>
 <url><loc>https://lebeerlab.github.io/tidytacos/reference/as_phyloseq.html</loc></url>
 <url><loc>https://lebeerlab.github.io/tidytacos/reference/betas.html</loc></url>
+<url><loc>https://lebeerlab.github.io/tidytacos/reference/calculate_unifrac_distances.html</loc></url>
 <url><loc>https://lebeerlab.github.io/tidytacos/reference/change_id_samples.html</loc></url>
 <url><loc>https://lebeerlab.github.io/tidytacos/reference/change_id_taxa.html</loc></url>
 <url><loc>https://lebeerlab.github.io/tidytacos/reference/classify_taxa.html</loc></url>
@@ -82,6 +84,7 @@
 <url><loc>https://lebeerlab.github.io/tidytacos/reference/tacoplot_ord.html</loc></url>
 <url><loc>https://lebeerlab.github.io/tidytacos/reference/tacoplot_ord_ly.html</loc></url>
 <url><loc>https://lebeerlab.github.io/tidytacos/reference/tacoplot_prevalences.html</loc></url>
+<url><loc>https://lebeerlab.github.io/tidytacos/reference/tacoplot_scree.html</loc></url>
 <url><loc>https://lebeerlab.github.io/tidytacos/reference/tacoplot_stack.html</loc></url>
 <url><loc>https://lebeerlab.github.io/tidytacos/reference/tacoplot_stack_ly.html</loc></url>
 <url><loc>https://lebeerlab.github.io/tidytacos/reference/tacoplot_venn.html</loc></url>
@@ -93,6 +96,7 @@
 <url><loc>https://lebeerlab.github.io/tidytacos/reference/test_taco.html</loc></url>
 <url><loc>https://lebeerlab.github.io/tidytacos/reference/tidy_count_to_matrix.html</loc></url>
 <url><loc>https://lebeerlab.github.io/tidytacos/reference/tidyeval.html</loc></url>
+<url><loc>https://lebeerlab.github.io/tidytacos/reference/tidytacos-package.html</loc></url>
 <url><loc>https://lebeerlab.github.io/tidytacos/reference/tidytacos.html</loc></url>
 <url><loc>https://lebeerlab.github.io/tidytacos/reference/to_biom.html</loc></url>
 <url><loc>https://lebeerlab.github.io/tidytacos/reference/to_fasta.html</loc></url>

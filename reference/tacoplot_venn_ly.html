@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">tidytacos</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.1.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -55,7 +55,68 @@ categorical value.</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
-<dd><p>Extra arguments to pass to the <code><a href="https://gaospecial.github.io/ggVennDiagram/reference/ggVennDiagram.html" class="external-link">ggVennDiagram</a></code> function.</p></dd>
+<dd><p>Arguments passed on to <code><a href="https://gaospecial.github.io/ggVennDiagram/reference/ggVennDiagram.html" class="external-link">ggVennDiagram::ggVennDiagram</a></code></p><dl><dt><code>x</code></dt>
+<dd><p>list of items</p></dd>
+
+    <dt><code>category.names</code></dt>
+<dd><p>default is names(x)</p></dd>
+
+    <dt><code>show_intersect</code></dt>
+<dd><p>if TRUE the text can be visualized by `plotly`</p></dd>
+
+    <dt><code>set_color</code></dt>
+<dd><p>color of set labels ("black")</p></dd>
+
+    <dt><code>set_size</code></dt>
+<dd><p>size of set labels (NA)</p></dd>
+
+    <dt><code>label</code></dt>
+<dd><p>format of region labels, select one from c("count","percent","both","none")</p></dd>
+
+    <dt><code>label_alpha</code></dt>
+<dd><p>set 0 to remove the background of region labels</p></dd>
+
+    <dt><code>label_geom</code></dt>
+<dd><p>layer of region labels, choose from c("label", "text")</p></dd>
+
+    <dt><code>label_color</code></dt>
+<dd><p>color of region labels ("black")</p></dd>
+
+    <dt><code>label_size</code></dt>
+<dd><p>size of region labels (NA)</p></dd>
+
+    <dt><code>label_percent_digit</code></dt>
+<dd><p>number of digits when formatting percent label (0)</p></dd>
+
+    <dt><code>label_txtWidth</code></dt>
+<dd><p>width of text used in showing intersect members, will be ignored unless show_intersection is TRUE (40)</p></dd>
+
+    <dt><code>edge_lty</code></dt>
+<dd><p>line type of set edges ("solid")</p></dd>
+
+    <dt><code>edge_size</code></dt>
+<dd><p>line width of set edges (1)</p></dd>
+
+    <dt><code>force_upset</code></dt>
+<dd><p>if TRUE, will always produce Upset plot no matter how many sets have (FALSE)</p></dd>
+
+    <dt><code>nintersects</code></dt>
+<dd><p>number of intersects. If NULL, all intersections will show.</p></dd>
+
+    <dt><code>order.intersect.by</code></dt>
+<dd><p>'size', 'name', or "none"</p></dd>
+
+    <dt><code>order.set.by</code></dt>
+<dd><p>'size', 'name', or "none"</p></dd>
+
+    <dt><code>relative_height</code></dt>
+<dd><p>the relative height of top panel in upset plot</p></dd>
+
+    <dt><code>relative_width</code></dt>
+<dd><p>the relative width of left panel in upset plot</p></dd>
+
+
+</dl></dd>
 
 </dl></div>
 
@@ -64,7 +125,7 @@ categorical value.</p></dd>
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Stijn Wittouck, Tim Van Rillaer, Wenke Smets, Sarah <a href="mailto:sarah.lebeer@uantwerpen.be" class="email">sarah.lebeer@uantwerpen.be</a> Lebeer.</p>
+  <p>Developed by Stijn Wittouck, Tim Van Rillaer, Wenke Smets, Sarah Lebeer.</p>
 </div>
 
 <div class="pkgdown-footer-right">
