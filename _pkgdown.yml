@@ -95,7 +95,7 @@ reference:
       - add_tree
       - calculate_unifrac_distances
 
-  - titdistancestering"
+  - title: "Clustering"
     desc: >
       Functions to cluster the sample and taxa table.
     contents:
