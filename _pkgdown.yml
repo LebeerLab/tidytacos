@@ -15,6 +15,7 @@ reference:
       Package overview
     contents:
       - tidytacos-package
+      - tidytacos
   - title: "File handling"
     desc: >
       Functions for loading in or creating tidytaco objects or converting to another datatype. 
@@ -23,6 +24,7 @@ reference:
       - write_tidytacos
       - merge_tidytacos
       - create_tidytacos
+      - make_tidytacos
       - add_metadata
       - starts_with("from_")
       - as_phyloseq
@@ -90,9 +92,10 @@ reference:
       - betas
       - add_ord
       - add_copca
+      - add_tree
       - calculate_unifrac_distances
 
-  - title: "Clustering"
+  - titdistancestering"
     desc: >
       Functions to cluster the sample and taxa table.
     contents:
