@@ -16,7 +16,7 @@
       Permutation: free
       Number of permutations: 999
       
-      adonis2(formula = as.formula(paste("counts_matrix", formula_RHS, sep = " ~ ")), data = metadata, permutations = permutations)
+      adonis2(formula = as.formula(paste("counts_matrix", formula_RHS, sep = " ~ ")), data = metadata, permutations = permutations, by = "terms")
                 Df SumOfSqs      R2      F Pr(>F)    
       location   1    2.800 0.03823 8.4267  0.001 ***
       method     1    0.334 0.00456 1.0056  0.409    

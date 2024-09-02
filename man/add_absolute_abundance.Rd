@@ -15,7 +15,7 @@ add_absolute_abundance(ta, spike_taxon, spike_added = spike_added)
 much spike was added per sample.}
 }
 \description{
-\code{add_absolute_abundance} calculates absolute abundances of taxa in
+`add_absolute_abundance()` calculates absolute abundances of taxa in
 samples given a taxon that was spiked into all of the samples during library
 prep. The function then adds these absolute abundances to the count table of
 the tidytacos object under the column name "absolute_abundance".

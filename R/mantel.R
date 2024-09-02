@@ -24,12 +24,12 @@ perform_mantel_test <- function(ta, comparison, ...) {
         ta <- ta %>% remove_empty_samples()
     }
 
-    if (class(comparison) == "character" &&
+    if (inherits(comparison,  "character") &&
         nrow(unique(ta$samples[comparison])) == 1) {
         stop(paste0("Supplied variable '", comparison, "' only has one value."))
     }
 
-    if (typeof(comparison) == "double") {
+    if (inherits(comparison, "double")) {
         return(vegan::mantel(dmatrix, comparison, ...))
     } 
 
@@ -43,7 +43,7 @@ perform_mantel_test <- function(ta, comparison, ...) {
 }
 
 mantel_test_vector <- function(dmatrix, vector, ...) {
-    
+
     if (typeof(vector) == "character") {
         vector <- as.numeric(as.factor(vector))
     }

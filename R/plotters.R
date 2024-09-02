@@ -190,7 +190,7 @@ tacoplot_stack_ly <- function(ta, n = 12, x = sample_clustered, order_by=NULL) {
 #'   groups on.
 #' @param samplenames the column in the sample table with the samplenames, defaults to sample_id.
 #' @param ord the ordination technique to use. Choice from pcoa, tsne and umap.
-#' @param distance the distance algorithm to use, see \code{\link[vegan]{vegdist}}.
+#' @param distance the distance algorithm to use, see [vegan::vegdist()].
 #' @param dims the amount of dimensions to plot, 2 or 3.
 #' @param stat.method the statistic to print on the figure, choice from mantel and anosim.
 #' @param palette A vector of colors, used as the palette for coloring sample
@@ -298,7 +298,7 @@ tacoplot_ord_ly <- function(ta, x=NULL, samplenames = sample_id, ord="pcoa", dim
 #' @param ta A tidytacos object.
 #' @param x The column name used to color the sample groups on.
 #' @param ord the ordination technique to use. Choice from pcoa, tsne and umap.
-#' @param distance the distance algorithm to use, see \code{\link[vegan]{vegdist}}.
+#' @param distance the distance algorithm to use, see [vegan::vegdist()].
 #' @param stat.method the statistic to print on the figure, choice from mantel and anosim.
 #' @param palette A vector of colors, used as the palette for coloring sample
 #'   groups.
@@ -387,9 +387,14 @@ tacoplot_ord <- function(ta, x=NULL, palette = NULL, ord = "pcoa", distance="bra
 tacoplot_zoom <- function(ta, sample = sample_id, n = 15, nrow = NULL) {
   ta <- prepare_for_bp(ta, n, extended = FALSE)
 
+
   sample <- rlang::enexpr(sample)
   if (sample != rlang::expr(sample_id)) {
     ta <- change_id_samples(ta, sample_id_new = !!sample)
+  }
+
+  if(ta$samples %>% nrow() > 1) {
+    stop("This visualization is meant to be used for a single sample.")
   }
 
   data <-
@@ -410,12 +415,16 @@ tacoplot_zoom <- function(ta, sample = sample_id, n = 15, nrow = NULL) {
     theme_bw() +
     scale_x_continuous(
       breaks = data$row,
-      labels = data$taxon_name,
+      labels = data$taxon_name_color,
       expand = c(0, 0)
     ) +
-    scale_fill_brewer(palette = "Paired", name = "taxon") +
+    {if(n<=12)scale_fill_brewer(palette = "Paired", name = "taxon")} +
+    {if(n>12)scale_fill_manual(values = colorRampPalette(palette_xgfs)(n))} +
     xlab("taxon name") +
-    ylab("relative abundance")
+    ylab("relative abundance") +
+    theme(
+      legend.position = "none"
+    )
 }
 
 #' Return a venn diagram of overlapping taxon_ids between conditions
@@ -423,7 +432,7 @@ tacoplot_zoom <- function(ta, sample = sample_id, n = 15, nrow = NULL) {
 #' @param ta A tidytacos object.
 #' @param condition The name of a variable in the samples table that contains a
 #'   categorical value.
-#' @param ... Extra arguments to pass to the \code{\link[ggVennDiagram]{ggVennDiagram}} function.
+#' @param ... Extra arguments to pass to the [ggVennDiagram::ggVennDiagram()] function.
 #' @export
 tacoplot_venn <- function(ta, condition, ...) {
 
@@ -454,7 +463,7 @@ tacoplot_venn <- function(ta, condition, ...) {
 #' @param ta A tidytacos object.
 #' @param condition The name of a variable in the samples table that contains a
 #'   categorical value.
-#' @param ... Extra arguments to pass to the \code{\link[ggVennDiagram]{ggVennDiagram}} function.
+#' @inheritDotParams ggVennDiagram::ggVennDiagram
 #'
 #' @export
 tacoplot_venn_ly <- function(ta, condition, ...) {
@@ -474,7 +483,7 @@ tacoplot_venn_ly <- function(ta, condition, ...) {
 #' @param condition The name of a variable in the samples table that contains a
 #'   categorical value.
 #' @param shape shape to plot the groups in; choice from circle or ellipse
-#' @param ... Extra arguments to pass to the \code{\link[eulerr]{euler}} function.
+#' @inheritDotParams eulerr::euler
 #' @export
 tacoplot_euler <- function(ta, condition, shape="ellipse", ...) {
 
@@ -494,9 +503,11 @@ tacoplot_euler <- function(ta, condition, shape="ellipse", ...) {
 #' @param ta A tidytacos object.
 #' @param group_by The name of a variable in the samples table on which to group the samples.
 #' @param compare_means Add the result of a statistical test to the plot, comparing the means of the groups. Default is FALSE. 
-#' @param ... See \code{\link[ggpubr]{stat_compare_means}} for additional arguments that can be given for this test. 
+#' @inheritDotParams ggpubr::stat_compare_means
 #' @export
 tacoplot_alphas <- function(ta, group_by, compare_means=FALSE, ...){
+
+  value <- NULL
 
   group_by <- rlang::enquo(group_by)
   if (rlang::quo_is_missing(group_by)){
@@ -543,13 +554,14 @@ tacoplot_alphas <- function(ta, group_by, compare_means=FALSE, ...){
 #' @param cutoff The minimum prevalence of a taxon to be included in the heatmap.
 #' @param fisher Run a fisher test on the relative prevalences in each condition 
 #' and plot the resulting adjusted p-values as *(<.05), **(<.01), ***(<.001) or ****(<.0001).
-#' @param adjp_method The method to adjust the p-values, see \code{\link[rstatix]{adjust_pvalue}}.
-#' @param ... Extra arguments to pass to the pheatmap function.
+#' @param adjp_method The method to adjust the p-values, see [rstatix::adjust_pvalue()].
+#' @inheritDotParams pheatmap::pheatmap
 #' @export
 tacoplot_prevalences <- function(ta, condition, cutoff=0.1, fisher=T, adjp_method="fdr", ...){
     
     force_optional_dependency("pheatmap")
     force_optional_dependency("rstatix")
+    fisher_p <- NULL
     condition <- rlang::enquo(condition)
 
     prevalences <- ta %>%
@@ -580,6 +592,27 @@ tacoplot_prevalences <- function(ta, condition, cutoff=0.1, fisher=T, adjp_metho
     prevalences.M <- prevalences.M[prevalences.M %>% rowSums() > cutoff,]
 
     pheatmap::pheatmap(prevalences.M, ...)
+}
+
+
+#' Return a scree plot to visualize the eigenvalues of the PCA.
+#' 
+#' 
+#' @param ta A tidytacos object.
+#' @inheritDotParams factoextra::fviz_eig
+#' @examples 
+#' urt %>% tacoplot_scree()
+#' @export
+tacoplot_scree <- function(ta, ...) {
+  force_optional_dependency("factoextra")
+
+  if (!"pca" %in% names(ta)) {
+    ta <- suppressWarnings(add_copca(ta))
+  }
+
+  factoextra::fviz_eig(ta$pca, ...)
+
+
 }
 
 palette_paired <- c(

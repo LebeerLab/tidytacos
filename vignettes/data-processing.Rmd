@@ -1,5 +1,5 @@
 ---
-title: "Tutorial data processing"
+title: "Taxa and sample quality control"
 author: "Wenke Smets"
 date: "2024-04-03"
 output: rmarkdown::html_vignette
@@ -13,7 +13,7 @@ knitr::opts_chunk$set(echo = TRUE, message = F, warning = F, fig.width = 8, fig.
 ```
 
 
-Tutorial data processing
+Taxa and sample quality control
 ========================
 2024-04-03
 

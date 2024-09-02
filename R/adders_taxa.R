@@ -2,7 +2,7 @@
 #'
 #' This function requires the DADA2 package to be installed.
 #'
-#' This function will (re)classify either all or a subset of the taxa, given
+#' `classify_taxa()` will (re)classify either all or a subset of the taxa, given
 #' that a variable is present in the taxon table that contains (representative)
 #' sequences of the taxa.
 #'
@@ -10,8 +10,8 @@
 #' taxonomic ranks and the integers represent positions of these ranks in the
 #' taxonomy strings present in the reference database. Ranks can also be
 #' supplied as just a character vector with the rank names; in that case, it is
-#' assumed that the database taxonomy string follows the default order {domain,
-#' phylum, class, order, family, genus, species}. If no ranks are supplied, taxa
+#' assumed that the database taxonomy string follows the default order 
+#' (domain, phylum, class, order, family, genus, species). If no ranks are supplied, taxa
 #' will be (re)classified at all default ranks.
 #'
 #' @param ta A tidytacos object.
@@ -25,6 +25,26 @@
 #' @param n_ranks The number of ranks present in the reference database.
 #'
 #' @return An updated tidytacos object.
+#' @examples
+#' 
+#' # we create a mock database 
+#' x <- c(
+#' ">Level1;Level2;Level3;Level4;Level5;Level6;", 
+#' "ACCTAGAAAGTCGTAGATCGAAGTTGAAGCATCGCCCGATGATCGTCTGAAGCTGTAGCATGAGTCGATTTTCACATTCAGGGATACCATAGGATAC", 
+#' ">Level1;Level2;Level3;Level4;Level5;",
+#' "CGCTAGAAAGTCGTAGAAGGCTCGGAGGTTTGAAGCATCGCCCGATGGGATCTCGTTGCTGTAGCATGAGTACGGACATTCAGGGATCATAGGATAC"
+#' )
+#' # and write it to a file
+#' write(x, file="tmp-db.fna")
+#' 
+#' urt_reclass <- urt %>%
+#' filter_samples(sample_id %in% c("s1","s2")) %>% # filter out samples to save time
+#' classify_taxa(
+#'   "tmp-db.fna", n_ranks = 6, # the mock database is used here
+#'   ranks=c("kingdom","phylum", "class", "order", "family", "genus")
+#' )
+#' # remove the temp file
+#' unlink("tmp-db.fna")
 #'
 #' @export
 classify_taxa <- function(
@@ -77,7 +97,7 @@ classify_taxa <- function(
 
 #' Add sensible taxon name to taxon table
 #'
-#' \code{add_taxon_name} creates sensible taxa names by -under default conditions- combining the genus name with a number. 
+#' `add_taxon_name()` creates sensible taxa names by -under default conditions- combining the genus name with a number. 
 #' The number is only added if there is more than one taxon of that genus. 
 #' The number indicates the rank of abundance, with 1 indicating the taxon has the highest mean relative abundance of the dataset, 
 #' within the genus. If genus classification is not available the next most detailed taxonomic rank which is available is used. 
@@ -98,6 +118,8 @@ classify_taxa <- function(
 add_taxon_name <- function(
   ta, method = "mean_rel_abundance", include_species = F
   ) {
+
+    best_classification <- arrange_by_me <- n_taxa <- taxon_number <- NULL
 
   if (method == "mean_rel_abundance") {
 
@@ -163,7 +185,7 @@ add_taxon_name <- function(
 
 #' Add taxon color for visualization.
 #'
-#' \code{add_rel_abundance} determines the most abundant taxa and assigns them a color for consistent color codes of each taxon in visualizations. A rank can be supplied to aggregate colors higher than the current rank.
+#' `add_rel_abundance()` determines the most abundant taxa and assigns them a color for consistent color codes of each taxon in visualizations. A rank can be supplied to aggregate colors higher than the current rank.
 #'
 #' @param ta A tidytacos object.
 #' @param method The method by which to arrange the taxon names. Currently only
@@ -184,6 +206,8 @@ add_taxon_name_color <- function(
   ta, method = "mean_rel_abundance", n = 12, samples = NULL, taxa = NULL,
   rank = NULL
   ) {
+
+    arrange_by_me <- NULL
 
   # aggregate rank if asked for
   if(! is.null(rank)) {
@@ -248,8 +272,9 @@ add_taxon_name_color <- function(
 
 #' Apply the taxon QC method of Jervis-Bardy
 #'
-#' \code{add_jervis_bardy} calculates the spearman correlation between relative abundance and
-#' sample DNA concentration, for each taxon and adds the correlation metric and p-value to the taxa table under the column names "jb_cor" and "jb_p", respectively. If taxa show a distribution that is negatively correlated with DNA concentration, it indicates their potential as contaminants.
+#' `add_jervis_bardy()` calculates the spearman correlation between relative abundance and
+#' sample DNA concentration, for each taxon and adds the correlation metric and p-value to the taxa table under the column names "jb_cor" and "jb_p", respectively. 
+#' If taxa show a distribution that is negatively correlated with DNA concentration, it indicates their potential as contaminants.
 #'
 #' See:
 #' J. Jervis-Bardy et al., “Deriving accurate microbiota profiles from
@@ -265,10 +290,30 @@ add_taxon_name_color <- function(
 #'   before calculations.
 #' @param min_pres The minimum number of samples a taxon has to be present in
 #'   for its correlation to be calculated.
-#'
+#' 
+#' @examples 
+#' library(dplyr)
+#' # filter out blank samples
+#' plants <- leaf %>% 
+#'   filter_samples(Plant != "Blank")
+#' # assume Leafweight is a proxy for DNA concentration of the sample
+#' plants_jb <- plants %>% 
+#'   add_jervis_bardy(dna_conc = Leafweight)
+#' 
+#' # we can do this in one step!
+#' plants_jb <- leaf %>% 
+#'   add_jervis_bardy(dna_conc = Leafweight, sample_condition = Plant != "Blank")
+#' 
+#' # show the negative correlations
+#' plants_jb$taxa %>% 
+#'   select(taxon_id, starts_with("jb_")) %>% 
+#'   filter(jb_cor < 0) %>%
+#'   arrange(jb_p)
+
 #' @export
 add_jervis_bardy <- function(ta, dna_conc, sample_condition = T, min_pres = 3) {
 
+  jb <- NULL
   dna_conc <- enquo(dna_conc)
   sample_condition <- enquo(sample_condition)
 
@@ -314,7 +359,7 @@ add_jervis_bardy <- function(ta, dna_conc, sample_condition = T, min_pres = 3) {
 
 #' Add taxon prevalences to the taxon table
 #'
-#' \code{add_prevalence} calculates taxon prevalences (overall or per condition) and adds it to the taxa table under the column name "prevalence". Prevalence can be expressed as the number of samples where a taxon occurs or the ratio of samples where a taxon occurs and the total amount of samples.
+#' `add_prevalence()` calculates taxon prevalences (overall or per condition) and adds it to the taxa table under the column name "prevalence". Prevalence can be expressed as the number of samples where a taxon occurs or the ratio of samples where a taxon occurs and the total amount of samples.
 #'
 #' If 'condition' is specified, the prevalences will be calculated separately for each group defined by the condition variable. This variable should be present in the sample table.
 #'
@@ -341,6 +386,8 @@ add_jervis_bardy <- function(ta, dna_conc, sample_condition = T, min_pres = 3) {
 add_prevalence <- function(
   ta, condition = NULL, relative = F, fisher_test = F
   ) {
+
+  fisher <- NULL  
   prev <- "prevalence"
   prev_in <- "prevalence_in"
   if (is.null(condition)) {
@@ -418,7 +465,7 @@ add_prevalence <- function(
 
 #' Add average relative abundances to taxa table
 #'
-#' This function adds mean relative abundance values for each taxon to the taxa
+#' `add_mean_rel_abundance()` adds mean relative abundance values for each taxon to the taxa
 #' table, overall or per sample group.
 #'
 #' If `condition` is specified, the mean relative abundances will be calculated
@@ -426,8 +473,8 @@ add_prevalence <- function(
 #' should be present in the sample table.
 #'
 #' If `condition` is specified, differential abundance testing can be performed
-#' by setting the `test` argument. Options are NULL (default), "wilcox" or
-#' "t-test".
+#' by setting the `test` argument. Options are `NULL` (default), `"wilcox"` or
+#' `"t-test"`.
 #'
 #' @importFrom stats t.test wilcox.test
 #' @param ta A tidytacos object.
@@ -439,6 +486,7 @@ add_prevalence <- function(
 #' @export
 add_mean_rel_abundance <- function(ta, condition = NULL, test = NULL) {
 
+  result <- NULL
   mean_rel_abundances <- mean_rel_abundances(ta, condition = condition)
 
   if (is.null(condition)) {

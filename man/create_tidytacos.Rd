@@ -12,13 +12,13 @@ create_tidytacos(counts_matrix, taxa_are_columns = TRUE)
 \item{taxa_are_columns}{A logical scalar. Are the taxa defined in columns?}
 }
 \description{
-\code{tidytacos} returns a tidytacos object given a numeric matrix.
+`create_tidytacos()` returns a tidytacos object given a numeric matrix.
 }
 \details{
 This function initiates a tidytacos object based on a numeric matrix. It
 will automatically create a dummy taxa table and sample table which will need to be
-updated using the function \code{\link{add_metadata}}.
-When the taxa table is updated, the rank names can be set using the function \code{\link{set_rank_names}}
+updated using the function [add_metadata()].
+When the taxa table is updated, the rank names can be set using the function [set_rank_names()]
 to make the tidytacos object aware of the taxonomy levels.
 }
 \examples{

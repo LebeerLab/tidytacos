@@ -1,12 +1,12 @@
 Type: Package
 Package: tidytacos
 Title: Manipulate Taxonomic Composition Data of Microbial Communities
-Version: 1.0.1.9000
+Version: 1.0.2
 Authors@R: c(
     person("Stijn", "Wittouck", , "stijn.wittouck@uantwerpen.be", role = c("aut", "cre")),
     person("Tim", "Van Rillaer", , "tim.vanrillaer@uantwerpen.be", role = c("aut")),
     person("Wenke", "Smets", , "wenke.smets@uantwerpen.be", role = c("aut")),
-    person("Sarah", "Lebeer", "sarah.lebeer@uantwerpen.be", role = c("fnd")))
+    person("Sarah", "Lebeer", , "sarah.lebeer@uantwerpen.be", role = c("fnd")))
 Description: A toolkit for processing and visualizing taxonomic composition data
     of microbial communities, based on the tidyverse framework.
 License: GPL-3 + file LICENSE
@@ -22,10 +22,12 @@ Imports:
     stringr,
     tibble,
     tidyr,
-    vegan
+    vegan,
+    methods
 Suggests:
     tidyverse, 
     devtools,
+    biomformat,
     covr,
     compositions,
     vdiffr,
@@ -43,12 +45,16 @@ Suggests:
     rstatix,
     Rtsne,
     eulerr,
+    factoextra,
     fastDummies,
     SpiecEasi,
     Matrix,
+    Biostrings,
     igraph,
     rmarkdown,
     roxygen2,
+    ape,
+    phangorn,
     testthat (>= 3.1.9)
 VignetteBuilder: 
     knitr

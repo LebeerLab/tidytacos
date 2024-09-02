@@ -1,11 +1,11 @@
 #' Initiate tidytacos object
 #'
-#' \code{tidytacos} returns a tidytacos object given a numeric matrix.
+#' `create_tidytacos()` returns a tidytacos object given a numeric matrix.
 #'
 #' This function initiates a tidytacos object based on a numeric matrix. It
 #' will automatically create a dummy taxa table and sample table which will need to be
-#' updated using the function \code{\link{add_metadata}}.
-#' When the taxa table is updated, the rank names can be set using the function \code{\link{set_rank_names}}
+#' updated using the function [add_metadata()].
+#' When the taxa table is updated, the rank names can be set using the function [set_rank_names()]
 #' to make the tidytacos object aware of the taxonomy levels.
 #'
 #' @param counts_matrix Numerical matrix containing the count data.
@@ -99,7 +99,7 @@ create_tidytacos <- function(counts_matrix, taxa_are_columns = TRUE) {
 
 #' Write community data in tidytacos format
 #'
-#' \code{write_tidytacos} saves the tidytacos object into 3 .csv files. This format allows easy loading of the tidytacos object using the \code{\link{read_tidytacos}} function.
+#' `write_tidytacos()` saves the tidytacos object into 3 .csv files. This format allows easy loading of the tidytacos object using the [read_tidytacos()] function.
 #'
 #' @importFrom readr write_csv
 #' @param ta A tidytacos object.
@@ -113,6 +113,8 @@ write_tidytacos <- function(ta, dout) {
 }
 
 #' Read community data written by tidytacos
+#' 
+#' `read_tidytacos()` reads the three .csv files created by the [write_tidytacos()] function and returns a tidytacos object.
 #' @importFrom readr read_csv
 #' @param din directory containing the a sample, taxa and counts table in csv format
 #' @param samples the name of the samples table, defaults to samples.csv
@@ -121,6 +123,9 @@ write_tidytacos <- function(ta, dout) {
 #' @export
 read_tidytacos <- function(din, samples = "samples.csv", taxa = "taxa.csv",
                                counts = "counts.csv") {
+  
+  abundance <- NULL
+  
   samples <- readr::read_csv(paste0(din, "/", samples), col_types = readr::cols())
   taxa <- readr::read_csv(paste0(din, "/", taxa), col_types = readr::cols())
   # Tidyamplicons compatibility
@@ -184,7 +189,7 @@ infer_rank_names <- function(ta){
 #' @param keep_prev A logical scalar. Should the previous IDs be kept in a column called taxon_id_prev?
 #' @export
 reset_ids <- function(ta, keep_prev = F) {
-
+  taxon_id_new <- sample_id_new <- NULL
   if (keep_prev) {
 
     ta <-
@@ -202,11 +207,11 @@ reset_ids <- function(ta, keep_prev = F) {
 
 #' Convert tidytacos object to phyloseq object
 #'
-#' \code{as_phyloseq} returns a phyloseq object given a tidytacos object.
+#' `as_phyloseq()` returns a phyloseq object given a tidytacos object.
 #'
 #' This function will convert a tidytacos object into a phyloseq object for
 #' alternative processing using the phyloseq package. To convert from a phyloseq
-#' object to a tidytacos object use \code{\link{from_phyloseq}}.
+#' object to a tidytacos object use [from_phyloseq()].
 #'
 #' @param ta A tidytacos object.
 #' @param sample The sample names required for a phyloseq object. Default is
@@ -264,12 +269,12 @@ as_phyloseq <- function(ta, sample = sample, taxon = taxon_id) {
 
 #' Convert phyloseq object to tidytacos object
 #'
-#' \code{from_phyloseq} returns a tidytacos object given a phyloseq
+#' `from_phyloseq()` returns a tidytacos object given a phyloseq
 #' object.
 #'
 #' This function will convert a phyloseq object into a tidytacos object. To
 #' convert from a tidytacos object to a phyloseq object use
-#' \code{\link{as_phyloseq}}.
+#' [as_phyloseq()].
 #'
 #' @param ps Phyloseq object.
 #'
@@ -306,12 +311,12 @@ from_phyloseq <- function(ps) {
 
 #' DADA2 to a tidytacos object
 #'
-#' \code{from_dada} returns a tidytacos object given a seqtab and taxa object from dada2.
+#' `from_dada()` returns a tidytacos object given a seqtab and taxa object from dada2.
 #'
 #' This function will convert two dada2 objects or files into a tidytacos object.
 #'
-#' @param seqtab Sequence table, output of dada2::makeSequenceTable.
-#' @param taxa Taxa table, output of dada2::assignTaxonomy.
+#' @param seqtab Sequence table, output of [dada2::makeSequenceTable()].
+#' @param taxa Taxa table, output of [dada2::assignTaxonomy()].
 #' @param taxa_are_columns A logical scalar. Are the taxa defined in columns?
 #'
 #' @export
@@ -351,12 +356,12 @@ from_dada <- function(seqtab, taxa, taxa_are_columns=FALSE) {
 
 #' Convert matrix with counts to tidy data frame
 #'
-#' \code{counts_tidy} returns a tidy data frame given a numerical counts
+#' `counts_tidy()` returns a tidy data frame given a numerical counts
 #' matrix.
 #'
 #' This function will convert a numerical counts matrix into a tidy data
 #' frame. To convert a tidy data frame into a numerical counts matrix
-#' use \code{\link{counts_matrix}}.
+#' use ´[counts_matrix()].
 #'
 #' @param counts_matrix The count matrix that will be converted.
 #' @param taxa_are_columns A logical scalar. Are the taxa defined in columns?
@@ -385,12 +390,12 @@ counts_tidy <- function(counts_matrix, taxa_are_columns = TRUE,
 
 #' Convert counts tidy data frame to matrix
 #'
-#' \code{tidy_count_to_matrix} returns a numerical matrix given a tidy
+#' `tidy_count_to_matrix()` returns a numerical matrix given a tidy
 #' counts data frame.
 #'
 #' This function will convert a counts tidy data frame into a numerical
 #' counts matrix. To convert a numerical counts matrix into a counts
-#' tidy data frame use \code{\link{tidy_count_to_matrix}}.
+#' tidy data frame use [tidy_count_to_matrix()].
 #'
 #' @param counts The counts tidy data frame that will be converted.
 #' @param value Name of column containing the counts data. Default is
@@ -420,7 +425,7 @@ tidy_count_to_matrix <- function(counts, value = count) {
 
 #' Merge two tidytacos objects
 #'
-#' \code{merge_tidytacos} merges two tidytacos objects and returns one
+#' `merge_tidytacos()` merges two tidytacos objects and returns one
 #' single tidytacos object.
 #'
 #' This function will merge two tidytacos objects into one. It is useful if
@@ -508,7 +513,7 @@ make_tidytacos <- function(samples, taxa, counts,
 create_biom_header <- function(type="OTU table"){
     list(
     id="null", 
-    format="1.0.0",
+    format=packageDescription("tidytacos")$Version,
     format_url="http://biom-format.org",
     type=type,
     generated_by=paste("tidytacos revision", packageVersion("tidytacos")),

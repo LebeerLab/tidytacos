@@ -40,7 +40,7 @@ An updated tidytacos object.
 This function requires the DADA2 package to be installed.
 }
 \details{
-This function will (re)classify either all or a subset of the taxa, given
+`classify_taxa()` will (re)classify either all or a subset of the taxa, given
 that a variable is present in the taxon table that contains (representative)
 sequences of the taxa.
 
@@ -48,7 +48,29 @@ Ranks can be supplied as a named integer vector, where the names represent
 taxonomic ranks and the integers represent positions of these ranks in the
 taxonomy strings present in the reference database. Ranks can also be
 supplied as just a character vector with the rank names; in that case, it is
-assumed that the database taxonomy string follows the default order {domain,
-phylum, class, order, family, genus, species}. If no ranks are supplied, taxa
+assumed that the database taxonomy string follows the default order 
+(domain, phylum, class, order, family, genus, species). If no ranks are supplied, taxa
 will be (re)classified at all default ranks.
+}
+\examples{
+
+# we create a mock database 
+x <- c(
+">Level1;Level2;Level3;Level4;Level5;Level6;", 
+"ACCTAGAAAGTCGTAGATCGAAGTTGAAGCATCGCCCGATGATCGTCTGAAGCTGTAGCATGAGTCGATTTTCACATTCAGGGATACCATAGGATAC", 
+">Level1;Level2;Level3;Level4;Level5;",
+"CGCTAGAAAGTCGTAGAAGGCTCGGAGGTTTGAAGCATCGCCCGATGGGATCTCGTTGCTGTAGCATGAGTACGGACATTCAGGGATCATAGGATAC"
+)
+# and write it to a file
+write(x, file="tmp-db.fna")
+
+urt_reclass <- urt \%>\%
+filter_samples(sample_id \%in\% c("s1","s2")) \%>\% # filter out samples to save time
+classify_taxa(
+  "tmp-db.fna", n_ranks = 6, # the mock database is used here
+  ranks=c("kingdom","phylum", "class", "order", "family", "genus")
+)
+# remove the temp file
+unlink("tmp-db.fna")
+
 }

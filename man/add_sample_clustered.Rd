@@ -10,7 +10,7 @@ add_sample_clustered(ta)
 \item{ta}{A tidytacos object.}
 }
 \description{
-\code{add_sample_clustered} adds a new variable defining a sample order based
+`add_sample_clustered()` adds a new variable defining a sample order based
 on a hierarchical clustering of the samples.
 }
 \details{
@@ -19,4 +19,8 @@ by hierarchical average linkage clustering of samples. It will then add a new
 factor variable "sample_clustered" to the sample tibble of a tidytacos
 object. This function is useful if one wants to plot similar samples
 together.
+}
+\examples{
+urtc <- urt \%>\% add_sample_clustered()
+urtc$samples \%>\% dplyr::select(sample_id, sample_clustered)
 }

@@ -1,6 +1,6 @@
 #' Add metadata to the tidytacos object
 #'
-#' \code{add_metadata} adds sample or taxon metadata to the sample or taxon
+#' `add_metadata()` adds sample or taxon metadata to the sample or taxon
 #' table, respectively, of a tidytacos object.
 #'
 #' @param ta A tidytacos object.
@@ -59,7 +59,7 @@ add_metadata <- function(ta, metadata, table_type = "sample") {
 
 #' Add total read count per sample
 #'
-#' \code{add_total_count} adds the total read count per sample to the sample
+#' `add_total_count()` adds the total read count per sample to the sample
 #' table of a tidytacos object under the variable name total_count.
 #'
 #' @param ta A tidytacos object.
@@ -104,21 +104,22 @@ add_total_count <- function(ta) {
 
 #' Add alpha diversity measure
 #'
-#' \code{add_alpha} adds an alpha diversity measures to the sample table of a
+#' `add_alpha()` adds an alpha diversity measures to the sample table of a
 #' tidytacos object.
 #'
 #' This function can add different alpha diversity measures to the sample table, specified by the method argument.
 #' The following methods are available:
-#' - invsimpson: Inverse Simpson index
-#' - shannon: Shannon index
-#' - simpson: Simpson index
-#' - pielou: Pielou's evenness index
-#' - obs: Observed richness
-#' - s.chao1: Chao1 richness estimator
-#' - s.ace: ACE richness estimator
+#'
+#' * invsimpson: Inverse Simpson index
+#' * shannon: Shannon index
+#' * simpson: Simpson index
+#' * pielou: Pielou's evenness index
+#' * obs: Observed richness
+#' * s.chao1: Chao1 richness estimator
+#' * s.ace: ACE richness estimator
 #'
 #' @param ta A tidytacos object.
-#' @param method The diversity measure to use, see \code{\link[vegan]{diversity}} for further information on these.
+#' @param method The diversity measure to use, see [vegan::diversity()] for further information on these.
 #' @return A tidytacos object with the alpha diversity measure added.
 #' @examples
 #' # Initiate counts matrix
@@ -144,6 +145,7 @@ add_total_count <- function(ta) {
 #' @export
 add_alpha <- function(ta, method="invsimpson") {
 
+  value <- NULL
   vegan_standard_methods <- c("invsimpson","shannon","simpson")
   vegan_estimateR_methods <- c("obs", "s.chao1", "s.ace")
 
@@ -191,12 +193,12 @@ add_alpha <- function(ta, method="invsimpson") {
 
 #' Add alpha diversity measures
 #'
-#' \code{add_alpha} adds selected alpha diversity measures to the sample table of a
+#' `add_alpha()` adds selected alpha diversity measures to the sample table of a
 #' tidytacos object.
 #'
 #' This function can add multiple different alpha diversity measures to the sample table, specified by the methods argument.
 #' @param ta A tidytacos object.
-#' @param methods A character vector of the diversity measure to use, see \code{\link[tidytacos]{add_alpha}} for examples.
+#' @param methods A character vector of the diversity measure to use, see [add_alpha()] for examples.
 #' Optionally use 'all' to add all diversity measures.
 #' @return A tidytacos object with the selected alpha diversity measures added.
 #' @examples
@@ -226,7 +228,7 @@ calculate_alpha_pielou <- function(ta) {
 
 #' Add clustering-based sample order
 #'
-#' \code{add_sample_clustered} adds a new variable defining a sample order based
+#' `add_sample_clustered()` adds a new variable defining a sample order based
 #' on a hierarchical clustering of the samples.
 #'
 #' This function calculates the Bray-Curtis distances between samples followed
@@ -238,6 +240,9 @@ calculate_alpha_pielou <- function(ta) {
 #' @param ta  A tidytacos object.
 #'
 #' @importFrom stats hclust
+#' @examples
+#' urtc <- urt %>% add_sample_clustered()
+#' urtc$samples %>% dplyr::select(sample_id, sample_clustered)
 #' @export
 add_sample_clustered <- function(ta) {
 
@@ -325,9 +330,21 @@ perform_umap <- function(ta, dist_matrix, dims=2, ...) {
   ord
 }
 
+#' Calculate unifrac distance matrix from a tidytacos object with a rooted tree
+#' @param ta A tidytacos object with a rooted tree in the "tree" slot.
+#' @param ... Additional arguments to pass to the [phyloseq::UniFrac()] function.
+#' @export 
+calculate_unifrac_distances <- function(ta, ...) {
+
+  ensure_tree(ta, rooted = TRUE)
+  ps <- ta %>% as_phyloseq(sample = sample_id)
+  ps <- phyloseq::merge_phyloseq(ps, ta$tree)
+  phyloseq::UniFrac(ps, ...)
+}
+
 #' Add ordination
 #'
-#' \code{add_ord} adds the first n dimensions of a dimensionality reduction
+#' `add_ord()` adds the first n dimensions of a dimensionality reduction
 #' method performed on a given dissimilarity matrix as new variables to the
 #' sample table of a tidytacos object.
 #'
@@ -335,11 +352,11 @@ perform_umap <- function(ta, dist_matrix, dims=2, ...) {
 #' an ordination analysis. It will then add the first n dimensions to
 #' the sample table of a tidytacos object named "ord1", "ord2", ... This
 #' function will also add relative abundances if not present using
-#' \code{\link{add_rel_abundance}}.
+#' [add_rel_abundance()].
 #'
 #' @param ta A tidytacos object.
 #' @param distance The distance indices to use, see
-#'   \code{\link[vegan]{vegdist}}.
+#'   [vegan::vegdist()].
 #' @param method The ordination method to use to calculate coordinates. Choices
 #'   are "pcoa", "tsne", "umap".
 #' @param dims The amount of dimensions to reduce the dissimilarities to.
@@ -370,7 +387,10 @@ perform_umap <- function(ta, dist_matrix, dims=2, ...) {
 #' @export
 add_ord <- function(ta, distance="bray", method="pcoa", dims=2, binary=FALSE, ...) {
 
-  methods = c("pcoa", "tsne", "umap")
+  methods <- c("pcoa", "tsne", "umap")
+  method <- tolower(method)
+  distance <- tolower(distance)
+
   if (!method %in% methods) {
     stop(paste("Select a method from", paste0(method, collapse=",")))
   }
@@ -390,9 +410,11 @@ add_ord <- function(ta, distance="bray", method="pcoa", dims=2, binary=FALSE, ..
     rel_abundance_matrix <- rel_abundance_matrix %>%
       vegan::decostand(method = "clr", pseudocount = 1)
     dist_matrix <- vegan::vegdist(rel_abundance_matrix, method = "euclidean")
+  } else if (distance == "unifrac") {
+    dist_matrix <- calculate_unifrac_distances(ta)
   } else {
     # make distance matrix
-    dist_matrix = vegan::vegdist(rel_abundance_matrix, method = distance, binary=binary)
+    dist_matrix <- vegan::vegdist(rel_abundance_matrix, method = distance, binary=binary)
   }
 
   if (method == "pcoa") {
@@ -421,7 +443,7 @@ add_ord <- function(ta, distance="bray", method="pcoa", dims=2, binary=FALSE, ..
 
 #' Add spike ratio
 #'
-#' \code{add_spike_ratio} calculates the ratio of non-spike to spike reads for
+#' `add_spike_ratio()` calculates the ratio of non-spike to spike reads for
 #' each sample and adds this to the sample table under the name "spike_ratio".
 #'
 #' This function is useful if a DNA spike was added prior to sequencing and is
@@ -481,7 +503,7 @@ add_spike_ratio <- function(ta, spike_taxon) {
 
 #' Clusters samples into n clusters
 #'
-#' \code{cluster_samples} clusters the samples into n clusters and adds these
+#' `cluster_samples()` clusters the samples into n clusters and adds these
 #' clusters to a new variable "cluster" in the sample table.
 #'
 #' This function calculates the Bray-Curtis distance between samples followed by
@@ -544,7 +566,7 @@ cluster_samples<- function(ta, n_clusters) {
 
 #' Add total absolute abundances of samples
 #'
-#' \code{add_total_absolute_abundance} calculates the total absolute abundances
+#' `add_total_absolute_abundance()` calculates the total absolute abundances
 #' of the samples given a spike taxon, and adds this to the sample table under
 #' the column name "total_absolute_abundance".
 #'
@@ -623,7 +645,7 @@ add_total_absolute_abundance <- function(ta, spike_taxon, spike_added = spike_ad
 
 #' Add total densities of samples
 #'
-#' \code{add_total_density} adds the total microbial density to the sample table
+#' `add_total_density()` adds the total microbial density to the sample table
 #' of a tidytacos object under the column name "total_density".
 #'
 #' @param ta A tidytacos object.
@@ -714,14 +736,19 @@ add_total_density <- function(ta, spike_taxon, spike_added = spike_added, materi
 
 #' Perform anosim test
 #'
-#' \code{perform_anosim} performs the anosim test for statistical difference
+#' `perform_anosim()` performs the anosim test for statistical difference
 #' between groups of samples. The null hypothesis is that there is no difference
 #' between microbial communities in the groups of samples.
 #'
 #' @param ta A tidytacos object.
 #' @param group A column in the sample table to group the samples on.
 #' @inheritDotParams vegan::anosim
-#'
+#' @examples 
+#' 
+#' perform_anosim(urt, method, dist="jaccard")
+#' # no statistical difference based on the method column 
+#' # (high significance value and R close to 0).
+#' 
 #' @export
 perform_anosim <- function(ta, group, ...){
 

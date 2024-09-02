@@ -20,7 +20,7 @@ test_that('Tacoplot stack accepts strings or objects', {
 
 })
 
-test_that("Aggregation works when correcting rank names", {
+test_that("Infer rank names bug (#57)", {
 
     t <- test_taco()
     t$taxa$domain <- c("Dom","Dom")

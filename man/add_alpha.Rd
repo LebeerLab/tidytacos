@@ -9,25 +9,26 @@ add_alpha(ta, method = "invsimpson")
 \arguments{
 \item{ta}{A tidytacos object.}
 
-\item{method}{The diversity measure to use, see \code{\link[vegan]{diversity}} for further information on these.}
+\item{method}{The diversity measure to use, see [vegan::diversity()] for further information on these.}
 }
 \value{
 A tidytacos object with the alpha diversity measure added.
 }
 \description{
-\code{add_alpha} adds an alpha diversity measures to the sample table of a
+`add_alpha()` adds an alpha diversity measures to the sample table of a
 tidytacos object.
 }
 \details{
 This function can add different alpha diversity measures to the sample table, specified by the method argument.
 The following methods are available:
-- invsimpson: Inverse Simpson index
-- shannon: Shannon index
-- simpson: Simpson index
-- pielou: Pielou's evenness index
-- obs: Observed richness
-- s.chao1: Chao1 richness estimator
-- s.ace: ACE richness estimator
+
+* invsimpson: Inverse Simpson index
+* shannon: Shannon index
+* simpson: Simpson index
+* pielou: Pielou's evenness index
+* obs: Observed richness
+* s.chao1: Chao1 richness estimator
+* s.ace: ACE richness estimator
 }
 \examples{
 # Initiate counts matrix

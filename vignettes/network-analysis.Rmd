@@ -5,13 +5,26 @@ vignette: >
   %\VignetteIndexEntry{network-analysis}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+  %\VignetteDepends{SpiecEasi, Matrix, igraph, MCL}
 ---
 
-```{r, include = FALSE}
+```{r, options, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+
+check_vignette_depends = function() {
+  for (pkg in tools::vignetteInfo(knitr::current_input())$depends) {
+    warning(paste(pkg, "is not installed."))
+    if (!requireNamespace(pkg, quietly = TRUE)) {
+      knitr::opts_chunk$set(eval = FALSE)
+      break
+    }
+  }
+}
+
+check_vignette_depends()
 ```
 
 ```{r setup}
@@ -43,7 +56,7 @@ the aspirate method.
 The first step in the analysis is creating a sparcc network from our taxonomic counts.
 For this the [SpiecEasi package](https://github.com/zdk123/SpiecEasi) is used.
 
-```{r, install-spieceasi}
+```{r, install-spieceasi, eval=FALSE}
 devtools::install_github('zdk123/SpiecEasi')
 ```
 
@@ -67,7 +80,7 @@ urt.net$Cor %>% head(2)# Correlation matrix
 Next up we filter the output correlation matrix to remove weak correlations.
 For this we use the `filter_network` function, which has the `Matrix` package as a dependency.
 We also install the `igraph` package, which can be used for the visualization of the network.
-```{r, eval=FALSE}
+```{r, install-deps, eval=FALSE}
 install.packages("Matrix")
 install.packages("igraph")
 ```
@@ -111,4 +124,3 @@ urt.nf  %>% tacoplot_stack()
 
 urt.net.clust %>% filter(cluster == unique(urt.net.clust$cluster)[[4]])
 ```
-Here cluster `r unique(urt.net.clust$cluster)[[4]]` and its composition are displayed.

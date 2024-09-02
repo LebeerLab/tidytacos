@@ -1,6 +1,6 @@
 #' Return some descriptive numbers
 #'
-#' \code{tacosum} returns the number of samples, taxa and reads in the
+#' `tacosum()` returns the number of samples, taxa and reads in the
 #' tidytacos object.
 #'
 #' @param ta A tidytacos object. 
@@ -33,21 +33,21 @@ tacosum <- function(ta) {
 
 #' Get beta diversity table
 #'
-#' \code{betas} returns a tidy table with the beta diversity for each
+#' `betas()` returns a tidy table with the beta diversity for each
 #' combination of samples.
 #'
 #' This function calculates the beta diversity using the
-#' \code{\link[vegan]{vegdist}} function of Vegan. It will report one diversity
+#' [vegan::vegdist()] function of Vegan. It will report one diversity
 #' estimate for each combination of samples.
 #'
 #'
 #' @param ta A tidytacos object.
 #' @param unique A logical scalar. Avoid redundancy by removing all self sample
 #'   comparisons and keep only one of two pairwise comparisons? Default is TRUE.
-#' @param method The dissimilarity index. See \code{\link[vegan]{vegdist}} for
+#' @param method The dissimilarity index. See [vegan::vegdist()] for
 #'   all options. Default is "bray".
 #' @param binary A logical scalar. Perform presence/absence standardization
-#'   before analysis. See \code{\link[vegan]{vegdist}}. Default is FALSE.
+#'   before analysis. See [vegan::vegdist()]. Default is FALSE.
 #'
 #' @examples
 #' # Initiate counts matrix
@@ -67,7 +67,7 @@ tacosum <- function(ta) {
 #'
 #' @export
 betas <- function(ta, unique = T, method = "bray", binary = F) {
-
+  sample_id_1 <- sample_id_2 <- i <- j <- NULL
   # make "dist" object with beta values
   rel_abundance_matrix <- rel_abundance_matrix(ta, sample_name=sample_id)
   betas_dist <- vegdist(rel_abundance_matrix, method = method, binary = binary)
@@ -202,7 +202,7 @@ mean_rel_abundances <- function(ta, condition = NULL) {
 
 #' Get all data in one single table
 #'
-#' \code{everything} merges all three tidytacos tables into one very large table.
+#' `everything()` merges all three tidytacos tables into one very large table.
 #'
 #' @param ta A tidytacos object.
 #' @export
@@ -245,9 +245,12 @@ counts <- function(ta) ta$counts
 #' @param predictors A character vector with predictors to include in the model.
 #' @param permutations The number of permutations (more permutations takes
 #'   longer but gives a more accurate p-value).
-#' @param ... Additional arguments to pass to the \link[vegan]{adonis2} function.
+#' @inheritDotParams vegan::adonis2
 #' @return An object of class "adonis" (see \link[vegan]{adonis}).
-#'
+#' @examples
+#' res <- urt %>% 
+#'     perform_adonis(c("plate","method"), by="terms")
+#' res
 #' @export
 perform_adonis <- function(ta, predictors, permutations = 999, ...) {
 

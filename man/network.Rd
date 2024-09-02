@@ -3,7 +3,7 @@
 \name{network}
 \alias{network}
 \title{Perform network inference with SparCC on a tidytacos object,
-after dropping rare taxa. See \link[SpiecEasi]{sparcc}.}
+after dropping rare taxa. See [SpiecEasi::sparcc()].}
 \usage{
 network(
   ta,
@@ -40,5 +40,5 @@ Iterations can be set with the R parameter and multiple cores through ncpus.}
 }
 \description{
 Perform network inference with SparCC on a tidytacos object,
-after dropping rare taxa. See \link[SpiecEasi]{sparcc}.
+after dropping rare taxa. See [SpiecEasi::sparcc()].
 }
