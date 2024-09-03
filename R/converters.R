@@ -491,6 +491,7 @@ merge_tidytacos <- function(ta1, ta2, taxon_identifier = sequence) {
 #' @param counts A tidy table, where each row represents the counts of a taxon in a sample.
 #' @param sample_name The column in the sample table that contains a unique identifier for each sample.
 #' @param taxon_name The column in the taxon table that contains a unique identifier for each taxon.
+#' @keywords internal
 make_tidytacos <- function(samples, taxa, counts,
                                sample_name = sample, taxon_name = sequence) {
 
