@@ -63,11 +63,6 @@
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># drop the sequence column</span></span></span>
 <span class="r-in"><span><span class="va">urt</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="fu">select_taxa</span><span class="op">(</span><span class="op">-</span><span class="va">sequence</span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Not all default rank names found. Replacing them with:</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>  c("kingdom","phylum","class","order","family","genus","species")</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> If these are not the rank names of your taxon table in descending order, </span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> please set them manually using 'set_rank_names()'</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $samples</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 217 × 9</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    run    condition participant location method plate passes_qc sample sample_id</span>
@@ -117,18 +112,13 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 7,683 more rows</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $rank_names</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "kingdom" "phylum"  "class"   "order"   "family"  "genus"   "species"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "kingdom" "phylum"  "class"   "order"   "family"  "genus"  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "tidytacos"</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># keep only the taxon_id and genus columns</span></span></span>
 <span class="r-in"><span><span class="va">urt</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="fu">select_taxa</span><span class="op">(</span><span class="va">taxon_id</span>, <span class="va">genus</span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Not all default rank names found. Replacing them with:</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>  c("genus")</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> If these are not the rank names of your taxon table in descending order, </span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> please set them manually using 'set_rank_names()'</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $samples</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 217 × 9</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    run    condition participant location method plate passes_qc sample sample_id</span>
