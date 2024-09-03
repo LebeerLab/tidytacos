@@ -26,3 +26,4 @@ make_tidytacos(
 \description{
 Create a tidytacos object from three tidy tables
 }
+\keyword{internal}
