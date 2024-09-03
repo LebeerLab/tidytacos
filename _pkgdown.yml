@@ -15,6 +15,7 @@ reference:
       Package overview
     contents:
       - tidytacos-package
+      - tidytacos
   - title: "File handling"
     desc: >
       Functions for loading in or creating tidytaco objects or converting to another datatype. 
@@ -90,6 +91,7 @@ reference:
       - betas
       - add_ord
       - add_copca
+      - add_tree
       - calculate_unifrac_distances
 
   - title: "Clustering"
