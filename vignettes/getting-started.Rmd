@@ -220,7 +220,7 @@ forget that everyone has their unique microbiome and include the variable
 "participant" in the model.
 
 ```{r, adonis}
-perform_adonis(urt_genus, c("participant", "location"))
+perform_adonis(urt_genus, c("participant", "location"), by="margin")
 ```
 
 The `perform_adonis` function will perform a PERMutational ANOVA to
