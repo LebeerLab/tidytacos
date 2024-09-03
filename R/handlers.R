@@ -308,13 +308,16 @@ select_samples <- function(ta, ...) {
 #' urt %>% select_taxa(taxon_id, genus)
 #' 
 #' @export
-select_taxa <- function(ta, ...) {
+select_taxa <- function(ta,...) {
   ta$taxa <- ta$taxa %>%
     select(...)
 
+  rn_missing <- setdiff(ta %>% rank_names(), colnames(ta$taxa))
+  rn <- ta %>% rank_names()
+  
   retain_taxon_id(ta)
 
-  infer_rank_names(ta)
+  ta %>% set_rank_names(rn[!rn %in% rn_missing])
 }
 
 #' Retain or remove a set of count variables
