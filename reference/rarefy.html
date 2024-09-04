@@ -68,8 +68,8 @@ the minimum number of reads; otherwise, an error might be thrown.</p>
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># discard samples with less than 1000 reads</span></span></span>
-<span class="r-in"><span><span class="va">urt_1000</span> <span class="op">&lt;-</span> <span class="va">urt</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> </span></span>
-<span class="r-in"><span>  <span class="fu"><a href="add_total_count.html">add_total_count</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> </span></span>
+<span class="r-in"><span><span class="va">urt_1000</span> <span class="op">&lt;-</span> <span class="va">urt</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="add_total_count.html">add_total_count</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="filter_samples.html">filter_samples</a></span><span class="op">(</span><span class="va">total_count</span> <span class="op">&gt;=</span> <span class="fl">1000</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># then rarefy to 1000 reads</span></span></span>
