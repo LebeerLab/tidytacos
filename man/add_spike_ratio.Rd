@@ -25,18 +25,18 @@ Without calculating absolute abundances, the spike ratio allows to compare absol
 \examples{
 # Initiate counts matrix
 x <- matrix(
- c(1500, 1300, 280, 356),
- ncol = 2
+  c(1500, 1300, 280, 356),
+  ncol = 2
 )
 rownames(x) <- c("taxon1", "taxon2")
 colnames(x) <- c("sample1", "sample2")
 
 # Convert to tidytacos object
 data <- create_tidytacos(x,
-                     taxa_are_columns = FALSE
-                     )
+  taxa_are_columns = FALSE
+)
 
 # Add total abundance
 data <- data \%>\%
- add_spike_ratio(spike_taxon = "t1")
+  add_spike_ratio(spike_taxon = "t1")
 }

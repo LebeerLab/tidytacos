@@ -554,7 +554,7 @@ tacoplot_alphas <- function(ta, group_by, compare_means = FALSE, ...) {
 #' @examples
 #' urt %>%
 #'   aggregate_taxa(rank = "order") %>%
-#'   tacoplot_prevalences(urt, location, cutoff = .1, treeheight_row = 0, cutree_rows = 4, fontsize = 6, cellwidth = 15)
+#'   tacoplot_prevalences(location, cutoff = .1, treeheight_row = 0, cutree_rows = 4, fontsize = 6, cellwidth = 15)
 #'
 #' @param ta A tidytacos object.
 #' @param condition The row name of the condition which rrevalences are to be compared.

@@ -27,16 +27,16 @@ table, respectively, of a tidytacos object.
 \examples{
 # Initiate counts matrix
 x <- matrix(
- c(1500, 1300, 280, 356),
- ncol = 2
+  c(1500, 1300, 280, 356),
+  ncol = 2
 )
 rownames(x) <- c("taxon1", "taxon2")
 colnames(x) <- c("sample1", "sample2")
 
 # Convert to tidytacos object
 data <- create_tidytacos(x,
-                     taxa_are_columns = FALSE
-                     )
+  taxa_are_columns = FALSE
+)
 
 # Initiate sample tibble
 sample <- c("sample1", "sample2")
@@ -45,15 +45,15 @@ sample_tibble <- tibble::tibble(sample, environment)
 
 # Add sample tibble to tidytacos object
 data <- data \%>\%
-add_metadata(sample_tibble)
+  add_metadata(sample_tibble)
 
 # Initiate taxon tibble
-genera <- c("Lactobacillus","Limosilactobacillus")
-species <- c("crispatus","reuteri")
-taxonomy <- tibble::tibble(taxon=rownames(x),genera,species)
+genera <- c("Lactobacillus", "Limosilactobacillus")
+species <- c("crispatus", "reuteri")
+taxonomy <- tibble::tibble(taxon = rownames(x), genera, species)
 
 # Add taxon tibble to tidytacos object
 data <- data \%>\%
-  add_metadata(taxonomy, table_type="taxa") 
+  add_metadata(taxonomy, table_type = "taxa")
 
 }

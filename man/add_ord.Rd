@@ -40,20 +40,20 @@ function will also add relative abundances if not present using
 \examples{
 # Initiate counts matrix
 x <- matrix(
- c(1500, 1300, 280, 356, 456, 678),
- ncol = 3
+  c(1500, 1300, 280, 356, 456, 678),
+  ncol = 3
 )
 rownames(x) <- c("taxon1", "taxon2")
 colnames(x) <- c("sample1", "sample2", "sample3")
 
 # Convert to tidytacos object
 data <- create_tidytacos(x,
-                     taxa_are_columns = FALSE
-                     )
+  taxa_are_columns = FALSE
+)
 
 # Add pcoa
 data <- data \%>\%
- add_ord()
+  add_ord()
 
 # The variances of the ordination dimensions can be accessed with
 data$ord_variances

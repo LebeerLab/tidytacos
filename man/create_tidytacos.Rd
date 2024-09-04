@@ -27,28 +27,29 @@ to make the tidytacos object aware of the taxonomy levels.
 \examples{
 # Initiate count matrix
 x <- matrix(
- c(1500, 1300, 280, 356),
- ncol = 2
+  c(1500, 1300, 280, 356),
+  ncol = 2
 )
 rownames(x) <- c("taxon1", "taxon2")
 colnames(x) <- c("sample1", "sample2")
 
 # Convert to tidytacos object
 data <- create_tidytacos(x,
-                     taxa_are_columns = FALSE)
+  taxa_are_columns = FALSE
+)
 # Add taxonomy information
 taxonomy <- tibble::tibble(
-  taxon = c("taxon1","taxon2"),
-  domain = c("Bacteria","Bacteria"),
-  phylum = c("Bacillota","Pseudomonadota"),
-  class = c("Bacilli","Gammaproteobacteria"),
-  order = c("Lactobacillales","Enterobacteriales"),
-  family = c("Lactobacillaceae","Enterobacteriaceae"),
-  genus = c("Lactobacillus","Escherichia"),
-  species = c("Lactobacillus crispatus","Escherichia coli")
+  taxon = c("taxon1", "taxon2"),
+  domain = c("Bacteria", "Bacteria"),
+  phylum = c("Bacillota", "Pseudomonadota"),
+  class = c("Bacilli", "Gammaproteobacteria"),
+  order = c("Lactobacillales", "Enterobacteriales"),
+  family = c("Lactobacillaceae", "Enterobacteriaceae"),
+  genus = c("Lactobacillus", "Escherichia"),
+  species = c("Lactobacillus crispatus", "Escherichia coli")
 )
 
-data <- add_metadata(data, taxonomy, table_type="taxa")
+data <- add_metadata(data, taxonomy, table_type = "taxa")
 # rank names are inferred from the taxa table, but can be set manually
 # if we're not happy with the inferred rank names.
 data <- set_rank_names(data, c("domain", "phylum", "class", "order", "family", "genus"))

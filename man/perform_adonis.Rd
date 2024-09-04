@@ -71,7 +71,7 @@ and returns the result.
 Samples where one or more predictors are NA are removed.
 }
 \examples{
-res <- urt \%>\% 
-    perform_adonis(c("plate","method"), by="terms")
+res <- urt \%>\%
+  perform_adonis(c("plate", "method"), by = "terms")
 res
 }

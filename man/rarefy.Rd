@@ -22,8 +22,8 @@ the minimum number of reads; otherwise, an error might be thrown.
 }
 \examples{
 # discard samples with less than 1000 reads
-urt_1000 <- urt \%>\% 
-  add_total_count() \%>\% 
+urt_1000 <- urt \%>\%
+  add_total_count() \%>\%
   filter_samples(total_count >= 1000)
 
 # then rarefy to 1000 reads

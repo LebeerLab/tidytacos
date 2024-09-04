@@ -39,10 +39,10 @@ This can be used to gauge the similarity between samples.
 }
 \examples{
 
-tacoplot_ord(urt, x=location)
+tacoplot_ord(urt, x = location)
 
 # set plate to character, to avoid it being treated as a continuous variable
-urt <- urt \%>\% mutate_samples(plate=as.character(plate))
-tacoplot_ord(urt, x=plate, ord="umap", distance="aitchison",stat.method="permanova")
+urt <- urt \%>\% mutate_samples(plate = as.character(plate))
+tacoplot_ord(urt, x = plate, ord = "umap", distance = "aitchison", stat.method = "permanova")
 
 }

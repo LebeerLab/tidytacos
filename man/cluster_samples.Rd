@@ -28,19 +28,19 @@ tidytacos object defining to what cluster a sample belongs.
 \examples{
 # Initiate count matrix
 x <- matrix(
- c(1500, 1300, 280, 356),
- ncol = 2
+  c(1500, 1300, 280, 356),
+  ncol = 2
 )
 rownames(x) <- c("taxon1", "taxon2")
 colnames(x) <- c("sample1", "sample2")
 
 # Convert to tidytacos object
 data <- create_tidytacos(x,
-                     taxa_are_columns = FALSE
-                     )
+  taxa_are_columns = FALSE
+)
 
 # Add total abundance
 data <- data \%>\%
- cluster_samples(n_clusters = 2)
+  cluster_samples(n_clusters = 2)
 
 }

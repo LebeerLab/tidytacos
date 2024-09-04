@@ -42,8 +42,8 @@ between microbial communities in the groups of samples.
 }
 \examples{
 
-perform_anosim(urt, method, dist="jaccard")
-# no statistical difference based on the method column 
+perform_anosim(urt, method, dist = "jaccard")
+# no statistical difference based on the method column
 # (high significance value and R close to 0).
 
 }
