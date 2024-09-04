@@ -17,7 +17,7 @@ trim_asvs(ta, start, end)
 A tidytacos object.
 }
 \description{
-`trim_asvs()` trims sequence ends of the sequence supplied in the taxa table. 
+\code{trim_asvs()} trims sequence ends of the sequence supplied in the taxa table.
 This function assumes that the sequence variable in the taxon table is called
 "sequence".
 }

@@ -16,7 +16,7 @@ much spike was added per sample, e.g. 16S rRNA gene copy numbers added to
 the DNA extraction tube.}
 }
 \description{
-`add_total_absolute_abundance()` calculates the total absolute abundances
+\code{add_total_absolute_abundance()} calculates the total absolute abundances
 of the samples given a spike taxon, and adds this to the sample table under
 the column name "total_absolute_abundance".
 }

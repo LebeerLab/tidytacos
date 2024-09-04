@@ -2,8 +2,8 @@
 % Please edit documentation in R/network.R
 \name{cluster_taxa}
 \alias{cluster_taxa}
-\title{Performs SparCC network analysis on a tidytacos object 
-and then performs Markov Clustering on the network to 
+\title{Performs SparCC network analysis on a tidytacos object
+and then performs Markov Clustering on the network to
 annotate taxa of the largest clusters in the tidytacos object.}
 \usage{
 cluster_taxa(
@@ -20,7 +20,7 @@ cluster_taxa(
 
 \item{min_occurrence}{Percentage of samples the taxon needs to be present in for it to be considered in the analysis.}
 
-\item{network_thresh}{absolute value of correlations below this threshold are 
+\item{network_thresh}{absolute value of correlations below this threshold are
 filtered out.}
 
 \item{min_n_cluster}{minimum number of taxa per cluster, smaller clusters are filtered out.}
@@ -30,7 +30,7 @@ filtered out.}
 \item{sample_name}{unique name to use for the samples, by default sample_id is used.}
 }
 \description{
-Performs SparCC network analysis on a tidytacos object 
-and then performs Markov Clustering on the network to 
+Performs SparCC network analysis on a tidytacos object
+and then performs Markov Clustering on the network to
 annotate taxa of the largest clusters in the tidytacos object.
 }

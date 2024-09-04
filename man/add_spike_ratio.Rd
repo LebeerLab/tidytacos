@@ -12,7 +12,7 @@ add_spike_ratio(ta, spike_taxon)
 \item{spike_taxon}{The taxon_id of the spike.}
 }
 \description{
-`add_spike_ratio()` calculates the ratio of non-spike to spike reads for
+\code{add_spike_ratio()} calculates the ratio of non-spike to spike reads for
 each sample and adds this to the sample table under the name "spike_ratio".
 }
 \details{

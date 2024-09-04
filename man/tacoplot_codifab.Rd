@@ -19,12 +19,12 @@ A ggplot object
 This function returns a plot to visualize differential abundance of taxa
 between conditions, compared to all other taxa as references. These
 differential abundances should already have been calculated with
-[add_codifab()]. Taxa that have a relatively high number of
-significantly different ratios, can be considered more abundant in one 
+\code{\link[=add_codifab]{add_codifab()}}. Taxa that have a relatively high number of
+significantly different ratios, can be considered more abundant in one
 condition versus the other.
 }
 \details{
 Significance of tests is determined by capping the false discovery rate at
-10%, using the method of Benjamini and Yekutieli, which is developed for
-non-independent tests. See [p.adjust].
+10\%, using the method of Benjamini and Yekutieli, which is developed for
+non-independent tests. See \link{p.adjust}.
 }

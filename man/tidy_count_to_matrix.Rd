@@ -13,11 +13,11 @@ tidy_count_to_matrix(counts, value = count)
 "counts".}
 }
 \description{
-`tidy_count_to_matrix()` returns a numerical matrix given a tidy
+\code{tidy_count_to_matrix()} returns a numerical matrix given a tidy
 counts data frame.
 }
 \details{
 This function will convert a counts tidy data frame into a numerical
 counts matrix. To convert a numerical counts matrix into a counts
-tidy data frame use [tidy_count_to_matrix()].
+tidy data frame use \code{\link[=tidy_count_to_matrix]{tidy_count_to_matrix()}}.
 }

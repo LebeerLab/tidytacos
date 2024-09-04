@@ -2,7 +2,7 @@
 % Please edit documentation in R/plotters.R
 \name{tacoplot_prevalences}
 \alias{tacoplot_prevalences}
-\title{Return a heatmap of all taxa above a certain threshold prevalence per condition, clusters them and compares prevalences with a fisher_test.}
+\title{Return a heatmap of prevalence of taxa in groups of samples}
 \usage{
 tacoplot_prevalences(
   ta,
@@ -20,10 +20,10 @@ tacoplot_prevalences(
 
 \item{cutoff}{The minimum prevalence of a taxon to be included in the heatmap.}
 
-\item{fisher}{Run a fisher test on the relative prevalences in each condition 
+\item{fisher}{Run a fisher test on the relative prevalences in each condition
 and plot the resulting adjusted p-values as *(<.05), **(<.01), ***(<.001) or ****(<.0001).}
 
-\item{adjp_method}{The method to adjust the p-values, see [rstatix::adjust_pvalue()].}
+\item{adjp_method}{The method to adjust the p-values, see \code{\link[rstatix:adjust_pvalue]{rstatix::adjust_pvalue()}}.}
 
 \item{...}{
   Arguments passed on to \code{\link[pheatmap:pheatmap]{pheatmap::pheatmap}}
@@ -122,6 +122,11 @@ calculated so that the plot would fit there, unless specified otherwise.}
   }}
 }
 \description{
-See pheatmap for additional arguments that can be given for this heatmap.
-Example usage: tacoplot_prevalences(urt,location,treeheight_row=0, cutree_rows=4,fontsize=6,cellwidth=15)
+Return a heatmap of all taxa above a certain threshold prevalence per condition, clusters them and compares prevalences with a fisher_test.
+}
+\examples{
+urt \%>\% 
+  aggregate_taxa(rank="order") \%>\%
+  tacoplot_prevalences(urt, location, cutoff=.1,treeheight_row=0, cutree_rows=4,fontsize=6,cellwidth=15)
+
 }

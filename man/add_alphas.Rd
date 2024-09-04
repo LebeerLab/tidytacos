@@ -9,14 +9,14 @@ add_alphas(ta, methods = "all")
 \arguments{
 \item{ta}{A tidytacos object.}
 
-\item{methods}{A character vector of the diversity measure to use, see [add_alpha()] for examples.
+\item{methods}{A character vector of the diversity measure to use, see \code{\link[=add_alpha]{add_alpha()}} for examples.
 Optionally use 'all' to add all diversity measures.}
 }
 \value{
 A tidytacos object with the selected alpha diversity measures added.
 }
 \description{
-`add_alpha()` adds selected alpha diversity measures to the sample table of a
+\code{add_alpha()} adds selected alpha diversity measures to the sample table of a
 tidytacos object.
 }
 \details{

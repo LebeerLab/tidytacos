@@ -7,15 +7,25 @@
 from_dada(seqtab, taxa, taxa_are_columns = FALSE)
 }
 \arguments{
-\item{seqtab}{Sequence table, output of [dada2::makeSequenceTable()].}
+\item{seqtab}{Sequence table, output of \code{\link[dada2:makeSequenceTable]{dada2::makeSequenceTable()}}.}
 
-\item{taxa}{Taxa table, output of [dada2::assignTaxonomy()].}
+\item{taxa}{Taxa table, output of \code{\link[dada2:assignTaxonomy]{dada2::assignTaxonomy()}}.}
 
 \item{taxa_are_columns}{A logical scalar. Are the taxa defined in columns?}
 }
+\value{
+A tidytacos object.
+}
 \description{
-`from_dada()` returns a tidytacos object given a seqtab and taxa object from dada2.
+\code{\link[=from_dada]{from_dada()}} returns a tidytacos object given a seqtab and taxa object from dada2.
 }
 \details{
 This function will convert two dada2 objects or files into a tidytacos object.
 }
+\seealso{
+Other import-methods: 
+\code{\link{create_tidytacos}()},
+\code{\link{from_phyloseq}()},
+\code{\link{read_tidytacos}()}
+}
+\concept{import-methods}

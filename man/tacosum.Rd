@@ -10,7 +10,7 @@ tacosum(ta)
 \item{ta}{A tidytacos object.}
 }
 \description{
-`tacosum()` returns the number of samples, taxa and reads in the
+\code{tacosum()} returns the number of samples, taxa and reads in the
 tidytacos object.
 }
 \examples{

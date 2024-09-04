@@ -10,7 +10,7 @@ add_rel_abundance(ta)
 \item{ta}{A tidytacos object.}
 }
 \description{
-`add_rel_abundance()` calculates relative abundances of taxa in samples
+\code{add_rel_abundance()} calculates relative abundances of taxa in samples
 and adds them to the count table of a tidytacos object under the column name
 "rel_abundance".
 }

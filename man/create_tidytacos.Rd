@@ -11,14 +11,17 @@ create_tidytacos(counts_matrix, taxa_are_columns = TRUE)
 
 \item{taxa_are_columns}{A logical scalar. Are the taxa defined in columns?}
 }
+\value{
+A tidytacos object.
+}
 \description{
-`create_tidytacos()` returns a tidytacos object given a numeric matrix.
+\code{create_tidytacos()} returns a tidytacos object given a numeric matrix.
 }
 \details{
 This function initiates a tidytacos object based on a numeric matrix. It
 will automatically create a dummy taxa table and sample table which will need to be
-updated using the function [add_metadata()].
-When the taxa table is updated, the rank names can be set using the function [set_rank_names()]
+updated using the function \code{\link[=add_metadata]{add_metadata()}}.
+When the taxa table is updated, the rank names can be set using the function \code{\link[=set_rank_names]{set_rank_names()}}
 to make the tidytacos object aware of the taxonomy levels.
 }
 \examples{
@@ -49,5 +52,11 @@ data <- add_metadata(data, taxonomy, table_type="taxa")
 # rank names are inferred from the taxa table, but can be set manually
 # if we're not happy with the inferred rank names.
 data <- set_rank_names(data, c("domain", "phylum", "class", "order", "family", "genus"))
-
 }
+\seealso{
+Other import-methods: 
+\code{\link{from_dada}()},
+\code{\link{from_phyloseq}()},
+\code{\link{read_tidytacos}()}
+}
+\concept{import-methods}

@@ -5,25 +5,27 @@
 \alias{urt}
 \title{Upper Respiratory Tract samples}
 \format{
-## `urt`
+\subsection{\code{urt}}{
+
 A tidytacos object with 1,947 taxa and 207 samples:
 \describe{
-  \item{participant}{individual participant ID}
-  \item{location}{nose (N) or nasopharynx (NF)}
-  \item{method}{swab (S) or aspirate (A)}
-  \item{plate}{which of the three plates sequenced the sample is located on}
-  ...
+\item{participant}{individual participant ID}
+\item{location}{nose (N) or nasopharynx (NF)}
+\item{method}{swab (S) or aspirate (A)}
+\item{plate}{which of the three plates sequenced the sample is located on}
+...
+}
 }
 }
 \source{
-<https://www.frontiersin.org/journals/microbiology/articles/10.3389/fmicb.2017.02372/full>
+\url{https://www.frontiersin.org/journals/microbiology/articles/10.3389/fmicb.2017.02372/full}
 }
 \usage{
 urt
 }
 \description{
-Human microbiome samples from the upper respiratory tract (URT), 
-taken from a paper by De Boeck et al. It contains nose as well as nasopharynx samples. 
+Human microbiome samples from the upper respiratory tract (URT),
+taken from a paper by De Boeck et al. It contains nose as well as nasopharynx samples.
 Most samples were taken using a swab method, but a minority was taking with the aspirate method.
 }
 \keyword{datasets}

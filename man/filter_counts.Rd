@@ -13,9 +13,11 @@ filter_counts(ta, ...)
 }
 \value{
 A tidytacos object.
-# remove singletons
-urt <- urt %>% filter_counts(count > 1)
 }
 \description{
 Filter the counts
+}
+\examples{
+# remove singletons
+urt <- urt \%>\% filter_counts(count > 1)
 }

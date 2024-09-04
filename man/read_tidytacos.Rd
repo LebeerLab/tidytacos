@@ -20,6 +20,16 @@ read_tidytacos(
 
 \item{counts}{the name of the counts table, defaults to counts.csv}
 }
-\description{
-`read_tidytacos()` reads the three .csv files created by the [write_tidytacos()] function and returns a tidytacos object.
+\value{
+A tidytacos object.
 }
+\description{
+\code{\link[=read_tidytacos]{read_tidytacos()}} reads the three .csv files created by the \code{\link[=write_tidytacos]{write_tidytacos()}} function and returns a tidytacos object.
+}
+\seealso{
+Other import-methods: 
+\code{\link{create_tidytacos}()},
+\code{\link{from_dada}()},
+\code{\link{from_phyloseq}()}
+}
+\concept{import-methods}

@@ -5,8 +5,7 @@
 # @param ta a tidytacos object
 # @param n an integer
 #
-prepare_for_bp <- function(ta, n = 12, extended = TRUE, order_by=NULL) {
-
+prepare_for_bp <- function(ta, n = 12, extended = TRUE, order_by = NULL) {
   # custom order
   if (!is.null(order_by)) {
     ta$samples <- ta$samples %>% arrange(order_by)
@@ -15,7 +14,7 @@ prepare_for_bp <- function(ta, n = 12, extended = TRUE, order_by=NULL) {
 
   # add sample_clustered if not present
   if (!"sample_clustered" %in% names(ta$samples)) {
-      ta <- add_sample_clustered(ta)
+    ta <- add_sample_clustered(ta)
   }
 
   # add taxon_name_color if not present
@@ -43,51 +42,50 @@ prepare_for_bp <- function(ta, n = 12, extended = TRUE, order_by=NULL) {
 # @param stat.method the statistic to calculate, choice from anosim or permanova
 # @param distance the beta dissimilarity metric to use
 #
-get_ord_stat <- function(ta, x, stat.method, distance=distance) {
+get_ord_stat <- function(ta, x, stat.method, distance = distance) {
   stat.method <- tolower(stat.method)
   if (stat.method == "anosim") {
-      stat.result <- perform_anosim(ta, !!x, distance=distance)
+    stat.result <- perform_anosim(ta, !!x, distance = distance)
   } else if (stat.method == "permanova" || stat.method == "adonis") {
-      res <- perform_adonis(ta, c(rlang::as_name(x)), distance=distance)
-      stat.result <- list(statistic = res$R2[[1]], signif = res$`Pr(>F)`[[1]])
-  }
-  else {
-      stop("stat.method not recognized. Please choose from anosim or permanova.")
+    res <- perform_adonis(ta, c(rlang::as_name(x)), distance = distance)
+    stat.result <- list(statistic = res$R2[[1]], signif = res$`Pr(>F)`[[1]])
+  } else {
+    stop("stat.method not recognized. Please choose from anosim or permanova.")
   }
   stat.result
 }
 
 #' Return a bar plot of the samples
-#' 
+#'
 #' Plots a stacked bar plot of the samples in the tidytacos object to inspect the taxonomic profile.
-#' 
+#'
 #' @param ta A tidytacos object.
 #' @param x The name of the column name used to represent samples on the x-axis
 #' @param n An integer, representing the amount of colors used to depict
-#' @param pie A boolean, whether or not to represent the profile in a pie chart. 
+#' @param pie A boolean, whether or not to represent the profile in a pie chart.
 #' Default is FALSE, as pie chart representations can be misleading to interpret.
-#' @param order_by an optional column name to order the samples by. 
+#' @param order_by an optional column name to order the samples by.
 #' For examples order_by=sample would order the x-axis by the sample names instead of by similar profiles.
 #' @export
-tacoplot_stack <- function(ta, n = 12, x = sample_clustered, pie = FALSE, order_by=NULL) {
+tacoplot_stack <- function(ta, n = 12, x = sample_clustered, pie = FALSE, order_by = NULL) {
   # convert promise to formula
 
-  
-  try({
-    if (is.function(x)) {
-      x <- as.character(substitute(x))
-    }
-    x <- rlang::sym(x)
-  },
-    
-     silent=TRUE
-    ) #in case the column is given as a string
-  x <- rlang::enquo(x)  
-  
-  error_message_label = paste0("Label \'", rlang::quo_name(x),"\' not found in the samples table.")
-  error_message_pie = "This visualization type is meant to be used for a single sample."
-  warning_message_aggregate = "Sample labels not unique, samples are aggregated."
-  
+
+  try(
+    {
+      if (is.function(x)) {
+        x <- as.character(substitute(x))
+      }
+      x <- rlang::sym(x)
+    },
+    silent = TRUE
+  ) # in case the column is given as a string
+  x <- rlang::enquo(x)
+
+  error_message_label <- paste0("Label \'", rlang::quo_name(x), "\' not found in the samples table.")
+  error_message_pie <- "This visualization type is meant to be used for a single sample."
+  warning_message_aggregate <- "Sample labels not unique, samples are aggregated."
+
   if (rlang::quo_name(x) != "sample_clustered" &&
     !is.element(rlang::quo_name(x), names(ta$samples))
   ) {
@@ -106,14 +104,15 @@ tacoplot_stack <- function(ta, n = 12, x = sample_clustered, pie = FALSE, order_
   }
 
   # make plot and return
-  plot <- prepare_for_bp(ta, n, extended=T, order_by=order_by) %>%
+  plot <- prepare_for_bp(ta, n, extended = T, order_by = order_by) %>%
     ggplot(aes(
       x = forcats::fct_reorder(!!x, as.integer(sample_clustered)),
-      y = rel_abundance, fill = taxon_name_color)) +
+      y = rel_abundance, fill = taxon_name_color
+    )) +
     list(
       geom_bar(stat = "identity"),
       scale_fill_brewer(palette = "Paired", name = "Taxon"),
-      if (pie) coord_polar("y", start = 0, clip="off"),
+      if (pie) coord_polar("y", start = 0, clip = "off"),
       xlab("sample"),
       ylab("relative abundance"),
       theme(
@@ -121,16 +120,17 @@ tacoplot_stack <- function(ta, n = 12, x = sample_clustered, pie = FALSE, order_
         axis.ticks.x = element_blank(),
         panel.background = element_rect(fill = "white", colour = "white")
       ),
-      if(pie) xlab(""),
-      if(pie) theme(axis.text.x = element_blank())
+      if (pie) xlab(""),
+      if (pie) theme(axis.text.x = element_blank())
     )
 
   # Add > 12 colors if asked for
-  if (n > 12) { 
+  if (n > 12) {
     force_optional_dependency("RColorBrewer")
     suppressMessages(
-    plot <- plot +
-          scale_fill_manual(values = colorRampPalette(palette_xgfs)(n)))
+      plot <- plot +
+        scale_fill_manual(values = colorRampPalette(palette_xgfs)(n))
+    )
   }
 
   plot
@@ -139,16 +139,16 @@ tacoplot_stack <- function(ta, n = 12, x = sample_clustered, pie = FALSE, order_
 #' Return an interactive bar plot of the samples
 #'
 #' Plots an interactive stacked bar plot of the samples in the tidytacos object to inspect the taxonomic profile.
-#' 
+#'
 #' @param ta A tidytacos object.
 #' @param n An integer, representing the amount of colors used to depict
 #'   different taxa.
 #' @param x A string, representing the column name used to label the x-axis
-#' @param order_by an optional column name to order the samples by. 
+#' @param order_by an optional column name to order the samples by.
 #' For examples order_by=sample would order the x-axis by the sample names instead of by similar profiles.
-#' 
+#'
 #' @export
-tacoplot_stack_ly <- function(ta, n = 12, x = sample_clustered, order_by=NULL) {
+tacoplot_stack_ly <- function(ta, n = 12, x = sample_clustered, order_by = NULL) {
   force_optional_dependency("plotly")
   # convert promise to formula
   x <- rlang::enquo(x)
@@ -157,9 +157,9 @@ tacoplot_stack_ly <- function(ta, n = 12, x = sample_clustered, order_by=NULL) {
   plot <- rlang::eval_tidy(rlang::quo_squash(
     quo({
       # make plot and return
-      prepare_for_bp(ta, n, extended=T, order_by=order_by) %>%
+      prepare_for_bp(ta, n, extended = T, order_by = order_by) %>%
         plotly::plot_ly(
-          x = ~forcats::fct_reorder(!!x, as.integer(sample_clustered)),
+          x = ~ forcats::fct_reorder(!!x, as.integer(sample_clustered)),
           y = ~rel_abundance,
           color = ~taxon_name_color,
           colors = palette_xgfs,
@@ -172,8 +172,8 @@ tacoplot_stack_ly <- function(ta, n = 12, x = sample_clustered, order_by=NULL) {
         ) %>%
         plotly::layout(
           barmode = "stack",
-          xaxis = list(title="Sample"),
-          yaxis = list(title="Relative Abundance")
+          xaxis = list(title = "Sample"),
+          yaxis = list(title = "Relative Abundance")
         )
     })
   ))
@@ -181,7 +181,7 @@ tacoplot_stack_ly <- function(ta, n = 12, x = sample_clustered, order_by=NULL) {
 }
 
 #' Return an interactive ordination plot of the samples
-#' 
+#'
 #' Creates an interactive ordination plot of the beta diversity of the samples in the tidytacos object.
 #' This can be used to gauge the similarity between samples.
 #'
@@ -199,15 +199,15 @@ tacoplot_stack_ly <- function(ta, n = 12, x = sample_clustered, order_by=NULL) {
 #' @param ... Extra arguments to pass to the add_ord function.
 #'
 #' @export
-tacoplot_ord_ly <- function(ta, x=NULL, samplenames = sample_id, ord="pcoa", dims=2, 
-                            distance="bray", stat.method=NULL, palette = NULL, title = NULL, ...) {
+tacoplot_ord_ly <- function(ta, x = NULL, samplenames = sample_id, ord = "pcoa", dims = 2,
+                            distance = "bray", stat.method = NULL, palette = NULL, title = NULL, ...) {
   force_optional_dependency("plotly")
 
 
-  if (is.null(title)){ 
-    title <- paste(toupper(ord),"plot")
+  if (is.null(title)) {
+    title <- paste(toupper(ord), "plot")
   }
-  
+
   # convert promise to formula
   x <- rlang::enquo(x)
   if (rlang::quo_is_null(x)) {
@@ -222,65 +222,66 @@ tacoplot_ord_ly <- function(ta, x=NULL, samplenames = sample_id, ord="pcoa", dim
   if (is.null(palette)) {
     palette <- palette_paired
   }
-  
+
   # Check for empty samples
   ta <- ta %>% remove_empty_samples()
-  
+
   # prepare ord if needed
   if (!all(ordnames %in% names(ta$samples))) {
-    ta <- add_ord(ta, distance=distance, method=ord, dims=dims, ...)
+    ta <- add_ord(ta, distance = distance, method = ord, dims = dims, ...)
   }
 
   if (dims == 2) {
-  plot <- rlang::eval_tidy(rlang::quo_squash(
-    quo({
-      ta$samples %>%
-        plotly::plot_ly(
-          x = ~ord1,
-          y = ~ord2,
-          color = ~!!x,
-          colors = palette,
-          text = ~!!samplenames,
-          hovertemplate = paste("<i>%{text}</i>"),
-          type = "scatter",
-          mode = "markers"
-        ) %>%
-        plotly::layout(
-          title = title,
-          yaxis = list(zeroline = F),
-          xaxis = list(zeroline = F)
-        )
-    })
-  ))
+    plot <- rlang::eval_tidy(rlang::quo_squash(
+      quo({
+        ta$samples %>%
+          plotly::plot_ly(
+            x = ~ord1,
+            y = ~ord2,
+            color = ~ !!x,
+            colors = palette,
+            text = ~ !!samplenames,
+            hovertemplate = paste("<i>%{text}</i>"),
+            type = "scatter",
+            mode = "markers"
+          ) %>%
+          plotly::layout(
+            title = title,
+            yaxis = list(zeroline = F),
+            xaxis = list(zeroline = F)
+          )
+      })
+    ))
   } else {
     plot <- rlang::eval_tidy(rlang::quo_squash(
-    quo({
-      ta$samples %>%
-        plotly::plot_ly(
-          x = ~ord1,
-          y = ~ord2,
-          z = ~ord3,
-          color = ~!!x,
-          colors = palette,
-          text = ~!!samplenames,
-          hovertemplate = paste("<i>%{text}</i>")
-        ) %>% plotly::add_markers() %>%
-        plotly::layout(
-          title = title,
-          yaxis = list(zeroline = F),
-          xaxis = list(zeroline = F)
-        )
-    })
-  ))
+      quo({
+        ta$samples %>%
+          plotly::plot_ly(
+            x = ~ord1,
+            y = ~ord2,
+            z = ~ord3,
+            color = ~ !!x,
+            colors = palette,
+            text = ~ !!samplenames,
+            hovertemplate = paste("<i>%{text}</i>")
+          ) %>%
+          plotly::add_markers() %>%
+          plotly::layout(
+            title = title,
+            yaxis = list(zeroline = F),
+            xaxis = list(zeroline = F)
+          )
+      })
+    ))
   }
 
   if (is.null(stat.method)) {
     return(plot)
   }
-  stat <- get_ord_stat(ta, x, stat.method, distance=distance)
+  stat <- get_ord_stat(ta, x, stat.method, distance = distance)
   plot %>% plotly::add_annotations(
-    x= 0.1,
-    y= 1,
+    x = 0.1,
+    y = 1,
     xref = "paper",
     yref = "paper",
     text = paste0(toupper(stat.method), ":\nR= ", signif(stat$statistic, 3), "\nP= ", signif(stat$signif, 3)),
@@ -294,7 +295,7 @@ tacoplot_ord_ly <- function(ta, x=NULL, samplenames = sample_id, ord="pcoa", dim
 #'
 #' Creates an ordination plot of the beta diversity of the samples in the tidytacos object.
 #' This can be used to gauge the similarity between samples.
-#' 
+#'
 #' @param ta A tidytacos object.
 #' @param x The column name used to color the sample groups on.
 #' @param ord the ordination technique to use. Choice from pcoa, tsne and umap.
@@ -304,38 +305,37 @@ tacoplot_ord_ly <- function(ta, x=NULL, samplenames = sample_id, ord="pcoa", dim
 #'   groups.
 #' @param title a string to display as title of the plot.
 #' @param ... Extra arguments to pass to the add_ord function.
-#' 
-#' @examples 
-#' 
-#' tacoplot_ord(urt, x=location)
-#' 
+#'
+#' @examples
+#'
+#' tacoplot_ord(urt, x = location)
+#'
 #' # set plate to character, to avoid it being treated as a continuous variable
-#' urt <- urt %>% mutate_samples(plate=as.character(plate))
-#' tacoplot_ord(urt, x=plate, ord="umap", distance="aitchison",stat.method="permanova")
-#' 
+#' urt <- urt %>% mutate_samples(plate = as.character(plate))
+#' tacoplot_ord(urt, x = plate, ord = "umap", distance = "aitchison", stat.method = "permanova")
+#'
 #' @export
-tacoplot_ord <- function(ta, x=NULL, palette = NULL, ord = "pcoa", distance="bray", stat.method=NULL,title = NULL, ...) {
-
+tacoplot_ord <- function(ta, x = NULL, palette = NULL, ord = "pcoa", distance = "bray", stat.method = NULL, title = NULL, ...) {
   # convert promise to formula
   x <- rlang::enquo(x)
   if (rlang::quo_is_null(x)) {
     stop("Argument x missing. Please supply the name of a categorical value, to be used as the color for the pcoa plot.")
   }
 
-  if (is.null(title)){ 
+  if (is.null(title)) {
     title <- paste(ord, "plot")
   }
-  error_message = paste0("Label \'", quo_name(x),"\' not found in the samples table.")
-  if(!is.element(quo_name(x), names(ta$samples))) {
+  error_message <- paste0("Label \'", quo_name(x), "\' not found in the samples table.")
+  if (!is.element(quo_name(x), names(ta$samples))) {
     stop(error_message)
   }
 
-  if ((quo_name(x) == "sample_id" || 
-       quo_name(x) == "sample") && 
-       (length(ta$samples$sample_id)>20)) {
+  if ((quo_name(x) == "sample_id" ||
+    quo_name(x) == "sample") &&
+    (length(ta$samples$sample_id) > 20)) {
     warning(
       paste0(
-        "Ignoring sample_id or sample as colouring variable for this many samples. ", 
+        "Ignoring sample_id or sample as colouring variable for this many samples. ",
         "\nUse tacoplot_ord_ly(x=<group_var>, samplenames=sample_id) ",
         "if you wish to view the samples by name or id."
       )
@@ -343,7 +343,7 @@ tacoplot_ord <- function(ta, x=NULL, palette = NULL, ord = "pcoa", distance="bra
     x <- NULL
     stat.method <- NULL
   }
-  
+
   # fallback to default palette
   if (is.null(palette)) {
     palette <- palette_paired
@@ -351,29 +351,32 @@ tacoplot_ord <- function(ta, x=NULL, palette = NULL, ord = "pcoa", distance="bra
 
   # Check for empty samples
   ta <- ta %>% remove_empty_samples()
-  
+
   # prepare pcoa if needed
   if (!all(c("ord1", "ord2") %in% names(ta$samples))) {
-    ta <- add_ord(ta, distance=distance, method=ord, ...)
-  } 
+    ta <- add_ord(ta, distance = distance, method = ord, ...)
+  }
 
-  plt <- ta$samples %>% ggplot(aes(x = ord1, y = ord2, color=!!x)) +
+  plt <- ta$samples %>% ggplot(aes(x = ord1, y = ord2, color = !!x)) +
     geom_point() +
     theme_classic() +
     ggtitle(title) +
     labs(subtitle = paste("Distance measure: ", distance))
 
   # calculate stats
-  if (is.null(stat.method)){
+  if (is.null(stat.method)) {
     return(plt)
   }
-  stat.result <- get_ord_stat(ta, x, stat.method, distance=distance)
+  stat.result <- get_ord_stat(ta, x, stat.method, distance = distance)
 
   plt +
-  annotate("text", x = min(ta$samples$ord1) + 0.05, y = max(ta$samples$ord2) - 0.05,
-    label=paste0(toupper(stat.method),
-    ":\nR= ", signif(stat.result$statistic, 3), "\nP= ", signif(stat.result$signif, 3)))
-
+    annotate("text",
+      x = min(ta$samples$ord1) + 0.05, y = max(ta$samples$ord2) - 0.05,
+      label = paste0(
+        toupper(stat.method),
+        ":\nR= ", signif(stat.result$statistic, 3), "\nP= ", signif(stat.result$signif, 3)
+      )
+    )
 }
 
 #' Return a visualization designed for a small number of samples
@@ -382,7 +385,7 @@ tacoplot_ord <- function(ta, x=NULL, palette = NULL, ord = "pcoa", distance="bra
 #' @param sample A string, representing the unique sample name of interest
 #' @param n An integer, representing the amount of colors used to depict taxa
 #' @param nrow An integer, representing the amount of rows in the facet_wrap
-#' 
+#'
 #' @export
 tacoplot_zoom <- function(ta, sample = sample_id, n = 15, nrow = NULL) {
   ta <- prepare_for_bp(ta, n, extended = FALSE)
@@ -393,7 +396,7 @@ tacoplot_zoom <- function(ta, sample = sample_id, n = 15, nrow = NULL) {
     ta <- change_id_samples(ta, sample_id_new = !!sample)
   }
 
-  if(ta$samples %>% nrow() > 1) {
+  if (ta$samples %>% nrow() > 1) {
     stop("This visualization is meant to be used for a single sample.")
   }
 
@@ -418,8 +421,12 @@ tacoplot_zoom <- function(ta, sample = sample_id, n = 15, nrow = NULL) {
       labels = data$taxon_name_color,
       expand = c(0, 0)
     ) +
-    {if(n<=12)scale_fill_brewer(palette = "Paired", name = "taxon")} +
-    {if(n>12)scale_fill_manual(values = colorRampPalette(palette_xgfs)(n))} +
+    {
+      if (n <= 12) scale_fill_brewer(palette = "Paired", name = "taxon")
+    } +
+    {
+      if (n > 12) scale_fill_manual(values = colorRampPalette(palette_xgfs)(n))
+    } +
     xlab("taxon name") +
     ylab("relative abundance") +
     theme(
@@ -432,10 +439,11 @@ tacoplot_zoom <- function(ta, sample = sample_id, n = 15, nrow = NULL) {
 #' @param ta A tidytacos object.
 #' @param condition The name of a variable in the samples table that contains a
 #'   categorical value.
-#' @param ... Extra arguments to pass to the [ggVennDiagram::ggVennDiagram()] function.
+#' @inheritDotParams ggVennDiagram::ggVennDiagram
+#' @examples
+#' tacoplot_venn(urt, location)
 #' @export
 tacoplot_venn <- function(ta, condition, ...) {
-
   force_optional_dependency("ggVennDiagram")
 
 
@@ -443,19 +451,17 @@ tacoplot_venn <- function(ta, condition, ...) {
   ltpc <- taxonlist_per_condition(ta, !!condition)
 
   if ("show_intersect" %in% names(list(...))) {
-
     if (!"taxon_name" %in% colnames(ta$taxa)) {
       ta <- ta %>% add_taxon_name()
     }
     match_taxon_name <- function(taxid) {
-      ta$taxa[which(ta$taxa$taxon_id %in% taxid),] %>% 
-          dplyr::pull(taxon_name)
+      ta$taxa[which(ta$taxa$taxon_id %in% taxid), ] %>%
+        dplyr::pull(taxon_name)
     }
     ltpc <- lapply(ltpc, match_taxon_name)
   }
 
   ggVennDiagram::ggVennDiagram(ltpc, ...)
-
 }
 
 #' Return an interactive venn diagram of overlapping taxon_ids between conditions
@@ -467,14 +473,13 @@ tacoplot_venn <- function(ta, condition, ...) {
 #'
 #' @export
 tacoplot_venn_ly <- function(ta, condition, ...) {
-
   condition <- rlang::enquo(condition)
 
-  if (!"taxon_name" %in% names(ta$taxa)){
+  if (!"taxon_name" %in% names(ta$taxa)) {
     ta <- ta %>% add_taxon_name()
   }
 
-  ta %>% tacoplot_venn(!!condition, show_intersect=TRUE, ...)
+  ta %>% tacoplot_venn(!!condition, show_intersect = TRUE, ...)
 }
 
 #' Return an euler diagram of overlapping taxon_ids between conditions
@@ -485,16 +490,14 @@ tacoplot_venn_ly <- function(ta, condition, ...) {
 #' @param shape shape to plot the groups in; choice from circle or ellipse
 #' @inheritDotParams eulerr::euler
 #' @export
-tacoplot_euler <- function(ta, condition, shape="ellipse", ...) {
-
+tacoplot_euler <- function(ta, condition, shape = "ellipse", ...) {
   force_optional_dependency("eulerr")
 
   condition <- rlang::enquo(condition)
   ltpc <- taxonlist_per_condition(ta, !!condition)
 
   fit <- eulerr::euler(ltpc, shape)
-  plot(fit, quantities=T, ...)
-
+  plot(fit, quantities = T, ...)
 }
 
 #' Return a boxplot of every alpha metric per group in the samples table of a tidytaco object.
@@ -502,105 +505,108 @@ tacoplot_euler <- function(ta, condition, shape="ellipse", ...) {
 #'
 #' @param ta A tidytacos object.
 #' @param group_by The name of a variable in the samples table on which to group the samples.
-#' @param compare_means Add the result of a statistical test to the plot, comparing the means of the groups. Default is FALSE. 
+#' @param compare_means Add the result of a statistical test to the plot, comparing the means of the groups. Default is FALSE.
 #' @inheritDotParams ggpubr::stat_compare_means
 #' @export
-tacoplot_alphas <- function(ta, group_by, compare_means=FALSE, ...){
-
+tacoplot_alphas <- function(ta, group_by, compare_means = FALSE, ...) {
   value <- NULL
 
   group_by <- rlang::enquo(group_by)
-  if (rlang::quo_is_missing(group_by)){
+  if (rlang::quo_is_missing(group_by)) {
     stop("Argument group_by missing. Please supply the name of a categorical value, to be used as the grouping variable.")
   }
   ta_tmp <- ta
-  clean_alpha_metrics <- sapply(alpha_metrics, tolower, USE.NAMES=F)
+  clean_alpha_metrics <- sapply(alpha_metrics, tolower, USE.NAMES = F)
 
-  if (rlang::quo_is_null(group_by)){
+  if (rlang::quo_is_null(group_by)) {
     group_by <- "all.samples"
     ta_tmp$samples$all.samples <- "all.samples"
   }
 
-  if (!any(clean_alpha_metrics %in% colnames(ta$samples))){
+  if (!any(clean_alpha_metrics %in% colnames(ta$samples))) {
     ta_tmp <- add_alphas(ta_tmp)
   }
-  plt <- ta_tmp$samples %>% 
+  plt <- ta_tmp$samples %>%
     pivot_longer(any_of(clean_alpha_metrics)) %>%
-    ggplot(aes(x=!!group_by, y=value, fill=!!group_by)) +
+    ggplot(aes(x = !!group_by, y = value, fill = !!group_by)) +
     geom_violin() +
-    geom_jitter(alpha=0.1) +
-    facet_wrap(~name, scales="free") + 
-    theme_classic() + 
+    geom_jitter(alpha = 0.1) +
+    facet_wrap(~name, scales = "free") +
+    theme_classic() +
     theme(
       strip.background = element_rect(
-        fill=alpha("lightblue", 0.4),
-        linewidth=0.5
+        fill = alpha("lightblue", 0.4),
+        linewidth = 0.5
       )
     )
 
-  if (!compare_means) return(plt)
+  if (!compare_means) {
+    return(plt)
+  }
 
   force_optional_dependency("ggpubr")
   plt + ggpubr::stat_compare_means(...)
 }
 
-#' Return a heatmap of all taxa above a certain threshold prevalence per condition, clusters them and compares prevalences with a fisher_test. 
+#' Return a heatmap of prevalence of taxa in groups of samples
 #'
-#' See pheatmap for additional arguments that can be given for this heatmap.
-#' Example usage: tacoplot_prevalences(urt,location,treeheight_row=0, cutree_rows=4,fontsize=6,cellwidth=15)
+#' Return a heatmap of all taxa above a certain threshold prevalence per condition, clusters them and compares prevalences with a fisher_test.
+#' @examples
+#' urt %>%
+#'   aggregate_taxa(rank = "order") %>%
+#'   tacoplot_prevalences(urt, location, cutoff = .1, treeheight_row = 0, cutree_rows = 4, fontsize = 6, cellwidth = 15)
 #'
 #' @param ta A tidytacos object.
 #' @param condition The row name of the condition which rrevalences are to be compared.
 #' @param cutoff The minimum prevalence of a taxon to be included in the heatmap.
-#' @param fisher Run a fisher test on the relative prevalences in each condition 
+#' @param fisher Run a fisher test on the relative prevalences in each condition
 #' and plot the resulting adjusted p-values as *(<.05), **(<.01), ***(<.001) or ****(<.0001).
 #' @param adjp_method The method to adjust the p-values, see [rstatix::adjust_pvalue()].
 #' @inheritDotParams pheatmap::pheatmap
 #' @export
-tacoplot_prevalences <- function(ta, condition, cutoff=0.1, fisher=T, adjp_method="fdr", ...){
-    
-    force_optional_dependency("pheatmap")
-    force_optional_dependency("rstatix")
-    fisher_p <- NULL
-    condition <- rlang::enquo(condition)
+tacoplot_prevalences <- function(ta, condition, cutoff = 0.1, fisher = T, adjp_method = "fdr", ...) {
+  force_optional_dependency("pheatmap")
+  force_optional_dependency("rstatix")
+  fisher_p <- NULL
+  condition <- rlang::enquo(condition)
 
-    prevalences <- ta %>%
+  prevalences <- ta %>%
     `if`(!"taxon_name" %in% ta$taxa, add_taxon_name(.), .) %>%
-    add_prevalence(condition=rlang::as_name(condition), relative=T, fisher_test=fisher) %>%
+    add_prevalence(condition = rlang::as_name(condition), relative = T, fisher_test = fisher) %>%
     taxa()
-    
-    prevalences.M <- prevalences %>% 
-      dplyr::select(starts_with("prevalence_in_")) %>%
-      as.matrix()
-    if (fisher) {
-      fp <- prevalences %>% 
-            dplyr::select(fisher_p) %>% 
-            rstatix::adjust_pvalue(method=adjp_method)
-      fp_sig <- dplyr::case_when(
-          fp < 0.0001 ~ " (****)",
-          fp < 0.001 ~ " (***)",
-          fp < 0.01 ~ " (**)",
-          fp < 0.05 ~ " (*)",
-          TRUE ~ ""
-      )
 
-      row.names(prevalences.M) <- str_c(prevalences$taxon_name, fp_sig)
-    } else {
-      row.names(prevalences.M) <- prevalences$taxon_name
-    }
+  prevalences.M <- prevalences %>%
+    dplyr::select(starts_with("prevalence_in_")) %>%
+    as.matrix()
+  if (fisher) {
+    fp <- prevalences %>%
+      dplyr::select(fisher_p) %>%
+      rstatix::adjust_pvalue(method = adjp_method)
+    fp_sig <- dplyr::case_when(
+      fp < 0.0001 ~ " (****)",
+      fp < 0.001 ~ " (***)",
+      fp < 0.01 ~ " (**)",
+      fp < 0.05 ~ " (*)",
+      TRUE ~ ""
+    )
 
-    prevalences.M <- prevalences.M[prevalences.M %>% rowSums() > cutoff,]
+    row.names(prevalences.M) <- str_c(prevalences$taxon_name, fp_sig)
+  } else {
+    row.names(prevalences.M) <- prevalences$taxon_name
+  }
 
-    pheatmap::pheatmap(prevalences.M, ...)
+  prevalences.M <- prevalences.M[prevalences.M %>% rowSums() > cutoff, ]
+
+  pheatmap::pheatmap(prevalences.M, ...)
 }
 
 
 #' Return a scree plot to visualize the eigenvalues of the PCA.
-#' 
-#' 
+#'
+#'
 #' @param ta A tidytacos object.
 #' @inheritDotParams factoextra::fviz_eig
-#' @examples 
+#' @examples
 #' urt %>% tacoplot_scree()
 #' @export
 tacoplot_scree <- function(ta, ...) {
@@ -611,8 +617,6 @@ tacoplot_scree <- function(ta, ...) {
   }
 
   factoextra::fviz_eig(ta$pca, ...)
-
-
 }
 
 palette_paired <- c(

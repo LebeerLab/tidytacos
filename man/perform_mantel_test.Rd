@@ -10,9 +10,11 @@ perform_mantel_test(ta, comparison, ...)
 \item{ta}{A tidytacos object.}
 
 \item{comparison}{A distance to compare against. This can be any of the following:
-- The name of the variable in the sample table to use for comparison
-- A list of names of variables in the sample table.
-- A distance matrix.}
+\itemize{
+\item The name of the variable in the sample table to use for comparison
+\item A list of names of variables in the sample table.
+\item A distance matrix.
+}}
 
 \item{...}{Additional arguments to pass to the mantel function.}
 }
@@ -20,6 +22,6 @@ perform_mantel_test(ta, comparison, ...)
 The mantel test statistics
 }
 \description{
-This function performs a mantel test using the dissimilarity matrix  
+This function performs a mantel test using the dissimilarity matrix
 of the tidytacos object supplied and a second distance matrix generated from user input.
 }

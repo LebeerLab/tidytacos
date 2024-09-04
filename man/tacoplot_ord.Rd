@@ -25,7 +25,7 @@ groups.}
 
 \item{ord}{the ordination technique to use. Choice from pcoa, tsne and umap.}
 
-\item{distance}{the distance algorithm to use, see [vegan::vegdist()].}
+\item{distance}{the distance algorithm to use, see \code{\link[vegan:vegdist]{vegan::vegdist()}}.}
 
 \item{stat.method}{the statistic to print on the figure, choice from mantel and anosim.}
 

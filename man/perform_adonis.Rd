@@ -61,10 +61,10 @@ longer but gives a more accurate p-value).}
   }}
 }
 \value{
-An object of class "adonis" (see \link[vegan]{adonis}).
+An object of class "adonis" (see \link[vegan:vegan-deprecated]{adonis}).
 }
 \description{
-This function executes the \link[vegan]{adonis2} function of the vegan package
+This function executes the \link[vegan:adonis]{adonis2} function of the vegan package
 and returns the result.
 }
 \details{

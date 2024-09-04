@@ -12,7 +12,7 @@ to_biom(ta, filename = "asvs.biom")
 \item{filename}{The name of the resulting biom table file, defaults to 'asvs.biom'.}
 }
 \description{
-Uses the taxon_id and sample_id columns to create a dense biom file (v1, json). 
-By default this is on ASV/OTU level. 
+Uses the taxon_id and sample_id columns to create a dense biom file (v1, json).
+By default this is on ASV/OTU level.
 To do it at any other taxonomy level, one first needs to aggregate the taxa.
 }

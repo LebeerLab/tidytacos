@@ -13,10 +13,10 @@ tacoplot_stack(ta, n = 12, x = sample_clustered, pie = FALSE, order_by = NULL)
 
 \item{x}{The name of the column name used to represent samples on the x-axis}
 
-\item{pie}{A boolean, whether or not to represent the profile in a pie chart. 
+\item{pie}{A boolean, whether or not to represent the profile in a pie chart.
 Default is FALSE, as pie chart representations can be misleading to interpret.}
 
-\item{order_by}{an optional column name to order the samples by. 
+\item{order_by}{an optional column name to order the samples by.
 For examples order_by=sample would order the x-axis by the sample names instead of by similar profiles.}
 }
 \description{

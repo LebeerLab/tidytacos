@@ -5,18 +5,20 @@
 \alias{leaf}
 \title{Phylosphere samples}
 \format{
-## `leaf`
+\subsection{\code{leaf}}{
+
 A tidytacos object with 6,044 taxa and 33 samples:
 \describe{
-  \item{Plant}{plant species (Blank/Mustard/Wheat)}
-  \item{Plot}{location of the plant or blank}
-  \item{Day}{day of sampling}
-  \item{added_spike_copies}{amount of spike in sequences added}
-  ...
+\item{Plant}{plant species (Blank/Mustard/Wheat)}
+\item{Plot}{location of the plant or blank}
+\item{Day}{day of sampling}
+\item{added_spike_copies}{amount of spike in sequences added}
+...
+}
 }
 }
 \source{
-<https://www.sciencedirect.com/science/article/pii/S003807171600050X>
+\url{https://www.sciencedirect.com/science/article/pii/S003807171600050X}
 }
 \usage{
 leaf

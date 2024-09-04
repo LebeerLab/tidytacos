@@ -26,7 +26,7 @@ researchers to consider that absolute abundances are only meaningful if
 they can be translated into densities.}
 }
 \description{
-`add_total_density()` adds the total microbial density to the sample table
+\code{add_total_density()} adds the total microbial density to the sample table
 of a tidytacos object under the column name "total_density".
 }
 \examples{

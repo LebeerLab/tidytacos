@@ -17,15 +17,15 @@ add_mean_rel_abundance(ta, condition = NULL, test = NULL)
 A tidytacos object
 }
 \description{
-`add_mean_rel_abundance()` adds mean relative abundance values for each taxon to the taxa
+\code{add_mean_rel_abundance()} adds mean relative abundance values for each taxon to the taxa
 table, overall or per sample group.
 }
 \details{
-If `condition` is specified, the mean relative abundances will be calculated
+If \code{condition} is specified, the mean relative abundances will be calculated
 separately for each group defined by the condition variable. This variable
 should be present in the sample table.
 
-If `condition` is specified, differential abundance testing can be performed
-by setting the `test` argument. Options are `NULL` (default), `"wilcox"` or
-`"t-test"`.
+If \code{condition} is specified, differential abundance testing can be performed
+by setting the \code{test} argument. Options are \code{NULL} (default), \code{"wilcox"} or
+\code{"t-test"}.
 }

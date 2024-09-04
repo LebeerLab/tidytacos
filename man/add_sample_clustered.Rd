@@ -10,7 +10,7 @@ add_sample_clustered(ta)
 \item{ta}{A tidytacos object.}
 }
 \description{
-`add_sample_clustered()` adds a new variable defining a sample order based
+\code{add_sample_clustered()} adds a new variable defining a sample order based
 on a hierarchical clustering of the samples.
 }
 \details{

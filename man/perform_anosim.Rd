@@ -36,7 +36,7 @@ perform_anosim(ta, group, ...)
   }}
 }
 \description{
-`perform_anosim()` performs the anosim test for statistical difference
+\code{perform_anosim()} performs the anosim test for statistical difference
 between groups of samples. The null hypothesis is that there is no difference
 between microbial communities in the groups of samples.
 }

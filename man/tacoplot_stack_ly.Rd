@@ -14,7 +14,7 @@ different taxa.}
 
 \item{x}{A string, representing the column name used to label the x-axis}
 
-\item{order_by}{an optional column name to order the samples by. 
+\item{order_by}{an optional column name to order the samples by.
 For examples order_by=sample would order the x-axis by the sample names instead of by similar profiles.}
 }
 \description{

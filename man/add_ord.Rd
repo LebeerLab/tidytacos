@@ -10,7 +10,7 @@ add_ord(ta, distance = "bray", method = "pcoa", dims = 2, binary = FALSE, ...)
 \item{ta}{A tidytacos object.}
 
 \item{distance}{The distance indices to use, see
-[vegan::vegdist()].}
+\code{\link[vegan:vegdist]{vegan::vegdist()}}.}
 
 \item{method}{The ordination method to use to calculate coordinates. Choices
 are "pcoa", "tsne", "umap".}
@@ -26,7 +26,7 @@ computation or not.}
 A tidytacos object with the ordination coordinates added.
 }
 \description{
-`add_ord()` adds the first n dimensions of a dimensionality reduction
+\code{add_ord()} adds the first n dimensions of a dimensionality reduction
 method performed on a given dissimilarity matrix as new variables to the
 sample table of a tidytacos object.
 }
@@ -35,7 +35,7 @@ This function calculates the dissimilarities between samples followed by
 an ordination analysis. It will then add the first n dimensions to
 the sample table of a tidytacos object named "ord1", "ord2", ... This
 function will also add relative abundances if not present using
-[add_rel_abundance()].
+\code{\link[=add_rel_abundance]{add_rel_abundance()}}.
 }
 \examples{
 # Initiate counts matrix

@@ -29,7 +29,7 @@ groups on.}
 
 \item{dims}{the amount of dimensions to plot, 2 or 3.}
 
-\item{distance}{the distance algorithm to use, see [vegan::vegdist()].}
+\item{distance}{the distance algorithm to use, see \code{\link[vegan:vegdist]{vegan::vegdist()}}.}
 
 \item{stat.method}{the statistic to print on the figure, choice from mantel and anosim.}
 

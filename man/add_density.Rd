@@ -26,7 +26,7 @@ researchers to consider that absolute abundances are only meaningful if
 they can be translated into densities.}
 }
 \description{
-`add_density()` adds densities (bacterial biomass per sample mass or
+\code{add_density()} adds densities (bacterial biomass per sample mass or
 volume) to the count table of a tidytacos object under the column name
 "density". Can only be used of a taxon was spiked into samples during library prep.
 }

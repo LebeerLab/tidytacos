@@ -64,3 +64,4 @@ RoxygenNote: 7.3.2
 Config/testthat/edition: 3
 URL: https://lebeerlab.github.io/tidytacos/
 BugReports: https://github.com/LebeerLab/tidytacos/issues/new?assignees=TheOafidian&labels=bug&projects=&template=bug_report.md&title=%5BBUG%5D+
+Roxygen: list(markdown = TRUE)

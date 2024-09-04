@@ -18,10 +18,12 @@ A tidytacos object.
 There are two ways to call this function:
 }
 \details{
-* If the rank you are interested in is in the standard list, just supply it
+\itemize{
+\item If the rank you are interested in is in the standard list, just supply it
 as an argument.
-* If not, delete all taxon variables except taxon_id and the ranks you are
+\item If not, delete all taxon variables except taxon_id and the ranks you are
 still interested in prior to calling this function.
+}
 }
 \examples{
 urt \%>\% aggregate_taxa(rank = "class")

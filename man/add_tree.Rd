@@ -14,22 +14,22 @@ add_tree(
 \arguments{
 \item{ta}{A tidytacos object.}
 
-\item{sequence_var}{The name of the column in the taxa table that contains 
+\item{sequence_var}{The name of the column in the taxa table that contains
 the ASV sequences}
 
-\item{aln_args}{An optional list of arguments to pass to the 
-[DECIPHER::AlignSeqs()] function}
+\item{aln_args}{An optional list of arguments to pass to the
+\code{\link[DECIPHER:AlignSeqs]{DECIPHER::AlignSeqs()}} function}
 
-\item{tree_fit_args}{An optional list of arguments to pass to the 
-[phangorn::optim.pml()] function}
+\item{tree_fit_args}{An optional list of arguments to pass to the
+\code{\link[phangorn:pml]{phangorn::optim.pml()}} function}
 }
 \value{
 A tidytacos object with a phylotree slot
 }
 \description{
-`add_tree()` performs a multiple sequence alignment on the ASV sequences in
+\code{add_tree()} performs a multiple sequence alignment on the ASV sequences in
 the taxa table and then constructs a phylogenetic tree.
-The tree is added to the tidytacos object under a variable called `tree`.
+The tree is added to the tidytacos object under a variable called \code{tree}.
 }
 \examples{
 \dontrun{

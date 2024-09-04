@@ -9,7 +9,7 @@ calculate_unifrac_distances(ta, ...)
 \arguments{
 \item{ta}{A tidytacos object with a rooted tree in the "tree" slot.}
 
-\item{...}{Additional arguments to pass to the [phyloseq::UniFrac()] function.}
+\item{...}{Additional arguments to pass to the \code{\link[phyloseq:UniFrac-methods]{phyloseq::UniFrac()}} function.}
 }
 \description{
 Calculate unifrac distance matrix from a tidytacos object with a rooted tree

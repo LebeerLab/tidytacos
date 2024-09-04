@@ -19,8 +19,8 @@ before calculations.}
 for its correlation to be calculated.}
 }
 \description{
-`add_jervis_bardy()` calculates the spearman correlation between relative abundance and
-sample DNA concentration, for each taxon and adds the correlation metric and p-value to the taxa table under the column names "jb_cor" and "jb_p", respectively. 
+\code{add_jervis_bardy()} calculates the spearman correlation between relative abundance and
+sample DNA concentration, for each taxon and adds the correlation metric and p-value to the taxa table under the column names "jb_cor" and "jb_p", respectively.
 If taxa show a distribution that is negatively correlated with DNA concentration, it indicates their potential as contaminants.
 }
 \details{

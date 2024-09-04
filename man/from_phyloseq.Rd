@@ -9,12 +9,22 @@ from_phyloseq(ps)
 \arguments{
 \item{ps}{Phyloseq object.}
 }
+\value{
+A tidytacos object.
+}
 \description{
-`from_phyloseq()` returns a tidytacos object given a phyloseq
+\code{\link[=from_phyloseq]{from_phyloseq()}} returns a tidytacos object given a phyloseq
 object.
 }
 \details{
 This function will convert a phyloseq object into a tidytacos object. To
 convert from a tidytacos object to a phyloseq object use
-[as_phyloseq()].
+\code{\link[=as_phyloseq]{as_phyloseq()}}.
 }
+\seealso{
+Other import-methods: 
+\code{\link{create_tidytacos}()},
+\code{\link{from_dada}()},
+\code{\link{read_tidytacos}()}
+}
+\concept{import-methods}

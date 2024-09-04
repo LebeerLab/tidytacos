@@ -12,5 +12,5 @@ write_tidytacos(ta, dout)
 \item{dout}{The directory to store the three tidytacos tables in.}
 }
 \description{
-`write_tidytacos()` saves the tidytacos object into 3 .csv files. This format allows easy loading of the tidytacos object using the [read_tidytacos()] function.
+\code{write_tidytacos()} saves the tidytacos object into 3 .csv files. This format allows easy loading of the tidytacos object using the \code{\link[=read_tidytacos]{read_tidytacos()}} function.
 }

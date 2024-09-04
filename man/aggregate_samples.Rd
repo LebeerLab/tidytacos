@@ -13,5 +13,5 @@ aggregate_samples(ta)
 A tidytacos object.
 }
 \description{
-`aggregate_samples()` merges sample content of samples which have identical values for all columns in the sample table (except sample_id).
+\code{aggregate_samples()} merges sample content of samples which have identical values for all columns in the sample table (except sample_id).
 }

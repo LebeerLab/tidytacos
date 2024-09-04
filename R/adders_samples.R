@@ -14,16 +14,16 @@
 #' @examples
 #' # Initiate counts matrix
 #' x <- matrix(
-#'  c(1500, 1300, 280, 356),
-#'  ncol = 2
+#'   c(1500, 1300, 280, 356),
+#'   ncol = 2
 #' )
 #' rownames(x) <- c("taxon1", "taxon2")
 #' colnames(x) <- c("sample1", "sample2")
 #'
 #' # Convert to tidytacos object
 #' data <- create_tidytacos(x,
-#'                      taxa_are_columns = FALSE
-#'                      )
+#'   taxa_are_columns = FALSE
+#' )
 #'
 #' # Initiate sample tibble
 #' sample <- c("sample1", "sample2")
@@ -32,20 +32,19 @@
 #'
 #' # Add sample tibble to tidytacos object
 #' data <- data %>%
-#' add_metadata(sample_tibble)
+#'   add_metadata(sample_tibble)
 #'
 #' # Initiate taxon tibble
-#' genera <- c("Lactobacillus","Limosilactobacillus")
-#' species <- c("crispatus","reuteri")
-#' taxonomy <- tibble::tibble(taxon=rownames(x),genera,species)
-#' 
+#' genera <- c("Lactobacillus", "Limosilactobacillus")
+#' species <- c("crispatus", "reuteri")
+#' taxonomy <- tibble::tibble(taxon = rownames(x), genera, species)
+#'
 #' # Add taxon tibble to tidytacos object
 #' data <- data %>%
-#'   add_metadata(taxonomy, table_type="taxa") 
+#'   add_metadata(taxonomy, table_type = "taxa")
 #'
 #' @export
 add_metadata <- function(ta, metadata, table_type = "sample") {
-
   if (table_type == "sample") {
     purrr::modify_at(ta, "samples", left_join, metadata)
   } else if (table_type == "taxa") {
@@ -54,7 +53,6 @@ add_metadata <- function(ta, metadata, table_type = "sample") {
   } else {
     stop("table_type must be either 'sample' or 'taxa'")
   }
-
 }
 
 #' Add total read count per sample
@@ -67,24 +65,23 @@ add_metadata <- function(ta, metadata, table_type = "sample") {
 #' @examples
 #' # Initiate counts matrix
 #' x <- matrix(
-#'  c(1500, 1300, 280, 356),
-#'  ncol = 2
+#'   c(1500, 1300, 280, 356),
+#'   ncol = 2
 #' )
 #' rownames(x) <- c("taxon1", "taxon2")
 #' colnames(x) <- c("sample1", "sample2")
 #'
 #' # Convert to tidytacos object
 #' data <- create_tidytacos(x,
-#'                      taxa_are_columns = FALSE
-#'                      )
+#'   taxa_are_columns = FALSE
+#' )
 #'
 #' # Add total counts
 #' data <- data %>%
-#'  add_total_count()
+#'   add_total_count()
 #'
 #' @export
 add_total_count <- function(ta) {
-
   # make table with sample and total count
   lib_sizes <- ta$counts %>%
     group_by(sample_id) %>%
@@ -99,7 +96,6 @@ add_total_count <- function(ta) {
 
   # return ta object
   ta
-
 }
 
 #' Add alpha diversity measure
@@ -124,29 +120,28 @@ add_total_count <- function(ta) {
 #' @examples
 #' # Initiate counts matrix
 #' x <- matrix(
-#'  c(1500, 1300, 280, 356),
-#'  ncol = 2
+#'   c(1500, 1300, 280, 356),
+#'   ncol = 2
 #' )
 #' rownames(x) <- c("taxon1", "taxon2")
 #' colnames(x) <- c("sample1", "sample2")
 #'
 #' # Convert to tidytacos object
 #' data <- create_tidytacos(x,
-#'                      taxa_are_columns = FALSE
-#'                      )
+#'   taxa_are_columns = FALSE
+#' )
 #'
 #' # Add alpha diversity measures
 #' data <- data %>%
-#'  add_alpha()
-#' 
-#' data <- data %>% 
-#'  add_alpha(method="shannon")
+#'   add_alpha()
+#'
+#' data <- data %>%
+#'   add_alpha(method = "shannon")
 #'
 #' @export
-add_alpha <- function(ta, method="invsimpson") {
-
+add_alpha <- function(ta, method = "invsimpson") {
   value <- NULL
-  vegan_standard_methods <- c("invsimpson","shannon","simpson")
+  vegan_standard_methods <- c("invsimpson", "shannon", "simpson")
   vegan_estimateR_methods <- c("obs", "s.chao1", "s.ace")
 
   method <- tolower(method)
@@ -154,29 +149,29 @@ add_alpha <- function(ta, method="invsimpson") {
   ta <- remove_empty_samples(ta)
 
   if (!method %in% lapply(alpha_metrics, tolower)) {
-    stop(paste("Select a method from", paste0(alpha_metrics, collapse=", ")))
+    stop(paste("Select a method from", paste0(alpha_metrics, collapse = ", ")))
   }
 
   if (method %in% vegan_standard_methods) {
-    M <- ta %>% counts_matrix(sample_name=sample_id, taxon_name=taxon_id)
-    D <- vegan::diversity(M, index=method)
+    M <- ta %>% counts_matrix(sample_name = sample_id, taxon_name = taxon_id)
+    D <- vegan::diversity(M, index = method)
     diversities <- tibble::tibble(sample_id = names(D), !!method := D)
   }
 
   if (method %in% vegan_estimateR_methods) {
-    M <- ta %>% counts_matrix(sample_name=sample_id, taxon_name=taxon_id)
+    M <- ta %>% counts_matrix(sample_name = sample_id, taxon_name = taxon_id)
     D <- vegan::estimateR(M)
     selection <- grepl(method, rownames(D), ignore.case = TRUE)
     selection_names <- rownames(D)[selection]
     Dt <- D %>% t()
-    Dt <- Dt[,selection_names]
+    Dt <- Dt[, selection_names]
 
-    diversities <- Dt %>% 
-      tibble::as_tibble() %>% 
-      dplyr::mutate(sample_id = names(D[1,]))
+    diversities <- Dt %>%
+      tibble::as_tibble() %>%
+      dplyr::mutate(sample_id = names(D[1, ]))
 
     if (is.null(dim(Dt))) {
-      diversities <- diversities %>% 
+      diversities <- diversities %>%
         dplyr::rename(!!method := value)
     }
   }
@@ -184,11 +179,10 @@ add_alpha <- function(ta, method="invsimpson") {
   if (method == "pielou") diversities <- calculate_alpha_pielou(ta)
 
   # add diversity measure to sample table
-  ta$samples = left_join(ta$samples, diversities, by = "sample_id")
+  ta$samples <- left_join(ta$samples, diversities, by = "sample_id")
 
   # return ta object
   ta
-
 }
 
 #' Add alpha diversity measures
@@ -204,8 +198,7 @@ add_alpha <- function(ta, method="invsimpson") {
 #' @examples
 #' urt_all_alphas <- urt %>% add_alphas()
 #' @export
-add_alphas <- function(ta, methods="all") {
-
+add_alphas <- function(ta, methods = "all") {
   if (any(methods == "all")) {
     methods <- alpha_metrics
   }
@@ -218,9 +211,8 @@ add_alphas <- function(ta, methods="all") {
 
 
 calculate_alpha_pielou <- function(ta) {
-
-  M <- ta %>% counts_matrix(sample_name=sample_id, taxon_name=taxon_id)
-  H <- vegan::diversity(M, index="shannon")
+  M <- ta %>% counts_matrix(sample_name = sample_id, taxon_name = taxon_id)
+  H <- vegan::diversity(M, index = "shannon")
   J <- H / log(vegan::specnumber(M))
 
   tibble(sample_id = names(J), pielou = J)
@@ -245,15 +237,14 @@ calculate_alpha_pielou <- function(ta) {
 #' urtc$samples %>% dplyr::select(sample_id, sample_clustered)
 #' @export
 add_sample_clustered <- function(ta) {
-
   # if only one sample => no clustering
   if (length(ta$samples$sample_id) == 1) {
     ta$samples$sample_clustered <- factor(ta$samples$sample_id)
-    return(ta) 
-  } 
+    return(ta)
+  }
 
   # make relative abundance matrix
-  rel_abundance_matrix <- rel_abundance_matrix(ta, sample_name=sample_id, taxon_name=taxon_id)
+  rel_abundance_matrix <- rel_abundance_matrix(ta, sample_name = sample_id, taxon_name = taxon_id)
 
   # make Bray-Curtis distance matrix
   dist_matrix <- vegdist(rel_abundance_matrix, method = "bray")
@@ -273,16 +264,14 @@ add_sample_clustered <- function(ta) {
 
   # return ta object
   ta
-
 }
 
 # Helper function to prepare 2/3D coordinates of ord.
 get_dimensions <- function(dim_df, names, dims) {
-
   ordnames <- c("ord1", "ord2")
 
   if (dims >= 3) {
-    for (i in 3:dims){
+    for (i in 3:dims) {
       ordnames <- c(ordnames, paste0("ord", i))
     }
   }
@@ -290,42 +279,47 @@ get_dimensions <- function(dim_df, names, dims) {
   dim_df %>%
     `colnames<-`(ordnames) %>%
     as_tibble() %>%
-    mutate(sample_id = !! names)
+    mutate(sample_id = !!names)
 }
 
 # Calculate pcoa coordinates and variances
-perform_pcoa <- function(ta, dist_matrix, dims=2, ...){
-
+perform_pcoa <- function(ta, dist_matrix, dims = 2, ...) {
   ord <- list()
-  if (length(ta$samples$sample_id)<3) {
+  if (length(ta$samples$sample_id) < 3) {
     stop("PCoA requires at least 3 samples. Try ord='umap' or ord='tsne' if you wish to proceed with fewer samples.")
   }
   pcoa <- stats::cmdscale(dist_matrix, k = dims, eig = T, list = T, ...)
   ord$variances <- pcoa$eig / sum(pcoa$eig)
   ord$dimensions <- get_dimensions(
-    pcoa$points, rownames(pcoa$points), dims=dims)
+    pcoa$points, rownames(pcoa$points),
+    dims = dims
+  )
   ord
 }
 
 # Calculate tsne coordinates and variances
-perform_tsne <- function(ta, dist_matrix, dims=2, ...) {
+perform_tsne <- function(ta, dist_matrix, dims = 2, ...) {
   force_optional_dependency("Rtsne")
 
   ord <- list()
-  tsne <- Rtsne::Rtsne(dist_matrix, dims=dims, ...)
+  tsne <- Rtsne::Rtsne(dist_matrix, dims = dims, ...)
   ord$dimensions <- get_dimensions(
-    tsne$Y, rownames(as.matrix(dist_matrix)), dims = dims)
+    tsne$Y, rownames(as.matrix(dist_matrix)),
+    dims = dims
+  )
   ord$variances <- tsne$costs / sum(tsne$costs)
   ord
 }
 
 # Calculate umap coordinates and variances
-perform_umap <- function(ta, dist_matrix, dims=2, ...) {
+perform_umap <- function(ta, dist_matrix, dims = 2, ...) {
   force_optional_dependency("umap")
   ord <- list()
-  umap <- umap::umap(as.matrix(dist_matrix), n_components=dims, ...)
+  umap <- umap::umap(as.matrix(dist_matrix), n_components = dims, ...)
   ord$dimensions <- get_dimensions(
-    umap$layout, rownames(umap$layout), dims = dims)
+    umap$layout, rownames(umap$layout),
+    dims = dims
+  )
   ord$variances <- umap$knn$distances / sum(umap$knn$distances)
   ord
 }
@@ -333,9 +327,8 @@ perform_umap <- function(ta, dist_matrix, dims=2, ...) {
 #' Calculate unifrac distance matrix from a tidytacos object with a rooted tree
 #' @param ta A tidytacos object with a rooted tree in the "tree" slot.
 #' @param ... Additional arguments to pass to the [phyloseq::UniFrac()] function.
-#' @export 
+#' @export
 calculate_unifrac_distances <- function(ta, ...) {
-
   ensure_tree(ta, rooted = TRUE)
   ps <- ta %>% as_phyloseq(sample = sample_id)
   ps <- phyloseq::merge_phyloseq(ps, ta$tree)
@@ -367,43 +360,42 @@ calculate_unifrac_distances <- function(ta, ...) {
 #' @examples
 #' # Initiate counts matrix
 #' x <- matrix(
-#'  c(1500, 1300, 280, 356, 456, 678),
-#'  ncol = 3
+#'   c(1500, 1300, 280, 356, 456, 678),
+#'   ncol = 3
 #' )
 #' rownames(x) <- c("taxon1", "taxon2")
 #' colnames(x) <- c("sample1", "sample2", "sample3")
 #'
 #' # Convert to tidytacos object
 #' data <- create_tidytacos(x,
-#'                      taxa_are_columns = FALSE
-#'                      )
+#'   taxa_are_columns = FALSE
+#' )
 #'
 #' # Add pcoa
 #' data <- data %>%
-#'  add_ord()
+#'   add_ord()
 #'
 #' # The variances of the ordination dimensions can be accessed with
 #' data$ord_variances
 #' @export
-add_ord <- function(ta, distance="bray", method="pcoa", dims=2, binary=FALSE, ...) {
-
+add_ord <- function(ta, distance = "bray", method = "pcoa", dims = 2, binary = FALSE, ...) {
   methods <- c("pcoa", "tsne", "umap")
   method <- tolower(method)
   distance <- tolower(distance)
 
   if (!method %in% methods) {
-    stop(paste("Select a method from", paste0(method, collapse=",")))
+    stop(paste("Select a method from", paste0(method, collapse = ",")))
   }
 
   # if add_ord was run before, remove coordinates from sample table
   if ("ord_method" %in% names(ta)) {
     warning("Overwriting previous ord data")
     ta$samples <- ta$samples %>%
-        select(-num_range("ord", 0:length(ta$samples$sample_id)))
+      select(-num_range("ord", 0:length(ta$samples$sample_id)))
   }
 
   # make relative abundance matrix
-  rel_abundance_matrix <- rel_abundance_matrix(ta, sample_name=sample_id, taxon_name=taxon_id)
+  rel_abundance_matrix <- rel_abundance_matrix(ta, sample_name = sample_id, taxon_name = taxon_id)
 
   if (distance == "aitchison") {
     # Euclidean distance between CLR transformed abundances
@@ -414,19 +406,19 @@ add_ord <- function(ta, distance="bray", method="pcoa", dims=2, binary=FALSE, ..
     dist_matrix <- calculate_unifrac_distances(ta)
   } else {
     # make distance matrix
-    dist_matrix <- vegan::vegdist(rel_abundance_matrix, method = distance, binary=binary)
+    dist_matrix <- vegan::vegdist(rel_abundance_matrix, method = distance, binary = binary)
   }
 
   if (method == "pcoa") {
-    ord <- perform_pcoa(ta, dist_matrix, dims=dims, ...)
+    ord <- perform_pcoa(ta, dist_matrix, dims = dims, ...)
   }
 
   if (method == "tsne") {
-    ord <- perform_tsne(ta, dist_matrix, dims=dims, ...)
+    ord <- perform_tsne(ta, dist_matrix, dims = dims, ...)
   }
 
   if (method == "umap") {
-    ord <- perform_umap(ta, dist_matrix, dims=dims, ...)
+    ord <- perform_umap(ta, dist_matrix, dims = dims, ...)
   }
 
   # add ord dimensions to sample table
@@ -438,7 +430,6 @@ add_ord <- function(ta, distance="bray", method="pcoa", dims=2, binary=FALSE, ..
   ta$ord_method <- method
   # return ta object
   ta
-
 }
 
 #' Add spike ratio
@@ -448,7 +439,7 @@ add_ord <- function(ta, distance="bray", method="pcoa", dims=2, binary=FALSE, ..
 #'
 #' This function is useful if a DNA spike was added prior to sequencing and is
 #' based on the method described by
-#' \href{https://doi.org/10.1016/j.soilbio.2016.02.003}{Smets et al., 2016}.
+#' [Smets et al., 2016](https://doi.org/10.1016/j.soilbio.2016.02.003).
 #'
 #' Without calculating absolute abundances, the spike ratio allows to compare absolute abundances between sample. For example, if the spike ration of one sample is twice that of another, then the absolute number of sequenced strands at the time of spiking in the one sample is twice that of the other sample.
 #'
@@ -458,26 +449,24 @@ add_ord <- function(ta, distance="bray", method="pcoa", dims=2, binary=FALSE, ..
 #' @examples
 #' # Initiate counts matrix
 #' x <- matrix(
-#'  c(1500, 1300, 280, 356),
-#'  ncol = 2
+#'   c(1500, 1300, 280, 356),
+#'   ncol = 2
 #' )
 #' rownames(x) <- c("taxon1", "taxon2")
 #' colnames(x) <- c("sample1", "sample2")
 #'
 #' # Convert to tidytacos object
 #' data <- create_tidytacos(x,
-#'                      taxa_are_columns = FALSE
-#'                      )
+#'   taxa_are_columns = FALSE
+#' )
 #'
 #' # Add total abundance
 #' data <- data %>%
-#'  add_spike_ratio(spike_taxon = "t1")
-#
+#'   add_spike_ratio(spike_taxon = "t1")
 #' @export
 add_spike_ratio <- function(ta, spike_taxon) {
-
   # if lib_size not present: add temporarily
-  lib_size_tmp <- ! "total_count" %in% names(ta$samples)
+  lib_size_tmp <- !"total_count" %in% names(ta$samples)
   if (lib_size_tmp) ta <- add_total_count(ta)
 
   # make sample table with spike abundances
@@ -498,7 +487,6 @@ add_spike_ratio <- function(ta, spike_taxon) {
 
   # return ta object
   ta
-
 }
 
 #' Clusters samples into n clusters
@@ -518,30 +506,28 @@ add_spike_ratio <- function(ta, spike_taxon) {
 #' @examples
 #' # Initiate count matrix
 #' x <- matrix(
-#'  c(1500, 1300, 280, 356),
-#'  ncol = 2
+#'   c(1500, 1300, 280, 356),
+#'   ncol = 2
 #' )
 #' rownames(x) <- c("taxon1", "taxon2")
 #' colnames(x) <- c("sample1", "sample2")
 #'
 #' # Convert to tidytacos object
 #' data <- create_tidytacos(x,
-#'                      taxa_are_columns = FALSE
-#'                      )
+#'   taxa_are_columns = FALSE
+#' )
 #'
 #' # Add total abundance
 #' data <- data %>%
-#'  cluster_samples(n_clusters = 2)
+#'   cluster_samples(n_clusters = 2)
 #'
 # Adds a variable "cluster" to the sample table
 # To do: merge with add_sample_clustered somehow
-#
 #' @importFrom stats cutree
 #' @export
-cluster_samples<- function(ta, n_clusters) {
-
+cluster_samples <- function(ta, n_clusters) {
   # make relative abundance matrix
-  rel_abundance_matrix <- rel_abundance_matrix(ta, sample_name=sample_id, taxon_name=taxon_id)
+  rel_abundance_matrix <- rel_abundance_matrix(ta, sample_name = sample_id, taxon_name = taxon_id)
 
   # make Bray-Curtis distance matrix
   dist_matrix <- vegdist(rel_abundance_matrix, method = "bray")
@@ -560,7 +546,6 @@ cluster_samples<- function(ta, n_clusters) {
     left_join(ta$samples, samples_clusters, by = "sample_id")
 
   ta
-
 }
 
 
@@ -711,7 +696,7 @@ add_total_density <- function(ta, spike_taxon, spike_added = spike_added, materi
   # calculate total absolute abundance per sample
   ta$samples <- ta$samples %>%
     left_join(spike_counts, by = "sample_id") %>%
-    mutate(total_density = (!!spike_added * (total_count - spike_count) / spike_count)/ !!material_sampled)
+    mutate(total_density = (!!spike_added * (total_count - spike_count) / spike_count) / !!material_sampled)
 
   # remove spike_abundance
   ta$samples$spike_count <- NULL
@@ -743,23 +728,21 @@ add_total_density <- function(ta, spike_taxon, spike_added = spike_added, materi
 #' @param ta A tidytacos object.
 #' @param group A column in the sample table to group the samples on.
 #' @inheritDotParams vegan::anosim
-#' @examples 
-#' 
-#' perform_anosim(urt, method, dist="jaccard")
-#' # no statistical difference based on the method column 
+#' @examples
+#'
+#' perform_anosim(urt, method, dist = "jaccard")
+#' # no statistical difference based on the method column
 #' # (high significance value and R close to 0).
-#' 
+#'
 #' @export
-perform_anosim <- function(ta, group, ...){
-
+perform_anosim <- function(ta, group, ...) {
   M <- ta %>% counts_matrix()
   group <- rlang::enquo(group)
 
-  if (length(M[,1]) < length(ta$samples$sample_id)) {
-        warning("Empty samples found, ignoring them in analysis")
-        ta <- ta %>% remove_empty_samples()
+  if (length(M[, 1]) < length(ta$samples$sample_id)) {
+    warning("Empty samples found, ignoring them in analysis")
+    ta <- ta %>% remove_empty_samples()
   }
 
   vegan::anosim(M, ta$samples %>% pull(!!group), ...)
-
 }
