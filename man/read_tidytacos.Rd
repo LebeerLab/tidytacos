@@ -12,7 +12,8 @@ read_tidytacos(
 )
 }
 \arguments{
-\item{din}{directory containing the a sample, taxa and counts table in csv format}
+\item{din}{directory containing
+the sample, taxa and counts table in csv format}
 
 \item{samples}{the name of the samples table, defaults to samples.csv}
 
@@ -24,7 +25,8 @@ read_tidytacos(
 A tidytacos object.
 }
 \description{
-\code{\link[=read_tidytacos]{read_tidytacos()}} reads the three .csv files created by the \code{\link[=write_tidytacos]{write_tidytacos()}} function and returns a tidytacos object.
+\code{\link[=read_tidytacos]{read_tidytacos()}} reads the three .csv files created by
+the \code{\link[=write_tidytacos]{write_tidytacos()}} function and returns a tidytacos object.
 }
 \seealso{
 Other import-methods: 

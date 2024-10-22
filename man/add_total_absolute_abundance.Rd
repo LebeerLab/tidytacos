@@ -15,6 +15,10 @@ add_total_absolute_abundance(ta, spike_taxon, spike_added = spike_added)
 much spike was added per sample, e.g. 16S rRNA gene copy numbers added to
 the DNA extraction tube.}
 }
+\value{
+A tidytacos object with
+the total absolute abundances added to the sample table.
+}
 \description{
 \code{add_total_absolute_abundance()} calculates the total absolute abundances
 of the samples given a spike taxon, and adds this to the sample table under
@@ -38,5 +42,17 @@ data$samples$spike_added <- c(100, 150)
 # Add total abundance
 data <- data \%>\%
   add_total_absolute_abundance(spike_taxon = "t3")
-
 }
+\seealso{
+Other sample-modifiers: 
+\code{\link{add_alpha}()},
+\code{\link{add_alphas}()},
+\code{\link{add_metadata}()},
+\code{\link{add_ord}()},
+\code{\link{add_sample_clustered}()},
+\code{\link{add_spike_ratio}()},
+\code{\link{add_total_count}()},
+\code{\link{add_total_density}()},
+\code{\link{cluster_samples}()}
+}
+\concept{sample-modifiers}

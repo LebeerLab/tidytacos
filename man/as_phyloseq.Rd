@@ -23,3 +23,10 @@ This function will convert a tidytacos object into a phyloseq object for
 alternative processing using the phyloseq package. To convert from a phyloseq
 object to a tidytacos object use \code{\link[=from_phyloseq]{from_phyloseq()}}.
 }
+\seealso{
+Other export-methods: 
+\code{\link{to_biom}()},
+\code{\link{to_fasta}()},
+\code{\link{write_tidytacos}()}
+}
+\concept{export-methods}

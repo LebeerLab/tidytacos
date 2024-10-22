@@ -49,14 +49,14 @@ taxonomic ranks and the integers represent positions of these ranks in the
 taxonomy strings present in the reference database. Ranks can also be
 supplied as just a character vector with the rank names; in that case, it is
 assumed that the database taxonomy string follows the default order
-(domain, phylum, class, order, family, genus, species). If no ranks are supplied, taxa
-will be (re)classified at all default ranks.
+(domain, phylum, class, order, family, genus, species).
+If no ranks are supplied, taxa will be (re)classified at all default ranks.
 }
 \examples{
 
-# we create a mock database 
+# we create a mock database
 x <- c(
-">Level1;Level2;Level3;Level4;Level5;Level6;", 
+">Level1;Level2;Level3;Level4;Level5;Level6;",
 "ACCTAGAAAGTCGTAGATCGAAGTTGAAGCATCGCCCGATGATCGTCTGAAGCTGTAGCATGAGTCGATTTTCACATTCAGGGATACCATAGGATAC", 
 ">Level1;Level2;Level3;Level4;Level5;",
 "CGCTAGAAAGTCGTAGAAGGCTCGGAGGTTTGAAGCATCGCCCGATGGGATCTCGTTGCTGTAGCATGAGTACGGACATTCAGGGATCATAGGATAC"
@@ -65,12 +65,12 @@ x <- c(
 write(x, file="tmp-db.fna")
 
 urt_reclass <- urt \%>\%
-filter_samples(sample_id \%in\% c("s1","s2")) \%>\% # filter out samples to save time
+# filter out samples to save time
+filter_samples(sample_id \%in\% c("s1","s2")) \%>\%
 classify_taxa(
   "tmp-db.fna", n_ranks = 6, # the mock database is used here
   ranks=c("kingdom","phylum", "class", "order", "family", "genus")
 )
 # remove the temp file
 unlink("tmp-db.fna")
-
 }

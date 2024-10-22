@@ -4,7 +4,7 @@
 \alias{add_jervis_bardy}
 \title{Apply the taxon QC method of Jervis-Bardy}
 \usage{
-add_jervis_bardy(ta, dna_conc, sample_condition = T, min_pres = 3)
+add_jervis_bardy(ta, dna_conc, sample_condition = TRUE, min_pres = 3)
 }
 \arguments{
 \item{ta}{A tidytacos object.}
@@ -18,10 +18,17 @@ before calculations.}
 \item{min_pres}{The minimum number of samples a taxon has to be present in
 for its correlation to be calculated.}
 }
+\value{
+A tidytacos object with the Jervis-Bardy metrics
+added to the taxa table.
+}
 \description{
-\code{add_jervis_bardy()} calculates the spearman correlation between relative abundance and
-sample DNA concentration, for each taxon and adds the correlation metric and p-value to the taxa table under the column names "jb_cor" and "jb_p", respectively.
-If taxa show a distribution that is negatively correlated with DNA concentration, it indicates their potential as contaminants.
+\code{add_jervis_bardy()} calculates the spearman correlation between
+relative abundance and sample DNA concentration,
+for each taxon and adds the correlation metric and p-value
+to the taxa table under the column names "jb_cor" and "jb_p", respectively.
+If taxa show a distribution that is negatively correlated with
+DNA concentration, it indicates their potential as contaminants.
 }
 \details{
 See:
@@ -33,19 +40,22 @@ of Illumina MiSeq data,” Microbiome, vol. 3, no. 1, Art. no. 1, 2015, doi:
 \examples{
 library(dplyr)
 # filter out blank samples
-plants <- leaf \%>\% 
+plants <- leaf \%>\%
   filter_samples(Plant != "Blank")
 # assume Leafweight is a proxy for DNA concentration of the sample
-plants_jb <- plants \%>\% 
+plants_jb <- plants \%>\%
   add_jervis_bardy(dna_conc = Leafweight)
 
 # we can do this in one step!
-plants_jb <- leaf \%>\% 
-  add_jervis_bardy(dna_conc = Leafweight, sample_condition = Plant != "Blank")
+plants_jb <- leaf \%>\%
+  add_jervis_bardy(
+    dna_conc = Leafweight,
+    sample_condition = Plant != "Blank"
+)
 
 # show the negative correlations
-plants_jb$taxa \%>\% 
-  select(taxon_id, starts_with("jb_")) \%>\% 
+plants_jb$taxa \%>\%
+  select(taxon_id, starts_with("jb_")) \%>\%
   filter(jb_cor < 0) \%>\%
   arrange(jb_p)
 }

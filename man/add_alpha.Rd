@@ -9,7 +9,8 @@ add_alpha(ta, method = "invsimpson")
 \arguments{
 \item{ta}{A tidytacos object.}
 
-\item{method}{The diversity measure to use, see \code{\link[vegan:diversity]{vegan::diversity()}} for further information on these.}
+\item{method}{The diversity measure to use,
+see \code{\link[vegan:diversity]{vegan::diversity()}} for further information on these.}
 }
 \value{
 A tidytacos object with the alpha diversity measure added.
@@ -19,7 +20,8 @@ A tidytacos object with the alpha diversity measure added.
 tidytacos object.
 }
 \details{
-This function can add different alpha diversity measures to the sample table, specified by the method argument.
+This function can add different alpha diversity measures
+to the sample table, specified by the method argument.
 The following methods are available:
 \itemize{
 \item invsimpson: Inverse Simpson index
@@ -51,5 +53,22 @@ data <- data \%>\%
 
 data <- data \%>\%
   add_alpha(method = "shannon")
-
 }
+\seealso{
+Other sample-modifiers: 
+\code{\link{add_alphas}()},
+\code{\link{add_metadata}()},
+\code{\link{add_ord}()},
+\code{\link{add_sample_clustered}()},
+\code{\link{add_spike_ratio}()},
+\code{\link{add_total_absolute_abundance}()},
+\code{\link{add_total_count}()},
+\code{\link{add_total_density}()},
+\code{\link{cluster_samples}()}
+
+Other diversity-metrics: 
+\code{\link{add_alphas}()},
+\code{\link{add_ord}()}
+}
+\concept{diversity-metrics}
+\concept{sample-modifiers}

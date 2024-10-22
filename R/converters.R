@@ -2,11 +2,12 @@
 #'
 #' `create_tidytacos()` returns a tidytacos object given a numeric matrix.
 #'
-#' This function initiates a tidytacos object based on a numeric matrix. It
-#' will automatically create a dummy taxa table and sample table which will need to be
-#' updated using the function [add_metadata()].
-#' When the taxa table is updated, the rank names can be set using the function [set_rank_names()]
-#' to make the tidytacos object aware of the taxonomy levels.
+#' This function initiates a tidytacos object based on a numeric matrix.
+#' It will automatically create a dummy taxa table and sample table which
+#' will need to be updated using the function [add_metadata()].
+#' When the taxa table is updated, the rank names can be set
+#' using the function [set_rank_names()] to make the tidytacos object
+#' aware of the taxonomy level order (from high to low).
 #'
 #' @param counts_matrix Numerical matrix containing the count data.
 #' @param taxa_are_columns A logical scalar. Are the taxa defined in columns?
@@ -39,13 +40,16 @@
 #' data <- add_metadata(data, taxonomy, table_type = "taxa")
 #' # rank names are inferred from the taxa table, but can be set manually
 #' # if we're not happy with the inferred rank names.
-#' data <- set_rank_names(data, c("domain", "phylum", "class", "order", "family", "genus"))
+#' data <- set_rank_names(
+#'   data, c("domain", "phylum", "class", "order", "family", "genus")
+#' )
 #' @family import-methods
 #' @return A tidytacos object.
 #' @export
 create_tidytacos <- function(counts_matrix, taxa_are_columns = TRUE) {
+
   if (
-    !is.matrix(counts_matrix) |
+    !is.matrix(counts_matrix) ||
       !is.numeric(counts_matrix)
   ) {
     stop("first argument should be a numeric matrix")
@@ -53,10 +57,10 @@ create_tidytacos <- function(counts_matrix, taxa_are_columns = TRUE) {
 
   if (!taxa_are_columns) counts_matrix <- t(counts_matrix)
   if (counts_matrix %>% rownames() %>% length() == 0) {
-    rownames(counts_matrix) <- str_c("s", seq(1:dim(counts_matrix)[1]))
+    rownames(counts_matrix) <- str_c("s", seq_len(dim(counts_matrix)[1]))
   }
   if (counts_matrix %>% colnames() %>% length() == 0) {
-    colnames(counts_matrix) <- str_c("s", seq(1:dim(counts_matrix)[2]))
+    colnames(counts_matrix) <- str_c("s", seq_len(dim(counts_matrix)[2]))
   }
 
   counts_matrix <-
@@ -91,21 +95,19 @@ create_tidytacos <- function(counts_matrix, taxa_are_columns = TRUE) {
     tibble(taxon = .) %>%
     mutate(taxon_id = !!taxon_ids)
 
-  # set rank names
-  expected_rank_names <- colnames(ta$taxa)[!colnames(ta$taxa) %in% c("taxon", "taxon_id", "sequence")]
-
-
-
   ta
 }
 
 #' Write community data in tidytacos format
 #'
-#' `write_tidytacos()` saves the tidytacos object into 3 .csv files. This format allows easy loading of the tidytacos object using the [read_tidytacos()] function.
+#' `write_tidytacos()` saves the tidytacos object into 3 .csv files.
+#' This format allows easy loading of the tidytacos object using
+#' the [read_tidytacos()] function.
 #'
 #' @importFrom readr write_csv
 #' @param ta A tidytacos object.
 #' @param dout The directory to store the three tidytacos tables in.
+#' @family export-methods
 #' @export
 write_tidytacos <- function(ta, dout) {
   if (!dir.exists(dout)) {
@@ -118,9 +120,11 @@ write_tidytacos <- function(ta, dout) {
 
 #' Read community data written by tidytacos
 #'
-#' [read_tidytacos()] reads the three .csv files created by the [write_tidytacos()] function and returns a tidytacos object.
+#' [read_tidytacos()] reads the three .csv files created by
+#' the [write_tidytacos()] function and returns a tidytacos object.
 #' @importFrom readr read_csv
-#' @param din directory containing the a sample, taxa and counts table in csv format
+#' @param din directory containing
+#' the sample, taxa and counts table in csv format
 #' @param samples the name of the samples table, defaults to samples.csv
 #' @param taxa the name of the taxa table, defaults to taxa.csv
 #' @param counts the name of the counts table, defaults to counts.csv
@@ -181,7 +185,8 @@ infer_rank_names <- function(ta) {
     warning(paste0(
       "Not all default rank names found. Replacing them with:\n c(\"",
       paste(ranks, collapse = '","'),
-      "\")\n\nIf these are not the rank names of your taxon table in descending order, \nplease set ",
+      "\")\n\nIf these are not the rank names of your taxon table ",
+      "in descending order, \nplease set ",
       "them manually using 'set_rank_names()'"
     ))
     ta <- ta %>% set_rank_names(ranks)
@@ -192,9 +197,10 @@ infer_rank_names <- function(ta) {
 #' Reset the taxon and sample IDs
 #'
 #' @param ta A tidytacos object.
-#' @param keep_prev A logical scalar. Should the previous IDs be kept in a column called taxon_id_prev?
+#' @param keep_prev A logical scalar.
+#' Should the previous IDs be kept in a column called taxon_id_prev?
 #' @export
-reset_ids <- function(ta, keep_prev = F) {
+reset_ids <- function(ta, keep_prev = FALSE) {
   taxon_id_new <- sample_id_new <- NULL
   if (keep_prev) {
     ta <-
@@ -221,9 +227,10 @@ reset_ids <- function(ta, keep_prev = F) {
 #'   "sample" column of the sample table of the tidytacos object.
 #' @param taxon The taxon names required for a phyloseq object. Default is the
 #'   "taxon_id" column in the taxon table of the tidytacos object.
-#'
+#' @family export-methods
 #' @export
 as_phyloseq <- function(ta, sample = sample, taxon = taxon_id) {
+  . <- NULL
   force_optional_dependency("phyloseq")
   if ("phyloseq" %in% class(ta)) {
     return(ta)
@@ -245,11 +252,11 @@ as_phyloseq <- function(ta, sample = sample, taxon = taxon_id) {
     phyloseq::otu_table(taxa_are_rows = F)
 
   if (ncol(ta$samples) == 1) {
-    ta <- mutate_samples(ta, dummy = as.character(1:nrow(ta$samples)))
+    ta <- mutate_samples(ta, dummy = as.character(seq_len(nrow(ta$samples))))
   }
 
   if (ncol(ta$taxa) == 1) {
-    ta <- mutate_taxa(ta, dummy = as.character(1:nrow(ta$taxa)))
+    ta <- mutate_taxa(ta, dummy = as.character(seq_len(nrow(ta$taxa))))
   }
 
   sample_data <-
@@ -524,11 +531,13 @@ create_biom_header <- function(type = "OTU table") {
 
 #' Write the counts of the tidytacos object to a biom file
 #'
-#' Uses the taxon_id and sample_id columns to create a dense biom file (v1, json).
+#' Uses taxon_id and sample_id columns to create a dense biom file (v1, json).
 #' By default this is on ASV/OTU level.
 #' To do it at any other taxonomy level, one first needs to aggregate the taxa.
 #' @param ta A tidytacos object.
-#' @param filename The name of the resulting biom table file, defaults to 'asvs.biom'.
+#' @param filename The name of the resulting biom table file,
+#' defaults to 'asvs.biom'.
+#' @family export-methods
 #' @export
 to_biom <- function(ta, filename = "asvs.biom") {
   force_optional_dependency("jsonlite")
@@ -555,7 +564,9 @@ to_biom <- function(ta, filename = "asvs.biom") {
   ta <- remove_empty_samples(ta)
   biom <- create_biom_header()
   biom[["rows"]] <- apply(ta$taxa, MARGIN = 1, split_id_and_metadata_taxa)
-  biom[["columns"]] <- apply(ta$samples, MARGIN = 1, split_id_and_metadata_sample)
+  biom[["columns"]] <- apply(
+    ta$samples, MARGIN = 1, split_id_and_metadata_sample
+  )
   biom[["matrix_type"]] <- "dense"
   biom[["matrix_element_type"]] <- "int"
   biom[["shape"]] <- c(nrow(ta$taxa), nrow(ta$samples))
@@ -568,13 +579,20 @@ to_biom <- function(ta, filename = "asvs.biom") {
 
 #' Write the sequences of the taxa table to a fasta file
 #'
-#' Uses the taxon_col and sequence_col columns to write the sequences into a fasta file per taxon.
+#' Uses the taxon_col and sequence_col columns to write the sequences
+#' into a fasta file per taxon.
 #' @param ta A tidytacos object.
-#' @param filename The name of the resulting biom table file, defaults to 'asvs.fasta'.
-#' @param taxon_col The name of the column in the taxa table which is to be used as id for the sequences (taxon_id by default).
-#' @param seq_col The name of the sequence column in the taxa table (sequence by default).
+#' @param filename The name of the resulting biom table file,
+#' defaults to 'asvs.fasta'.
+#' @param taxon_col The name of the column in the taxa table which
+#' is to be used as id for the sequences (taxon_id by default).
+#' @param seq_col The name of the sequence column in the taxa table
+#' (sequence by default).
+#' @family export-methods
 #' @export
-to_fasta <- function(ta, filename = "asvs.fasta", taxon_col = taxon_id, seq_col = sequence) {
+to_fasta <- function(ta,
+  filename = "asvs.fasta", taxon_col = taxon_id, seq_col = sequence
+) {
   force_optional_dependency("seqinr")
   seq <- rlang::enquo(seq_col)
   taxon <- rlang::enquo(taxon_col)

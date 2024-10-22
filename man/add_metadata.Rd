@@ -19,6 +19,8 @@ samples and 'taxon' for taxa.}
 }
 \value{
 A tidytacos object with the metadata added.
+
+A tidytacos object with metadata columns added to the taxa or sample table.
 }
 \description{
 \code{add_metadata()} adds sample or taxon metadata to the sample or taxon
@@ -55,5 +57,17 @@ taxonomy <- tibble::tibble(taxon = rownames(x), genera, species)
 # Add taxon tibble to tidytacos object
 data <- data \%>\%
   add_metadata(taxonomy, table_type = "taxa")
-
 }
+\seealso{
+Other sample-modifiers: 
+\code{\link{add_alpha}()},
+\code{\link{add_alphas}()},
+\code{\link{add_ord}()},
+\code{\link{add_sample_clustered}()},
+\code{\link{add_spike_ratio}()},
+\code{\link{add_total_absolute_abundance}()},
+\code{\link{add_total_count}()},
+\code{\link{add_total_density}()},
+\code{\link{cluster_samples}()}
+}
+\concept{sample-modifiers}

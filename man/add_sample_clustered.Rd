@@ -9,6 +9,10 @@ add_sample_clustered(ta)
 \arguments{
 \item{ta}{A tidytacos object.}
 }
+\value{
+A tidytacos object with a new variable
+\code{sample_clustered} added to the sample table.
+}
 \description{
 \code{add_sample_clustered()} adds a new variable defining a sample order based
 on a hierarchical clustering of the samples.
@@ -24,3 +28,16 @@ together.
 urtc <- urt \%>\% add_sample_clustered()
 urtc$samples \%>\% dplyr::select(sample_id, sample_clustered)
 }
+\seealso{
+Other sample-modifiers: 
+\code{\link{add_alpha}()},
+\code{\link{add_alphas}()},
+\code{\link{add_metadata}()},
+\code{\link{add_ord}()},
+\code{\link{add_spike_ratio}()},
+\code{\link{add_total_absolute_abundance}()},
+\code{\link{add_total_count}()},
+\code{\link{add_total_density}()},
+\code{\link{cluster_samples}()}
+}
+\concept{sample-modifiers}

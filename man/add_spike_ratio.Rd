@@ -11,6 +11,9 @@ add_spike_ratio(ta, spike_taxon)
 
 \item{spike_taxon}{The taxon_id of the spike.}
 }
+\value{
+A tidytacos object with the spike ratio added to the sample table.
+}
 \description{
 \code{add_spike_ratio()} calculates the ratio of non-spike to spike reads for
 each sample and adds this to the sample table under the name "spike_ratio".
@@ -40,3 +43,16 @@ data <- create_tidytacos(x,
 data <- data \%>\%
   add_spike_ratio(spike_taxon = "t1")
 }
+\seealso{
+Other sample-modifiers: 
+\code{\link{add_alpha}()},
+\code{\link{add_alphas}()},
+\code{\link{add_metadata}()},
+\code{\link{add_ord}()},
+\code{\link{add_sample_clustered}()},
+\code{\link{add_total_absolute_abundance}()},
+\code{\link{add_total_count}()},
+\code{\link{add_total_density}()},
+\code{\link{cluster_samples}()}
+}
+\concept{sample-modifiers}

@@ -32,10 +32,18 @@ Capacity at 12.}
 A tidytacos object.
 }
 \description{
-\code{add_rel_abundance()} determines the most abundant taxa and assigns them a color for consistent color codes of each taxon in visualizations. A rank can be supplied to aggregate colors higher than the current rank.
+\code{add_rel_abundance()} determines the most abundant taxa and assigns
+them a color for consistent color codes of each taxon in visualizations.
+A rank can be supplied to aggregate colors higher than the current rank.
 }
 \examples{
 # display the 5 most abundant taxa at genus lvl
 urt \%>\% add_taxon_name_color(n=5, rank='genus') \%>\% tacoplot_stack()
-
 }
+\seealso{
+Other taxa-modifiers: 
+\code{\link{add_mean_rel_abundance}()},
+\code{\link{add_prevalence}()},
+\code{\link{add_taxon_name}()}
+}
+\concept{taxa-modifiers}

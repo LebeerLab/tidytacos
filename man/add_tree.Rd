@@ -36,8 +36,8 @@ The tree is added to the tidytacos object under a variable called \code{tree}.
 # filter taxa to speed up calculation time
 urt_sub <- urt \%>\% filter_taxa(taxon_id \%in\% head(urt$taxa$taxon_id))
 # infer tree
-urt_sub_tree <- add_tree(urt_sub, 
-                         sequence_var="sequence", 
+urt_sub_tree <- add_tree(urt_sub,
+                         sequence_var="sequence",
                          aln_args=list(verbose=FALSE)
                         )
 # inspect tree
@@ -45,3 +45,8 @@ urt_sub_tree$tree
 }
 
 }
+\seealso{
+Other unifrac-distance-functions: 
+\code{\link{calculate_unifrac_distances}()}
+}
+\concept{unifrac-distance-functions}

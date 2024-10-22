@@ -25,6 +25,9 @@ from which DNA was extracted, e.g gram of soil. This parameter encourages
 researchers to consider that absolute abundances are only meaningful if
 they can be translated into densities.}
 }
+\value{
+A tidytacos object with densities added to the count table.
+}
 \description{
 \code{add_density()} adds densities (bacterial biomass per sample mass or
 volume) to the count table of a tidytacos object under the column name
@@ -49,5 +52,10 @@ data$samples$grams_source <- c(4, 5)
 # Add density
 data <- data \%>\%
   add_density(spike_taxon = "t3", material_sampled=grams_source)
-
 }
+\seealso{
+Other count-modifiers: 
+\code{\link{add_absolute_abundance}()},
+\code{\link{add_rel_abundance}()}
+}
+\concept{count-modifiers}

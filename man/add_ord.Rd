@@ -13,14 +13,15 @@ add_ord(ta, distance = "bray", method = "pcoa", dims = 2, binary = FALSE, ...)
 \code{\link[vegan:vegdist]{vegan::vegdist()}}.}
 
 \item{method}{The ordination method to use to calculate coordinates. Choices
-are "pcoa", "tsne", "umap".}
+are \code{pcoa}, \code{tsne}, \code{umap}.}
 
 \item{dims}{The amount of dimensions to reduce the dissimilarities to.}
 
 \item{binary}{Perform presence/absence standardisation before distance
 computation or not.}
 
-\item{...}{Additional arguments to pass to the ordination function.}
+\item{...}{Additional arguments to pass to the ordination function:
+either \code{\link[stats:cmdscale]{stats::cmdscale()}}, \code{\link[Rtsne:Rtsne]{Rtsne::Rtsne()}} or \code{\link[umap:umap]{umap::umap()}}.}
 }
 \value{
 A tidytacos object with the ordination coordinates added.
@@ -58,3 +59,21 @@ data <- data \%>\%
 # The variances of the ordination dimensions can be accessed with
 data$ord_variances
 }
+\seealso{
+Other sample-modifiers: 
+\code{\link{add_alpha}()},
+\code{\link{add_alphas}()},
+\code{\link{add_metadata}()},
+\code{\link{add_sample_clustered}()},
+\code{\link{add_spike_ratio}()},
+\code{\link{add_total_absolute_abundance}()},
+\code{\link{add_total_count}()},
+\code{\link{add_total_density}()},
+\code{\link{cluster_samples}()}
+
+Other diversity-metrics: 
+\code{\link{add_alpha}()},
+\code{\link{add_alphas}()}
+}
+\concept{diversity-metrics}
+\concept{sample-modifiers}

@@ -42,7 +42,8 @@
 #' # Add taxon tibble to tidytacos object
 #' data <- data %>%
 #'   add_metadata(taxonomy, table_type = "taxa")
-#'
+#' @return A tidytacos object with metadata columns added to the taxa or sample table.
+#' @family sample-modifiers
 #' @export
 add_metadata <- function(ta, metadata, table_type = "sample") {
   if (table_type == "sample") {
@@ -79,7 +80,8 @@ add_metadata <- function(ta, metadata, table_type = "sample") {
 #' # Add total counts
 #' data <- data %>%
 #'   add_total_count()
-#'
+#' @return A tidytacos object with the total read count per sample added.
+#' @family sample-modifiers 
 #' @export
 add_total_count <- function(ta) {
   # make table with sample and total count
@@ -103,7 +105,8 @@ add_total_count <- function(ta) {
 #' `add_alpha()` adds an alpha diversity measures to the sample table of a
 #' tidytacos object.
 #'
-#' This function can add different alpha diversity measures to the sample table, specified by the method argument.
+#' This function can add different alpha diversity measures
+#' to the sample table, specified by the method argument.
 #' The following methods are available:
 #'
 #' * invsimpson: Inverse Simpson index
@@ -115,7 +118,8 @@ add_total_count <- function(ta) {
 #' * s.ace: ACE richness estimator
 #'
 #' @param ta A tidytacos object.
-#' @param method The diversity measure to use, see [vegan::diversity()] for further information on these.
+#' @param method The diversity measure to use,
+#' see [vegan::diversity()] for further information on these.
 #' @return A tidytacos object with the alpha diversity measure added.
 #' @examples
 #' # Initiate counts matrix
@@ -137,7 +141,8 @@ add_total_count <- function(ta) {
 #'
 #' data <- data %>%
 #'   add_alpha(method = "shannon")
-#'
+#' @family sample-modifiers
+#' @family diversity-metrics
 #' @export
 add_alpha <- function(ta, method = "invsimpson") {
   value <- NULL
@@ -197,6 +202,8 @@ add_alpha <- function(ta, method = "invsimpson") {
 #' @return A tidytacos object with the selected alpha diversity measures added.
 #' @examples
 #' urt_all_alphas <- urt %>% add_alphas()
+#' @family sample-modifiers
+#' @family diversity-metrics
 #' @export
 add_alphas <- function(ta, methods = "all") {
   if (any(methods == "all")) {
@@ -235,6 +242,9 @@ calculate_alpha_pielou <- function(ta) {
 #' @examples
 #' urtc <- urt %>% add_sample_clustered()
 #' urtc$samples %>% dplyr::select(sample_id, sample_clustered)
+#' @return A tidytacos object with a new variable
+#' `sample_clustered` added to the sample table.
+#' @family sample-modifiers
 #' @export
 add_sample_clustered <- function(ta) {
   # if only one sample => no clustering
@@ -326,7 +336,10 @@ perform_umap <- function(ta, dist_matrix, dims = 2, ...) {
 
 #' Calculate unifrac distance matrix from a tidytacos object with a rooted tree
 #' @param ta A tidytacos object with a rooted tree in the "tree" slot.
-#' @param ... Additional arguments to pass to the [phyloseq::UniFrac()] function.
+#' @inheritDotParams phyloseq::UniFrac
+#' @return A distance matrix.
+#' @family distance-metrics
+#' @family unifrac-distance-functions
 #' @export
 calculate_unifrac_distances <- function(ta, ...) {
   ensure_tree(ta, rooted = TRUE)
@@ -351,12 +364,15 @@ calculate_unifrac_distances <- function(ta, ...) {
 #' @param distance The distance indices to use, see
 #'   [vegan::vegdist()].
 #' @param method The ordination method to use to calculate coordinates. Choices
-#'   are "pcoa", "tsne", "umap".
+#'   are `pcoa`, `tsne`, `umap`.
 #' @param dims The amount of dimensions to reduce the dissimilarities to.
 #' @param binary Perform presence/absence standardisation before distance
 #'   computation or not.
-#' @param ... Additional arguments to pass to the ordination function.
+#' @param ... Additional arguments to pass to the ordination function:
+#' either [stats::cmdscale()], [Rtsne::Rtsne()] or [umap::umap()].
 #' @return A tidytacos object with the ordination coordinates added.
+#' @family sample-modifiers
+#' @family diversity-metrics
 #' @examples
 #' # Initiate counts matrix
 #' x <- matrix(
@@ -463,6 +479,8 @@ add_ord <- function(ta, distance = "bray", method = "pcoa", dims = 2, binary = F
 #' # Add total abundance
 #' data <- data %>%
 #'   add_spike_ratio(spike_taxon = "t1")
+#' @return A tidytacos object with the spike ratio added to the sample table.
+#' @family sample-modifiers
 #' @export
 add_spike_ratio <- function(ta, spike_taxon) {
   # if lib_size not present: add temporarily
@@ -524,6 +542,7 @@ add_spike_ratio <- function(ta, spike_taxon) {
 # Adds a variable "cluster" to the sample table
 # To do: merge with add_sample_clustered somehow
 #' @importFrom stats cutree
+#' @family sample-modifiers
 #' @export
 cluster_samples <- function(ta, n_clusters) {
   # make relative abundance matrix
@@ -579,7 +598,9 @@ cluster_samples <- function(ta, n_clusters) {
 #' # Add total abundance
 #' data <- data %>%
 #'   add_total_absolute_abundance(spike_taxon = "t3")
-#'
+#' @return A tidytacos object with
+#' the total absolute abundances added to the sample table.
+#' @family sample-modifiers
 #' @export
 add_total_absolute_abundance <- function(ta, spike_taxon, spike_added = spike_added) {
   spike_added <- rlang::enquo(spike_added)
@@ -613,7 +634,11 @@ add_total_absolute_abundance <- function(ta, spike_taxon, spike_added = spike_ad
   if (total_count_tmp) ta$samples$total_count <- NULL
 
   # Warn about samples without spike
-  samples_w_no_spike <- unique(ta$samples$sample_id[which(is.na(ta$samples$total_absolute_abundance))])
+  samples_w_no_spike <- unique(
+    ta$samples$sample_id[
+      which(is.na(ta$samples$total_absolute_abundance))
+    ]
+  )
   if (length(samples_w_no_spike) > 0) {
     warning(
       paste(
@@ -662,9 +687,14 @@ add_total_absolute_abundance <- function(ta, spike_taxon, spike_added = spike_ad
 #' # Add total abundance
 #' data <- data %>%
 #'   add_total_density(spike_taxon = "t3")
-#'
+#' @return A tidytacos object with the total
+#' densities added to the sample table.
+#' @family sample-modifiers
 #' @export
-add_total_density <- function(ta, spike_taxon, spike_added = spike_added, material_sampled = material_sampled) {
+add_total_density <- function(ta, spike_taxon,
+  spike_added = spike_added, material_sampled = material_sampled
+) {
+  total_count <- spike_count <- NULL
   spike_added <- rlang::enquo(spike_added)
   material_sampled <- rlang::enquo(material_sampled)
 
@@ -696,7 +726,9 @@ add_total_density <- function(ta, spike_taxon, spike_added = spike_added, materi
   # calculate total absolute abundance per sample
   ta$samples <- ta$samples %>%
     left_join(spike_counts, by = "sample_id") %>%
-    mutate(total_density = (!!spike_added * (total_count - spike_count) / spike_count) / !!material_sampled)
+    mutate(total_density = (
+      !!spike_added * (total_count - spike_count) / spike_count
+    ) / !!material_sampled)
 
   # remove spike_abundance
   ta$samples$spike_count <- NULL
@@ -705,7 +737,9 @@ add_total_density <- function(ta, spike_taxon, spike_added = spike_added, materi
   if (total_count_tmp) ta$samples$total_count <- NULL
 
   # Warn about samples without spike
-  samples_w_no_spike <- unique(ta$samples$sample_id[which(is.na(ta$samples$total_density))])
+  samples_w_no_spike <- unique(
+    ta$samples$sample_id[which(is.na(ta$samples$total_density))]
+  )
   if (length(samples_w_no_spike) > 0) {
     warning(
       paste(
@@ -733,7 +767,7 @@ add_total_density <- function(ta, spike_taxon, spike_added = spike_added, materi
 #' perform_anosim(urt, method, dist = "jaccard")
 #' # no statistical difference based on the method column
 #' # (high significance value and R close to 0).
-#'
+#' @return an object of class "anosim"
 #' @export
 perform_anosim <- function(ta, group, ...) {
   M <- ta %>% counts_matrix()

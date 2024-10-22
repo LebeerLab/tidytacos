@@ -22,7 +22,8 @@
 #'
 #' # Add relative abundance
 #' data <- data %>% add_rel_abundance()
-#'
+#' @family count-modifiers
+#' @return A tidytacos object with relative abundances added to the count table.
 #' @export
 add_rel_abundance <- function(ta) {
   # add relative abundance to abundance table
@@ -65,7 +66,8 @@ add_rel_abundance <- function(ta) {
 #' # Add total abundance
 #' data <- data %>%
 #'   add_absolute_abundance(spike_taxon = "t3")
-#'
+#' @return A tidytacos object with absolute abundances added to the count table.
+#' @family count-modifiers
 #' @export
 add_absolute_abundance <- function(ta, spike_taxon, spike_added = spike_added) {
   spike_added <- rlang::enquo(spike_added)
@@ -159,7 +161,8 @@ add_absolute_abundance <- function(ta, spike_taxon, spike_added = spike_added) {
 #' # Add density
 #' data <- data %>%
 #'   add_density(spike_taxon = "t3", material_sampled=grams_source)
-#'
+#' @return A tidytacos object with densities added to the count table.
+#' @family count-modifiers
 #' @export
 add_density <- function(
     ta, spike_taxon, spike_added = spike_added,
