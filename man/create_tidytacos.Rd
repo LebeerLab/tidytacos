@@ -24,6 +24,8 @@ will need to be updated using the function \code{\link[=add_metadata]{add_metada
 When the taxa table is updated, the rank names can be set
 using the function \code{\link[=set_rank_names]{set_rank_names()}} to make the tidytacos object
 aware of the taxonomy level order (from high to low).
+The taxa table should contain at the very least one rank name.
+The default rank names used by tidytacos are "domain", "phylum", "class", "order", "family", "genus" and "species".
 }
 \examples{
 # Initiate count matrix

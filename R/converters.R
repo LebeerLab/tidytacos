@@ -8,6 +8,8 @@
 #' When the taxa table is updated, the rank names can be set
 #' using the function [set_rank_names()] to make the tidytacos object
 #' aware of the taxonomy level order (from high to low).
+#' The taxa table should contain at the very least one rank name.
+#' The default rank names used by tidytacos are "domain", "phylum", "class", "order", "family", "genus" and "species".
 #'
 #' @param counts_matrix Numerical matrix containing the count data.
 #' @param taxa_are_columns A logical scalar. Are the taxa defined in columns?
@@ -122,6 +124,12 @@ write_tidytacos <- function(ta, dout) {
 #'
 #' [read_tidytacos()] reads the three .csv files created by
 #' the [write_tidytacos()] function and returns a tidytacos object.
+#' 
+#' The samples.csv file should contain a column named "sample_id".
+#' The taxa.csv file should contain a column named "taxon_id" and at the very least one rank name.
+#' The default rank names used by tidytacos are "domain", "phylum", "class", "order", "family", "genus" and "species".
+#' The counts.csv file should contain columns named "sample_id", "taxon_id" and "count".
+#' 
 #' @importFrom readr read_csv
 #' @param din directory containing
 #' the sample, taxa and counts table in csv format

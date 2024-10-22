@@ -55,7 +55,7 @@ The main differences with the popular phyloseq package are:
   difficult to access the data directly and do simple stuff with it.
   Also, the otu_table and tax_table classes are based on the matrix
   type, while the sample_data class is based on the dataframe type. This
-  also makes data manipulation sometimes un-straightforward.
+  also makes data manipulation sometimes unstraightforward.
 - In a phyloseq otu table, sometimes the rows are the taxa and sometimes
   the columns. This can easily lead to errors.
 
@@ -80,12 +80,19 @@ library(tidytacos)
 The first step will usually be the conversion our data into a usable
 tidytacos format. If, for example, you used DADA2 as explained
 [here](http://rstudio-pubs-static.s3.amazonaws.com/273862_8258982fdfac49a8ba9d6ed651b9b539.html),
-you can hand off the data to tidytacos using `from_dada`. You can also
-convert a phyloseq object to a tidytacos object using the `from_phyloseq`
+you can hand off the data to tidytacos using [from_dada()]. You can also
+convert a phyloseq object to a tidytacos object using the [from_phyloseq()]
 function. More options to import and convert your data can be found
 [here](https://github.com/LebeerLab/tidytacos/blob/dev/R/converters.R).
 
 A tidytacos object is read and stored as three sparse tables (counts-, taxa- and samples.csv). 
+The sample table needs atleast a `sample_id` column,
+the taxa table needs a `taxon_id` column with atleast one other rank name column and 
+the counts table needs a `sample_id`, `taxon_id` and `counts` column.
+The taxa table of a default tidytacos object has the domain, phylum, class, order, family, genus and species columns.
+Species here has a special place as it is often ignored by some functions unless specified, 
+due to the low resolution of short read 16S rRNA gene sequencing data.
+
 To read in existing data from a folder called 'my_data' you would run:
 
 ```{r read-data, eval=FALSE}

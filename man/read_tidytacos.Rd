@@ -28,6 +28,12 @@ A tidytacos object.
 \code{\link[=read_tidytacos]{read_tidytacos()}} reads the three .csv files created by
 the \code{\link[=write_tidytacos]{write_tidytacos()}} function and returns a tidytacos object.
 }
+\details{
+The samples.csv file should contain a column named "sample_id".
+The taxa.csv file should contain a column named "taxon_id" and at the very least one rank name.
+The default rank names used by tidytacos are "domain", "phylum", "class", "order", "family", "genus" and "species".
+The counts.csv file should contain columns named "sample_id", "taxon_id" and "count".
+}
 \seealso{
 Other import-methods: 
 \code{\link{create_tidytacos}()},
