@@ -9,6 +9,10 @@ add_copca(ta)
 \arguments{
 \item{ta}{A tidytacos object.}
 }
+\value{
+A tidytacos object with the first two PCA dimensions
+added to the sample table.
+}
 \description{
 \code{add_copca()} performs a principal components analysis and
 adds the first two principal components to the sample table

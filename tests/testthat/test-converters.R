@@ -84,7 +84,13 @@ test_that("Converted biom format can be read correctly",{
 
 test_that("Can convert to phyloseq object",{
   skip_if_not_installed("phyloseq")
-  urte <- urt %>% remove_empty_samples() %>% reset_ids()
+  expect_warning(
+
+  urte <- urt %>% 
+    remove_empty_samples() %>% 
+    reset_ids(),
+    regexp = "Removed 3 empty samples."
+  )
   urtph <- urte %>% as_phyloseq()
 
   expect_no_error(u <- urtph %>% from_phyloseq())

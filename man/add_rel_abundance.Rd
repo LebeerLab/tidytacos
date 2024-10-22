@@ -9,6 +9,9 @@ add_rel_abundance(ta)
 \arguments{
 \item{ta}{A tidytacos object.}
 }
+\value{
+A tidytacos object with relative abundances added to the count table.
+}
 \description{
 \code{add_rel_abundance()} calculates relative abundances of taxa in samples
 and adds them to the count table of a tidytacos object under the column name
@@ -30,5 +33,10 @@ data <- create_tidytacos(x,
 
 # Add relative abundance
 data <- data \%>\% add_rel_abundance()
-
 }
+\seealso{
+Other count-modifiers: 
+\code{\link{add_absolute_abundance}()},
+\code{\link{add_density}()}
+}
+\concept{count-modifiers}

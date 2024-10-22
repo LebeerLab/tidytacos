@@ -1,6 +1,6 @@
 #' Upper Respiratory Tract samples
 #'
-#' Human microbiome samples from the upper respiratory tract (URT), 
+#' Human microbiome samples from the upper respiratory tract (URT),
 #' taken from a paper by De Boeck et al. It contains nose as well as nasopharynx samples. 
 #' Most samples were taken using a swab method, but a minority was taking with the aspirate method.
 #'

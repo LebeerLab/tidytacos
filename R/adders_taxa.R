@@ -10,9 +10,9 @@
 #' taxonomic ranks and the integers represent positions of these ranks in the
 #' taxonomy strings present in the reference database. Ranks can also be
 #' supplied as just a character vector with the rank names; in that case, it is
-#' assumed that the database taxonomy string follows the default order 
-#' (domain, phylum, class, order, family, genus, species). If no ranks are supplied, taxa
-#' will be (re)classified at all default ranks.
+#' assumed that the database taxonomy string follows the default order
+#' (domain, phylum, class, order, family, genus, species).
+#' If no ranks are supplied, taxa will be (re)classified at all default ranks.
 #'
 #' @param ta A tidytacos object.
 #' @param refdb The path to a DADA2-compatible reference database.
@@ -26,26 +26,26 @@
 #'
 #' @return An updated tidytacos object.
 #' @examples
-#' 
-#' # we create a mock database 
+#'
+#' # we create a mock database
 #' x <- c(
-#' ">Level1;Level2;Level3;Level4;Level5;Level6;", 
+#' ">Level1;Level2;Level3;Level4;Level5;Level6;",
 #' "ACCTAGAAAGTCGTAGATCGAAGTTGAAGCATCGCCCGATGATCGTCTGAAGCTGTAGCATGAGTCGATTTTCACATTCAGGGATACCATAGGATAC", 
 #' ">Level1;Level2;Level3;Level4;Level5;",
 #' "CGCTAGAAAGTCGTAGAAGGCTCGGAGGTTTGAAGCATCGCCCGATGGGATCTCGTTGCTGTAGCATGAGTACGGACATTCAGGGATCATAGGATAC"
 #' )
 #' # and write it to a file
 #' write(x, file="tmp-db.fna")
-#' 
+#'
 #' urt_reclass <- urt %>%
-#' filter_samples(sample_id %in% c("s1","s2")) %>% # filter out samples to save time
+#' # filter out samples to save time
+#' filter_samples(sample_id %in% c("s1","s2")) %>%
 #' classify_taxa(
 #'   "tmp-db.fna", n_ranks = 6, # the mock database is used here
 #'   ranks=c("kingdom","phylum", "class", "order", "family", "genus")
 #' )
 #' # remove the temp file
 #' unlink("tmp-db.fna")
-#'
 #' @export
 classify_taxa <- function(
   ta, refdb, taxa = rep(T, times = length(taxon_id)), ranks = "default",
@@ -97,11 +97,15 @@ classify_taxa <- function(
 
 #' Add sensible taxon name to taxon table
 #'
-#' `add_taxon_name()` creates sensible taxa names by -under default conditions- combining the genus name with a number. 
-#' The number is only added if there is more than one taxon of that genus. 
-#' The number indicates the rank of abundance, with 1 indicating the taxon has the highest mean relative abundance of the dataset, 
-#' within the genus. If genus classification is not available the next most detailed taxonomic rank which is available is used. 
-#' The sensible taxon name is added to the taxon table under the column name "taxon_name".
+#' `add_taxon_name()` creates sensible taxa names by
+#' -under default conditions- combining the genus name with a number.
+#' The number is only added if there is more than one taxon of that genus.
+#' The number indicates the rank of abundance, with 1 indicating
+#' the taxon with the highest mean relative abundance within the genus.
+#' If genus classification is not available
+#' the next most detailed taxonomic rank which is available is used.
+#' The sensible taxon name is added to the taxon table
+#' under the column name `taxon_name`.
 #'
 #'
 #' @param ta A tidytacos object.
@@ -114,12 +118,14 @@ classify_taxa <- function(
 #' # add the species name if present (which is often uncertain in amplicon data)
 #' urt_s <- urt %>% add_taxon_name(include_species = TRUE)
 #' @importFrom stats na.omit
+#' @family taxa-modifiers
 #' @export
 add_taxon_name <- function(
-  ta, method = "mean_rel_abundance", include_species = F
-  ) {
+  ta, method = "mean_rel_abundance", include_species = FALSE
+) {
 
-    best_classification <- arrange_by_me <- n_taxa <- taxon_number <- NULL
+  mean_rel_abundance <- NULL
+  best_classification <- arrange_by_me <- n_taxa <- taxon_number <- NULL
 
   if (method == "mean_rel_abundance") {
 
@@ -151,14 +157,14 @@ add_taxon_name <- function(
       ta$taxa %>%
       mutate(
         best_classification =
-          purrr::pmap_chr(
-            ta$taxa[, rank_names],
-            function(...) {
-              classification = as.character(list(...))
-              if (all(is.na(classification))) return("unclassified")
-              classification %>% na.omit() %>% last()
-            }
-          )
+        purrr::pmap_chr(
+          ta$taxa[, rank_names],
+          function(...) {
+            classification <- as.character(list(...))
+            if (all(is.na(classification))) return("unclassified")
+            classification %>% na.omit() %>% last()
+          }
+        )
       )
 
   }
@@ -168,7 +174,9 @@ add_taxon_name <- function(
     group_by(best_classification) %>%
     arrange(desc(arrange_by_me)) %>%
     mutate(n_taxa = n()) %>%
-    mutate(taxon_number = if_else(n_taxa > 1, as.character(1:n()), "")) %>%
+    mutate(taxon_number = if_else(
+      n_taxa > 1, as.character(seq_len(n())), ""
+    )) %>%
     mutate(taxon_name = str_c(best_classification, taxon_number, sep = " ")) %>%
     mutate_at("taxon_name", str_trim) %>%
     ungroup() %>%
@@ -185,7 +193,9 @@ add_taxon_name <- function(
 
 #' Add taxon color for visualization.
 #'
-#' `add_rel_abundance()` determines the most abundant taxa and assigns them a color for consistent color codes of each taxon in visualizations. A rank can be supplied to aggregate colors higher than the current rank.
+#' `add_rel_abundance()` determines the most abundant taxa and assigns
+#' them a color for consistent color codes of each taxon in visualizations.
+#' A rank can be supplied to aggregate colors higher than the current rank.
 #'
 #' @param ta A tidytacos object.
 #' @param method The method by which to arrange the taxon names. Currently only
@@ -196,11 +206,10 @@ add_taxon_name <- function(
 #' @param taxa An optional vector of taxon_id's of interest.
 #' @param rank An optional rank to aggregate taxa on.
 #' @return A tidytacos object.
-#' 
+#' @family taxa-modifiers
 #' @examples
 #' # display the 5 most abundant taxa at genus lvl
 #' urt %>% add_taxon_name_color(n=5, rank='genus') %>% tacoplot_stack()
-#' 
 #' @export
 add_taxon_name_color <- function(
   ta, method = "mean_rel_abundance", n = 12, samples = NULL, taxa = NULL,
@@ -272,9 +281,12 @@ add_taxon_name_color <- function(
 
 #' Apply the taxon QC method of Jervis-Bardy
 #'
-#' `add_jervis_bardy()` calculates the spearman correlation between relative abundance and
-#' sample DNA concentration, for each taxon and adds the correlation metric and p-value to the taxa table under the column names "jb_cor" and "jb_p", respectively. 
-#' If taxa show a distribution that is negatively correlated with DNA concentration, it indicates their potential as contaminants.
+#' `add_jervis_bardy()` calculates the spearman correlation between
+#' relative abundance and sample DNA concentration,
+#' for each taxon and adds the correlation metric and p-value
+#' to the taxa table under the column names "jb_cor" and "jb_p", respectively.
+#' If taxa show a distribution that is negatively correlated with
+#' DNA concentration, it indicates their potential as contaminants.
 #'
 #' See:
 #' J. Jervis-Bardy et al., “Deriving accurate microbiota profiles from
@@ -290,30 +302,36 @@ add_taxon_name_color <- function(
 #'   before calculations.
 #' @param min_pres The minimum number of samples a taxon has to be present in
 #'   for its correlation to be calculated.
-#' 
-#' @examples 
+#'
+#' @examples
 #' library(dplyr)
 #' # filter out blank samples
-#' plants <- leaf %>% 
+#' plants <- leaf %>%
 #'   filter_samples(Plant != "Blank")
 #' # assume Leafweight is a proxy for DNA concentration of the sample
-#' plants_jb <- plants %>% 
+#' plants_jb <- plants %>%
 #'   add_jervis_bardy(dna_conc = Leafweight)
-#' 
+#'
 #' # we can do this in one step!
-#' plants_jb <- leaf %>% 
-#'   add_jervis_bardy(dna_conc = Leafweight, sample_condition = Plant != "Blank")
-#' 
+#' plants_jb <- leaf %>%
+#'   add_jervis_bardy(
+#'     dna_conc = Leafweight,
+#'     sample_condition = Plant != "Blank"
+#')
+#'
 #' # show the negative correlations
-#' plants_jb$taxa %>% 
-#'   select(taxon_id, starts_with("jb_")) %>% 
+#' plants_jb$taxa %>%
+#'   select(taxon_id, starts_with("jb_")) %>%
 #'   filter(jb_cor < 0) %>%
 #'   arrange(jb_p)
-
+#' @return A tidytacos object with the Jervis-Bardy metrics
+#' added to the taxa table.
 #' @export
-add_jervis_bardy <- function(ta, dna_conc, sample_condition = T, min_pres = 3) {
+add_jervis_bardy <- function(ta, dna_conc,
+  sample_condition = TRUE, min_pres = 3
+) {
 
-  jb <- NULL
+  jb <- . <- NULL
   dna_conc <- enquo(dna_conc)
   sample_condition <- enquo(sample_condition)
 
@@ -359,11 +377,21 @@ add_jervis_bardy <- function(ta, dna_conc, sample_condition = T, min_pres = 3) {
 
 #' Add taxon prevalences to the taxon table
 #'
-#' `add_prevalence()` calculates taxon prevalences (overall or per condition) and adds it to the taxa table under the column name "prevalence". Prevalence can be expressed as the number of samples where a taxon occurs or the ratio of samples where a taxon occurs and the total amount of samples.
+#' `add_prevalence()` calculates taxon prevalences
+#' (overall or per condition) and adds it to the taxa table
+#' under the column name "prevalence".
+#' Prevalence can be expressed as the number of samples where a taxon occurs
+#' or the ratio of samples where a taxon occurs and the total amount of samples.
 #'
-#' If 'condition' is specified, the prevalences will be calculated separately for each group defined by the condition variable. This variable should be present in the sample table.
+#' If 'condition' is specified, the prevalences will
+#' be calculated separately for each group defined by the condition variable.
+#' This variable should be present in the sample table.
 #'
-#' If `condition` is specified, differential prevalence testing can be performed by setting the `fisher_test` argument. Options are F (default) or T. When set to T, significance of differential prevalence will be added to the taxa table under column name "fisher_p".
+#' If `condition` is specified, differential prevalence testing
+#' can be performed by setting the `fisher_test` argument.
+#' Options are F (default) or T. When set to T, significance of
+#' differential prevalence will be added to the taxa table
+#' under column name `fisher_p`.
 #'
 #' Condition should be a categorical variable present in the samples table.
 #' Supply condition as a string.
@@ -371,23 +399,26 @@ add_jervis_bardy <- function(ta, dna_conc, sample_condition = T, min_pres = 3) {
 #' @param ta A tidytacos object.
 #' @param condition A categorical variable (string).
 #' @param relative Whether to use relative occurrences.
-#' @param fisher_test Whether to perform a fisher test and add the p-values of the test to the taxa table.
+#' @param fisher_test Whether to perform a fisher test and
+#' add the p-values of the test to the taxa table.
 #' @return A tidytacos object.
-#' @examples 
+#' @examples
 #' # add prevalences of all taxa
 #' urtp <- urt %>% add_prevalence()
 #' urtp$taxa %>% dplyr::select(taxon_id, prevalence)
-#' 
+#'
 #' # add prevalences and fisher test for location
-#' urtpf <- urt %>% add_prevalence(condition="location", fisher_test=TRUE, relative=TRUE)
-#' urtpf$taxa %>% dplyr::select(taxon_id, prevalence_in_N, prevalence_in_NF, fisher_p)
-#' 
+#' urtpf <- urt %>%
+#'   add_prevalence(condition="location", fisher_test=TRUE, relative=TRUE)
+#' urtpf$taxa %>%
+#'   dplyr::select(taxon_id, prevalence_in_N, prevalence_in_NF, fisher_p)
+#' @family taxa-modifiers
 #' @export
 add_prevalence <- function(
-  ta, condition = NULL, relative = F, fisher_test = F
-  ) {
+  ta, condition = NULL, relative = FALSE, fisher_test = FALSE
+) {
 
-  fisher <- NULL  
+  fisher <- prevalence <- . <- NULL
   prev <- "prevalence"
   prev_in <- "prevalence_in"
   if (is.null(condition)) {
@@ -398,7 +429,7 @@ add_prevalence <- function(
   } else if (fisher_test) {
 
     prevalences <-
-      prevalences(ta, condition = condition, pres_abs = T)
+      prevalences(ta, condition = condition, pres_abs = TRUE)
 
     condition_sym <- sym(condition)
 
@@ -408,7 +439,7 @@ add_prevalence <- function(
       arrange(!! condition_sym, presence) %>%
       do(
         fisher = c(.$n) %>%
-          matrix(ncol = 2, byrow = T) %>%
+          matrix(ncol = 2, byrow = TRUE) %>%
           fisher.test()
       ) %>%
       mutate(fisher_p = fisher$p.value) %>%
@@ -431,7 +462,7 @@ add_prevalence <- function(
 
   }
 
-  if (relative & is.null(condition)) {
+  if (relative && is.null(condition)) {
 
     taxa_prevalences <-
       taxa_prevalences %>%
@@ -439,7 +470,7 @@ add_prevalence <- function(
 
   }
 
-  if (relative & ! is.null(condition)) {
+  if (relative && ! is.null(condition)) {
 
     condition_sym <- sym(condition)
 
@@ -447,7 +478,7 @@ add_prevalence <- function(
       ta$samples %>%
       count(!! condition_sym)
 
-    for (con_ix in 1:nrow(conditions)) {
+    for (con_ix in seq_len(nrow(conditions))) {
 
       con <- conditions[[condition]][con_ix]
       n_samples <- conditions[["n"]][con_ix]
@@ -465,8 +496,8 @@ add_prevalence <- function(
 
 #' Add average relative abundances to taxa table
 #'
-#' `add_mean_rel_abundance()` adds mean relative abundance values for each taxon to the taxa
-#' table, overall or per sample group.
+#' `add_mean_rel_abundance()` adds mean relative abundance values
+#' for each taxon to the taxa table, overall or per sample group.
 #'
 #' If `condition` is specified, the mean relative abundances will be calculated
 #' separately for each group defined by the condition variable. This variable
@@ -482,11 +513,12 @@ add_prevalence <- function(
 #' @param test Differential abundance test to perform.
 #'
 #' @return A tidytacos object
+#' @family taxa-modifiers
 #'
 #' @export
 add_mean_rel_abundance <- function(ta, condition = NULL, test = NULL) {
 
-  result <- NULL
+  result <- mean_rel_abundance <- . <- NULL
   mean_rel_abundances <- mean_rel_abundances(ta, condition = condition)
 
   if (is.null(condition)) {
@@ -551,6 +583,8 @@ add_mean_rel_abundance <- function(ta, condition = NULL, test = NULL) {
   if (exists("rel_abundance_tmp")) ta$counts$rel_abundance <- NULL
 
   ta %>%
-    purrr::modify_at("taxa", left_join, taxa_mean_rel_abundances, by = "taxon_id")
+    purrr::modify_at(
+      "taxa", left_join, taxa_mean_rel_abundances, by = "taxon_id"
+    )
 
 }

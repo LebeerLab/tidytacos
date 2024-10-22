@@ -4,7 +4,7 @@
 \alias{add_prevalence}
 \title{Add taxon prevalences to the taxon table}
 \usage{
-add_prevalence(ta, condition = NULL, relative = F, fisher_test = F)
+add_prevalence(ta, condition = NULL, relative = FALSE, fisher_test = FALSE)
 }
 \arguments{
 \item{ta}{A tidytacos object.}
@@ -13,18 +13,29 @@ add_prevalence(ta, condition = NULL, relative = F, fisher_test = F)
 
 \item{relative}{Whether to use relative occurrences.}
 
-\item{fisher_test}{Whether to perform a fisher test and add the p-values of the test to the taxa table.}
+\item{fisher_test}{Whether to perform a fisher test and
+add the p-values of the test to the taxa table.}
 }
 \value{
 A tidytacos object.
 }
 \description{
-\code{add_prevalence()} calculates taxon prevalences (overall or per condition) and adds it to the taxa table under the column name "prevalence". Prevalence can be expressed as the number of samples where a taxon occurs or the ratio of samples where a taxon occurs and the total amount of samples.
+\code{add_prevalence()} calculates taxon prevalences
+(overall or per condition) and adds it to the taxa table
+under the column name "prevalence".
+Prevalence can be expressed as the number of samples where a taxon occurs
+or the ratio of samples where a taxon occurs and the total amount of samples.
 }
 \details{
-If 'condition' is specified, the prevalences will be calculated separately for each group defined by the condition variable. This variable should be present in the sample table.
+If 'condition' is specified, the prevalences will
+be calculated separately for each group defined by the condition variable.
+This variable should be present in the sample table.
 
-If \code{condition} is specified, differential prevalence testing can be performed by setting the \code{fisher_test} argument. Options are F (default) or T. When set to T, significance of differential prevalence will be added to the taxa table under column name "fisher_p".
+If \code{condition} is specified, differential prevalence testing
+can be performed by setting the \code{fisher_test} argument.
+Options are F (default) or T. When set to T, significance of
+differential prevalence will be added to the taxa table
+under column name \code{fisher_p}.
 
 Condition should be a categorical variable present in the samples table.
 Supply condition as a string.
@@ -35,7 +46,15 @@ urtp <- urt \%>\% add_prevalence()
 urtp$taxa \%>\% dplyr::select(taxon_id, prevalence)
 
 # add prevalences and fisher test for location
-urtpf <- urt \%>\% add_prevalence(condition="location", fisher_test=TRUE, relative=TRUE)
-urtpf$taxa \%>\% dplyr::select(taxon_id, prevalence_in_N, prevalence_in_NF, fisher_p)
-
+urtpf <- urt \%>\%
+  add_prevalence(condition="location", fisher_test=TRUE, relative=TRUE)
+urtpf$taxa \%>\%
+  dplyr::select(taxon_id, prevalence_in_N, prevalence_in_NF, fisher_p)
 }
+\seealso{
+Other taxa-modifiers: 
+\code{\link{add_mean_rel_abundance}()},
+\code{\link{add_taxon_name}()},
+\code{\link{add_taxon_name_color}()}
+}
+\concept{taxa-modifiers}

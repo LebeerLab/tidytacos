@@ -17,7 +17,7 @@
 #' @export
 add_logratio <- function(ta, max_taxa = 50) {
 
-  keep <- ref_taxon_id <- ref_abundance <- NULL
+  keep <- ref_taxon_id <- ref_abundance <- prevalence <- NULL
 
   if (nrow(ta$taxa) > max_taxa) {
 
@@ -27,11 +27,11 @@ add_logratio <- function(ta, max_taxa = 50) {
       ta$taxa %>%
       arrange(desc(prevalence)) %>%
       mutate(keep = F) %>%
-      {.$keep[1:max_taxa] <- T; .}
+      {.$keep[1:max_taxa] <- TRUE; .}
 
-    ta <- ta %>% filter_taxa(keep) %>% 
-    # cleaning up the keep column as it is not used further
-          select_taxa(-keep)
+    ta <- ta %>% filter_taxa(keep) %>%
+      # cleaning up the keep column as it is not used further
+      select_taxa(-keep)
 
   }
 
@@ -61,11 +61,12 @@ add_logratio <- function(ta, max_taxa = 50) {
 
 #' Perform compositional differential abundance analysis
 #'
-#' `add_codifab()` performs a differential abundance test for all pairwise ratios
-#' between taxa.Taxa that have a relatively high number of significantly different 
-#' ratios, can be considered more abundant in one condition versus the other. The 
-#'  [tacoplot_codifab()] function allows better interpretation of these 
-#' results.
+#' `add_codifab()` performs a differential abundance test
+#' for all pairwise ratios between taxa.
+#' Taxa that have a relatively high number of significantly different ratios,
+#' can be considered more abundant in one condition versus the other.
+#' The [tacoplot_codifab()] function allows
+#' better interpretation of these results.
 #'
 #' A table called taxon_pairs will be added to the tidytacos object, with
 #' for each pair of a taxon and a reference taxon, the differential abundance of
@@ -78,9 +79,9 @@ add_logratio <- function(ta, max_taxa = 50) {
 #' argument. Other conditions than the two supplied will be removed from the
 #' data.
 #'
-#' This method is based on the principle introduced by Aitchison in 
-#' "The statistical analysis of compositional data." 
-#' Journal of the Royal Statistical Society: 
+#' This method is based on the principle introduced by Aitchison in
+#' "The statistical analysis of compositional data."
+#' Journal of the Royal Statistical Society:
 #' Series B (Methodological) 44.2 (1982): 139-16
 #'
 #' @param ta A tidytacos object.
@@ -90,7 +91,7 @@ add_logratio <- function(ta, max_taxa = 50) {
 #' @param max_taxa The maximum number of taxa to use.
 #'
 #' @return A tidytacos object with an extra table taxon_pairs
-#'
+#' @family codifab-functions
 #' @export
 add_codifab <- function(ta, condition, conditions = NULL, max_taxa = 30) {
 
@@ -152,7 +153,7 @@ add_codifab <- function(ta, condition, conditions = NULL, max_taxa = 30) {
 #' between conditions, compared to all other taxa as references. These
 #' differential abundances should already have been calculated with
 #' [add_codifab()]. Taxa that have a relatively high number of
-#' significantly different ratios, can be considered more abundant in one 
+#' significantly different ratios, can be considered more abundant in one
 #' condition versus the other.
 #'
 #' Significance of tests is determined by capping the false discovery rate at
@@ -165,6 +166,7 @@ add_codifab <- function(ta, condition, conditions = NULL, max_taxa = 30) {
 #'   taxon_pair table.
 #'
 #' @return A ggplot object
+#' @family codifab-functions
 #'
 #' @export
 tacoplot_codifab <- function(ta, diffabun_var) {
@@ -225,20 +227,22 @@ tacoplot_codifab <- function(ta, diffabun_var) {
 
 #' Add compositional principal components to the sample table
 #'
-#' `add_copca()` performs a principal components analysis and 
-#' adds the first two principal components to the sample table 
-#' under column names "pca_1" and "pca_2". 
+#' `add_copca()` performs a principal components analysis and
+#' adds the first two principal components to the sample table
+#' under column names "pca_1" and "pca_2".
 #'
-#' Note that this function uses only the 50 most prevalant taxa 
-#' unless [add_logratio()] was executed with 
+#' Note that this function uses only the 50 most prevalant taxa
+#' unless [add_logratio()] was executed with
 #' another value for 'max_taxa'.
 #'
 #' @importFrom stats prcomp
 #' @param ta A tidytacos object.
+#' @return A tidytacos object with the first two PCA dimensions
+#' added to the sample table.
 #' @export
 add_copca <- function(ta) {
 
-  taxon_ids <- logratio <- NULL
+  taxon_ids <- logratio <- . <- NULL
 
   # if logratios not present: add temporarily
   logratios_tmp <- ! "logratios" %in% names(ta)

@@ -1,7 +1,10 @@
 # RAREFY
 test_that("Raise error on rarification higher
 than lowest abundance when replace=FALSE.", {
-expect_error(urt %>% rarefy(100))
+expect_error(
+    urt %>% rarefy(100),
+    regexp = "Rarefying failed. Make sure that all samples contain at least the minimum number of reads"
+)
 })
 
 test_that("Max abundance equals n", {
@@ -20,7 +23,10 @@ test_that("Max abundance equals n with replace=TRUE", {
 test_that("Change sample ID based on unique column",{
     uq_part <- urt %>% filter_samples(location == "NF", method=="A")
     # remove empty samples, as they will cause a mismatch
-    uq_part <- uq_part %>% remove_empty_samples()
+    expect_warning(
+        uq_part <- uq_part %>% remove_empty_samples(),
+        regexp = "Removed 1 empty samples."
+    )
     uq_part_id <- uq_part %>% change_id_samples(participant)
     expect_true(identical(
         sort(unique(uq_part$samples$participant)),

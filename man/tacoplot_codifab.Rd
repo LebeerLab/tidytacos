@@ -28,3 +28,8 @@ Significance of tests is determined by capping the false discovery rate at
 10\%, using the method of Benjamini and Yekutieli, which is developed for
 non-independent tests. See \link{p.adjust}.
 }
+\seealso{
+Other codifab-functions: 
+\code{\link{add_codifab}()}
+}
+\concept{codifab-functions}

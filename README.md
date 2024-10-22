@@ -45,7 +45,8 @@ taco <- from_phyloseq(phylo_obj)
 
 Where seqtab.nochim and taxa refer to the R objects [as calculated in the dada2 tutorial](https://benjjneb.github.io/dada2/tutorial.html).
 
-You may wish to create a tidytacos object from your counts matrix, for example an OTU table where rownames are taxa and colnames are samples. After that is done, you can add your taxonomy table and sample data. The variable 'taxon' of the taxonomy table should align with the rownames of the OTU table. Furthermore it may include all taxonomic levels from 'kingdom' to 'species' and a 'sequence' variable (nucleotide sequence). The variable 'sample' of the sample data should align with the colnames of the OTU table.
+You may wish to create a tidytacos object from your counts matrix, for example an OTU table where rownames are taxa and colnames are samples. After that is done, you can add your taxonomy table and sample data. The variable 'taxon' of the taxonomy table should align with the rownames of the OTU table. Furthermore it may include all taxonomic levels from 'kingdom' or 'domain' to 'species' and a 'sequence' variable (nucleotide sequence). The variable 'sample' of the sample data should align with the colnames of the OTU table.
+
 ```R
 taco <- create_tidytacos(OTUtable, taxa_are_columns = FALSE)
 taco <- taco%>%

@@ -25,6 +25,10 @@ from which DNA was extracted, e.g gram of soil. This parameter encourages
 researchers to consider that absolute abundances are only meaningful if
 they can be translated into densities.}
 }
+\value{
+A tidytacos object with the total
+densities added to the sample table.
+}
 \description{
 \code{add_total_density()} adds the total microbial density to the sample table
 of a tidytacos object under the column name "total_density".
@@ -48,5 +52,17 @@ data$samples$material_sampled <- c(1, 5)
 # Add total abundance
 data <- data \%>\%
   add_total_density(spike_taxon = "t3")
-
 }
+\seealso{
+Other sample-modifiers: 
+\code{\link{add_alpha}()},
+\code{\link{add_alphas}()},
+\code{\link{add_metadata}()},
+\code{\link{add_ord}()},
+\code{\link{add_sample_clustered}()},
+\code{\link{add_spike_ratio}()},
+\code{\link{add_total_absolute_abundance}()},
+\code{\link{add_total_count}()},
+\code{\link{cluster_samples}()}
+}
+\concept{sample-modifiers}

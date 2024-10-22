@@ -4,7 +4,7 @@
 \alias{add_taxon_name}
 \title{Add sensible taxon name to taxon table}
 \usage{
-add_taxon_name(ta, method = "mean_rel_abundance", include_species = F)
+add_taxon_name(ta, method = "mean_rel_abundance", include_species = FALSE)
 }
 \arguments{
 \item{ta}{A tidytacos object.}
@@ -18,14 +18,25 @@ mean_rel_abundance.}
 A tidytacos object.
 }
 \description{
-\code{add_taxon_name()} creates sensible taxa names by -under default conditions- combining the genus name with a number.
+\code{add_taxon_name()} creates sensible taxa names by
+-under default conditions- combining the genus name with a number.
 The number is only added if there is more than one taxon of that genus.
-The number indicates the rank of abundance, with 1 indicating the taxon has the highest mean relative abundance of the dataset,
-within the genus. If genus classification is not available the next most detailed taxonomic rank which is available is used.
-The sensible taxon name is added to the taxon table under the column name "taxon_name".
+The number indicates the rank of abundance, with 1 indicating
+the taxon with the highest mean relative abundance within the genus.
+If genus classification is not available
+the next most detailed taxonomic rank which is available is used.
+The sensible taxon name is added to the taxon table
+under the column name \code{taxon_name}.
 }
 \examples{
 urt_g <- urt \%>\% add_taxon_name()
 # add the species name if present (which is often uncertain in amplicon data)
 urt_s <- urt \%>\% add_taxon_name(include_species = TRUE)
 }
+\seealso{
+Other taxa-modifiers: 
+\code{\link{add_mean_rel_abundance}()},
+\code{\link{add_prevalence}()},
+\code{\link{add_taxon_name_color}()}
+}
+\concept{taxa-modifiers}

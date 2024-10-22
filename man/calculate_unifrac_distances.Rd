@@ -9,8 +9,57 @@ calculate_unifrac_distances(ta, ...)
 \arguments{
 \item{ta}{A tidytacos object with a rooted tree in the "tree" slot.}
 
-\item{...}{Additional arguments to pass to the \code{\link[phyloseq:UniFrac-methods]{phyloseq::UniFrac()}} function.}
+\item{...}{
+  Arguments passed on to \code{\link[phyloseq:UniFrac-methods]{phyloseq::UniFrac}}
+  \describe{
+    \item{\code{physeq}}{(Required). \code{\link[phyloseq]{phyloseq-class}}, containing at minimum
+a phylogenetic tree (\code{\link[phyloseq]{phylo-class}}) and 
+contingency table (\code{\link[phyloseq]{otu_table-class}}). See
+examples below for coercions that might be necessary.}
+    \item{\code{weighted}}{(Optional). Logical. Should use weighted-UniFrac calculation?
+Weighted-UniFrac takes into account the relative abundance of species/taxa
+shared between samples, whereas unweighted-UniFrac only considers 
+presence/absence. Default is \code{FALSE}, meaning the unweighted-UniFrac
+distance is calculated for all pairs of samples.}
+    \item{\code{normalized}}{(Optional). Logical. Should the output be normalized such that values 
+range from 0 to 1 independent of branch length values? Default is \code{TRUE}.
+Note that (unweighted) \code{UniFrac} is always normalized by total branch-length,
+and so this value is ignored when \code{weighted == FALSE}.}
+    \item{\code{parallel}}{(Optional). Logical. Should execute calculation in parallel,
+using multiple CPU cores simultaneously? This can dramatically hasten the
+computation time for this function. However, it also requires that the user
+has registered a parallel ``backend'' prior to calling this function. 
+Default is \code{FALSE}. If FALSE, UniFrac will register a serial backend
+so that \code{foreach::\%dopar\%} does not throw a warning.}
+    \item{\code{fast}}{(Optional). Logical. DEPRECATED.
+Do you want to use the ``Fast UniFrac''
+algorithm? Implemented natively in the \code{phyloseq-package}.
+\code{TRUE} is now the only supported option.
+There should be no difference in the output between the two algorithms.
+Moreover, the original UniFrac algorithm
+only outperforms this implementation of fast-UniFrac if the datasets are so
+small 
+(approximated by the value of \code{ntaxa(physeq) * nsamples(physeq)}) 
+that the difference in time is inconsequential (less than 1 second).
+In practice it does not appear that this parameter should 
+have ever been set to \code{FALSE}, and therefore 
+the original UniFrac implementation perhaps never should have been supported here.
+For legacy code support the option is now deprecated here
+(the implementation was an internal function, anyway)
+and the \code{fast} option will remain for one release cycle before
+being removed completely
+in order to avoid causing unsupported-argument errors.}
+  }}
+}
+\value{
+A distance matrix.
 }
 \description{
 Calculate unifrac distance matrix from a tidytacos object with a rooted tree
 }
+\seealso{
+Other unifrac-distance-functions: 
+\code{\link{add_tree}()}
+}
+\concept{distance-metrics}
+\concept{unifrac-distance-functions}

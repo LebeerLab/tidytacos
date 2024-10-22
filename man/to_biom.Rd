@@ -9,10 +9,18 @@ to_biom(ta, filename = "asvs.biom")
 \arguments{
 \item{ta}{A tidytacos object.}
 
-\item{filename}{The name of the resulting biom table file, defaults to 'asvs.biom'.}
+\item{filename}{The name of the resulting biom table file,
+defaults to 'asvs.biom'.}
 }
 \description{
-Uses the taxon_id and sample_id columns to create a dense biom file (v1, json).
+Uses taxon_id and sample_id columns to create a dense biom file (v1, json).
 By default this is on ASV/OTU level.
 To do it at any other taxonomy level, one first needs to aggregate the taxa.
 }
+\seealso{
+Other export-methods: 
+\code{\link{as_phyloseq}()},
+\code{\link{to_fasta}()},
+\code{\link{write_tidytacos}()}
+}
+\concept{export-methods}

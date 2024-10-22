@@ -25,3 +25,21 @@ This function can add multiple different alpha diversity measures to the sample 
 \examples{
 urt_all_alphas <- urt \%>\% add_alphas()
 }
+\seealso{
+Other sample-modifiers: 
+\code{\link{add_alpha}()},
+\code{\link{add_metadata}()},
+\code{\link{add_ord}()},
+\code{\link{add_sample_clustered}()},
+\code{\link{add_spike_ratio}()},
+\code{\link{add_total_absolute_abundance}()},
+\code{\link{add_total_count}()},
+\code{\link{add_total_density}()},
+\code{\link{cluster_samples}()}
+
+Other diversity-metrics: 
+\code{\link{add_alpha}()},
+\code{\link{add_ord}()}
+}
+\concept{diversity-metrics}
+\concept{sample-modifiers}

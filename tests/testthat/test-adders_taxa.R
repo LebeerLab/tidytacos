@@ -19,11 +19,10 @@ test_that("Can add taxon tibble", {
     taxon <- c("taxon1", "taxon2")
     genus <- c("Salmonella", "Lactobacillus")
     taxon_tibble <- tibble::tibble(taxon, genus)
-    suppressMessages(
-        expect_warning(
-          test_data <- test_data %>% add_metadata(taxon_tibble, table_type="taxa")
-        )
-    )
+    
+    test_data <- test_data %>% 
+      add_metadata(taxon_tibble, table_type="taxa")
+    
     expect_equal(test_data$taxa$genus, genus)
 })
 

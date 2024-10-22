@@ -14,6 +14,9 @@ add_absolute_abundance(ta, spike_taxon, spike_added = spike_added)
 \item{spike_added}{The column name in the sample table which indicates how
 much spike was added per sample.}
 }
+\value{
+A tidytacos object with absolute abundances added to the count table.
+}
 \description{
 \code{add_absolute_abundance()} calculates absolute abundances of taxa in
 samples given a taxon that was spiked into all of the samples during library
@@ -38,5 +41,10 @@ data$samples$spike_added <- c(100, 150)
 # Add total abundance
 data <- data \%>\%
   add_absolute_abundance(spike_taxon = "t3")
-
 }
+\seealso{
+Other count-modifiers: 
+\code{\link{add_density}()},
+\code{\link{add_rel_abundance}()}
+}
+\concept{count-modifiers}

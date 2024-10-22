@@ -20,11 +20,12 @@ condition variable.}
 A tidytacos object with an extra table taxon_pairs
 }
 \description{
-\code{add_codifab()} performs a differential abundance test for all pairwise ratios
-between taxa.Taxa that have a relatively high number of significantly different
-ratios, can be considered more abundant in one condition versus the other. The
-\code{\link[=tacoplot_codifab]{tacoplot_codifab()}} function allows better interpretation of these
-results.
+\code{add_codifab()} performs a differential abundance test
+for all pairwise ratios between taxa.
+Taxa that have a relatively high number of significantly different ratios,
+can be considered more abundant in one condition versus the other.
+The \code{\link[=tacoplot_codifab]{tacoplot_codifab()}} function allows
+better interpretation of these results.
 }
 \details{
 A table called taxon_pairs will be added to the tidytacos object, with
@@ -43,3 +44,8 @@ This method is based on the principle introduced by Aitchison in
 Journal of the Royal Statistical Society:
 Series B (Methodological) 44.2 (1982): 139-16
 }
+\seealso{
+Other codifab-functions: 
+\code{\link{tacoplot_codifab}()}
+}
+\concept{codifab-functions}
