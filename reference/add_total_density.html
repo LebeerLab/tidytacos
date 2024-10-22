@@ -9,7 +9,7 @@ of a tidytacos object under the column name "total_density".'><meta property="og
 
     <a class="navbar-brand me-2" href="../index.html">tidytacos</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.3</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -74,6 +74,24 @@ researchers to consider that absolute abundances are only meaningful if
 they can be translated into densities.</p></dd>
 
 </dl></div>
+    <div class="section level2">
+    <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
+    <p>A tidytacos object with the total
+densities added to the sample table.</p>
+    </div>
+    <div class="section level2">
+    <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
+    <div class="dont-index"><p>Other sample-modifiers:
+<code><a href="add_alpha.html">add_alpha</a>()</code>,
+<code><a href="add_alphas.html">add_alphas</a>()</code>,
+<code><a href="add_metadata.html">add_metadata</a>()</code>,
+<code><a href="add_ord.html">add_ord</a>()</code>,
+<code><a href="add_sample_clustered.html">add_sample_clustered</a>()</code>,
+<code><a href="add_spike_ratio.html">add_spike_ratio</a>()</code>,
+<code><a href="add_total_absolute_abundance.html">add_total_absolute_abundance</a>()</code>,
+<code><a href="add_total_count.html">add_total_count</a>()</code>,
+<code><a href="cluster_samples.html">cluster_samples</a>()</code></p></div>
+    </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
@@ -95,7 +113,6 @@ they can be translated into densities.</p></dd>
 <span class="r-in"><span><span class="co"># Add total abundance</span></span></span>
 <span class="r-in"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="va">data</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
 <span class="r-in"><span>  <span class="fu">add_total_density</span><span class="op">(</span>spike_taxon <span class="op">=</span> <span class="st">"t3"</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
@@ -107,7 +124,7 @@ they can be translated into densities.</p></dd>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
     </footer></div>

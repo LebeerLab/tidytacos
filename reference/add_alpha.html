@@ -9,7 +9,7 @@ tidytacos object."><meta property="og:image" content="https://lebeerlab.github.i
 
     <a class="navbar-brand me-2" href="../index.html">tidytacos</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.3</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -53,7 +53,8 @@ tidytacos object.</p>
 
 
 <dt id="arg-method">method<a class="anchor" aria-label="anchor" href="#arg-method"></a></dt>
-<dd><p>The diversity measure to use, see <code><a href="https://rdrr.io/pkg/vegan/man/diversity.html" class="external-link">vegan::diversity()</a></code> for further information on these.</p></dd>
+<dd><p>The diversity measure to use,
+see <code><a href="https://rdrr.io/pkg/vegan/man/diversity.html" class="external-link">vegan::diversity()</a></code> for further information on these.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -62,7 +63,8 @@ tidytacos object.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>This function can add different alpha diversity measures to the sample table, specified by the method argument.
+    <p>This function can add different alpha diversity measures
+to the sample table, specified by the method argument.
 The following methods are available:</p><ul><li><p>invsimpson: Inverse Simpson index</p></li>
 <li><p>shannon: Shannon index</p></li>
 <li><p>simpson: Simpson index</p></li>
@@ -71,6 +73,22 @@ The following methods are available:</p><ul><li><p>invsimpson: Inverse Simpson i
 <li><p>s.chao1: Chao1 richness estimator</p></li>
 <li><p>s.ace: ACE richness estimator</p></li>
 </ul></div>
+    <div class="section level2">
+    <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
+    <div class="dont-index"><p>Other sample-modifiers:
+<code><a href="add_alphas.html">add_alphas</a>()</code>,
+<code><a href="add_metadata.html">add_metadata</a>()</code>,
+<code><a href="add_ord.html">add_ord</a>()</code>,
+<code><a href="add_sample_clustered.html">add_sample_clustered</a>()</code>,
+<code><a href="add_spike_ratio.html">add_spike_ratio</a>()</code>,
+<code><a href="add_total_absolute_abundance.html">add_total_absolute_abundance</a>()</code>,
+<code><a href="add_total_count.html">add_total_count</a>()</code>,
+<code><a href="add_total_density.html">add_total_density</a>()</code>,
+<code><a href="cluster_samples.html">cluster_samples</a>()</code></p>
+<p>Other diversity-metrics:
+<code><a href="add_alphas.html">add_alphas</a>()</code>,
+<code><a href="add_ord.html">add_ord</a>()</code></p></div>
+    </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
@@ -93,7 +111,6 @@ The following methods are available:</p><ul><li><p>invsimpson: Inverse Simpson i
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="va">data</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
 <span class="r-in"><span>  <span class="fu">add_alpha</span><span class="op">(</span>method <span class="op">=</span> <span class="st">"shannon"</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
@@ -105,7 +122,7 @@ The following methods are available:</p><ul><li><p>invsimpson: Inverse Simpson i
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
     </footer></div>

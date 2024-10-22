@@ -23,7 +23,7 @@
 
     <a class="navbar-brand me-2" href="index.html">tidytacos</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.3</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -86,7 +86,7 @@
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">taco</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/from_phyloseq.html">from_phyloseq</a></span><span class="op">(</span><span class="va">phylo_obj</span><span class="op">)</span></span></code></pre></div>
 <p>Where seqtab.nochim and taxa refer to the R objects <a href="https://benjjneb.github.io/dada2/tutorial.html" class="external-link">as calculated in the dada2 tutorial</a>.</p>
-<p>You may wish to create a tidytacos object from your counts matrix, for example an OTU table where rownames are taxa and colnames are samples. After that is done, you can add your taxonomy table and sample data. The variable ‘taxon’ of the taxonomy table should align with the rownames of the OTU table. Furthermore it may include all taxonomic levels from ‘kingdom’ to ‘species’ and a ‘sequence’ variable (nucleotide sequence). The variable ‘sample’ of the sample data should align with the colnames of the OTU table.</p>
+<p>You may wish to create a tidytacos object from your counts matrix, for example an OTU table where rownames are taxa and colnames are samples. After that is done, you can add your taxonomy table and sample data. The variable ‘taxon’ of the taxonomy table should align with the rownames of the OTU table. Furthermore it may include all taxonomic levels from ‘kingdom’ or ‘domain’ to ‘species’ and a ‘sequence’ variable (nucleotide sequence). The variable ‘sample’ of the sample data should align with the colnames of the OTU table.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">taco</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/create_tidytacos.html">create_tidytacos</a></span><span class="op">(</span><span class="va">OTUtable</span>, taxa_are_columns <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="va">taco</span> <span class="op">&lt;-</span> <span class="va">taco</span><span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
@@ -158,7 +158,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
     </footer>
