@@ -57,7 +57,7 @@ taco <- taco%>%
 A tidytacos object is read and stored as three sparse tables (counts-, taxa- and samples.csv). 
 To read in existing data from a folder, [for example one called ‘leaf’ in the ‘data-raw/tidytacos’ folder](https://github.com/LebeerLab/tidytacos/tree/dev/data-raw/tidytacos/leaf) you would run:
 ```R
-taco <- read_tidytacos("data-raw/tidytacos/leaf")
+taco <- read_tidytacos(system.file("extdata", "tidytacos", "leaf", package = "tidytacos"))
 ```
 
 ## Documentation
