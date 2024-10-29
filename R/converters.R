@@ -297,6 +297,9 @@ as_phyloseq <- function(ta, sample = sample, taxon = taxon_id) {
 #' @family import-methods
 #' @param ps Phyloseq object.
 #' @return A tidytacos object.
+#' @examples 
+#' phylo_obj <- readRDS(system.file("extdata","phyloseq.rds",package='tidytacos'))
+#' taco <- from_phyloseq(phylo_obj)
 #' @export
 from_phyloseq <- function(ps) {
   if ("tidytacos" %in% class(ps)) {

@@ -44,6 +44,7 @@ taco <- from_dada(seqtab, taxa)
 
 If you have data in the form of a phyloseq object you could convert it using:
 ```R
+phylo_obj <- readRDS(system.file("extdata","phyloseq.rds",package='tidytacos'))
 taco <- from_phyloseq(phylo_obj)
 ```
 
