@@ -4,7 +4,7 @@
 \alias{from_dada}
 \title{DADA2 to a tidytacos object}
 \usage{
-from_dada(seqtab, taxa, taxa_are_columns = FALSE)
+from_dada(seqtab, taxa, taxa_are_columns = TRUE)
 }
 \arguments{
 \item{seqtab}{Sequence table, output of \code{\link[dada2:makeSequenceTable]{dada2::makeSequenceTable()}}.}
@@ -21,6 +21,11 @@ A tidytacos object.
 }
 \details{
 This function will convert two dada2 objects or files into a tidytacos object.
+}
+\examples{
+seqtab <- system.file("extdata", "dada2", "seqtab.rds", package = "tidytacos")
+taxa <- system.file("extdata", "dada2", "taxa.rds", package = "tidytacos")
+taco <- from_dada(seqtab, taxa)
 }
 \seealso{
 Other import-methods: 

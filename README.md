@@ -35,7 +35,11 @@ devtools::install_github("LebeerLab/tidytacos")
 
 If your ASVs are counted and annotated using [dada2](https://benjjneb.github.io/dada2/), you can use the following function to convert the results to a tidytacos object:
 ```R
-taco <- from_dada(seqtab.nochim, taxa)
+seqtab <- system.file("extdata", "dada2", "seqtab.rds", package = "tidytacos")
+taxa <- system.file("extdata", "dada2", "taxa.rds", package = "tidytacos")
+
+taco <- from_dada(seqtab, taxa)
+
 ```
 
 If you have data in the form of a phyloseq object you could convert it using:
