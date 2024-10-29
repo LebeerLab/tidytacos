@@ -339,8 +339,8 @@ from_phyloseq <- function(ps) {
 #' @param taxa_are_columns A logical scalar. Are the taxa defined in columns?
 #' @return A tidytacos object.
 #' @examples
-#' seqtab <- system.file("extdata", "dada2", "seqtab.rds", package = "tidytacos")
-#' taxa <- system.file("extdata", "dada2", "taxa.rds", package = "tidytacos")
+#' seqtab <- readRDS(system.file("extdata", "dada2", "seqtab.rds", package = "tidytacos"))
+#' taxa <- readRDS(system.file("extdata", "dada2", "taxa.rds", package = "tidytacos"))
 #' taco <- from_dada(seqtab, taxa)
 #' @export
 from_dada <- function(seqtab, taxa, taxa_are_columns = TRUE) {
