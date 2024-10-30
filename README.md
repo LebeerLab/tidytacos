@@ -56,6 +56,7 @@ taxa <- readRDS(system.file("extdata", "dada2", "taxa.rds", package = "tidytacos
 taxon <- rownames(taxa)
 taxa <- as_tibble(taxa)%>%
   add_column(taxon)
+
 taco <- create_tidytacos(seqtab, taxa_are_columns = TRUE)
 taco <- taco%>%
   add_metadata(taxa, table_type="taxa")
