@@ -23,8 +23,8 @@ A tidytacos object.
 This function will convert two dada2 objects or files into a tidytacos object.
 }
 \examples{
-seqtab <- system.file("extdata", "dada2", "seqtab.rds", package = "tidytacos")
-taxa <- system.file("extdata", "dada2", "taxa.rds", package = "tidytacos")
+seqtab <- readRDS(system.file("extdata", "dada2", "seqtab.rds", package = "tidytacos"))
+taxa <- readRDS(system.file("extdata", "dada2", "taxa.rds", package = "tidytacos"))
 taco <- from_dada(seqtab, taxa)
 }
 \seealso{
