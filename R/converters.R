@@ -297,6 +297,9 @@ as_phyloseq <- function(ta, sample = sample, taxon = taxon_id) {
 #' @family import-methods
 #' @param ps Phyloseq object.
 #' @return A tidytacos object.
+#' @examples 
+#' phylo_obj <- readRDS(system.file("extdata","phyloseq.rds",package='tidytacos'))
+#' taco <- from_phyloseq(phylo_obj)
 #' @export
 from_phyloseq <- function(ps) {
   if ("tidytacos" %in% class(ps)) {
@@ -338,8 +341,12 @@ from_phyloseq <- function(ps) {
 #' @param taxa Taxa table, output of [dada2::assignTaxonomy()].
 #' @param taxa_are_columns A logical scalar. Are the taxa defined in columns?
 #' @return A tidytacos object.
+#' @examples
+#' seqtab <- readRDS(system.file("extdata", "dada2", "seqtab.rds", package = "tidytacos"))
+#' taxa <- readRDS(system.file("extdata", "dada2", "taxa.rds", package = "tidytacos"))
+#' taco <- from_dada(seqtab, taxa)
 #' @export
-from_dada <- function(seqtab, taxa, taxa_are_columns = FALSE) {
+from_dada <- function(seqtab, taxa, taxa_are_columns = TRUE) {
   if ("matrix" %in% class(seqtab)) {
 
   } else if (inherits(seqtab, "character")) {
@@ -348,16 +355,18 @@ from_dada <- function(seqtab, taxa, taxa_are_columns = FALSE) {
     seqtab <- as.matrix(table %>% select(-1))
     rownames(seqtab) <- table %>% pull(1)
   } else {
-    stop(paste("Could not interpret", seqtab))
+    stop(paste("Could not interpret", deparse(substitute(seqtab)), ". Make sure it is a matrix or a path to the seqtab matrix as a file."))
   }
 
-  if ("data.frame" %in% class(taxa)) {
+  if ("data.frame" %in% class(taxa) |
+  "matrix" %in% class(taxa)) {
     taxon <- rownames(taxa)
-    taxa <- cbind(as_tibble(taxa), taxon)
-  } else if (inherits(taxa, "character")) {
+    taxa <- cbind(taxon, as_tibble(taxa, .name_repair=make.unique))
+  } 
+  else if (inherits(taxa, "character")) {
     suppressMessages(taxa <- readr::read_tsv(taxa))
   } else {
-    stop(paste("Could not interpret", taxa))
+    stop(paste("Could not interpret", deparse(substitute(taxa))))
   }
 
   # convert counts
@@ -365,7 +374,6 @@ from_dada <- function(seqtab, taxa, taxa_are_columns = FALSE) {
 
   # add taxonomic data
   colnames(taxa) <- str_to_lower(colnames(taxa))
-  colnames(taxa)[1] <- "taxon"
 
   ta$taxa <- ta$taxa %>% left_join(taxa, by = "taxon")
   ta

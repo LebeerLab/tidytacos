@@ -96,3 +96,16 @@ test_that("Can convert to phyloseq object",{
   expect_no_error(u <- urtph %>% from_phyloseq())
   
 })
+
+test_that("Can convert from dada2",{
+
+  NREADS <- 2114
+  NTAXA <- 4
+  NSAMPLES <- 2
+  seqtab <- readRDS(system.file("extdata", "dada2", "seqtab.rds", package='tidytacos'))
+  taxa <- readRDS(system.file("extdata", "dada2", "taxa.rds", package='tidytacos'))
+  ta <- from_dada(seqtab, taxa)
+  
+  summ <- ta %>% tacosum()
+  expect_equal(as.vector(summ), c(NSAMPLES, NTAXA, NREADS))
+})

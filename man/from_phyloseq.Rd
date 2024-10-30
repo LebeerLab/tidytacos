@@ -21,6 +21,10 @@ This function will convert a phyloseq object into a tidytacos object. To
 convert from a tidytacos object to a phyloseq object use
 \code{\link[=as_phyloseq]{as_phyloseq()}}.
 }
+\examples{
+phylo_obj <- readRDS(system.file("extdata","phyloseq.rds",package='tidytacos'))
+taco <- from_phyloseq(phylo_obj)
+}
 \seealso{
 Other import-methods: 
 \code{\link{create_tidytacos}()},
