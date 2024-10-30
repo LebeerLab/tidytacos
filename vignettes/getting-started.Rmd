@@ -84,7 +84,7 @@ you can hand off the data to tidytacos using `from_dada()`. You can also
 convert a phyloseq object to a tidytacos object using the `from_phyloseq()`
 
 function. More options to import and convert your data can be found
-[here](https://github.com/LebeerLab/tidytacos/blob/dev/R/converters.R).
+[here](https://lebeerlab.github.io/tidytacos/reference/index.html#file-handling).
 
 A tidytacos object is read and stored as three sparse tables (counts-, taxa- and samples.csv). 
 The sample table needs atleast a `sample_id` column,
@@ -106,7 +106,7 @@ Where you replace my_path with an actual path to your data. The path used here u
 To write your data to a folder called "my_data_filtered" you can run:
 
 ```{r write-data, eval=FALSE}
-taco %>% write_tidytacos("/path/to/my_data_filtered")
+taco %>% write_tidytacos("my_data_filtered")
 ``` 
 
 However, our example dataset is available in the tidytacos package and
