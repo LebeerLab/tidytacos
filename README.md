@@ -54,8 +54,7 @@ You may wish to create a tidytacos object from your counts matrix, for example a
 seqtab <- readRDS(system.file("extdata", "dada2", "seqtab.rds", package = "tidytacos"))
 taxa <- readRDS(system.file("extdata", "dada2", "taxa.rds", package = "tidytacos"))
 taxon <- rownames(taxa)
-taxa <- as_tibble(taxa)%>%
-  add_column(taxon)
+taxa <- cbind(taxon, as_tibble(taxa))
 
 taco <- create_tidytacos(seqtab, taxa_are_columns = TRUE)
 taco <- taco%>%
