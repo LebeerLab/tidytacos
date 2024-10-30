@@ -97,8 +97,11 @@ due to the low resolution of short read 16S rRNA gene sequencing data.
 To read in existing data from a folder called 'my_data' you would run:
 
 ```{r read-data, eval=FALSE}
-taco <- read_tidytacos("/path/to/my_data")
+my_path <- system.file("extdata", "tidytacos", "leaf", package = "tidytacos")
+# my_path <- "local/path/my_data"
+taco <- read_tidytacos(my_path)
 ``` 
+Where you replace my_path with an actual path to your data. The path used here uses data in our package.
 
 To write your data to a folder called "my_data_filtered" you can run:
 
