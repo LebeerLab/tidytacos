@@ -23,7 +23,7 @@
 
     <a class="navbar-brand me-2" href="index.html">tidytacos</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.4</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -81,20 +81,28 @@
 </h2>
 <p>If your ASVs are counted and annotated using <a href="https://benjjneb.github.io/dada2/" class="external-link">dada2</a>, you can use the following function to convert the results to a tidytacos object:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">taco</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/from_dada.html">from_dada</a></span><span class="op">(</span><span class="va">seqtab.nochim</span>, <span class="va">taxa</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">seqtab</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"dada2"</span>, <span class="st">"seqtab.rds"</span>, package <span class="op">=</span> <span class="st">"tidytacos"</span><span class="op">)</span></span>
+<span><span class="va">taxa</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"dada2"</span>, <span class="st">"taxa.rds"</span>, package <span class="op">=</span> <span class="st">"tidytacos"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">taco</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/from_dada.html">from_dada</a></span><span class="op">(</span><span class="va">seqtab</span>, <span class="va">taxa</span><span class="op">)</span></span></code></pre></div>
 <p>If you have data in the form of a phyloseq object you could convert it using:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">taco</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/from_phyloseq.html">from_phyloseq</a></span><span class="op">(</span><span class="va">phylo_obj</span><span class="op">)</span></span></code></pre></div>
-<p>Where seqtab.nochim and taxa refer to the R objects <a href="https://benjjneb.github.io/dada2/tutorial.html" class="external-link">as calculated in the dada2 tutorial</a>.</p>
+<code class="sourceCode R"><span><span class="va">phylo_obj</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>,<span class="st">"phyloseq.rds"</span>,package<span class="op">=</span><span class="st">'tidytacos'</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">taco</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/from_phyloseq.html">from_phyloseq</a></span><span class="op">(</span><span class="va">phylo_obj</span><span class="op">)</span></span></code></pre></div>
+<p>Where seqtab and taxa refer to the R objects <a href="https://benjjneb.github.io/dada2/tutorial.html" class="external-link">as calculated in the dada2 tutorial</a> and available in the extdata of this package.</p>
 <p>You may wish to create a tidytacos object from your counts matrix, for example an OTU table where rownames are taxa and colnames are samples. After that is done, you can add your taxonomy table and sample data. The variable ‘taxon’ of the taxonomy table should align with the rownames of the OTU table. Furthermore it may include all taxonomic levels from ‘kingdom’ or ‘domain’ to ‘species’ and a ‘sequence’ variable (nucleotide sequence). The variable ‘sample’ of the sample data should align with the colnames of the OTU table.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">taco</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/create_tidytacos.html">create_tidytacos</a></span><span class="op">(</span><span class="va">OTUtable</span>, taxa_are_columns <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">seqtab</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"dada2"</span>, <span class="st">"seqtab.rds"</span>, package <span class="op">=</span> <span class="st">"tidytacos"</span><span class="op">)</span></span>
+<span><span class="va">taxa</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"dada2"</span>, <span class="st">"taxa.rds"</span>, package <span class="op">=</span> <span class="st">"tidytacos"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">taco</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/create_tidytacos.html">create_tidytacos</a></span><span class="op">(</span><span class="va">seqtab</span>, taxa_are_columns <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="va">taco</span> <span class="op">&lt;-</span> <span class="va">taco</span><span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="reference/add_metadata.html">add_metadata</a></span><span class="op">(</span><span class="va">taxonomy</span>, table_type<span class="op">=</span><span class="st">"taxa"</span><span class="op">)</span><span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="reference/add_metadata.html">add_metadata</a></span><span class="op">(</span><span class="va">sampledata</span>, table_type<span class="op">=</span><span class="st">"sample"</span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="fu"><a href="reference/add_metadata.html">add_metadata</a></span><span class="op">(</span><span class="va">taxa</span>, table_type<span class="op">=</span><span class="st">"taxa"</span><span class="op">)</span></span></code></pre></div>
 <p>A tidytacos object is read and stored as three sparse tables (counts-, taxa- and samples.csv). To read in existing data from a folder, <a href="https://github.com/LebeerLab/tidytacos/tree/dev/data-raw/tidytacos/leaf" class="external-link">for example one called ‘leaf’ in the ‘data-raw/tidytacos’ folder</a> you would run:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">taco</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/read_tidytacos.html">read_tidytacos</a></span><span class="op">(</span><span class="st">"data-raw/tidytacos/leaf"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">my_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"tidytacos"</span>, <span class="st">"leaf"</span>, package <span class="op">=</span> <span class="st">"tidytacos"</span><span class="op">)</span></span>
+<span><span class="va">taco</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/read_tidytacos.html">read_tidytacos</a></span><span class="op">(</span><span class="va">my_path</span><span class="op">)</span></span></code></pre></div>
+<p>To read your own tidytacos data replace the path with a local path.</p>
 </div>
 <div class="section level2">
 <h2 id="documentation">Documentation<a class="anchor" aria-label="anchor" href="#documentation"></a>

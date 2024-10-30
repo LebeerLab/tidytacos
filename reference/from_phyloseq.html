@@ -9,7 +9,7 @@ object."><meta property="og:image" content="https://lebeerlab.github.io/tidytaco
 
     <a class="navbar-brand me-2" href="../index.html">tidytacos</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.4</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -30,7 +30,7 @@ object."><meta property="og:image" content="https://lebeerlab.github.io/tidytaco
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Convert phyloseq object to tidytacos object</h1>
-      <small class="dont-index">Source: <a href="https://github.com/LebeerLab/tidytacos/blob/v1.0.3/R/converters.R" class="external-link"><code>R/converters.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/LebeerLab/tidytacos/blob/master/R/converters.R" class="external-link"><code>R/converters.R</code></a></small>
       <div class="d-none name"><code>from_phyloseq.Rd</code></div>
     </div>
 
@@ -70,6 +70,14 @@ convert from a tidytacos object to a phyloseq object use
 <code><a href="read_tidytacos.html">read_tidytacos</a>()</code></p></div>
     </div>
 
+    <div class="section level2">
+    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">phylo_obj</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>,<span class="st">"phyloseq.rds"</span>,package<span class="op">=</span><span class="st">'tidytacos'</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">taco</span> <span class="op">&lt;-</span> <span class="fu">from_phyloseq</span><span class="op">(</span><span class="va">phylo_obj</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(sample)`</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Joining with `by = join_by(taxon)`</span>
+</code></pre></div>
+    </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
 
