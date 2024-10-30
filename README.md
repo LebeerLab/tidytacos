@@ -52,17 +52,22 @@ Where seqtab and taxa refer to the R objects [as calculated in the dada2 tutoria
 
 You may wish to create a tidytacos object from your counts matrix, for example an OTU table where rownames are taxa and colnames are samples. After that is done, you can add your taxonomy table and sample data. The variable 'taxon' of the taxonomy table should align with the rownames of the OTU table. Furthermore it may include all taxonomic levels from 'kingdom' or 'domain' to 'species' and a 'sequence' variable (nucleotide sequence). The variable 'sample' of the sample data should align with the colnames of the OTU table.
 ```R
-taco <- create_tidytacos(OTUtable, taxa_are_columns = FALSE)
+seqtab <- system.file("extdata", "dada2", "seqtab.rds", package = "tidytacos")
+taxa <- system.file("extdata", "dada2", "taxa.rds", package = "tidytacos")
+
+taco <- create_tidytacos(seqtab, taxa_are_columns = FALSE)
 taco <- taco%>%
-  add_metadata(taxonomy, table_type="taxa")%>%
-  add_metadata(sampledata, table_type="sample")
+  add_metadata(taxa, table_type="taxa")
 ```
 
 A tidytacos object is read and stored as three sparse tables (counts-, taxa- and samples.csv). 
 To read in existing data from a folder, [for example one called ‘leaf’ in the ‘data-raw/tidytacos’ folder](https://github.com/LebeerLab/tidytacos/tree/dev/data-raw/tidytacos/leaf) you would run:
 ```R
-taco <- read_tidytacos(system.file("extdata", "tidytacos", "leaf", package = "tidytacos"))
+my_path <- system.file("extdata", "tidytacos", "leaf", package = "tidytacos")
+taco <- read_tidytacos(my_path)
 ```
+To read your own tidytacos data replace the path with a local path.
+
 
 ## Documentation
 
