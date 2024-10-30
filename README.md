@@ -35,12 +35,13 @@ devtools::install_github("LebeerLab/tidytacos")
 
 If your ASVs are counted and annotated using [dada2](https://benjjneb.github.io/dada2/), you can use the following function to convert the results to a tidytacos object:
 ```R
-seqtab <- system.file("extdata", "dada2", "seqtab.rds", package = "tidytacos")
-taxa <- system.file("extdata", "dada2", "taxa.rds", package = "tidytacos")
+seqtab <- readRDS(system.file("extdata", "dada2", "seqtab.rds", package = "tidytacos"))
+taxa <- readRDS(system.file("extdata", "dada2", "taxa.rds", package = "tidytacos"))
 
 taco <- from_dada(seqtab, taxa)
 
 ```
+Where seqtab and taxa refer to the R objects [as calculated in the dada2 tutorial](https://benjjneb.github.io/dada2/tutorial.html) and available in the extdata of this package.
 
 If you have data in the form of a phyloseq object you could convert it using:
 ```R
@@ -48,12 +49,10 @@ phylo_obj <- readRDS(system.file("extdata","phyloseq.rds",package='tidytacos'))
 taco <- from_phyloseq(phylo_obj)
 ```
 
-Where seqtab and taxa refer to the R objects [as calculated in the dada2 tutorial](https://benjjneb.github.io/dada2/tutorial.html) and available in the extdata of this package.
-
 You may wish to create a tidytacos object from your counts matrix, for example an OTU table where rownames are taxa and colnames are samples. After that is done, you can add your taxonomy table and sample data. The variable 'taxon' of the taxonomy table should align with the rownames of the OTU table. Furthermore it may include all taxonomic levels from 'kingdom' or 'domain' to 'species' and a 'sequence' variable (nucleotide sequence). The variable 'sample' of the sample data should align with the colnames of the OTU table.
 ```R
-seqtab <- system.file("extdata", "dada2", "seqtab.rds", package = "tidytacos")
-taxa <- system.file("extdata", "dada2", "taxa.rds", package = "tidytacos")
+seqtab <- readRDS(system.file("extdata", "dada2", "seqtab.rds", package = "tidytacos"))
+taxa <- readRDS(system.file("extdata", "dada2", "taxa.rds", package = "tidytacos"))
 
 taco <- create_tidytacos(seqtab, taxa_are_columns = FALSE)
 taco <- taco%>%
