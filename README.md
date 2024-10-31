@@ -49,7 +49,7 @@ phylo_obj <- readRDS(system.file("extdata","phyloseq.rds",package='tidytacos'))
 taco <- from_phyloseq(phylo_obj)
 ```
 
-You may wish to create a tidytacos object from your counts matrix, for example an OTU table where rownames are taxa and colnames are samples. After that is done, you can add your taxonomy table and sample data. The variable 'taxon' of the taxonomy table should align with the rownames of the OTU table. Furthermore it may include all taxonomic levels from 'kingdom' or 'domain' to 'species' and a 'sequence' variable (nucleotide sequence). The variable 'sample' of the sample data should align with the colnames of the OTU table.
+You may wish to create a tidytacos object from your counts matrix, for example an OTU table where rownames are samples and colnames are taxa. After that is done, you can add your taxonomy table and sample data. The variable 'taxon' of the taxonomy table should align with the rownames of the OTU table. Furthermore it may include all taxonomic levels from 'kingdom' or 'domain' to 'species' and a 'sequence' variable (nucleotide sequence). The variable 'sample' of the sample data should align with the colnames of the OTU table.
 ```R
 seqtab <- readRDS(system.file("extdata", "dada2", "seqtab.rds", package = "tidytacos"))
 taxa <- readRDS(system.file("extdata", "dada2", "taxa.rds", package = "tidytacos"))
