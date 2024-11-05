@@ -31,7 +31,6 @@ jobs:
                 any::Rtsne
                 any::fastDummies
                 bioc::dada2
-                bioc::phyloseq
                 any::MCL
                 any::Matrix
                 any::ggVennDiagram
