@@ -49,7 +49,7 @@ phylo_obj <- readRDS(system.file("extdata","phyloseq.rds",package='tidytacos'))
 taco <- from_phyloseq(phylo_obj)
 ```
 
-You may wish to create a tidytacos object from your counts matrix, for example an OTU table where rownames are samples and colnames are taxa. After that is done, you can add your taxonomy table and sample data. The variable 'taxon' of the taxonomy table should align with the rownames of the OTU table. Furthermore it may include all taxonomic levels from 'kingdom' or 'domain' to 'species' and a 'sequence' variable (nucleotide sequence). The variable 'sample' of the sample data should align with the colnames of the OTU table.
+You may wish to create a tidytacos object from your counts matrix, for example an OTU table where rownames are samples and colnames are taxa. After that is done, you can add your taxonomy table and sample data. The variable 'taxon' of the taxonomy table should align with the rownames of the OTU table. Furthermore it may include all taxonomic levels from 'kingdom' or 'domain' to 'species' and a 'sequence' variable (nucleotide sequence). The variable 'sample' of the sample data should align with the rownames of the OTU table.
 ```R
 seqtab <- readRDS(system.file("extdata", "dada2", "seqtab.rds", package = "tidytacos"))
 taxa <- readRDS(system.file("extdata", "dada2", "taxa.rds", package = "tidytacos"))
@@ -72,7 +72,7 @@ To read your own tidytacos data replace the path with a local path.
 
 ## Documentation
 
-[A documentation page (help page)](https://lebeerlab.github.io/tidytacos/reference/index.html) is available for all functions in the browser or in R. You can view it in R by running e.g. `?filter_samples`. Some useful tutorials can be found on the [wiki](https://github.com/LebeerLab/tidytacos/wiki). 
+[A documentation page (help page)](https://lebeerlab.github.io/tidytacos/reference/index.html) is available for all functions in the browser or in R. You can view it in R by running e.g. `?filter_samples`. Some useful tutorials can be found in the documentation [Articles page](https://lebeerlab.github.io/tidytacos/articles/index.html) and on the [wiki](https://github.com/LebeerLab/tidytacos/wiki). 
 
 ## Need support?
 
