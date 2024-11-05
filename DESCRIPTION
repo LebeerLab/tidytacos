@@ -4,64 +4,68 @@ Title: Manipulate Taxonomic Composition Data of Microbial Communities
 Version: 1.0.4
 Authors@R: c(
     person("Stijn", "Wittouck", , "stijn.wittouck@uantwerpen.be", role = c("aut", "cre")),
-    person("Tim", "Van Rillaer", , "tim.vanrillaer@uantwerpen.be", role = c("aut")),
-    person("Wenke", "Smets", , "wenke.smets@uantwerpen.be", role = c("aut")),
-    person("Sarah", "Lebeer", , "sarah.lebeer@uantwerpen.be", role = c("fnd")))
-Description: A toolkit for processing and visualizing taxonomic composition data
-    of microbial communities, based on the tidyverse framework.
+    person("Tim", "Van Rillaer", , "tim.vanrillaer@uantwerpen.be", role = "aut"),
+    person("Wenke", "Smets", , "wenke.smets@uantwerpen.be", role = "aut"),
+    person("Sarah", "Lebeer", , "sarah.lebeer@uantwerpen.be", role = "fnd")
+  )
+Description: A toolkit for processing and visualizing taxonomic
+    composition data of microbial communities, based on the tidyverse
+    framework.
 License: GPL-3 + file LICENSE
-Depends: R (>= 4.1.0)
+URL: https://lebeerlab.github.io/tidytacos/
+BugReports: 
+    https://github.com/LebeerLab/tidytacos/issues/new?assignees=TheOafidian&labels=bug&projects=&template=bug_report.md&title=%5BBUG%5D+
+Depends: 
+    R (>= 4.1.0)
 Imports:
     dplyr,
     forcats,
     ggplot2,
     magrittr,
+    methods,
     purrr,
     readr,
     rlang (>= 0.4.11),
     stringr,
     tibble,
     tidyr,
-    vegan,
-    methods
+    vegan
 Suggests:
-    tidyverse, 
-    devtools,
+    ape,
     biomformat,
-    covr,
+    Biostrings,
     compositions,
-    vdiffr,
+    covr,
     dada2,
-    ggVennDiagram,
-    knitr,
-    phyloseq,
-    plotly,
-    MCL,
-    ggpubr,
-    jsonlite,
-    seqinr,
-    umap,
-    pheatmap,
-    rstatix,
-    Rtsne,
+    devtools,
     eulerr,
     factoextra,
     fastDummies,
-    SpiecEasi,
-    Matrix,
-    Biostrings,
+    ggpubr,
+    ggVennDiagram,
     igraph,
+    jsonlite,
+    knitr,
+    Matrix,
+    MCL,
+    phangorn,
+    pheatmap,
+    phyloseq,
+    plotly,
     rmarkdown,
     roxygen2,
-    ape,
-    phangorn,
-    testthat (>= 3.1.9)
+    rstatix,
+    Rtsne,
+    seqinr,
+    SpiecEasi,
+    testthat (>= 3.1.9),
+    tidyverse,
+    umap,
+    vdiffr
 VignetteBuilder: 
     knitr
+Config/testthat/edition: 3
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.3.2
-Config/testthat/edition: 3
-URL: https://lebeerlab.github.io/tidytacos/
-BugReports: https://github.com/LebeerLab/tidytacos/issues/new?assignees=TheOafidian&labels=bug&projects=&template=bug_report.md&title=%5BBUG%5D+
 Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.2
