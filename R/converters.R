@@ -503,7 +503,7 @@ merge_tidytacos <- function(ta1, ta2, taxon_identifier = sequence) {
   class(ta) <- "tidytacos"
 
   # give new sample names in new ta object
-  ta <- reset_ids(ta)
+  ta <- reset_ids(ta) %>% infer_rank_names()
 
   # return ta object
   ta
