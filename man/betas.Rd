@@ -4,7 +4,7 @@
 \alias{betas}
 \title{Get beta diversity table}
 \usage{
-betas(ta, unique = T, method = "bray", binary = F)
+betas(ta, unique = T, method = "bray", binary = F, ...)
 }
 \arguments{
 \item{ta}{A tidytacos object.}
