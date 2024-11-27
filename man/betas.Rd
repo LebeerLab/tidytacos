@@ -17,6 +17,17 @@ all options. Default is "bray".}
 
 \item{binary}{A logical scalar. Perform presence/absence standardization
 before analysis. See \code{\link[vegan:vegdist]{vegan::vegdist()}}. Default is FALSE.}
+
+\item{...}{
+  Arguments passed on to \code{\link[vegan:vegdist]{vegan::vegdist}}
+  \describe{
+    \item{\code{x}}{Community data matrix.}
+    \item{\code{diag}}{Compute diagonals. }
+    \item{\code{upper}}{Return only the upper diagonal. }
+    \item{\code{na.rm}}{Pairwise deletion of missing observations when
+    computing dissimilarities (but some dissimilarities may still be
+    \code{NA}, although calculation is handled).}
+  }}
 }
 \description{
 \code{betas()} returns a tidy table with the beta diversity for each

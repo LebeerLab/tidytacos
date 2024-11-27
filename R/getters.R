@@ -46,7 +46,7 @@ tacosum <- function(ta) {
 #'   all options. Default is "bray".
 #' @param binary A logical scalar. Perform presence/absence standardization
 #'   before analysis. See [vegan::vegdist()]. Default is FALSE.
-#'
+#' @inheritDotParams vegan::vegdist
 #' @examples
 #' # Initiate counts matrix
 #' x <- matrix(
