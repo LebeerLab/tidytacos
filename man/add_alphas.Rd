@@ -4,13 +4,21 @@
 \alias{add_alphas}
 \title{Add alpha diversity measures}
 \usage{
-add_alphas(ta, methods = "all")
+add_alphas(ta, methods = "all", ...)
 }
 \arguments{
 \item{ta}{A tidytacos object.}
 
 \item{methods}{A character vector of the diversity measure to use, see \code{\link[=add_alpha]{add_alpha()}} for examples.
 Optionally use 'all' to add all diversity measures.}
+
+\item{...}{
+  Arguments passed on to \code{\link[=add_alpha]{add_alpha}}
+  \describe{
+    \item{\code{method}}{The diversity measure to use,
+see \code{\link[vegan:diversity]{vegan::diversity()}} for further information on these.}
+    \item{\code{keep_empty_samples}}{Whether to keep empty samples or not.}
+  }}
 }
 \value{
 A tidytacos object with the selected alpha diversity measures added.

@@ -122,6 +122,7 @@ add_total_count <- function(ta) {
 #' @param ta A tidytacos object.
 #' @param method The diversity measure to use,
 #' see [vegan::diversity()] for further information on these.
+#' @param keep_empty_samples Whether to keep empty samples or not. 
 #' @return A tidytacos object with the alpha diversity measure added.
 #' @examples
 #' # Initiate counts matrix
@@ -146,14 +147,15 @@ add_total_count <- function(ta) {
 #' @family sample-modifiers
 #' @family diversity-metrics
 #' @export
-add_alpha <- function(ta, method = "invsimpson") {
+add_alpha <- function(ta, method = "invsimpson", keep_empty_samples = FALSE) {
   value <- NULL
   vegan_standard_methods <- c("invsimpson", "shannon", "simpson")
   vegan_estimateR_methods <- c("obs", "s.chao1", "s.ace")
 
   method <- tolower(method)
-
-  ta <- remove_empty_samples(ta)
+  if (!keep_empty_samples) {
+      ta <- remove_empty_samples(ta)
+  }
 
   if (!method %in% lapply(alpha_metrics, tolower)) {
     stop(paste("Select a method from", paste0(alpha_metrics, collapse = ", ")))
@@ -201,19 +203,20 @@ add_alpha <- function(ta, method = "invsimpson") {
 #' @param ta A tidytacos object.
 #' @param methods A character vector of the diversity measure to use, see [add_alpha()] for examples.
 #' Optionally use 'all' to add all diversity measures.
+#' @inheritDotParams add_alpha
 #' @return A tidytacos object with the selected alpha diversity measures added.
 #' @examples
 #' urt_all_alphas <- urt %>% add_alphas()
 #' @family sample-modifiers
 #' @family diversity-metrics
 #' @export
-add_alphas <- function(ta, methods = "all") {
+add_alphas <- function(ta, methods = "all", ...) {
   if (any(methods == "all")) {
     methods <- alpha_metrics
   }
 
   for (method in methods) {
-    ta <- add_alpha(ta, method)
+    ta <- add_alpha(ta, method, ...)
   }
   ta
 }
