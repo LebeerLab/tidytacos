@@ -41,7 +41,13 @@ If no alpha metrics are present, all available ones are added.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">tacoplot_alphas</span><span class="op">(</span><span class="va">ta</span>, <span class="va">group_by</span>, compare_means <span class="op">=</span> <span class="cn">FALSE</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">tacoplot_alphas</span><span class="op">(</span></span>
+<span>  <span class="va">ta</span>,</span>
+<span>  <span class="va">group_by</span>,</span>
+<span>  compare_means <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  keep_empty_samples <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -58,6 +64,10 @@ If no alpha metrics are present, all available ones are added.</p>
 
 <dt id="arg-compare-means">compare_means<a class="anchor" aria-label="anchor" href="#arg-compare-means"></a></dt>
 <dd><p>Add the result of a statistical test to the plot, comparing the means of the groups. Default is FALSE.</p></dd>
+
+
+<dt id="arg-keep-empty-samples">keep_empty_samples<a class="anchor" aria-label="anchor" href="#arg-keep-empty-samples"></a></dt>
+<dd><p>Whether to discard samples not containing any counts or not. By default these are removed.</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
