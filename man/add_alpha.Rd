@@ -4,13 +4,15 @@
 \alias{add_alpha}
 \title{Add alpha diversity measure}
 \usage{
-add_alpha(ta, method = "invsimpson")
+add_alpha(ta, method = "invsimpson", keep_empty_samples = FALSE)
 }
 \arguments{
 \item{ta}{A tidytacos object.}
 
 \item{method}{The diversity measure to use,
 see \code{\link[vegan:diversity]{vegan::diversity()}} for further information on these.}
+
+\item{keep_empty_samples}{Whether to keep empty samples or not.}
 }
 \value{
 A tidytacos object with the alpha diversity measure added.

@@ -203,7 +203,7 @@ add_alpha <- function(ta, method = "invsimpson", keep_empty_samples = FALSE) {
 #' @param ta A tidytacos object.
 #' @param methods A character vector of the diversity measure to use, see [add_alpha()] for examples.
 #' Optionally use 'all' to add all diversity measures.
-#' @inheritDotParams tidytacos::add_alpha
+#' @inheritDotParams add_alpha
 #' @return A tidytacos object with the selected alpha diversity measures added.
 #' @examples
 #' urt_all_alphas <- urt %>% add_alphas()
