@@ -506,9 +506,10 @@ tacoplot_euler <- function(ta, condition, shape = "ellipse", ...) {
 #' @param ta A tidytacos object.
 #' @param group_by The name of a variable in the samples table on which to group the samples.
 #' @param compare_means Add the result of a statistical test to the plot, comparing the means of the groups. Default is FALSE.
+#' @param keep_empty_samples Whether to discard samples not containing any counts or not. By default these are removed.
 #' @inheritDotParams ggpubr::stat_compare_means
 #' @export
-tacoplot_alphas <- function(ta, group_by, compare_means = FALSE, ...) {
+tacoplot_alphas <- function(ta, group_by, compare_means = FALSE, keep_empty_samples=FALSE, ...) {
   value <- NULL
 
   group_by <- rlang::enquo(group_by)
@@ -524,7 +525,7 @@ tacoplot_alphas <- function(ta, group_by, compare_means = FALSE, ...) {
   }
 
   if (!any(clean_alpha_metrics %in% colnames(ta$samples))) {
-    ta_tmp <- add_alphas(ta_tmp)
+    ta_tmp <- add_alphas(ta_tmp, keep_empty_samples=keep_empty_samples)
   }
   plt <- ta_tmp$samples %>%
     pivot_longer(any_of(clean_alpha_metrics)) %>%
