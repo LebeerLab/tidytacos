@@ -26,7 +26,6 @@ jobs:
                 any::covr
                 any::plotly
                 any::vdiffr
-                any::compositions
                 any::umap
                 any::Rtsne
                 any::fastDummies

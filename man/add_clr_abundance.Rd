@@ -4,12 +4,32 @@
 \alias{add_clr_abundance}
 \title{Perform a centered log ratio transformation on the readcounts.}
 \usage{
-add_clr_abundance(ta, overwrite = F)
+add_clr_abundance(ta, overwrite = F, pseudocount = 1, ...)
 }
 \arguments{
 \item{ta}{A tidytacos object.}
 
 \item{overwrite}{Whether or not the counts table is to be overwritten with the transformed counts.}
+
+\item{pseudocount}{A pseudocount to be added to the counts before transformation. If false or zero will perform robust CLR.}
+
+\item{...}{
+  Arguments passed on to \code{\link[vegan:decostand]{vegan::decostand}}
+  \describe{
+    \item{\code{x}}{Community data, a matrix-like object. For
+    \code{decobackstand} standardized data. }
+    \item{\code{method}}{Standardization method. See Details for available options.}
+    \item{\code{MARGIN}}{Margin, if default is not acceptable. \code{1} = rows,
+    and \code{2} = columns of \code{x}.}
+    \item{\code{range.global}}{Matrix from which the range is found in
+    \code{method = "range"}.  This allows using same ranges across
+    subsets of data.  The dimensions of \code{MARGIN} must match with
+    \code{x}. }
+    \item{\code{logbase}}{The logarithm base used in \code{method = "log"}.}
+    \item{\code{na.rm}}{Ignore missing values in row or column
+    standardizations. The \code{NA} values remain as \code{NA}, but they
+    are ignored in standardization of other values.}
+  }}
 }
 \value{
 A tidytacos object.

@@ -13,15 +13,15 @@ test_that("Max abundance equals n", {
     expect_equal(max(ab), 10)
 })
 
-test_that("Max abundance equals n with replace=TRUE", {
+test_that("Max abundance equals n with replace = TRUE", {
     ab <- urt %>% rarefy(100, replace=TRUE) %>%
     counts() %>% dplyr::pull(count)
     expect_equal(max(ab), 100)
 })
 
 # CHANGE_ID_SAMPLES
-test_that("Change sample ID based on unique column",{
-    uq_part <- urt %>% filter_samples(location == "NF", method=="A")
+test_that("Change sample ID based on unique column", {
+    uq_part <- urt %>% filter_samples(location == "NF", method == "A")
     # remove empty samples, as they will cause a mismatch
     expect_warning(
         uq_part <- uq_part %>% remove_empty_samples(),
@@ -252,8 +252,10 @@ test_that("Filtering returns the expected amount of samples", {
 
 # CLR TRANSFORM
 test_that("CLR transformation returns expected output", {
-    skip_if_not_installed("compositions")
-    urt_clr <- urt %>% add_clr_abundance()
-    expect_true("clr_counts" %in% names(urt_clr))
-    expect_equal(sum(urt_clr$clr_counts %>% pull(count)), 0, tolerance=1e-10)
+  urt_clr <- urt %>% add_clr_abundance()
+  expect_true("clr_counts" %in% names(urt_clr))
+
+  urt_rclr <- urt %>% add_clr_abundance(pseudocount = FALSE)
+  expect_true("rclr_counts" %in% names(urt_rclr))
+
 })

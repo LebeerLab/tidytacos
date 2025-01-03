@@ -470,32 +470,34 @@ filter_counts <- function(ta, ...) {
 #'
 #' @param ta A tidytacos object.
 #' @param overwrite Whether or not the counts table is to be overwritten with the transformed counts.
+#' @param pseudocount A pseudocount to be added to the counts before transformation. If false or zero will perform robust CLR.
+#' @inheritDotParams vegan::decostand
 #' @return A tidytacos object.
 #' @export
 add_clr_abundance <- function(
     ta,
-    overwrite = F) {
-  force_optional_dependency("compositions")
+    overwrite = F,
+    pseudocount = 1,
+    ...) {
+  
+  mt <- ta %>% counts_matrix()
 
-  mt <- ta$counts %>% pivot_wider(
-    values_from = count,
-    names_from = taxon_id,
-    values_fill = 0
-  )
-
-  mt <- tibble::column_to_rownames(mt, var = "sample_id")
-
-  clrt_mt <- compositions::clr(mt)
-  clrt_counts <- clrt_mt %>%
-    as_tibble() %>%
-    tibble::add_column(sample_id = rownames(clrt_mt)) %>%
-    pivot_longer(!sample_id, names_to = "taxon_id", values_to = "count") %>%
-    filter(count != 0)
-
-  if (overwrite) {
-    ta$counts <- clrt_counts
+  if (as.integer(pseudocount) == 0) {
+    clrt_mt <- vegan::decostand(mt, method="rclr", ...)
   } else {
-    ta$clr_counts <- clrt_counts
+    clrt_mt <- vegan::decostand(mt, method="clr", pseudocount=pseudocount, ...)
+  }
+
+  clrtt <- clrt_mt %>% create_tidytacos()
+    
+  if (overwrite) {
+    ta$counts <- clrtt$counts
+  } else {
+    if (as.integer(pseudocount) == 0) {
+      ta$rclr_counts <- clrtt$counts
+    } else {
+      ta$clr_counts <- clrtt$counts
+    }
   }
 
   ta

@@ -122,11 +122,14 @@ calculated so that the plot would fit there, unless specified otherwise.}
   }}
 }
 \description{
-Return a heatmap of all taxa above a certain threshold prevalence per condition, clusters them and compares prevalences with a fisher_test.
+Return a heatmap of all taxa above a certain threshold prevalence
+per condition, clusters them and compares prevalences with a fisher_test.
 }
 \examples{
 urt \%>\%
   aggregate_taxa(rank = "order") \%>\%
-  tacoplot_prevalences(location, cutoff = .1, treeheight_row = 0, cutree_rows = 4, fontsize = 6, cellwidth = 15)
+  tacoplot_prevalences(location, cutoff = .1,
+  treeheight_row = 0, cutree_rows = 4,
+  fontsize = 6, cellwidth = 15)
 
 }

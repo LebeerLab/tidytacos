@@ -49,7 +49,6 @@ jobs:
               any::tidyverse
               any::plotly
               any::vdiffr
-              any::compositions
               any::MCL
               any::Matrix
               any::umap
