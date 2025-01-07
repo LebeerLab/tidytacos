@@ -86,16 +86,31 @@ add_metadata <- function(ta, metadata, table_type = "sample") {
 #' @family sample-modifiers 
 #' @export
 add_total_count <- function(ta) {
+
+  # if duplicated sample IDs, join won't make sense
+  if (any(duplicated(ta$samples$sample_id))) {
+    duplicate_ids <- unique(ta$samples$sample_id[duplicated(ta$samples$sample_id)])
+    stop(
+      "Duplicated sample IDs found. Please remove duplicates before adding total count.",
+      "\n  Offending IDs: ", paste(duplicate_ids, collapse = ", ")
+    )
+  }
+  
   # make table with sample and total count
   lib_sizes <- ta$counts %>%
     group_by(sample_id) %>%
     summarize(total_count = sum(count)) %>%
     select(sample_id, total_count)
 
+  # if total_count exists, remove it
+  if ("total_count" %in% names(ta$samples)) {
+    ta$samples$total_count <- NULL
+  }
+
   # add total count to sample table
   ta$samples <-
     ta$samples %>%
-    left_join(lib_sizes, by = "sample_id") %>%
+    left_join(lib_sizes, by = "sample_id", relationship="one-to-one") %>%
     mutate(total_count = ifelse(is.na(total_count), 0, total_count))
 
   # return ta object
