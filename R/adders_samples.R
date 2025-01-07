@@ -110,7 +110,7 @@ add_total_count <- function(ta) {
   # add total count to sample table
   ta$samples <-
     ta$samples %>%
-    left_join(lib_sizes, by = "sample_id", relationship="one-to-one") %>%
+    left_join(lib_sizes, by = "sample_id", relationship = "one-to-one") %>%
     mutate(total_count = ifelse(is.na(total_count), 0, total_count))
 
   # return ta object
@@ -799,4 +799,27 @@ perform_anosim <- function(ta, group, ...) {
   }
 
   vegan::anosim(M, ta$samples %>% pull(!!group), ...)
+}
+
+perform_lda <- function(ta, k, min_prevalence=.01, taxon=taxon_id, sample=sample_id, ...) {
+
+  force_optional_dependency("topicmodels")
+  taxon <- enquo(taxon)
+  sample <- enquo(sample)
+
+  M <- ta %>%
+    add_prevalence(relative=TRUE) %>%
+    filter_taxa(prevalence >= min_prevalence) %>%
+    counts_matrix(sample=!!sample, taxon=!!taxon)
+  
+  model <- topicmodels::LDA(M, k, ...)
+  lda <- topicmodels::posterior(model, M)
+  
+  results <- list(
+    lda_terms = lda$terms,
+    lda_topics = lda$topics,
+    lda_perplexity = topicmodels::perplexity(model)
+  )
+  
+  results
 }
