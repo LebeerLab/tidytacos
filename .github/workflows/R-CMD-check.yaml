@@ -55,7 +55,9 @@ jobs:
               any::Rtsne
               any::fastDummies
               any::ggVennDiagram
+              any::topicmodels
               bioc::dada2
+              github::lasy/alto
               github::zdk123/SpiecEasi
           needs: check
 
