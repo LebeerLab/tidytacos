@@ -40,6 +40,22 @@ remove_empty_samples <- function(ta){
   ta
 }
 
+#' Removes duplicate samples from the tidytacos object
+#'
+#' Will remove rows with the exact same metadata as another row but a different sample_id.
+#'
+#' @param ta a tidytacos object
+#' @return the tidytacos object minus the duplicate samples
+#'
+#' @export
+remove_duplicate_samples <- function(ta){
+  distinct_samples <- ta$samples %>%
+    dplyr::distinct_at(vars(-sample_id)) %>%
+    dplyr::pull(sample_id)
+
+  ta %>% filter_samples(sample_id %in% distinct_samples)
+}
+
 # Checks if optional dependency is loaded and stops code if not.
 force_optional_dependency <- function(optional_pkg, instructions=NULL){
   if (!requireNamespace(optional_pkg, quietly = TRUE)) {

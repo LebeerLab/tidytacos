@@ -26,15 +26,16 @@ jobs:
                 any::covr
                 any::plotly
                 any::vdiffr
-                any::compositions
                 any::umap
                 any::Rtsne
                 any::fastDummies
                 bioc::dada2
                 any::MCL
                 any::Matrix
+                any::topicmodels
                 any::ggVennDiagram
                 github::zdk123/SpiecEasi
+                github::lasy/alto
           needs: coverage
 
       - name: Test coverage

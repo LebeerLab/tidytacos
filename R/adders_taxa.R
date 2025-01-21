@@ -418,6 +418,10 @@ add_prevalence <- function(
   ta, condition = NULL, relative = FALSE, fisher_test = FALSE
 ) {
 
+  # remove any pre-existing result columns
+  ta$taxa <- ta$taxa %>%
+    select(- starts_with("prevalence"), - starts_with("fisher"))
+
   fisher <- prevalence <- . <- NULL
   prev <- "prevalence"
   prev_in <- "prevalence_in"

@@ -49,14 +49,15 @@ jobs:
               any::tidyverse
               any::plotly
               any::vdiffr
-              any::compositions
               any::MCL
               any::Matrix
               any::umap
               any::Rtsne
               any::fastDummies
               any::ggVennDiagram
+              any::topicmodels
               bioc::dada2
+              github::lasy/alto
               github::zdk123/SpiecEasi
           needs: check
 
