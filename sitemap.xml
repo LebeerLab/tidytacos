@@ -33,8 +33,10 @@
 <url><loc>https://lebeerlab.github.io/tidytacos/reference/add_tree.html</loc></url>
 <url><loc>https://lebeerlab.github.io/tidytacos/reference/aggregate_samples.html</loc></url>
 <url><loc>https://lebeerlab.github.io/tidytacos/reference/aggregate_taxa.html</loc></url>
+<url><loc>https://lebeerlab.github.io/tidytacos/reference/align_lda_topics.html</loc></url>
 <url><loc>https://lebeerlab.github.io/tidytacos/reference/as_phyloseq.html</loc></url>
 <url><loc>https://lebeerlab.github.io/tidytacos/reference/betas.html</loc></url>
+<url><loc>https://lebeerlab.github.io/tidytacos/reference/calculate_lda_perplexities.html</loc></url>
 <url><loc>https://lebeerlab.github.io/tidytacos/reference/calculate_unifrac_distances.html</loc></url>
 <url><loc>https://lebeerlab.github.io/tidytacos/reference/change_id_samples.html</loc></url>
 <url><loc>https://lebeerlab.github.io/tidytacos/reference/change_id_taxa.html</loc></url>
@@ -54,6 +56,8 @@
 <url><loc>https://lebeerlab.github.io/tidytacos/reference/from_dada.html</loc></url>
 <url><loc>https://lebeerlab.github.io/tidytacos/reference/from_phyloseq.html</loc></url>
 <url><loc>https://lebeerlab.github.io/tidytacos/reference/index.html</loc></url>
+<url><loc>https://lebeerlab.github.io/tidytacos/reference/ldaplot_alignment.html</loc></url>
+<url><loc>https://lebeerlab.github.io/tidytacos/reference/ldaplot_beta.html</loc></url>
 <url><loc>https://lebeerlab.github.io/tidytacos/reference/leaf.html</loc></url>
 <url><loc>https://lebeerlab.github.io/tidytacos/reference/make_tidytacos.html</loc></url>
 <url><loc>https://lebeerlab.github.io/tidytacos/reference/mean_rel_abundances.html</loc></url>
@@ -64,6 +68,7 @@
 <url><loc>https://lebeerlab.github.io/tidytacos/reference/network.html</loc></url>
 <url><loc>https://lebeerlab.github.io/tidytacos/reference/perform_adonis.html</loc></url>
 <url><loc>https://lebeerlab.github.io/tidytacos/reference/perform_anosim.html</loc></url>
+<url><loc>https://lebeerlab.github.io/tidytacos/reference/perform_lda.html</loc></url>
 <url><loc>https://lebeerlab.github.io/tidytacos/reference/perform_mantel_test.html</loc></url>
 <url><loc>https://lebeerlab.github.io/tidytacos/reference/pipe.html</loc></url>
 <url><loc>https://lebeerlab.github.io/tidytacos/reference/prevalences.html</loc></url>
@@ -71,6 +76,7 @@
 <url><loc>https://lebeerlab.github.io/tidytacos/reference/rarefy.html</loc></url>
 <url><loc>https://lebeerlab.github.io/tidytacos/reference/read_tidytacos.html</loc></url>
 <url><loc>https://lebeerlab.github.io/tidytacos/reference/rel_abundance_matrix.html</loc></url>
+<url><loc>https://lebeerlab.github.io/tidytacos/reference/remove_duplicate_samples.html</loc></url>
 <url><loc>https://lebeerlab.github.io/tidytacos/reference/remove_empty_samples.html</loc></url>
 <url><loc>https://lebeerlab.github.io/tidytacos/reference/reset_ids.html</loc></url>
 <url><loc>https://lebeerlab.github.io/tidytacos/reference/samples.html</loc></url>
