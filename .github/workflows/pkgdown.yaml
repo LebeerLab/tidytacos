@@ -36,11 +36,13 @@ jobs:
             any::vdiffr
             any::MCL
             any::Matrix
+            any::topicmodels
             any::umap
             any::Rtsne
             any::fastDummies
             any::ggVennDiagram
             bioc::dada2
+            github::lasy/alto
             github::zdk123/SpiecEasi
           needs: website
 
