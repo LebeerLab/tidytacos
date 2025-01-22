@@ -99,6 +99,7 @@ reference:
       Functions to cluster the sample and taxa table.
     contents:
       - cluster_samples
+      - perform_lda
       - cluster_taxa
       - add_sample_clustered
   - title: "Network analysis"
@@ -108,6 +109,15 @@ reference:
       - network
       - filter_network
       - cluster_network
+  - title: "Topic Modeling (LDA)"
+    desc: >
+      Methods to help with topic modeling of microbiome data using Latent Dirichlet Allocation.
+    contents:
+      - perform_lda
+      - ldaplot_beta
+      - calculate_lda_perplexities
+      - align_lda_topics
+      - ldaplot_alignment
   - title: "Datasets"
     desc: >
       Test datasets used as examples.
@@ -123,6 +133,7 @@ reference:
       - reset_ids
       - starts_with("change_id_")
       - remove_empty_samples
+      - remove_duplicate_samples
       - tidy_count_to_matrix
       - rarefy
       - test_taco
