@@ -489,14 +489,18 @@ add_clr_abundance <- function(
   }
 
   clrtt <- clrt_mt %>% create_tidytacos()
-    
+  counts_w_prev_indexers <- clrtt %>% 
+    everything() %>%
+    select(sample, taxon, count) %>%
+    rename(taxon_id=taxon, sample_id = sample)   
+ 
   if (overwrite) {
-    ta$counts <- clrtt$counts
+    ta$counts <- counts_w_prev_indexers
   } else {
     if (as.integer(pseudocount) == 0) {
-      ta$rclr_counts <- clrtt$counts
+      ta$rclr_counts <- counts_w_prev_indexers
     } else {
-      ta$clr_counts <- clrtt$counts
+      ta$clr_counts <- counts_w_prev_indexers
     }
   }
 
