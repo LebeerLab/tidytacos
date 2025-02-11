@@ -41,6 +41,18 @@ test_that("Can add alpha diversity metrics", {
                     c(0.996,0.990), tolerance=1e-3, ignore_attr=TRUE)
 })
 
+test_that("Can add alpha diversity of a single sample", {
+ 
+  single_sample <- test_data %>%
+    filter_samples(sample_id == "s1")
+  inv_simp <- single_sample %>%
+    add_alpha() %>% 
+    samples() %>% 
+    pull("invsimpson")
+  expect_equal(inv_simp, 1.99, tolerance = .01)
+
+})
+
 test_that("Can add spike-ratio", {
 
     ta_spike_ratio <- test_data %>% add_spike_ratio("t1")
