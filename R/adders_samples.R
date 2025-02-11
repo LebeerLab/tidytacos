@@ -202,6 +202,11 @@ add_alpha <- function(ta, method = "invsimpson", keep_empty_samples = FALSE) {
 
   if (method == "pielou") diversities <- calculate_alpha_pielou(ta)
 
+  # if calculating for a single sample, sample_id missing at this point:
+  if (length(ta$samples$sample_id) == 1) {
+    diversities$sample_id <- ta$samples$sample_id
+  }
+
   # add diversity measure to sample table
   ta$samples <- left_join(ta$samples, diversities, by = "sample_id")
 
