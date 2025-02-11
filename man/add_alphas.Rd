@@ -18,6 +18,8 @@ Optionally use 'all' to add all diversity measures.}
     \item{\code{method}}{The diversity measure to use,
 see \code{\link[vegan:diversity]{vegan::diversity()}} for further information on these.}
     \item{\code{keep_empty_samples}}{Whether to keep empty samples or not.}
+    \item{\code{subsample}}{Wether to use subsampling to be able to compare samples of varying sequencing depths.
+\href{https://journals.asm.org/doi/10.1128/msphere.00355-23}{Schloss et al., 2023}}
   }}
 }
 \value{
@@ -40,6 +42,7 @@ Other sample-modifiers:
 \code{\link{add_ord}()},
 \code{\link{add_sample_clustered}()},
 \code{\link{add_spike_ratio}()},
+\code{\link{add_subsampled_alpha}()},
 \code{\link{add_total_absolute_abundance}()},
 \code{\link{add_total_count}()},
 \code{\link{add_total_density}()},
@@ -47,7 +50,8 @@ Other sample-modifiers:
 
 Other diversity-metrics: 
 \code{\link{add_alpha}()},
-\code{\link{add_ord}()}
+\code{\link{add_ord}()},
+\code{\link{add_subsampled_alpha}()}
 }
 \concept{diversity-metrics}
 \concept{sample-modifiers}
