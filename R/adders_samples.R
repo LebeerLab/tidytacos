@@ -165,7 +165,7 @@ add_total_count <- function(ta) {
 #' @family sample-modifiers
 #' @family diversity-metrics
 #' @export
-add_alpha <- function(ta, subsample=FALSE, method = "invsimpson", keep_empty_samples = FALSE, ...) {
+add_alpha <- function(ta, method = "invsimpson", keep_empty_samples = FALSE, subsample=FALSE, ...) {
   value <- NULL
   vegan_standard_methods <- c("invsimpson", "shannon", "simpson")
   vegan_estimateR_methods <- c("obs", "s.chao1", "s.ace")
@@ -240,7 +240,7 @@ add_alphas <- function(ta, methods = "all", ...) {
   }
 
   for (method in methods) {
-    ta <- add_alpha(ta, method, ...)
+    ta <- add_alpha(ta, method=method, ...)
   }
   ta
 }
