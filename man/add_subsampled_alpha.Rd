@@ -12,6 +12,8 @@ add_subsampled_alpha(
 )
 }
 \arguments{
+\item{ta}{a tidytacos object.}
+
 \item{min_lib_size}{the minimum lib size samples need to have.
 Samples with lower lib sizes will be discarded and samples with a higher readcount will be itteratively
 subsampled to this readcount to allow for a fair comparison across read_depths.}

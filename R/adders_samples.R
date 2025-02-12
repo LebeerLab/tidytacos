@@ -248,6 +248,7 @@ add_alphas <- function(ta, methods = "all", ...) {
 #'
 #' `add_subsampled_alpha()` adds selected alpha diversity measures to the sample table of a
 #' tidytacos object using an itterative subsampling process.
+#' @param ta a tidytacos object.
 #' @param min_lib_size the minimum lib size samples need to have. 
 #' Samples with lower lib sizes will be discarded and samples with a higher readcount will be itteratively
 #' subsampled to this readcount to allow for a fair comparison across read_depths.

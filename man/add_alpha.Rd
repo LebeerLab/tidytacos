@@ -6,22 +6,22 @@
 \usage{
 add_alpha(
   ta,
-  subsample = FALSE,
   method = "invsimpson",
   keep_empty_samples = FALSE,
+  subsample = FALSE,
   ...
 )
 }
 \arguments{
 \item{ta}{A tidytacos object.}
 
-\item{subsample}{Wether to use subsampling to be able to compare samples of varying sequencing depths.
-\href{https://journals.asm.org/doi/10.1128/msphere.00355-23}{Schloss et al., 2023}}
-
 \item{method}{The diversity measure to use,
 see \code{\link[vegan:diversity]{vegan::diversity()}} for further information on these.}
 
 \item{keep_empty_samples}{Whether to keep empty samples or not.}
+
+\item{subsample}{Wether to use subsampling to be able to compare samples of varying sequencing depths.
+\href{https://journals.asm.org/doi/10.1128/msphere.00355-23}{Schloss et al., 2023}}
 
 \item{...}{
   Arguments passed on to \code{\link[=add_subsampled_alpha]{add_subsampled_alpha}}
