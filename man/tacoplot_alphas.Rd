@@ -10,6 +10,7 @@ tacoplot_alphas(
   group_by,
   compare_means = FALSE,
   keep_empty_samples = FALSE,
+  subsample_metric = NULL,
   ...
 )
 }
@@ -21,6 +22,8 @@ tacoplot_alphas(
 \item{compare_means}{Add the result of a statistical test to the plot, comparing the means of the groups. Default is FALSE.}
 
 \item{keep_empty_samples}{Whether to discard samples not containing any counts or not. By default these are removed.}
+
+\item{subsample_metric}{if the alpha diversities are precalculated with \code{add_subsampled_alpha()}, choose here "mean" or "median" to represent the alpha diversity.}
 
 \item{...}{
   Arguments passed on to \code{\link[ggpubr:stat_compare_means]{ggpubr::stat_compare_means}}

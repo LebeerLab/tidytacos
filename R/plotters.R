@@ -507,14 +507,15 @@ tacoplot_euler <- function(ta, condition, shape = "ellipse", ...) {
 #' @param group_by The name of a variable in the samples table on which to group the samples.
 #' @param compare_means Add the result of a statistical test to the plot, comparing the means of the groups. Default is FALSE.
 #' @param keep_empty_samples Whether to discard samples not containing any counts or not. By default these are removed.
+#' @param subsample_metric if the alpha diversities are precalculated with `add_subsampled_alpha()`, choose here "mean" or "median" to represent the alpha diversity.
 #' @inheritDotParams ggpubr::stat_compare_means
 #' @export
-tacoplot_alphas <- function(ta, group_by, compare_means = FALSE, keep_empty_samples=FALSE, ...) {
+tacoplot_alphas <- function(ta, group_by, compare_means = FALSE, keep_empty_samples=FALSE, subsample_metric=NULL, ...) {
   value <- NULL
 
   group_by <- rlang::enquo(group_by)
   if (rlang::quo_is_missing(group_by)) {
-    stop("Argument group_by missing. Please supply the name of a categorical value, to be used as the grouping variable.")
+    stop("Argument group_by missing. Please supply the name of a categorical value, to be used as the grouping variable or specify NULL if you just want to plot the alpha values of all samples.")
   }
   ta_tmp <- ta
   clean_alpha_metrics <- sapply(alpha_metrics, tolower, USE.NAMES = F)
@@ -524,9 +525,20 @@ tacoplot_alphas <- function(ta, group_by, compare_means = FALSE, keep_empty_samp
     ta_tmp$samples$all.samples <- "all.samples"
   }
 
-  if (!any(clean_alpha_metrics %in% colnames(ta$samples))) {
+  if (!is.null(subsample_metric)){
+    if (!subsample_metric %in% c("mean","median")){
+      stop("'subsample_metric' can only be 'mean' or 'median'")
+    }
+    if (!any(colnames(ta_tmp$samples)%>% startsWith(paste0(subsample_metric,"_")))) {
+      stop("Please first run add_alphas using subsample=TRUE")
+    }
+    ta_tmp$samples <- ta_tmp$samples %>% rename_with(~str_remove(., paste0(subsample_metric,"_"))) 
+  }
+
+  if (!any(clean_alpha_metrics %in% colnames(ta_tmp$samples))) {
     ta_tmp <- add_alphas(ta_tmp, keep_empty_samples=keep_empty_samples)
   }
+
   plt <- ta_tmp$samples %>%
     pivot_longer(any_of(clean_alpha_metrics)) %>%
     ggplot(aes(x = !!group_by, y = value, fill = !!group_by)) +
