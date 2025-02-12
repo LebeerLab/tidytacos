@@ -209,6 +209,10 @@ add_alpha <- function(ta, method = "invsimpson", keep_empty_samples = FALSE, sub
 
   if (method == "pielou") diversities <- calculate_alpha_pielou(ta)
 
+  if (length(ta$samples$sample_id) == 1) {
+    diversities$sample_id <- ta$samples$sample_id
+  }
+
   # add diversity measure to sample table
   ta$samples <- left_join(ta$samples, diversities, by = "sample_id")
 
@@ -304,6 +308,12 @@ add_subsampled_alpha <- function(ta, min_lib_size=NULL, method="shannon", ittera
   } else {
     n_alphas$sample_id <- names(alpha_res[[1]])
   }
+
+  # if single sample remains no sample_id
+  if (nrow(n_alphas) == 1) {
+    n_alphas$sample_id <- ta_counts$samples$sample_id
+  }
+
   n_alphas <- n_alphas %>%
     rowwise(sample_id) %>% 
     dplyr::mutate(
