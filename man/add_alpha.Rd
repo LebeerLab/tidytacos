@@ -4,7 +4,13 @@
 \alias{add_alpha}
 \title{Add alpha diversity measure}
 \usage{
-add_alpha(ta, method = "invsimpson", keep_empty_samples = FALSE)
+add_alpha(
+  ta,
+  method = "invsimpson",
+  keep_empty_samples = FALSE,
+  subsample = FALSE,
+  ...
+)
 }
 \arguments{
 \item{ta}{A tidytacos object.}
@@ -13,6 +19,18 @@ add_alpha(ta, method = "invsimpson", keep_empty_samples = FALSE)
 see \code{\link[vegan:diversity]{vegan::diversity()}} for further information on these.}
 
 \item{keep_empty_samples}{Whether to keep empty samples or not.}
+
+\item{subsample}{Wether to use subsampling to be able to compare samples of varying sequencing depths.
+\href{https://journals.asm.org/doi/10.1128/msphere.00355-23}{Schloss et al., 2023}}
+
+\item{...}{
+  Arguments passed on to \code{\link[=add_subsampled_alpha]{add_subsampled_alpha}}
+  \describe{
+    \item{\code{min_lib_size}}{the minimum lib size samples need to have.
+Samples with lower lib sizes will be discarded and samples with a higher readcount will be itteratively
+subsampled to this readcount to allow for a fair comparison across read_depths.}
+    \item{\code{itterations}}{the amount of itterations for subsampling. Please report this number in your research.}
+  }}
 }
 \value{
 A tidytacos object with the alpha diversity measure added.
@@ -63,6 +81,7 @@ Other sample-modifiers:
 \code{\link{add_ord}()},
 \code{\link{add_sample_clustered}()},
 \code{\link{add_spike_ratio}()},
+\code{\link{add_subsampled_alpha}()},
 \code{\link{add_total_absolute_abundance}()},
 \code{\link{add_total_count}()},
 \code{\link{add_total_density}()},
@@ -70,7 +89,8 @@ Other sample-modifiers:
 
 Other diversity-metrics: 
 \code{\link{add_alphas}()},
-\code{\link{add_ord}()}
+\code{\link{add_ord}()},
+\code{\link{add_subsampled_alpha}()}
 }
 \concept{diversity-metrics}
 \concept{sample-modifiers}

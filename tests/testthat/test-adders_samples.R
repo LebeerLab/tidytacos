@@ -41,6 +41,13 @@ test_that("Can add alpha diversity metrics", {
                     c(0.996,0.990), tolerance=1e-3, ignore_attr=TRUE)
 })
 
+test_that("Can add alpha diversities with subsampling", {
+    ta_a_sub <- test_data %>%
+      add_alphas(subsample=TRUE, min_lib_size=1000)
+    expect_equal(ta_a_sub$samples$mean_shannon, .690, tolerance=.001)
+    expect_equal(ta_a_sub$samples$median_obs, 2, tolerance=.001)
+})
+
 test_that("Can add alpha diversity of a single sample", {
  
   single_sample <- test_data %>%
@@ -50,7 +57,6 @@ test_that("Can add alpha diversity of a single sample", {
     samples() %>% 
     pull("invsimpson")
   expect_equal(inv_simp, 1.99, tolerance = .01)
-
 })
 
 test_that("Can add spike-ratio", {

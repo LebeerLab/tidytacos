@@ -66,6 +66,7 @@ Other sample-modifiers:
 \code{\link{add_metadata}()},
 \code{\link{add_sample_clustered}()},
 \code{\link{add_spike_ratio}()},
+\code{\link{add_subsampled_alpha}()},
 \code{\link{add_total_absolute_abundance}()},
 \code{\link{add_total_count}()},
 \code{\link{add_total_density}()},
@@ -73,7 +74,8 @@ Other sample-modifiers:
 
 Other diversity-metrics: 
 \code{\link{add_alpha}()},
-\code{\link{add_alphas}()}
+\code{\link{add_alphas}()},
+\code{\link{add_subsampled_alpha}()}
 }
 \concept{diversity-metrics}
 \concept{sample-modifiers}

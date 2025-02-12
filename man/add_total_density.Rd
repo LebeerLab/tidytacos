@@ -61,6 +61,7 @@ Other sample-modifiers:
 \code{\link{add_ord}()},
 \code{\link{add_sample_clustered}()},
 \code{\link{add_spike_ratio}()},
+\code{\link{add_subsampled_alpha}()},
 \code{\link{add_total_absolute_abundance}()},
 \code{\link{add_total_count}()},
 \code{\link{cluster_samples}()}

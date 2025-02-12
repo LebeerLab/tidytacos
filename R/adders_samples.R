@@ -138,6 +138,9 @@ add_total_count <- function(ta) {
 #' @param method The diversity measure to use,
 #' see [vegan::diversity()] for further information on these.
 #' @param keep_empty_samples Whether to keep empty samples or not. 
+#' @param subsample Wether to use subsampling to be able to compare samples of varying sequencing depths.
+#' [Schloss et al., 2023](https://journals.asm.org/doi/10.1128/msphere.00355-23)
+#' @inheritDotParams add_subsampled_alpha
 #' @return A tidytacos object with the alpha diversity measure added.
 #' @examples
 #' # Initiate counts matrix
@@ -162,7 +165,7 @@ add_total_count <- function(ta) {
 #' @family sample-modifiers
 #' @family diversity-metrics
 #' @export
-add_alpha <- function(ta, method = "invsimpson", keep_empty_samples = FALSE) {
+add_alpha <- function(ta, method = "invsimpson", keep_empty_samples = FALSE, subsample=FALSE, ...) {
   value <- NULL
   vegan_standard_methods <- c("invsimpson", "shannon", "simpson")
   vegan_estimateR_methods <- c("obs", "s.chao1", "s.ace")
@@ -175,6 +178,10 @@ add_alpha <- function(ta, method = "invsimpson", keep_empty_samples = FALSE) {
   if (!method %in% lapply(alpha_metrics, tolower)) {
     stop(paste("Select a method from", paste0(alpha_metrics, collapse = ", ")))
   }
+
+  if (isTRUE(subsample)) {
+    ta %>% add_subsampled_alpha(method=method, ...)
+  } else {
 
   if (method %in% vegan_standard_methods) {
     M <- ta %>% counts_matrix(sample_name = sample_id, taxon_name = taxon_id)
@@ -214,6 +221,8 @@ add_alpha <- function(ta, method = "invsimpson", keep_empty_samples = FALSE) {
   ta
 }
 
+}
+
 #' Add alpha diversity measures
 #'
 #' `add_alpha()` adds selected alpha diversity measures to the sample table of a
@@ -236,11 +245,91 @@ add_alphas <- function(ta, methods = "all", ...) {
   }
 
   for (method in methods) {
-    ta <- add_alpha(ta, method, ...)
+    ta <- add_alpha(ta, method=method, ...)
   }
   ta
 }
+#' Add alpha diversity measures using subsampling
+#'
+#' `add_subsampled_alpha()` adds selected alpha diversity measures to the sample table of a
+#' tidytacos object using an itterative subsampling process.
+#' @param ta a tidytacos object.
+#' @param min_lib_size the minimum lib size samples need to have. 
+#' Samples with lower lib sizes will be discarded and samples with a higher readcount will be itteratively
+#' subsampled to this readcount to allow for a fair comparison across read_depths.
+#' @param itterations the amount of itterations for subsampling. Please report this number in your research.
+#' @param method The diversity measure to use,
+#' see [vegan::diversity()] for further information on these.
+#' @return A tidytacos object with the selected alpha diversity measure added.
+#' @family sample-modifiers
+#' @family diversity-metrics
+#' @export
+add_subsampled_alpha <- function(ta, min_lib_size=NULL, method="shannon", itterations = 100){
 
+  # https://journals.asm.org/doi/10.1128/msphere.00355-23
+  # 1. Select minimum lib size
+  if (is.null(min_lib_size)){
+    stop("Please select a minimum lib size (min amount of reads) with `min_lib_size=` and report this in your research.")
+  }
+  # 2. Discard samples with fewer reads
+  counts_added <- FALSE
+  if ("total_count" %in% colnames(ta$samples)) {
+    ta_counts <- ta
+  } else {
+    ta_counts <- ta %>% add_total_count()
+    counts_added <- TRUE
+  }
+  ta_counts <- ta_counts %>% filter_samples(total_count > min_lib_size)
+  
+  ## Itterative part
+  
+  get_sampled_alpha <- function(ta, which="shannon") {
+    ta %>% 
+    # 3. Subsample the remaining libraries without replacement
+    rarefy(min_lib_size) %>%
+    # 4. Compute desired metric
+    add_alpha(method=which) %>%
+    samples %>%
+    dplyr::pull(which)
+  }
+  # 5. Repeat Steps 3 and 4 for a large number of iterations (typically 100 or 1,000)
+  alpha_res <- replicate(
+    itterations, 
+    get_sampled_alpha(ta_counts, which=method), 
+    simplify=FALSE)
+
+  # 6. Compute summary statistics (eg. mean) using previous values
+  
+  mean_metric <- paste0("mean_", method)
+  median_metric <- paste0("median_", method)
+
+  n_alphas <- alpha_res %>% dplyr::bind_cols(.name_repair = "unique_quiet")
+  if (method %in% c("obs", "s.chao1", "s.ace")) {
+    n_alphas$sample_id <- ta_counts %>% counts_matrix() %>% rownames()
+  } else {
+    n_alphas$sample_id <- names(alpha_res[[1]])
+  }
+
+  # if single sample remains no sample_id
+  if (nrow(n_alphas) == 1) {
+    n_alphas$sample_id <- ta_counts$samples$sample_id
+  }
+
+  n_alphas <- n_alphas %>%
+    rowwise(sample_id) %>% 
+    dplyr::mutate(
+      mean_metric = mean(dplyr::c_across(dplyr::where(is.numeric))),
+      median_metric = median(dplyr::c_across(dplyr::where(is.numeric)))
+    ) %>%
+    select(sample_id, mean_metric, median_metric) %>%
+    stats::setNames(c("sample_id", mean_metric, median_metric))
+
+  ta_counts$samples %>% left_join(n_alphas, by=c("sample_id"="sample_id")) -> ta_counts$samples
+  if (counts_added) {
+    ta_counts %>% select_samples(-total_count) -> ta_counts
+  }
+  ta_counts
+}
 
 calculate_alpha_pielou <- function(ta) {
   M <- ta %>% counts_matrix(sample_name = sample_id, taxon_name = taxon_id)
