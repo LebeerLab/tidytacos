@@ -464,6 +464,35 @@ filter_counts <- function(ta, ...) {
   ta
 }
 
+
+#' Group the samples
+#'
+#' @param ta A tidytacos object.
+#' @param ... Grouping criteria for the samples table.
+#' @return A (named) list of tidytacos object.
+#' @examples
+#'
+#' urt_groups <- urt %>% group_samples(location)
+#' # subset urt to keep only nasopharynx samples
+#' urt_nf <- urt_groups$NF
+#' @export
+group_samples <- function(ta, ...) {
+    gr_names <- ta$samples %>% 
+      dplyr::group_by(...) %>% 
+      dplyr::group_keys()
+    
+
+    sample_groups <- ta$samples %>%
+      dplyr::group_split(...)
+    groups <- lapply(sample_groups, function (x) ta %>% filter_samples(sample_id %in% x$sample_id))
+
+    if (ncol(gr_names) == 1) {
+        names(groups) <- gr_names %>% dplyr::pull()
+    }
+
+    groups
+}
+
 #' Perform a centered log ratio transformation on the readcounts.
 #'
 #' `add_clr_abundance()` calculates the log ration transformed values for each taxon in each sample and adds these data in a new table, clr_counts. Alternatively, using 'overwrite', the clr transformed data can replace the 'counts' column in the count table.
