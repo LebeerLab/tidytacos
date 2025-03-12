@@ -477,20 +477,22 @@ filter_counts <- function(ta, ...) {
 #' urt_nf <- urt_groups$NF
 #' @export
 group_samples <- function(ta, ...) {
-    gr_names <- ta$samples %>% 
-      dplyr::group_by(...) %>% 
+    gr_names <- ta$samples %>%
+      dplyr::group_by(...) %>%
       dplyr::group_keys()
-    
+  
+    gr_cols <- colnames(gr_names)
 
     sample_groups <- ta$samples %>%
       dplyr::group_split(...)
     groups <- lapply(sample_groups, function (x) ta %>% filter_samples(sample_id %in% x$sample_id))
 
-    if (ncol(gr_names) == 1) {
+    if (length(gr_cols) == 1) {
         names(groups) <- gr_names %>% dplyr::pull()
+    } else {
+      names(groups) <- gr_names %>% tidyr::unite(label) %>% pull(label)
     }
-
-    groups
+    new("grouped_taco", tacos=groups, group_cols=gr_cols)
 }
 
 #' Perform a centered log ratio transformation on the readcounts.
