@@ -83,7 +83,7 @@ create_tidytacos <- function(counts_matrix, taxa_are_columns = TRUE) {
     tibble(count = .) %>%
     mutate(sample_id = rep(!!sample_ids, times = !!n_taxa)) %>%
     mutate(taxon_id = rep(!!taxon_ids, each = !!n_samples)) %>%
-    filter(count > 0)
+    filter(count != 0)
 
   ta$samples <-
     counts_matrix %>%
