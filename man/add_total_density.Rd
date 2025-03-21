@@ -57,6 +57,7 @@ data <- data \%>\%
 Other sample-modifiers: 
 \code{\link{add_alpha}()},
 \code{\link{add_alphas}()},
+\code{\link{add_dominant_taxa}()},
 \code{\link{add_metadata}()},
 \code{\link{add_ord}()},
 \code{\link{add_sample_clustered}()},

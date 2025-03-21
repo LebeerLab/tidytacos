@@ -38,6 +38,7 @@ urt_all_alphas <- urt \%>\% add_alphas()
 \seealso{
 Other sample-modifiers: 
 \code{\link{add_alpha}()},
+\code{\link{add_dominant_taxa}()},
 \code{\link{add_metadata}()},
 \code{\link{add_ord}()},
 \code{\link{add_sample_clustered}()},
