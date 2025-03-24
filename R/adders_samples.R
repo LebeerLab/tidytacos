@@ -867,6 +867,53 @@ add_total_density <- function(ta, spike_taxon,
   ta
 }
 
+#' Adds the most dominant taxa in the sample to the sample table
+#' 
+#' `add_dominant_taxa()` adds the most dominant taxa in the sample
+#' above a given relative abundance to the sample table.
+#' Samples that do not have a dominant taxon will have NA in the dominant_taxon column.
+#' @param ta A tidytacos object.
+#' @param threshold_dominance The relative abundance threshold for a taxon to be considered dominant.
+#' @param taxon_name The column name of the taxa table that defines the taxon name.
+#' @return A tidytacos object with the dominant taxa added to the sample table.
+#' @family sample-modifiers
+#' @export
+add_dominant_taxa <- function(ta, threshold_dominance = 0.5, taxon_name=taxon_id) {
+  
+  taxon_name <- rlang::enquo(taxon_name)
+  if (!rlang::quo_name(taxon_name) %in% names(ta$taxa)) {
+
+    if (rlang::as_label(taxon_name) == "taxon_name") {
+      ta <- ta %>% add_taxon_name()
+    } else {
+
+      stop(paste(
+        "Taxa table requires a column",
+        rlang::quo_name(taxon_name),
+        "that defines the taxon name."
+      ))
+    }
+  }
+
+  dom_tax <- ta %>%
+  add_rel_abundance() %>%
+  counts() %>%
+  left_join(ta$taxa) %>%
+  filter(rel_abundance == max(rel_abundance), .by = sample_id) %>%
+  select(c(sample_id,rel_abundance,!!taxon_name)) %>%
+  mutate(
+      dominant_taxon = 
+      ifelse( 
+        rel_abundance >= threshold_dominance, 
+        !!taxon_name, 
+        NA_character_)
+    ) %>% 
+    select(sample_id, dominant_taxon)
+
+    ta$samples <- ta$samples %>% left_join(dom_tax, by = "sample_id")
+    ta
+}
+
 #' Perform anosim test
 #'
 #' `perform_anosim()` performs the anosim test for statistical difference
