@@ -880,7 +880,14 @@ add_total_density <- function(ta, spike_taxon,
 #' @export
 add_dominant_taxa <- function(ta, threshold_dominance = 0.5, taxon_name=taxon_id) {
   
-  taxon_name <- rlang::enquo(taxon_name)
+  tryCatch(
+    expr = {
+      taxon_name <- sym(taxon_name)
+    }, error = function(e) {
+      taxon_name <<- enquo(taxon_name)
+    }, finally = {}
+  )
+  
   if (!rlang::quo_name(taxon_name) %in% names(ta$taxa)) {
 
     if (rlang::as_label(taxon_name) == "taxon_name") {
@@ -895,10 +902,14 @@ add_dominant_taxa <- function(ta, threshold_dominance = 0.5, taxon_name=taxon_id
     }
   }
 
+  if ("dominant_taxon" %in% names(ta$samples)) {
+    ta <- ta %>% select_samples(-dominant_taxon)
+  }
+
   dom_tax <- ta %>%
   add_rel_abundance() %>%
   counts() %>%
-  left_join(ta$taxa) %>%
+  left_join(ta$taxa, by=c("taxon_id"="taxon_id")) %>%
   filter(rel_abundance == max(rel_abundance), .by = sample_id) %>%
   select(c(sample_id,rel_abundance,!!taxon_name)) %>%
   mutate(
