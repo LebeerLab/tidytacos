@@ -199,7 +199,7 @@ add_taxon_name <- function(
 #'
 #' @param ta A tidytacos object.
 #' @param method The method by which to arrange the taxon names. Currently only
-#'   mean_rel_abundance.
+#'   mean_rel_abundance or dominance.
 #' @param n An integer denoting the amount of most abundant taxa to display.
 #'   Capacity at 12.
 #' @param samples An optional vector of sample_id's of interest.
@@ -227,7 +227,7 @@ add_taxon_name_color <- function(
   taxon_name_tmp <- ! "taxon_name" %in% names(ta$taxa)
   if (taxon_name_tmp) ta <- add_taxon_name(ta)
 
-  if (method == "mean_rel_abundance") {
+  if (method %in% c("mean_rel_abundance","dominance")) {
 
     # if mean_rel_abundance not present: add temporarily
     mean_rel_ab_tmp <- ! "mean_rel_abundance" %in% names(ta$taxa)
@@ -236,10 +236,8 @@ add_taxon_name_color <- function(
     ta <- mutate_taxa(ta, arrange_by_me = mean_rel_abundance)
 
   } else {
-
     # throw error if method unknown
     stop("method unknown")
-
   }
 
   ta_subset <- ta
@@ -252,6 +250,24 @@ add_taxon_name_color <- function(
   # take subset of taxa if requested
   if (! is.null(taxa)) {
     ta_subset <- filter_taxa(ta_subset, taxon_id %in% !! taxa)
+  }
+
+  if (method == "dominance") {
+    # if dominant taxa not present: add temporarily
+    if (!"dominant_taxon" %in% names(ta_subset$samples)) {
+      ta_subset <- add_dominant_taxa(ta_subset)
+    } 
+    dom_taxa <- ta_subset$samples$dominant_taxon %>%
+      na.omit() %>%
+      unique()
+
+    for (col in c("taxon_id", ta_subset %>% rank_names())) {
+      if (all(dom_taxa %in% ta_subset$taxa[[col]])) {
+        ta_subset <- filter_taxa(ta_subset, .data[[col]] %in% dom_taxa)
+        break
+      }
+    }
+      
   }
 
   # extract taxon names to visualize, in order

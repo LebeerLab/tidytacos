@@ -448,6 +448,7 @@ perform_umap <- function(ta, dist_matrix, dims = 2, ...) {
   ord
 }
 
+
 #' Calculate unifrac distance matrix from a tidytacos object with a rooted tree
 #' @param ta A tidytacos object with a rooted tree in the "tree" slot.
 #' @inheritDotParams phyloseq::UniFrac
@@ -919,9 +920,13 @@ add_dominant_taxa <- function(ta, threshold_dominance = 0.5, taxon_name=taxon_id
         !!taxon_name, 
         NA_character_)
     ) %>% 
-    select(sample_id, dominant_taxon)
+    select(sample_id, dominant_taxon) %>%
+    # deduplicate in case of multiple taxa with same rel_abundance
+    group_by(sample_id) %>% 
+    filter(row_number() == 1)
 
-    ta$samples <- ta$samples %>% left_join(dom_tax, by = "sample_id")
+    ta$samples <- ta$samples %>% 
+    left_join(dom_tax, by = "sample_id")
     ta
 }
 

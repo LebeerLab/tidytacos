@@ -17,7 +17,7 @@ add_taxon_name_color(
 \item{ta}{A tidytacos object.}
 
 \item{method}{The method by which to arrange the taxon names. Currently only
-mean_rel_abundance.}
+mean_rel_abundance or dominance.}
 
 \item{n}{An integer denoting the amount of most abundant taxa to display.
 Capacity at 12.}

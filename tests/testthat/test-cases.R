@@ -30,3 +30,16 @@ test_that("Infer rank names bug (#57)", {
     t <- t %>% aggregate_taxa(rank="phylum")
     expect_equal(nrow(t$taxa), 1)
 })
+
+test_that("add_dominant_taxa does not add extra samples", {
+    samples_dom <- leaf %>% 
+    add_dominant_taxa(threshold_dominance = .3) %>%
+    samples() %>%
+    nrow()
+
+    samples_pre <- leaf %>%
+    samples() %>%
+    nrow()
+    
+    expect_equal(samples_dom,samples_pre)
+})
