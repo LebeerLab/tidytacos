@@ -50,7 +50,7 @@ remove_empty_samples <- function(ta){
 #' @export
 remove_duplicate_samples <- function(ta){
   distinct_samples <- ta$samples %>%
-    dplyr::distinct_at(vars(-sample_id)) %>%
+    dplyr::distinct_at(vars(-sample_id), .keep_all = TRUE) %>%
     dplyr::pull(sample_id)
 
   ta %>% filter_samples(sample_id %in% distinct_samples)
