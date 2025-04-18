@@ -611,7 +611,7 @@ tacoplot_prevalences <- function(ta, condition, cutoff = 0.1, fisher = T, adjp_m
     row.names(prevalences.M) <- prevalences$taxon_name
   }
 
-  prevalences.M <- prevalences.M[prevalences.M %>% rowSums() > cutoff, ]
+  prevalences.M <- prevalences.M[prevalences.M %>% rowSums() / ncol(prevalences.M) > cutoff, ]
 
   pheatmap::pheatmap(prevalences.M, ...)
 }
