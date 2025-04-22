@@ -876,7 +876,8 @@ add_total_density <- function(ta, spike_taxon,
 #' @param ta A tidytacos object.
 #' @param threshold_dominance The relative abundance threshold for a taxon to be considered dominant.
 #' @param taxon_name The column name of the taxa table that defines the taxon name.
-#' @return A tidytacos object with the dominant taxa added to the sample table.
+#' @return A tidytacos object with the dominant taxa added to the sample table and the Berger-Parker index of the most dominant taxon. 
+#' If the B-P index is lower than the threshold NA is returned.
 #' @family sample-modifiers
 #' @export
 add_dominant_taxa <- function(ta, threshold_dominance = 0.5, taxon_name=taxon_id) {
@@ -916,18 +917,27 @@ add_dominant_taxa <- function(ta, threshold_dominance = 0.5, taxon_name=taxon_id
   mutate(
       dominant_taxon = 
       ifelse( 
-        rel_abundance >= threshold_dominance, 
+        rel_abundance >= threshold_dominance,
         !!taxon_name, 
         NA_character_)
     ) %>% 
-    select(sample_id, dominant_taxon) %>%
-    # deduplicate in case of multiple taxa with same rel_abundance
-    group_by(sample_id) %>% 
-    filter(row_number() == 1)
+  select(sample_id, dominant_taxon) %>%
+  # deduplicate in case of multiple taxa with same rel_abundance
+  group_by(sample_id) %>% 
+  filter(row_number() == 1)
 
-    ta$samples <- ta$samples %>% 
+  ta$samples <- ta$samples %>%
     left_join(dom_tax, by = "sample_id")
-    ta
+
+  # add Berger-Parker index
+  bp_counts <- ta$counts %>%
+    group_by(sample_id) %>%
+    summarize(berger_parker = max(count) / sum(count))
+
+  ta$samples <- ta$samples %>%
+    left_join(bp_counts, by = "sample_id")
+
+  ta
 }
 
 #' Perform anosim test

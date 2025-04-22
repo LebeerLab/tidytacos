@@ -14,7 +14,8 @@ add_dominant_taxa(ta, threshold_dominance = 0.5, taxon_name = taxon_id)
 \item{taxon_name}{The column name of the taxa table that defines the taxon name.}
 }
 \value{
-A tidytacos object with the dominant taxa added to the sample table.
+A tidytacos object with the dominant taxa added to the sample table and the Berger-Parker index of the most dominant taxon.
+If the B-P index is lower than the threshold NA is returned.
 }
 \description{
 \code{add_dominant_taxa()} adds the most dominant taxa in the sample
