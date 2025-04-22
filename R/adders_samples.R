@@ -209,6 +209,12 @@ add_alpha <- function(ta, method = "invsimpson", keep_empty_samples = FALSE, sub
 
   if (method == "pielou") diversities <- calculate_alpha_pielou(ta)
 
+  if (method == "berger_parker") {
+    diversities <- add_dominant_taxa(ta) %>%
+      samples() %>%
+      select(sample_id, berger_parker)
+  }
+
   # if calculating for a single sample, sample_id missing at this point:
   if (length(ta$samples$sample_id) == 1) {
     diversities$sample_id <- ta$samples$sample_id
