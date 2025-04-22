@@ -205,6 +205,7 @@ add_taxon_name <- function(
 #' @param samples An optional vector of sample_id's of interest.
 #' @param taxa An optional vector of taxon_id's of interest.
 #' @param rank An optional rank to aggregate taxa on.
+#' @param threshold_dominance An optional threshold for the dominance method.
 #' @return A tidytacos object.
 #' @family taxa-modifiers
 #' @examples
@@ -213,10 +214,11 @@ add_taxon_name <- function(
 #' @export
 add_taxon_name_color <- function(
   ta, method = "mean_rel_abundance", n = 12, samples = NULL, taxa = NULL,
-  rank = NULL
+  rank = NULL, threshold_dominance = NULL
   ) {
 
     arrange_by_me <- NULL
+    valid_methods <- c("mean_rel_abundance", "dominance")
 
   # aggregate rank if asked for
   if(! is.null(rank)) {
@@ -227,7 +229,7 @@ add_taxon_name_color <- function(
   taxon_name_tmp <- ! "taxon_name" %in% names(ta$taxa)
   if (taxon_name_tmp) ta <- add_taxon_name(ta)
 
-  if (method %in% c("mean_rel_abundance","dominance")) {
+  if (method %in% valid_methods) {
 
     # if mean_rel_abundance not present: add temporarily
     mean_rel_ab_tmp <- ! "mean_rel_abundance" %in% names(ta$taxa)
@@ -237,7 +239,8 @@ add_taxon_name_color <- function(
 
   } else {
     # throw error if method unknown
-    stop("method unknown")
+    stop("method unknown, please choose from: ",
+         paste(valid_methods, collapse = ", "))
   }
 
   ta_subset <- ta
@@ -252,10 +255,18 @@ add_taxon_name_color <- function(
     ta_subset <- filter_taxa(ta_subset, taxon_id %in% !! taxa)
   }
 
+  if (! is.null(threshold_dominance)) {
+    warning("threshold_dominance is set, using dominance method")
+    method <- "dominance"
+  } else {
+    threshold_dominance <- .5
+  }
+
   if (method == "dominance") {
     # if dominant taxa not present: add temporarily
     if (!"dominant_taxon" %in% names(ta_subset$samples)) {
-      ta_subset <- add_dominant_taxa(ta_subset)
+      ta_subset <- add_dominant_taxa(ta_subset,
+        threshold_dominance = threshold_dominance)
     } 
     dom_taxa <- ta_subset$samples$dominant_taxon %>%
       na.omit() %>%

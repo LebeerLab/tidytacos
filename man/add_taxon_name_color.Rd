@@ -10,7 +10,8 @@ add_taxon_name_color(
   n = 12,
   samples = NULL,
   taxa = NULL,
-  rank = NULL
+  rank = NULL,
+  threshold_dominance = NULL
 )
 }
 \arguments{
@@ -27,6 +28,8 @@ Capacity at 12.}
 \item{taxa}{An optional vector of taxon_id's of interest.}
 
 \item{rank}{An optional rank to aggregate taxa on.}
+
+\item{threshold_dominance}{An optional threshold for the dominance method.}
 }
 \value{
 A tidytacos object.
