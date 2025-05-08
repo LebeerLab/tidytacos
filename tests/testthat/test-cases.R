@@ -43,3 +43,12 @@ test_that("add_dominant_taxa does not add extra samples", {
     
     expect_equal(samples_dom,samples_pre)
 })
+
+test_that("Can calculate alpha diversity (obs) for empty samples", {
+    observed_alphas <- urt %>%
+      add_alpha("obs", keep_empty_samples = TRUE) %>%
+      samples() %>%
+      pull(obs)
+    # 3 empty samples
+    expect_equal(sum(observed_alphas == 0), 3)
+})

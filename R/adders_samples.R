@@ -184,13 +184,15 @@ add_alpha <- function(ta, method = "invsimpson", keep_empty_samples = FALSE, sub
   } else {
 
   if (method %in% vegan_standard_methods) {
-    M <- ta %>% counts_matrix(sample_name = sample_id, taxon_name = taxon_id)
+    M <- ta %>% counts_matrix(sample_name = sample_id, 
+      taxon_name = taxon_id, keep_empty_samples = keep_empty_samples)
     D <- vegan::diversity(M, index = method)
     diversities <- tibble::tibble(sample_id = names(D), !!method := D)
   }
 
   if (method %in% vegan_estimateR_methods) {
-    M <- ta %>% counts_matrix(sample_name = sample_id, taxon_name = taxon_id)
+    M <- ta %>% counts_matrix(sample_name = sample_id, 
+      taxon_name = taxon_id, keep_empty_samples = keep_empty_samples)
     D <- vegan::estimateR(M)
     selection <- grepl(method, rownames(D), ignore.case = TRUE)
     selection_names <- rownames(D)[selection]
@@ -218,6 +220,11 @@ add_alpha <- function(ta, method = "invsimpson", keep_empty_samples = FALSE, sub
   # if calculating for a single sample, sample_id missing at this point:
   if (length(ta$samples$sample_id) == 1) {
     diversities$sample_id <- ta$samples$sample_id
+  }
+
+  # observed species is NA for empty samples
+  if (method=="obs") {
+    diversities$obs[is.na(diversities$obs)] <- 0
   }
 
   # add diversity measure to sample table
