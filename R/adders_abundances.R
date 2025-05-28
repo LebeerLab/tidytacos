@@ -88,7 +88,7 @@ add_absolute_abundance <- function(ta, spike_taxon, spike_added = spike_added) {
   total_absolute_abundance_tmp <-
     !"total_absolute_abundance" %in% names(ta$samples)
   if (total_absolute_abundance_tmp) ta <-
-    add_total_absolute_abundance(ta, spike_taxon)
+    add_total_absolute_abundance(ta, spike_taxon, spike_added=spike_added)
 
   # make counts table with total abundances
   tot_abs_abundance <- ta$samples %>%

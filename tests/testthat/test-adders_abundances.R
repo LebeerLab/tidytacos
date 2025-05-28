@@ -92,3 +92,13 @@ test_that("Show warning if samples miss spike",{
    testthat::expect_contains(w, 
    "Sample without spike taxon detected: s1 \nSample without spike taxon detected: s2 \n")
 })
+
+
+test_that("Can add total_absolute_abundance", {
+   tdata <- data %>%
+   mutate_samples(weird_name = spike_added) %>%
+   add_total_absolute_abundance(spike_taxon = "t3", spike_added=weird_name)
+
+   testthat::expect_equal(tdata$samples$total_absolute_abundance, c(20000, 10600))
+   
+})
