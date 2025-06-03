@@ -8,7 +8,8 @@ counts_matrix(
   ta,
   sample_name = sample_id,
   taxon_name = taxon_id,
-  value = count
+  value = count,
+  keep_empty_samples = FALSE
 )
 }
 \arguments{
@@ -21,6 +22,8 @@ names (unquoted).}
 column names (unquoted).}
 
 \item{value}{The name of the variable in the counts table to use as count}
+
+\item{keep_empty_samples}{Should empty samples be included in the matrix?}
 }
 \value{
 A matrix with count values.
