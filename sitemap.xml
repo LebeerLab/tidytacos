@@ -15,6 +15,7 @@
 <url><loc>https://lebeerlab.github.io/tidytacos/reference/add_codifab.html</loc></url>
 <url><loc>https://lebeerlab.github.io/tidytacos/reference/add_copca.html</loc></url>
 <url><loc>https://lebeerlab.github.io/tidytacos/reference/add_density.html</loc></url>
+<url><loc>https://lebeerlab.github.io/tidytacos/reference/add_dominant_taxa.html</loc></url>
 <url><loc>https://lebeerlab.github.io/tidytacos/reference/add_eigentaxa.html</loc></url>
 <url><loc>https://lebeerlab.github.io/tidytacos/reference/add_jervis_bardy.html</loc></url>
 <url><loc>https://lebeerlab.github.io/tidytacos/reference/add_logratio.html</loc></url>
@@ -25,6 +26,7 @@
 <url><loc>https://lebeerlab.github.io/tidytacos/reference/add_rel_abundance.html</loc></url>
 <url><loc>https://lebeerlab.github.io/tidytacos/reference/add_sample_clustered.html</loc></url>
 <url><loc>https://lebeerlab.github.io/tidytacos/reference/add_spike_ratio.html</loc></url>
+<url><loc>https://lebeerlab.github.io/tidytacos/reference/add_subsampled_alpha.html</loc></url>
 <url><loc>https://lebeerlab.github.io/tidytacos/reference/add_taxon_name.html</loc></url>
 <url><loc>https://lebeerlab.github.io/tidytacos/reference/add_taxon_name_color.html</loc></url>
 <url><loc>https://lebeerlab.github.io/tidytacos/reference/add_total_absolute_abundance.html</loc></url>
@@ -55,6 +57,8 @@
 <url><loc>https://lebeerlab.github.io/tidytacos/reference/filter_taxa.html</loc></url>
 <url><loc>https://lebeerlab.github.io/tidytacos/reference/from_dada.html</loc></url>
 <url><loc>https://lebeerlab.github.io/tidytacos/reference/from_phyloseq.html</loc></url>
+<url><loc>https://lebeerlab.github.io/tidytacos/reference/group_samples.html</loc></url>
+<url><loc>https://lebeerlab.github.io/tidytacos/reference/grouped_taco.html</loc></url>
 <url><loc>https://lebeerlab.github.io/tidytacos/reference/index.html</loc></url>
 <url><loc>https://lebeerlab.github.io/tidytacos/reference/ldaplot_alignment.html</loc></url>
 <url><loc>https://lebeerlab.github.io/tidytacos/reference/ldaplot_beta.html</loc></url>

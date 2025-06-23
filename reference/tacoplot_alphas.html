@@ -30,7 +30,7 @@ If no alpha metrics are present, all available ones are added."><meta property="
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Return a boxplot of every alpha metric per group in the samples table of a tidytaco object. If no alpha metrics are present, all available ones are added.</h1>
-      <small class="dont-index">Source: <a href="https://github.com/LebeerLab/tidytacos/blob/v1.0.7/R/plotters.R" class="external-link"><code>R/plotters.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/LebeerLab/tidytacos/blob/master/R/plotters.R" class="external-link"><code>R/plotters.R</code></a></small>
       <div class="d-none name"><code>tacoplot_alphas.Rd</code></div>
     </div>
 
@@ -46,6 +46,7 @@ If no alpha metrics are present, all available ones are added.</p>
 <span>  <span class="va">group_by</span>,</span>
 <span>  compare_means <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  keep_empty_samples <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  subsample_metric <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -68,6 +69,10 @@ If no alpha metrics are present, all available ones are added.</p>
 
 <dt id="arg-keep-empty-samples">keep_empty_samples<a class="anchor" aria-label="anchor" href="#arg-keep-empty-samples"></a></dt>
 <dd><p>Whether to discard samples not containing any counts or not. By default these are removed.</p></dd>
+
+
+<dt id="arg-subsample-metric">subsample_metric<a class="anchor" aria-label="anchor" href="#arg-subsample-metric"></a></dt>
+<dd><p>if the alpha diversities are precalculated with <code><a href="add_subsampled_alpha.html">add_subsampled_alpha()</a></code>, choose here "mean" or "median" to represent the alpha diversity.</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
@@ -216,7 +221,7 @@ the default plot specification, e.g. <code><a href="https://ggplot2.tidyverse.or
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.2.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
 </div>
 
     </footer></div>
