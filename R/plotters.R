@@ -5,17 +5,13 @@
 # @param ta a tidytacos object
 # @param n an integer
 #
-prepare_for_bp <- function(ta, n = 12, extended = TRUE, order_by = NULL) {
+prepare_for_bp <- function(ta, n = 12, extended = TRUE, order_by = NULL, aggregate=TRUE) {
   # custom order
   if (!is.null(order_by)) {
     ta$samples <- ta$samples %>% arrange(order_by)
     ta$samples$sample_clustered <- as.factor(ta$samples[[order_by]])
   }
 
-  # add sample_clustered if not present
-  if (!"sample_clustered" %in% names(ta$samples)) {
-    ta <- add_sample_clustered(ta)
-  }
 
   # add taxon_name_color if not present
   if (!"taxon_name_color" %in% names(ta$taxa)) {
@@ -27,9 +23,22 @@ prepare_for_bp <- function(ta, n = 12, extended = TRUE, order_by = NULL) {
     ta <- add_rel_abundance(ta)
   }
 
+if (aggregate){
+      # aggregate taxa by taxon_name_color
+      # to prevent many streaks for the 'Other' taxa
+      ta <- ta %>%
+      set_rank_names("taxon_name_color") %>%
+      aggregate_taxa(rank="taxon_name_color")
+    } 
+ 
+  # add sample_clustered if not present
+  if (!"sample_clustered" %in% names(ta$samples)) {
+    ta <- add_sample_clustered(ta)
+  }
+
   # optional extension (not used by sample bp)
   if (extended) {
-    ta <- ta %>% everything()
+       ta <- ta %>% everything()
   }
   ta
 }
@@ -157,7 +166,7 @@ tacoplot_stack_ly <- function(ta, n = 12, x = sample_clustered, order_by = NULL)
   plot <- rlang::eval_tidy(rlang::quo_squash(
     quo({
       # make plot and return
-      prepare_for_bp(ta, n, extended = T, order_by = order_by) %>%
+      prepare_for_bp(ta, n, extended = T, order_by = order_by, aggregate = FALSE) %>%
         plotly::plot_ly(
           x = ~ forcats::fct_reorder(!!x, as.integer(sample_clustered)),
           y = ~rel_abundance,
