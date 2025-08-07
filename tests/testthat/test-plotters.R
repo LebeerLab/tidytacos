@@ -32,7 +32,22 @@ test_that("Barplot raises warning when aggregating samples", {
 })
 
 test_that("Barplot raises error when providing non-existant label", {
-    expect_error(urt %>% tacoplot_stack(x=imagined))
+    expect_error(
+        urt %>%
+        tacoplot_stack(x = imagined)
+    )
+})
+
+test_that("Pieplot can visualize 1 sample", {
+    expect_snapshot(
+    urt %>%
+    filter_samples(sample_id == "s1") %>%
+    tacoplot_stack(pie = TRUE)
+    )
+})
+
+test_that("Pieplot raises error when visualizing more than 1 sample", {
+    expect_error(urt %>% tacoplot_stack(pie=TRUE))
 })
 
 test_that("Can run tacoplot zoom on a sample",{

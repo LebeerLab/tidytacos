@@ -108,7 +108,7 @@ tacoplot_stack <- function(ta, n = 12, x = sample_clustered, pie = FALSE, order_
     warning(warning_message_aggregate)
   }
 
-  if (pie & length(ta$samples) > 1) {
+  if (pie & length(ta$samples$sample_id) > 1) {
     stop(error_message_pie)
   }
 
