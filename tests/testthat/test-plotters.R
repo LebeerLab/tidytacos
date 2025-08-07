@@ -39,11 +39,12 @@ test_that("Barplot raises error when providing non-existant label", {
 })
 
 test_that("Pieplot can visualize 1 sample", {
-    expect_snapshot(
-    urt %>%
+    
+    pp <- urt %>%
     filter_samples(sample_id == "s1") %>%
     tacoplot_stack(pie = TRUE)
-    )
+    skip_if_not_installed("vdiffr")
+    vdiffr::expect_doppelganger("Pieplot", pp)
 })
 
 test_that("Pieplot raises error when visualizing more than 1 sample", {
