@@ -34,8 +34,9 @@ test_that("Can convert abundances to abundances matrix", {
 })
 
 test_that("Can merge two tidytacos", {
+  expect_warning(
   ta_merged <- merge_tidytacos(urt, urt)
-  
+  )
   final_sample_id <- "s434"
   expect_equal(
     ta_merged$samples$sample_id[length(ta_merged$samples$sample_id)],
