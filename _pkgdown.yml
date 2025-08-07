@@ -42,6 +42,8 @@ reference:
       - filter_taxa
       - starts_with("aggregate")
       - everything
+      - group_samples
+      - grouped_taco
   - title: "Relative abundance, prevalence and other count computations"
     desc: >
       Functions for transforming the count table to different matrix representations or pairwise comparison.
@@ -61,7 +63,8 @@ reference:
       - add_prevalence
       - counts_tidy
       - starts_with("add_total")
-      
+      - add_dominant_taxa
+  
   - title: "Plotting"
     desc: >
       Functions for various plots that can be made with the data in a tidytacos object.
@@ -88,6 +91,7 @@ reference:
     contents:
       - add_alpha
       - add_alphas
+      - add_subsampled_alpha
       - betas
       - add_ord
       - add_copca
