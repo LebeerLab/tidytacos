@@ -145,6 +145,8 @@ add_taxon_name <- function(
   rank_names <- rank_names(ta)
   if (include_species) {
     rank_names <- append(rank_names, "species", after=length(rank_names))
+  } else {
+    rank_names <- rank_names[rank_names != "species"]
   }
 
   if (length(rank_names) == 0) {
