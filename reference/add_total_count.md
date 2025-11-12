@@ -1,0 +1,58 @@
+# Add total read count per sample
+
+`add_total_count()` adds the total read count per sample to the sample
+table of a tidytacos object under the variable name total_count.
+
+## Usage
+
+``` r
+add_total_count(ta)
+```
+
+## Arguments
+
+- ta:
+
+  A tidytacos object.
+
+## Value
+
+A tidytacos object with the total read count per sample added.
+
+A tidytacos object with the total read count per sample added.
+
+## See also
+
+Other sample-modifiers:
+[`add_alpha()`](https://lebeerlab.github.io/tidytacos/reference/add_alpha.md),
+[`add_alphas()`](https://lebeerlab.github.io/tidytacos/reference/add_alphas.md),
+[`add_dominant_taxa()`](https://lebeerlab.github.io/tidytacos/reference/add_dominant_taxa.md),
+[`add_metadata()`](https://lebeerlab.github.io/tidytacos/reference/add_metadata.md),
+[`add_ord()`](https://lebeerlab.github.io/tidytacos/reference/add_ord.md),
+[`add_sample_clustered()`](https://lebeerlab.github.io/tidytacos/reference/add_sample_clustered.md),
+[`add_spike_ratio()`](https://lebeerlab.github.io/tidytacos/reference/add_spike_ratio.md),
+[`add_subsampled_alpha()`](https://lebeerlab.github.io/tidytacos/reference/add_subsampled_alpha.md),
+[`add_total_absolute_abundance()`](https://lebeerlab.github.io/tidytacos/reference/add_total_absolute_abundance.md),
+[`add_total_density()`](https://lebeerlab.github.io/tidytacos/reference/add_total_density.md),
+[`cluster_samples()`](https://lebeerlab.github.io/tidytacos/reference/cluster_samples.md)
+
+## Examples
+
+``` r
+# Initiate counts matrix
+x <- matrix(
+  c(1500, 1300, 280, 356),
+  ncol = 2
+)
+rownames(x) <- c("taxon1", "taxon2")
+colnames(x) <- c("sample1", "sample2")
+
+# Convert to tidytacos object
+data <- create_tidytacos(x,
+  taxa_are_columns = FALSE
+)
+
+# Add total counts
+data <- data %>%
+  add_total_count()
+```
