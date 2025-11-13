@@ -17,14 +17,20 @@ longer but gives a more accurate p-value).}
 \item{...}{
   Arguments passed on to \code{\link[vegan:adonis]{vegan::adonis2}}
   \describe{
-    \item{\code{formula}}{Model formula. The left-hand side (LHS) of the formula
-    must be either a community data matrix or a dissimilarity matrix,
-    e.g., from \code{\link[vegan]{vegdist}} or \code{\link{dist}}.  If the LHS
-    is a data matrix, function \code{\link[vegan]{vegdist}} will be used to
-    find the dissimilarities. The right-hand side (RHS) of the formula
-    defines the independent variables. These can be continuous variables
-    or factors, they can be transformed within the formula, and they can
-    have interactions as in a typical \code{\link{formula}}.}
+    \item{\code{formula}}{Model formula. The function can be called only with the
+    formula interface. Most usual features of \code{\link{formula}}
+    hold, especially as defined in \code{\link[vegan]{cca}} and
+    \code{\link[vegan]{rda}}. The LHS must be either a community data matrix or
+    a dissimilarity matrix, e.g., from \code{\link[vegan]{vegdist}} or
+    \code{\link{dist}}.  If the LHS is a data matrix, function
+    \code{\link[vegan]{vegdist}} will be used to find the dissimilarities. The
+    RHS defines the independent variables. These can be continuous
+    variables or factors, they can be transformed within the formula,
+    and they can have interactions as in a typical
+    \code{\link{formula}}. The RHS can have a special term
+    \code{Condition} that defines variables to be \dQuote{partialled out}
+    before constraints, just like in \code{\link[vegan]{dbrda}} or
+    \code{\link[vegan]{cca}}. This allows the use of partial `adonis2`.}
     \item{\code{data}}{ the data frame for the independent variables, with rows
     in the same order as the community data matrix or dissimilarity
     matrix named on the LHS of \code{formula}.}
@@ -61,7 +67,7 @@ longer but gives a more accurate p-value).}
   }}
 }
 \value{
-An object of class "adonis" (see \link[vegan:vegan-deprecated]{adonis}).
+An object of class "adonis" (see \link[vegan:vegan-defunct]{adonis}).
 }
 \description{
 This function executes the \link[vegan:adonis]{adonis2} function of the vegan package
