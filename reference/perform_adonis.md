@@ -32,18 +32,28 @@ perform_adonis(ta, predictors, permutations = 999, ...)
 
   `formula`
 
-  :   Model formula. The left-hand side (LHS) of the formula must be
-      either a community data matrix or a dissimilarity matrix, e.g.,
-      from
+  :   Model formula. The function can be called only with the formula
+      interface. Most usual features of
+      [`formula`](https://rdrr.io/r/stats/formula.html) hold, especially
+      as defined in
+      [`cca`](https://vegandevs.github.io/vegan/reference/cca.html) and
+      [`rda`](https://vegandevs.github.io/vegan/reference/cca.html). The
+      LHS must be either a community data matrix or a dissimilarity
+      matrix, e.g., from
       [`vegdist`](https://vegandevs.github.io/vegan/reference/vegdist.html)
       or [`dist`](https://rdrr.io/r/stats/dist.html). If the LHS is a
       data matrix, function
       [`vegdist`](https://vegandevs.github.io/vegan/reference/vegdist.html)
-      will be used to find the dissimilarities. The right-hand side
-      (RHS) of the formula defines the independent variables. These can
-      be continuous variables or factors, they can be transformed within
-      the formula, and they can have interactions as in a typical
-      [`formula`](https://rdrr.io/r/stats/formula.html).
+      will be used to find the dissimilarities. The RHS defines the
+      independent variables. These can be continuous variables or
+      factors, they can be transformed within the formula, and they can
+      have interactions as in a typical
+      [`formula`](https://rdrr.io/r/stats/formula.html). The RHS can
+      have a special term `Condition` that defines variables to be
+      “partialled out” before constraints, just like in
+      [`dbrda`](https://vegandevs.github.io/vegan/reference/dbrda.html)
+      or [`cca`](https://vegandevs.github.io/vegan/reference/cca.html).
+      This allows the use of partial \`adonis2\`.
 
   `data`
 
@@ -107,7 +117,7 @@ perform_adonis(ta, predictors, permutations = 999, ...)
 ## Value
 
 An object of class "adonis" (see
-[adonis](https://vegandevs.github.io/vegan/reference/vegan-deprecated.html)).
+[adonis](https://vegandevs.github.io/vegan/reference/vegan-defunct.html)).
 
 ## Details
 

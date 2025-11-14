@@ -163,10 +163,6 @@ tidytacos object.
   : Perform anosim test
 - [`perform_lda()`](https://lebeerlab.github.io/tidytacos/reference/perform_lda.md)
   : LDA model estimation
-- [`perform_mantel_test()`](https://lebeerlab.github.io/tidytacos/reference/perform_mantel_test.md)
-  : Determine the correlation between the distance of the counts in a
-  tidytacos object and a sample variable, multiple sample variables or
-  another matrix.
 - [`add_codifab()`](https://lebeerlab.github.io/tidytacos/reference/add_codifab.md)
   : Perform compositional differential abundance analysis
 

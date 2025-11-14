@@ -63,14 +63,20 @@ longer but gives a more accurate p-value).</p></dd>
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
 <dd><p>Arguments passed on to <code><a href="https://vegandevs.github.io/vegan/reference/vegan-defunct.html" class="external-link">vegan::adonis2</a></code></p><dl><dt><code>formula</code></dt>
-<dd><p>Model formula. The left-hand side (LHS) of the formula
-    must be either a community data matrix or a dissimilarity matrix,
-    e.g., from <code><a href="https://vegandevs.github.io/vegan/reference/vegdist.html" class="external-link">vegdist</a></code> or <code><a href="https://rdrr.io/r/stats/dist.html" class="external-link">dist</a></code>.  If the LHS
-    is a data matrix, function <code><a href="https://vegandevs.github.io/vegan/reference/vegdist.html" class="external-link">vegdist</a></code> will be used to
-    find the dissimilarities. The right-hand side (RHS) of the formula
-    defines the independent variables. These can be continuous variables
-    or factors, they can be transformed within the formula, and they can
-    have interactions as in a typical <code><a href="https://rdrr.io/r/stats/formula.html" class="external-link">formula</a></code>.</p></dd>
+<dd><p>Model formula. The function can be called only with the
+    formula interface. Most usual features of <code><a href="https://rdrr.io/r/stats/formula.html" class="external-link">formula</a></code>
+    hold, especially as defined in <code><a href="https://vegandevs.github.io/vegan/reference/cca.html" class="external-link">cca</a></code> and
+    <code><a href="https://vegandevs.github.io/vegan/reference/cca.html" class="external-link">rda</a></code>. The LHS must be either a community data matrix or
+    a dissimilarity matrix, e.g., from <code><a href="https://vegandevs.github.io/vegan/reference/vegdist.html" class="external-link">vegdist</a></code> or
+    <code><a href="https://rdrr.io/r/stats/dist.html" class="external-link">dist</a></code>.  If the LHS is a data matrix, function
+    <code><a href="https://vegandevs.github.io/vegan/reference/vegdist.html" class="external-link">vegdist</a></code> will be used to find the dissimilarities. The
+    RHS defines the independent variables. These can be continuous
+    variables or factors, they can be transformed within the formula,
+    and they can have interactions as in a typical
+    <code><a href="https://rdrr.io/r/stats/formula.html" class="external-link">formula</a></code>. The RHS can have a special term
+    <code>Condition</code> that defines variables to be “partialled out”
+    before constraints, just like in <code><a href="https://vegandevs.github.io/vegan/reference/dbrda.html" class="external-link">dbrda</a></code> or
+    <code><a href="https://vegandevs.github.io/vegan/reference/cca.html" class="external-link">cca</a></code>. This allows the use of partial `adonis2`.</p></dd>
 
     <dt><code>data</code></dt>
 <dd><p>the data frame for the independent variables, with rows
@@ -127,7 +133,7 @@ longer but gives a more accurate p-value).</p></dd>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>An object of class "adonis" (see <a href="https://vegandevs.github.io/vegan/reference/vegan-deprecated.html" class="external-link">adonis</a>).</p>
+    <p>An object of class "adonis" (see <a href="https://vegandevs.github.io/vegan/reference/vegan-defunct.html" class="external-link">adonis</a>).</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
