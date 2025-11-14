@@ -65,5 +65,6 @@ tacoplot_ord(urt, x = location)
 urt <- urt %>% mutate_samples(plate = as.character(plate))
 tacoplot_ord(urt, x = plate, ord = "umap", distance = "aitchison", stat.method = "permanova")
 #> Warning: Removed 3 empty samples.
+#> Warning: Using pseudocount of 1
 
 ```
