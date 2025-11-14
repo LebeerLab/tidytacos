@@ -498,7 +498,6 @@ calculate_unifrac_distances <- function(ta, ...) {
 #'   computation or not.
 #' @param ... Additional arguments to pass to the ordination function:
 #' either [stats::cmdscale()], [Rtsne::Rtsne()] or [umap::umap()].
-#' @param pseudocount Optional pseudocount to be used in aitchison distance calculation.
 #' @return A tidytacos object with the ordination coordinates added.
 #' @family sample-modifiers
 #' @family diversity-metrics
