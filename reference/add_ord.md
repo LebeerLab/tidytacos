@@ -42,10 +42,6 @@ add_ord(ta, distance = "bray", method = "pcoa", dims = 2, binary = FALSE, ...)
   [`Rtsne::Rtsne()`](https://rdrr.io/pkg/Rtsne/man/Rtsne.html) or
   [`umap::umap()`](https://rdrr.io/pkg/umap/man/umap.html).
 
-- pseudocount:
-
-  Optional pseudocount to be used in aitchison distance calculation.
-
 ## Value
 
 A tidytacos object with the ordination coordinates added.
