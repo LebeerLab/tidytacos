@@ -22,6 +22,8 @@ computation or not.}
 
 \item{...}{Additional arguments to pass to the ordination function:
 either \code{\link[stats:cmdscale]{stats::cmdscale()}}, \code{\link[Rtsne:Rtsne]{Rtsne::Rtsne()}} or \code{\link[umap:umap]{umap::umap()}}.}
+
+\item{pseudocount}{Optional pseudocount to be used in aitchison distance calculation.}
 }
 \value{
 A tidytacos object with the ordination coordinates added.

@@ -498,6 +498,7 @@ calculate_unifrac_distances <- function(ta, ...) {
 #'   computation or not.
 #' @param ... Additional arguments to pass to the ordination function:
 #' either [stats::cmdscale()], [Rtsne::Rtsne()] or [umap::umap()].
+#' @param pseudocount Optional pseudocount to be used in aitchison distance calculation.
 #' @return A tidytacos object with the ordination coordinates added.
 #' @family sample-modifiers
 #' @family diversity-metrics
@@ -540,11 +541,15 @@ add_ord <- function(ta, distance = "bray", method = "pcoa", dims = 2, binary = F
 
   # make relative abundance matrix
   rel_abundance_matrix <- rel_abundance_matrix(ta, sample_name = sample_id, taxon_name = taxon_id)
-
+  args <- list(...)
   if (distance == "aitchison") {
+    if (is.null(args$pseudocount)) { 
+       args$pseudocount <- 1
+       warning("Using pseudocount of 1") 
+    }
     # Euclidean distance between CLR transformed abundances
     rel_abundance_matrix <- rel_abundance_matrix %>%
-      vegan::decostand(method = "clr", pseudocount = 1)
+      vegan::decostand(method = "clr", pseudocount=args$pseudocount)
     dist_matrix <- vegan::vegdist(rel_abundance_matrix, method = "euclidean")
   } else if (distance == "unifrac") {
     dist_matrix <- calculate_unifrac_distances(ta)
@@ -553,16 +558,18 @@ add_ord <- function(ta, distance = "bray", method = "pcoa", dims = 2, binary = F
     dist_matrix <- vegan::vegdist(rel_abundance_matrix, method = distance, binary = binary)
   }
 
+  args[["pseudocount"]] <- NULL
+
   if (method == "pcoa") {
-    ord <- perform_pcoa(ta, dist_matrix, dims = dims, ...)
+    ord <- do.call(perform_pcoa, c(list(ta, dist_matrix, dims = dims), args))
   }
 
   if (method == "tsne") {
-    ord <- perform_tsne(ta, dist_matrix, dims = dims, ...)
+    ord <- do.call(perform_tsne, c(list(ta, dist_matrix, dims = dims), args))
   }
 
   if (method == "umap") {
-    ord <- perform_umap(ta, dist_matrix, dims = dims, ...)
+    ord <- do.call(perform_umap, c(list(ta, dist_matrix, dims = dims), args))
   }
 
   # add ord dimensions to sample table
