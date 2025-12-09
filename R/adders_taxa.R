@@ -430,6 +430,7 @@ add_jervis_bardy <- function(ta, dna_conc,
 #' @param relative Whether to use relative occurrences.
 #' @param fisher_test Whether to perform a fisher test and
 #' add the p-values of the test to the taxa table.
+#' @inheritDotParams fisher.test
 #' @return A tidytacos object.
 #' @examples
 #' # add prevalences of all taxa
@@ -444,7 +445,7 @@ add_jervis_bardy <- function(ta, dna_conc,
 #' @family taxa-modifiers
 #' @export
 add_prevalence <- function(
-  ta, condition = NULL, relative = FALSE, fisher_test = FALSE
+  ta, condition = NULL, relative = FALSE, fisher_test = FALSE, ...
 ) {
 
   # remove any pre-existing result columns
@@ -473,7 +474,7 @@ add_prevalence <- function(
       do(
         fisher = c(.$n) %>%
           matrix(ncol = 2, byrow = TRUE) %>%
-          fisher.test()
+          fisher.test(...)
       ) %>%
       mutate(fisher_p = fisher$p.value) %>%
       select(- fisher)
