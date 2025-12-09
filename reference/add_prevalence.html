@@ -50,7 +50,13 @@ or the ratio of samples where a taxon occurs and the total amount of samples.</p
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">add_prevalence</span><span class="op">(</span><span class="va">ta</span>, condition <span class="op">=</span> <span class="cn">NULL</span>, relative <span class="op">=</span> <span class="cn">FALSE</span>, fisher_test <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">add_prevalence</span><span class="op">(</span></span>
+<span>  <span class="va">ta</span>,</span>
+<span>  condition <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  relative <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  fisher_test <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -72,6 +78,74 @@ or the ratio of samples where a taxon occurs and the total amount of samples.</p
 <dt id="arg-fisher-test">fisher_test<a class="anchor" aria-label="anchor" href="#arg-fisher-test"></a></dt>
 <dd><p>Whether to perform a fisher test and
 add the p-values of the test to the taxa table.</p></dd>
+
+
+<dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
+<dd><p>Arguments passed on to <code><a href="https://rdrr.io/r/stats/fisher.test.html" class="external-link">stats::fisher.test</a></code></p><dl><dt><code>x</code></dt>
+<dd><p>either a two-dimensional contingency table in matrix form,
+    or a factor object.</p></dd>
+
+    <dt><code>y</code></dt>
+<dd><p>a factor object; ignored if <code>x</code> is a matrix.</p></dd>
+
+    <dt><code>workspace</code></dt>
+<dd><p>an integer specifying the size of the workspace
+    used in the network algorithm.  In units of 4 bytes.  Only used for
+    non-simulated p-values larger than \(2 \times 2\) tables.
+    Since <span style="R">R</span> version 3.5.0, this also increases the internal stack size
+    which allows larger problems to be solved, however sometimes needing
+    hours.  In such cases, <code>simulate.p.values=TRUE</code> may be more
+    reasonable.</p></dd>
+
+    <dt><code>hybrid</code></dt>
+<dd><p>a logical. Only used for larger than \(2 \times 2\)
+    tables, in which cases it indicates whether the exact probabilities
+    (default) or a hybrid approximation thereof should be computed.</p></dd>
+
+    <dt><code>hybridPars</code></dt>
+<dd><p>a numeric vector of length 3, by default describing
+    “Cochran's conditions” for the validity of the chi-squared
+    approximation, see ‘Details’.</p></dd>
+
+    <dt><code>control</code></dt>
+<dd><p>a list with named components for low level algorithm
+    control.  At present the only one used is <code>"mult"</code>, a positive
+    integer \(\ge 2\) with default 30 used only for larger than
+    \(2 \times 2\) tables.  This says how many times as much
+    space should be allocated to paths as to keys: see file
+    <code class="file">fexact.c</code> in the sources of this package.</p></dd>
+
+    <dt><code>or</code></dt>
+<dd><p>the hypothesized odds ratio.  Only used in the
+    \(2 \times 2\) case.</p></dd>
+
+    <dt><code>alternative</code></dt>
+<dd><p>indicates the alternative hypothesis and must be
+    one of <code>"two.sided"</code>, <code>"greater"</code> or <code>"less"</code>.
+    You can specify just the initial letter.  Only used in the
+    \(2 \times 2\) case.</p></dd>
+
+    <dt><code>conf.int</code></dt>
+<dd><p>logical indicating if a confidence interval for the
+    odds ratio in a \(2 \times 2\) table should be
+    computed (and returned).</p></dd>
+
+    <dt><code>conf.level</code></dt>
+<dd><p>confidence level for the returned confidence
+    interval.  Only used in the \(2 \times 2\) case and if
+    <code>conf.int = TRUE</code>.</p></dd>
+
+    <dt><code>simulate.p.value</code></dt>
+<dd><p>a logical indicating whether to compute
+    p-values by Monte Carlo simulation, in larger than \(2 \times
+      2\) tables.</p></dd>
+
+    <dt><code>B</code></dt>
+<dd><p>an integer specifying the number of replicates used in the
+    Monte Carlo test.</p></dd>
+
+
+</dl></dd>
 
 </dl></div>
     <div class="section level2">
