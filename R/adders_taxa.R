@@ -430,7 +430,7 @@ add_jervis_bardy <- function(ta, dna_conc,
 #' @param relative Whether to use relative occurrences.
 #' @param fisher_test Whether to perform a fisher test and
 #' add the p-values of the test to the taxa table.
-#' @inheritDotParams fisher.test
+#' @inheritDotParams stats::fisher.test
 #' @return A tidytacos object.
 #' @examples
 #' # add prevalences of all taxa
