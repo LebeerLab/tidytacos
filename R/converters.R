@@ -13,6 +13,7 @@
 #'
 #' @param counts_matrix Numerical matrix containing the count data.
 #' @param taxa_are_columns A logical scalar. Are the taxa defined in columns?
+#' @param allow_non_count Allow counts that are less than or equal to 0.
 #'
 #' @examples
 #' # Initiate count matrix
@@ -48,7 +49,7 @@
 #' @family import-methods
 #' @return A tidytacos object.
 #' @export
-create_tidytacos <- function(counts_matrix, taxa_are_columns = TRUE) {
+create_tidytacos <- function(counts_matrix, taxa_are_columns = TRUE, allow_non_count=FALSE) {
 
   if (
     !is.matrix(counts_matrix) ||
@@ -82,8 +83,10 @@ create_tidytacos <- function(counts_matrix, taxa_are_columns = TRUE) {
     as.vector() %>%
     tibble(count = .) %>%
     mutate(sample_id = rep(!!sample_ids, times = !!n_taxa)) %>%
-    mutate(taxon_id = rep(!!taxon_ids, each = !!n_samples)) %>%
-    filter(count != 0)
+    mutate(taxon_id = rep(!!taxon_ids, each = !!n_samples))
+  if (!allow_non_count) {
+  ta$counts <- filter(ta$counts, count != 0) 
+  }
 
   ta$samples <-
     counts_matrix %>%

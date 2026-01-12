@@ -523,7 +523,7 @@ add_clr_abundance <- function(
     clrt_mt <- vegan::decostand(mt, method="clr", pseudocount=pseudocount, ...)
   }
 
-  clrtt <- clrt_mt %>% create_tidytacos()
+  clrtt <- clrt_mt %>% create_tidytacos(allow_non_count=TRUE)
   counts_w_prev_indexers <- clrtt %>% 
     everything() %>%
     select(sample, taxon, count) %>%
