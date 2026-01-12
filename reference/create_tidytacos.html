@@ -38,7 +38,11 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">create_tidytacos</span><span class="op">(</span><span class="va">counts_matrix</span>, taxa_are_columns <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">create_tidytacos</span><span class="op">(</span></span>
+<span>  <span class="va">counts_matrix</span>,</span>
+<span>  taxa_are_columns <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  allow_non_count <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -51,6 +55,10 @@
 
 <dt id="arg-taxa-are-columns">taxa_are_columns<a class="anchor" aria-label="anchor" href="#arg-taxa-are-columns"></a></dt>
 <dd><p>A logical scalar. Are the taxa defined in columns?</p></dd>
+
+
+<dt id="arg-allow-non-count">allow_non_count<a class="anchor" aria-label="anchor" href="#arg-allow-non-count"></a></dt>
+<dd><p>Allow counts that are less than or equal to 0.</p></dd>
 
 </dl></div>
     <div class="section level2">

@@ -5,7 +5,11 @@
 ## Usage
 
 ``` r
-create_tidytacos(counts_matrix, taxa_are_columns = TRUE)
+create_tidytacos(
+  counts_matrix,
+  taxa_are_columns = TRUE,
+  allow_non_count = FALSE
+)
 ```
 
 ## Arguments
@@ -17,6 +21,10 @@ create_tidytacos(counts_matrix, taxa_are_columns = TRUE)
 - taxa_are_columns:
 
   A logical scalar. Are the taxa defined in columns?
+
+- allow_non_count:
+
+  Allow counts that are less than or equal to 0.
 
 ## Value
 

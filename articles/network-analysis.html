@@ -187,7 +187,7 @@ handle negative interactions so any correlation &lt;0 will be set to
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">urt.net.clust</span> <span class="op">&lt;-</span> <span class="va">urt.net.filt</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="../reference/cluster_network.html">cluster_network</a></span><span class="op">(</span>min_n<span class="op">=</span><span class="fl">5</span>, visualize<span class="op">=</span><span class="cn">T</span><span class="op">)</span></span></code></pre></div>
-<p><img src="network-analysis_files/figure-html/network-clustering-1.png" class="r-plt" width="672"></p>
+<p><img src="network-analysis_files/figure-html/network-clustering-1.png" class="r-plt" alt="" width="672"></p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="va">urt.net.clust</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
@@ -212,7 +212,7 @@ clusters in the microbiome profile.</p>
 <span>  <span class="fu"><a href="../reference/set_rank_names.html">set_rank_names</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"cluster"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="../reference/aggregate_taxa.html">aggregate_taxa</a></span><span class="op">(</span>rank<span class="op">=</span><span class="st">"cluster"</span><span class="op">)</span></span>
 <span><span class="va">urt.nf</span>  <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="../reference/tacoplot_stack.html">tacoplot_stack</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="network-analysis_files/figure-html/unnamed-chunk-2-1.png" class="r-plt" width="768"></p>
+<p><img src="network-analysis_files/figure-html/unnamed-chunk-2-1.png" class="r-plt" alt="" width="768"></p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="va">urt.net.clust</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">cluster</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">urt.net.clust</span><span class="op">$</span><span class="va">cluster</span><span class="op">)</span><span class="op">[[</span><span class="fl">4</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span>
