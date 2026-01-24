@@ -13,7 +13,7 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/LebeerLab/tidytacos/blob/v1.0.8/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/LebeerLab/tidytacos/blob/master/DESCRIPTION)
 
 Wittouck S, Van Rillaer T, Smets W (2026). *tidytacos: Manipulate
 Taxonomic Composition Data of Microbial Communities*. R package version

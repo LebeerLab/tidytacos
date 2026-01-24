@@ -52,6 +52,10 @@ install.packages("devtools")
 devtools::install_github("LebeerLab/tidytacos")
 ```
 
+Or if you prefer to use conda:
+
+    conda install bioconda::r-tidytacos
+
 ## Getting started
 
 If your ASVs are counted and annotated using
