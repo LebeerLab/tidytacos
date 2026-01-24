@@ -31,6 +31,12 @@ install.packages("devtools")
 devtools::install_github("LebeerLab/tidytacos")
 ```
 
+Or if you prefer to use conda:
+
+```
+conda install bioconda::r-tidytacos
+```
+
 ## Getting started
 
 If your ASVs are counted and annotated using [dada2](https://benjjneb.github.io/dada2/), you can use the following function to convert the results to a tidytacos object:
