@@ -517,7 +517,7 @@ add_clr_abundance <- function(
   
   mt <- ta %>% counts_matrix()
 
-  if (as.integer(pseudocount) == 0) {
+  if (pseudocount == 0) {
     clrt_mt <- vegan::decostand(mt, method="rclr", ...)
   } else {
     clrt_mt <- vegan::decostand(mt, method="clr", pseudocount=pseudocount, ...)
@@ -532,7 +532,7 @@ add_clr_abundance <- function(
   if (overwrite) {
     ta$counts <- counts_w_prev_indexers
   } else {
-    if (as.integer(pseudocount) == 0) {
+    if (pseudocount == 0) {
       ta$rclr_counts <- counts_w_prev_indexers
     } else {
       ta$clr_counts <- counts_w_prev_indexers
