@@ -259,3 +259,23 @@ test_that("CLR transformation returns expected output", {
   expect_true("rclr_counts" %in% names(urt_rclr))
 
 })
+
+
+# SUBSAMPLING
+
+test_that("Subsample whole taco", {
+  urt_sampled <- urt %>% sample_taco(100)
+  
+  expect_true(length(urt_sampled$samples$sample) == 100)
+})
+
+test_that("Subsample taco by group", {
+    urt_sampled <- urt %>% sample_taco(100, location)
+
+    expect_true(length(urt_sampled$samples$sample) == 100)
+    samples_NF <- urt_sampled %>% 
+    filter_samples(location == "NF") %>% 
+    samples %>% pull(sample)
+    expect_true(length(samples_NF) == 50)
+
+})

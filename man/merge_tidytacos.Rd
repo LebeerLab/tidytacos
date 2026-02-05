@@ -4,7 +4,7 @@
 \alias{merge_tidytacos}
 \title{Merge two tidytacos objects}
 \usage{
-merge_tidytacos(ta1, ta2, taxon_identifier = sequence)
+merge_tidytacos(ta1, ta2, taxon_identifier = sequence, quiet = FALSE)
 }
 \arguments{
 \item{ta1}{The first tidytacos object.}
@@ -12,6 +12,8 @@ merge_tidytacos(ta1, ta2, taxon_identifier = sequence)
 \item{ta2}{The second tidytacos object.}
 
 \item{taxon_identifier}{The column name in the taxa tables which identify unique taxa. Default is sequence.}
+
+\item{quiet}{hide warnings}
 }
 \description{
 \code{merge_tidytacos()} merges two tidytacos objects and returns one
