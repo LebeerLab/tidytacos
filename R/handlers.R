@@ -541,3 +541,56 @@ add_clr_abundance <- function(
 
   ta
 }
+
+#' Take a sample of a tidytacos object
+#'
+#' `sample_taco()` takes a random subset of samples from the original tidytacos object.
+#'
+#' @param tt A tidytacos object.
+#' @param n The amount of samples that need to be returned.
+#' @param group_col An optional name of a field in the sample table
+#' which the samples need to be evenly distributed over.
+#' @param replace Replace selected samples so they can be picked again in sampling.
+#' @return A tidytacos object.
+#' @export
+sample_taco <- function(tt, n, group_col, taxon_identifier = sequence, replace=FALSE, ...) {
+    
+    nsamples <- length(tt$samples$sample_id)
+    if (n >= nsamples & !replace) {
+       stop(paste0("Please select a subset n that is lower than the total number of samples (number of samples = ", nsamples,").")) 
+    }
+
+    if (!missing(group_col)){
+     
+      ttg <- tt %>% 
+      group_samples({{group_col}})
+
+      ngroups <- length(ttg@tacos)
+      if (n %% ngroups != 0) {
+        stop(paste0(
+          "The value of n (", n,
+          ") is invalid. It must be divisible by the number of groups (",
+          ngroups, ")."))
+      } 
+      n_per_group <- n/ngroups
+      
+      sampled_groups <- lapply(
+        ttg@tacos, function(x) sample_taco(x, n_per_group, ...)
+      )
+      
+      sampled_taco <- Reduce(
+        function(x) merge_tidytacos(x, quiet=TRUE, taxon_identifier = {{ sequence }}), 
+        sampled_groups)
+      return(sampled_taco)
+
+    } else {
+      sampled_ids <- sample(tt$samples$sample_id, n, ...)
+      tt %>% 
+      filter_samples(
+        sample_id %in% sampled_ids
+      ) %>% return()
+
+    }
+   
+
+}

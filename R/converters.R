@@ -171,7 +171,7 @@ read_tidytacos <- function(din, samples = "samples.csv", taxa = "taxa.csv",
   infer_rank_names(ta)
 }
 
-infer_rank_names <- function(ta) {
+infer_rank_names <- function(ta, quiet=FALSE) {
   nonranks <- c("taxon", "taxon_id", "sequence")
   default_rank_names <- c("domain", "phylum", "class", "order", "family", "genus", "species")
   expected_rank_names <- colnames(ta$taxa)[!colnames(ta$taxa) %in% nonranks]
@@ -193,6 +193,7 @@ infer_rank_names <- function(ta) {
   if (!all(rn %in% default_rank_names)) {
     ranks <- colnames(ta$taxa)[!colnames(ta$taxa) %in% nonranks]
 
+    if (quiet) {
     warning(paste0(
       "Not all default rank names found. Replacing them with:\n c(\"",
       paste(ranks, collapse = '","'),
@@ -200,6 +201,7 @@ infer_rank_names <- function(ta) {
       "in descending order, \nplease set ",
       "them manually using 'set_rank_names()'"
     ))
+    }
     ta <- ta %>% set_rank_names(ranks)
   }
   ta
@@ -464,9 +466,10 @@ tidy_count_to_matrix <- function(counts, value = count) {
 #' @param ta1 The first tidytacos object.
 #' @param ta2 The second tidytacos object.
 #' @param taxon_identifier The column name in the taxa tables which identify unique taxa. Default is sequence.
+#' @param quiet hide warnings
 #'
 #' @export
-merge_tidytacos <- function(ta1, ta2, taxon_identifier = sequence) {
+merge_tidytacos <- function(ta1, ta2, taxon_identifier = sequence, quiet=FALSE) {
   taxon_identifier <- rlang::ensym(taxon_identifier)
 
   ti <- rlang::as_string(taxon_identifier)
@@ -506,7 +509,7 @@ merge_tidytacos <- function(ta1, ta2, taxon_identifier = sequence) {
   class(ta) <- "tidytacos"
 
   # give new sample names in new ta object
-  ta <- reset_ids(ta) %>% infer_rank_names()
+  ta <- reset_ids(ta) %>% infer_rank_names(quiet = quiet)
 
   # return ta object
   ta
