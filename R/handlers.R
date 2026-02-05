@@ -578,8 +578,11 @@ sample_taco <- function(tt, n, group_col, taxon_identifier = sequence, replace=F
         ttg@tacos, function(x) sample_taco(x, n_per_group, ...)
       )
       
+      merge_tacos_silently <- function(taco1, taco2) {
+        merge_tidytacos(taco1, taco2, quiet=TRUE, taxon_identifier = {{ taxon_identifier }})
+      }
       sampled_taco <- Reduce(
-        function(x) merge_tidytacos(x, quiet=TRUE, taxon_identifier = {{ sequence }}), 
+        merge_tacos_silently, 
         sampled_groups)
       return(sampled_taco)
 

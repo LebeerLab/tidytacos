@@ -193,7 +193,7 @@ infer_rank_names <- function(ta, quiet=FALSE) {
   if (!all(rn %in% default_rank_names)) {
     ranks <- colnames(ta$taxa)[!colnames(ta$taxa) %in% nonranks]
 
-    if (quiet) {
+    if (!quiet) {
     warning(paste0(
       "Not all default rank names found. Replacing them with:\n c(\"",
       paste(ranks, collapse = '","'),
