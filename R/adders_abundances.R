@@ -226,3 +226,43 @@ add_density <- function(
   # return ta object
   ta
 }
+
+#' Normalize counts using Scaling with Ranked Subsampling (SRS)
+#' `srs_normalize()` uses the SRS method to equalize sampling depth to
+#' a chosen value.
+#'
+#' @param ta A tidytacos object.
+#' @param target_reads the sequencing depth to which samples are subsampled. Samples below this threshold are discarded.
+#' @return A tidytacos object where the reads are subsampled to the chosen value using SRS.
+#' @family count-modifiers
+#' @export
+srs_normalize <- function(ta, target_reads) {
+
+  force_optional_dependency("SRS")
+  
+  M <- ta %>% 
+       counts_matrix() %>% 
+       t() %>%
+       as.data.frame() 
+  # taxa here are columns and are arranged alphabetically on taxon_id
+
+  srs_result <- SRS::SRS(M, min_reads) %>% 
+    as.matrix()
+  
+  row.names(srs_result) <- row.names(M)
+
+  ta_srs <- create_tidytacos(srs_result, taxa_are_columns=FALSE) %>%
+            change_id_taxa(taxon) %>%
+            change_id_samples(sample)
+
+  ta_srs$samples <- ta_srs$samples %>% 
+                    select(-sample) %>%
+                    left_join(ta$samples, by="sample_id")
+  ta_srs$taxa <- ta_srs$taxa %>% 
+                 select(-taxon) %>%
+                 left_join(ta$taxa, by="taxon_id")
+
+  ta_srs$rank_names <- ta %>% rank_names()
+
+  ta_srs
+}

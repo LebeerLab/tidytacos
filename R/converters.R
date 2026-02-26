@@ -63,7 +63,7 @@ create_tidytacos <- function(counts_matrix, taxa_are_columns = TRUE, allow_non_c
     rownames(counts_matrix) <- str_c("s", seq_len(dim(counts_matrix)[1]))
   }
   if (counts_matrix %>% colnames() %>% length() == 0) {
-    colnames(counts_matrix) <- str_c("s", seq_len(dim(counts_matrix)[2]))
+    colnames(counts_matrix) <- str_c("t", seq_len(dim(counts_matrix)[2]))
   }
 
   counts_matrix <-
