@@ -425,7 +425,7 @@ perform_pcoa <- function(ta, dist_matrix, dims = 2, ...) {
   if (length(ta$samples$sample_id) < 3) {
     stop("PCoA requires at least 3 samples. Try ord='umap' or ord='tsne' if you wish to proceed with fewer samples.")
   }
-  pcoa <- stats::cmdscale(dist_matrix, k = dims, eig = T, list = T, ...)
+  pcoa <- stats::cmdscale(dist_matrix, k = dims, eig = TRUE, list = TRUE, ...)
   ord$variances <- pcoa$eig / sum(pcoa$eig)
   ord$dimensions <- get_dimensions(
     pcoa$points, rownames(pcoa$points),
@@ -434,8 +434,19 @@ perform_pcoa <- function(ta, dist_matrix, dims = 2, ...) {
   ord
 }
 
+perform_nmds <- function(dist_matrix, dims = 2, ...) {
+  ord <- list()
+
+  nmds <- vegan::metaMDS(dist_matrix, k=dims, ...)
+  ord$dimensions <- nmds$dimensions <- get_dimensions(
+    nmds$points, rownames(nmds$points), dims
+  )
+  ord$model <- nmds
+  ord
+}
+
 # Calculate tsne coordinates and variances
-perform_tsne <- function(ta, dist_matrix, dims = 2, ...) {
+perform_tsne <- function(dist_matrix, dims = 2, ...) {
   force_optional_dependency("Rtsne")
 
   ord <- list()
@@ -449,7 +460,7 @@ perform_tsne <- function(ta, dist_matrix, dims = 2, ...) {
 }
 
 # Calculate umap coordinates and variances
-perform_umap <- function(ta, dist_matrix, dims = 2, ...) {
+perform_umap <- function(dist_matrix, dims = 2, ...) {
   force_optional_dependency("umap")
   ord <- list()
   umap <- umap::umap(as.matrix(dist_matrix), n_components = dims, ...)
@@ -523,12 +534,12 @@ calculate_unifrac_distances <- function(ta, ...) {
 #' data$ord_variances
 #' @export
 add_ord <- function(ta, distance = "bray", method = "pcoa", dims = 2, binary = FALSE, ...) {
-  methods <- c("pcoa", "tsne", "umap")
+  methods <- c("pcoa", "tsne", "umap", "nmds")
   method <- tolower(method)
   distance <- tolower(distance)
 
   if (!method %in% methods) {
-    stop(paste("Select a method from", paste0(method, collapse = ",")))
+    stop(paste("Select a method from", paste0(methods, collapse = ",")))
   }
 
   # if add_ord was run before, remove coordinates from sample table
@@ -539,36 +550,40 @@ add_ord <- function(ta, distance = "bray", method = "pcoa", dims = 2, binary = F
   }
 
   # make relative abundance matrix
-  rel_abundance_matrix <- rel_abundance_matrix(ta, sample_name = sample_id, taxon_name = taxon_id)
+  rel_abundance_matrix <- rel_abundance_matrix(ta,
+                                               sample_name = sample_id,
+                                               taxon_name = taxon_id)
   args <- list(...)
-  if (distance == "aitchison") {
-    if (is.null(args$pseudocount)) { 
-       args$pseudocount <- 1
-       warning("Using pseudocount of 1") 
+  if (distance == "none") {
+    dist_matrix <- rel_abundance_matrix
+  } else if (distance == "aitchison") {
+    if (is.null(args$pseudocount)) {
+      args$pseudocount <- 1
+      warning("Using pseudocount of 1")
     }
     # Euclidean distance between CLR transformed abundances
     rel_abundance_matrix <- rel_abundance_matrix %>%
-      vegan::decostand(method = "clr", pseudocount=args$pseudocount)
+      vegan::decostand(method = "clr", pseudocount = args$pseudocount)
     dist_matrix <- vegan::vegdist(rel_abundance_matrix, method = "euclidean")
   } else if (distance == "unifrac") {
     dist_matrix <- calculate_unifrac_distances(ta)
   } else {
     # make distance matrix
-    dist_matrix <- vegan::vegdist(rel_abundance_matrix, method = distance, binary = binary)
+    dist_matrix <- vegan::vegdist(rel_abundance_matrix,
+                                  method = distance,
+                                  binary = binary)
   }
 
   args[["pseudocount"]] <- NULL
 
   if (method == "pcoa") {
     ord <- do.call(perform_pcoa, c(list(ta, dist_matrix, dims = dims), args))
-  }
-
-  if (method == "tsne") {
-    ord <- do.call(perform_tsne, c(list(ta, dist_matrix, dims = dims), args))
-  }
-
-  if (method == "umap") {
-    ord <- do.call(perform_umap, c(list(ta, dist_matrix, dims = dims), args))
+  } else if (method == "tsne") {
+    ord <- do.call(perform_tsne, c(list(dist_matrix, dims = dims), args))
+  } else if (method == "umap") {
+    ord <- do.call(perform_umap, c(list(dist_matrix, dims = dims), args))
+  } else if (method == "nmds") {
+    ord <- do.call(perform_nmds, c(list(dist_matrix, dims = dims), args))
   }
 
   # add ord dimensions to sample table
@@ -578,6 +593,9 @@ add_ord <- function(ta, distance = "bray", method = "pcoa", dims = 2, binary = F
   # add ord variances to ta object
   ta$ord_variances <- ord$variances
   ta$ord_method <- method
+  if (!is.null(ord$model)) {
+    ta$ord_model <- ord$model
+  }
   # return ta object
   ta
 }
