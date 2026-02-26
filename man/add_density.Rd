@@ -56,6 +56,7 @@ data <- data \%>\%
 \seealso{
 Other count-modifiers: 
 \code{\link{add_absolute_abundance}()},
-\code{\link{add_rel_abundance}()}
+\code{\link{add_rel_abundance}()},
+\code{\link{srs_normalize}()}
 }
 \concept{count-modifiers}
