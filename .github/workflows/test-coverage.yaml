@@ -34,6 +34,7 @@ jobs:
                 any::Matrix
                 any::topicmodels
                 any::ggVennDiagram
+                https://cran.r-project.org/src/contrib/Archive/pulsar/pulsar_0.3.11.tar.gz
                 github::zdk123/SpiecEasi
                 github::lasy/alto
           needs: coverage
