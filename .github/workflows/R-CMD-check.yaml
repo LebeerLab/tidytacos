@@ -57,6 +57,7 @@ jobs:
               any::ggVennDiagram
               any::topicmodels
               bioc::dada2
+https://cran.r-project.org/src/contrib/Archive/pulsar/pulsar_0.3.11.tar.gz
               github::lasy/alto
               github::zdk123/SpiecEasi
           needs: check
