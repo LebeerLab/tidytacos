@@ -246,7 +246,7 @@ srs_normalize <- function(ta, target_reads) {
        as.data.frame() 
   # taxa here are columns and are arranged alphabetically on taxon_id
 
-  srs_result <- SRS::SRS(M, min_reads) %>% 
+  srs_result <- SRS::SRS(M, target_reads) %>% 
     as.matrix()
   
   row.names(srs_result) <- row.names(M)
