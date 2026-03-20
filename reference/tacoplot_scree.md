@@ -75,5 +75,4 @@ tacoplot_scree(ta, ...)
 
 ``` r
 urt %>% tacoplot_scree()
-#> Warning: Ignoring empty aesthetic: `width`.
 ```

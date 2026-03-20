@@ -136,8 +136,8 @@ res
 #> 
 #> adonis2(formula = as.formula(paste("counts_matrix", formula_RHS, sep = " ~ ")), data = metadata, permutations = permutations, by = "terms")
 #>           Df SumOfSqs      R2      F Pr(>F)  
-#> plate      1    0.663 0.00905 1.9454  0.018 *
-#> method     1    0.677 0.00924 1.9863  0.014 *
+#> plate      1    0.663 0.00905 1.9454  0.016 *
+#> method     1    0.677 0.00924 1.9863  0.016 *
 #> Residual 211   71.913 0.98171                
 #> Total    213   73.253 1.00000                
 #> ---
