@@ -378,7 +378,12 @@ from_dada <- function(seqtab, taxa, taxa_are_columns = TRUE) {
   # add taxonomic data
   colnames(taxa) <- str_to_lower(colnames(taxa))
 
-  ta$taxa <- ta$taxa %>% left_join(taxa, by = "taxon")
+  if (!"taxon" %in% colnames(taxa)) { 
+    taxa <- taxa %>% rename(taxon = ASV_ID)
+  }
+  
+  ta$taxa <- ta$taxa %>% 
+  left_join(taxa, by = "taxon")
   ta
 }
 
