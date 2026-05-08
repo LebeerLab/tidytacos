@@ -29,6 +29,8 @@ Run the following R code to install the latest version of tidytacos:
 ```R
 install.packages("devtools")
 devtools::install_github("LebeerLab/tidytacos")
+# devtools is deprecated in newer versions of R; in which case you may use:
+remotes::install_github("lebeerlab/tidytacos")
 ```
 
 Or if you prefer to use conda:
