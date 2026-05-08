@@ -57,6 +57,7 @@ tacoplot_ord(
 ## Examples
 
 ``` r
+
 tacoplot_ord(urt, x = location)
 #> Warning: Removed 3 empty samples.
 

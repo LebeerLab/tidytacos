@@ -51,6 +51,7 @@ In case you haven’t installed tidytacos yet, it can be installed using
 devtools:
 
 ``` r
+
 install.packages("devtools")
 devtools::install_github("LebeerLab/tidytacos")
 ```
@@ -59,11 +60,12 @@ For this guide, we only need to load two packages: tidytacos (of course)
 and the tidyverse set of packages.
 
 ``` r
+
 library(tidyverse)
 #> ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
 #> ✔ dplyr     1.2.1     ✔ readr     2.2.0
 #> ✔ forcats   1.0.1     ✔ stringr   1.6.0
-#> ✔ ggplot2   4.0.2     ✔ tibble    3.3.1
+#> ✔ ggplot2   4.0.3     ✔ tibble    3.3.1
 #> ✔ lubridate 1.9.5     ✔ tidyr     1.3.2
 #> ✔ purrr     1.2.2     
 #> ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
@@ -107,6 +109,7 @@ rRNA gene sequencing data.
 To read in existing data from a folder called ‘my_data’ you would run:
 
 ``` r
+
 my_path <- system.file("extdata", "tidytacos", "leaf", package = "tidytacos")
 # my_path <- "local/path/my_data"
 taco <- read_tidytacos(my_path)
@@ -118,6 +121,7 @@ used here uses data in our package.
 To write your data to a folder called “my_data_filtered” you can run:
 
 ``` r
+
 taco %>% write_tidytacos("my_data_filtered")
 ```
 
@@ -126,6 +130,7 @@ doesn’t need to be imported or converted. It is called “urt” and we
 start by inspecting the samples table:
 
 ``` r
+
 glimpse(urt$samples)
 #> Rows: 217
 #> Columns: 9
@@ -144,6 +149,7 @@ We then have a quick look at the total number of samples, ASVs, and
 reads in the tidytacos object:
 
 ``` r
+
 tacosum(urt)
 #> n_samples    n_taxa   n_reads 
 #>       217      1957   3873478
@@ -156,6 +162,7 @@ We can very easily create a plot to explore a subset of our samples
 way:
 
 ``` r
+
 urt %>%
   filter_samples(location == "N", method == "S") %>%
   tacoplot_stack()
@@ -175,6 +182,7 @@ nasopharynx are linked from a microbiological point of view. To get an
 idea we can first visualize this:
 
 ``` r
+
 urt_s <- urt %>% filter_samples(method == "S")
 tacoplot_stack(urt_s)+
   geom_point(aes(y=-0.02,color=location))
@@ -183,6 +191,7 @@ tacoplot_stack(urt_s)+
 ![](getting-started_files/figure-html/subset-plot-1.png)
 
 ``` r
+
 tacoplot_stack(urt_s, x = location) +
   facet_wrap(~ participant, nrow = 10)
 #> Warning in tacoplot_stack(urt_s, x = location): Sample labels not unique,
@@ -202,6 +211,7 @@ To explore alpha diversity, let’s create a rarefied version of the
 dataset:
 
 ``` r
+
 urt_rar <- urt %>%
   add_total_count() %>%
   filter_samples(total_count >= 2000) %>%
@@ -227,6 +237,7 @@ Next we will plot the resulting alpha diversities and group per location
 of sampling:
 
 ``` r
+
 urt_rar %>%
   tacoplot_alphas(location)
 #> Warning: Removed 4 rows containing non-finite outside the scale range
@@ -247,6 +258,7 @@ We’re also more interested in genera than ASVs. A PCA might offer
 insight:
 
 ``` r
+
 urt_genus <- urt %>%
   filter_samples(method == "S") %>%
   aggregate_taxa(rank = "genus")
@@ -275,6 +287,7 @@ forget that everyone has their unique microbiome and include the
 variable “participant” in the model.
 
 ``` r
+
 perform_adonis(urt_genus, c("participant", "location"), by="margin")
 #> Permutation test for adonis under reduced model
 #> Marginal effects of terms
@@ -304,6 +317,7 @@ Next, we would like to know which of the 20 most abundant genera, are
 significantly more abundant in the nasopharynx compared to the nose.
 
 ``` r
+
 urt_genus <- urt_genus %>% add_codifab(location, max_taxa = 40)
 urt_genus$taxon_pairs <- filter(urt_genus$taxon_pairs, wilcox_p < 0.05)
 tacoplot_codifab(urt_genus, NF_vs_N)

@@ -25,6 +25,7 @@ A tidytacos object.
 ## Examples
 
 ``` r
+
 # add a column to the counts table
 leaf_ab <- leaf %>% add_rel_abundance()
 # remove that column again

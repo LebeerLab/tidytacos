@@ -25,6 +25,7 @@ A tidytacos object.
 ## Examples
 
 ``` r
+
 # subset urt to keep only nasopharynx samples
 urt_nf <- urt %>% filter_samples(location == "NF")
 # subset urt to keep only samples from plate 1 and 2

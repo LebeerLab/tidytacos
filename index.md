@@ -34,6 +34,7 @@ R packages). You can install the tidyverse by running the following R
 code:
 
 ``` r
+
 install.packages("tidyverse")
 ```
 
@@ -48,8 +49,11 @@ etc. You can download RStudio [here](https://posit.co/downloads/).
 Run the following R code to install the latest version of tidytacos:
 
 ``` r
+
 install.packages("devtools")
 devtools::install_github("LebeerLab/tidytacos")
+# devtools is deprecated in newer versions of R; in which case you may use:
+remotes::install_github("lebeerlab/tidytacos")
 ```
 
 Or if you prefer to use conda:
@@ -63,6 +67,7 @@ If your ASVs are counted and annotated using
 function to convert the results to a tidytacos object:
 
 ``` r
+
 seqtab <- readRDS(system.file("extdata", "dada2", "seqtab.rds", package = "tidytacos"))
 taxa <- readRDS(system.file("extdata", "dada2", "taxa.rds", package = "tidytacos"))
 
@@ -77,6 +82,7 @@ If you have data in the form of a phyloseq object you could convert it
 using:
 
 ``` r
+
 phylo_obj <- readRDS(system.file("extdata","phyloseq.rds",package='tidytacos'))
 taco <- from_phyloseq(phylo_obj)
 ```
@@ -91,6 +97,7 @@ sequence). The variable ‘sample’ of the sample data should align with
 the rownames of the OTU table.
 
 ``` r
+
 seqtab <- readRDS(system.file("extdata", "dada2", "seqtab.rds", package = "tidytacos"))
 taxa <- readRDS(system.file("extdata", "dada2", "taxa.rds", package = "tidytacos"))
 taxon <- rownames(taxa)
@@ -108,6 +115,7 @@ folder](https://github.com/LebeerLab/tidytacos/tree/dev/data-raw/tidytacos/leaf)
 you would run:
 
 ``` r
+
 my_path <- system.file("extdata", "tidytacos", "leaf", package = "tidytacos")
 taco <- read_tidytacos(my_path)
 ```

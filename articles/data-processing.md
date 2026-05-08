@@ -19,6 +19,7 @@ We need only two packages: tidytacos (of course) and the tidyverse set
 of packages.
 
 ``` r
+
 library(tidyverse)
 library(tidytacos)
 ```
@@ -33,6 +34,7 @@ absolute abundances of the bacteria in our samples (as explained in
 Smets et al. 2016).
 
 ``` r
+
 tacosum(leaf)
 ```
 
@@ -52,6 +54,7 @@ which contain a 16S rRNA gene, hence the substantial loss of reads in
 this step.
 
 ``` r
+
 before <- tacosum(leaf)[3]
 
 leaf <- leaf%>%
@@ -64,6 +67,7 @@ tacosum(leaf)
     ##        33      5589   2634933
 
 ``` r
+
 after<-tacosum(leaf)[3]
 after/before
 ```
@@ -75,6 +79,7 @@ Depending on the database you used for assigning taxonomy, you may need
 to adapt this code and use for example:
 
 ``` r
+
 leaf <- leaf%>%
   filter_taxa(class != "Chloroplast" | is.na(class))%>%
   filter_taxa(family != "Mitochondria"| is.na(family))
@@ -88,6 +93,7 @@ counts per sample in the sample table. We can then visualize the
 distribution of these read counts using ggplot.
 
 ``` r
+
 leaf <- leaf%>%
   add_total_count()
 
@@ -110,6 +116,7 @@ function to generate a tidytacos object with only the blanks. The
 of the most abundant taxa in the blanks.
 
 ``` r
+
 leaf1 <- leaf%>%
   filter_samples(Plant == "Blank")
 
@@ -151,6 +158,7 @@ the information we have of our spike, we can identify the spike
 taxon_id, which we need for the `add_total_absolute_abundance` function.
 
 ``` r
+
 leaf <- leaf%>%
   add_prevalence(relative = T)
 
@@ -168,6 +176,7 @@ head(leaf$taxa)
     ## 6 Bacteria Actinobac… Acti… Fran… Geode… Blas… NA      TACG… t14          0.485
 
 ``` r
+
 leaf <- leaf%>%
   add_total_absolute_abundance(spike_taxon = "t6", spike_added = added_spike_copies)
 
@@ -179,6 +188,7 @@ ggplot(leaf$samples, aes(x = Plant, y = log10(total_absolute_abundance)))+
 ![](data-processing_files/figure-html/unnamed-chunk-7-1.png)
 
 ``` r
+
 contaminants <- leaf$samples%>%
   filter(Plant == "Blank")%>%
   filter(!is.na(total_absolute_abundance))%>%

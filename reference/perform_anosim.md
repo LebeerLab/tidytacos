@@ -69,6 +69,7 @@ an object of class "anosim"
 ## Examples
 
 ``` r
+
 perform_anosim(urt, method, dist = "jaccard")
 #> Warning: Empty samples found, ignoring them in analysis
 #> Warning: Removed 3 empty samples.

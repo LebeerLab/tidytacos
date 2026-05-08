@@ -73,6 +73,7 @@ no ranks are supplied, taxa will be (re)classified at all default ranks.
 ## Examples
 
 ``` r
+
 # we create a mock database
 x <- c(
 ">Level1;Level2;Level3;Level4;Level5;Level6;",

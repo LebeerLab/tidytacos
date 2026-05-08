@@ -25,6 +25,7 @@ A tidytacos object.
 ## Examples
 
 ``` r
+
 # change the sample column to lowercase
 urt <- urt %>% mutate_samples(sample = tolower(sample))
 ```

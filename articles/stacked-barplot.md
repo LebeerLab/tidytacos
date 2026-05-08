@@ -15,11 +15,12 @@ We need only two packages: tidytacos (of course) and the tidyverse set
 of packages.
 
 ``` r
+
 library(tidyverse)
 #> ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
 #> ✔ dplyr     1.2.1     ✔ readr     2.2.0
 #> ✔ forcats   1.0.1     ✔ stringr   1.6.0
-#> ✔ ggplot2   4.0.2     ✔ tibble    3.3.1
+#> ✔ ggplot2   4.0.3     ✔ tibble    3.3.1
 #> ✔ lubridate 1.9.5     ✔ tidyr     1.3.2
 #> ✔ purrr     1.2.2     
 #> ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
@@ -45,6 +46,7 @@ We start by selecting the samples we are interesting in: only the ones
 from the nose, taken with the swab method.
 
 ``` r
+
 urt_ns <- urt %>%
   filter_samples(location == "N", method == "S")
 ```
@@ -53,12 +55,14 @@ We can very easily create explorative plots of our samples in the
 following ways:
 
 ``` r
+
 tacoplot_stack(urt_ns)
 ```
 
 ![](stacked-barplot_files/figure-html/stackplot-1.png)
 
 ``` r
+
 tacoplot_stack_ly(urt_ns, x=sample)
 ```
 
@@ -123,6 +127,7 @@ determined by the categories of the variable we put there
 procedure!
 
 ``` r
+
 urt_s <- urt%>%
   filter_samples(method == "S")
 
@@ -143,6 +148,7 @@ location, with only the samples belonging to that location. This can be
 achieved in the following way:
 
 ``` r
+
 tacoplot_stack(urt_s) +
   facet_wrap(~ location, nrow = 2)
 ```
@@ -159,6 +165,7 @@ exist. Adding the argument `scales = "free_x"` corrects this behavior
 and also makes sure that the samples are plotted in order of clustering:
 
 ``` r
+
 tacoplot_stack(urt_s) +
   facet_wrap(~ location, scales = "free_x", nrow = 2)
 ```
@@ -187,6 +194,7 @@ Thanks to the `%>%` (pipe) operator from the magrittr package, we can
 achieve all this using the following elegant code:
 
 ``` r
+
 urt %>%
   add_rel_abundance() %>%
   filter_taxa(family == "Lactobacillaceae") %>%

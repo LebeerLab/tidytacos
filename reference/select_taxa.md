@@ -25,6 +25,7 @@ A tidytacos object.
 ## Examples
 
 ``` r
+
 # drop the sequence column
 urt %>% select_taxa(-sequence)
 #> $samples

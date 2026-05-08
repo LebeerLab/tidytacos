@@ -25,6 +25,7 @@ A (named) list of tidytacos object.
 ## Examples
 
 ``` r
+
 urt_by_loc <- urt %>% group_samples(location)
 
 # apply a function to each separate taco, eg. tacosum

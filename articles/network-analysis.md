@@ -1,6 +1,7 @@
 # Network Analysis
 
 ``` r
+
 suppressMessages({
   library(tidyverse)
   library(tidytacos)
@@ -33,10 +34,12 @@ taxonomic counts. For this the [SpiecEasi
 package](https://github.com/zdk123/SpiecEasi) is used.
 
 ``` r
+
 devtools::install_github('zdk123/SpiecEasi')
 ```
 
 ``` r
+
 urt.net <- urt.nf %>%
   network(
     min_occurrence = 0.05, # the minimum percentage of samples that needs to have a taxa for it to be included in the network
@@ -116,6 +119,7 @@ the `Matrix` package as a dependency. We also install the `igraph`
 package, which can be used for the visualization of the network.
 
 ``` r
+
 install.packages("Matrix")
 install.packages("igraph")
 ```
@@ -125,6 +129,7 @@ and remove the diagonal. This is all handled with the `filter_network`
 function.
 
 ``` r
+
 urt.net.filt <- urt.net %>% filter_network(threshold = 0.1)
 ```
 
@@ -137,10 +142,12 @@ clustering algorithm, the [Markov Cluster Algorithm
 interactions so any correlation \<0 will be set to 0.
 
 ``` r
+
 install.packages("MCL")
 ```
 
 ``` r
+
 urt.net.clust <- urt.net.filt %>% 
   cluster_network(min_n=5, visualize=T)
 ```
@@ -148,6 +155,7 @@ urt.net.clust <- urt.net.filt %>%
 ![](network-analysis_files/figure-html/network-clustering-1.png)
 
 ``` r
+
 
 urt.net.clust %>% 
   group_by(cluster) %>% 
@@ -166,6 +174,7 @@ Using the new clustered taxa (“eigentaxa”) we can visualize the clusters
 in the microbiome profile.
 
 ``` r
+
 urt.nf$taxa <- urt.nf$taxa %>% 
   left_join(urt.net.clust, by=c("taxon_name"="taxon")) 
 urt.nf <- urt.nf %>%
@@ -179,6 +188,7 @@ urt.nf  %>% tacoplot_stack()
 ![](network-analysis_files/figure-html/unnamed-chunk-2-1.png)
 
 ``` r
+
 
 urt.net.clust %>% filter(cluster == unique(urt.net.clust$cluster)[[4]])
 #> # A tibble: 20 × 2
