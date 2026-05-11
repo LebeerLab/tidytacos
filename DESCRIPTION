@@ -59,6 +59,7 @@ Suggests:
     Rtsne,
     seqinr,
     SpiecEasi,
+    SRS,
     testthat (>= 3.1.9),
     tidyverse,
     topicmodels,
