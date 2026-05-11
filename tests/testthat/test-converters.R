@@ -1,3 +1,14 @@
+test_that("Can create tidytacos object.", {
+
+    M <- matrix(c(0,5,12,0,0,3,4,11,0,2,0,20), 3, 4, byrow = FALSE)
+    ta <- create_tidytacos(M, taxa_are_columns=FALSE)
+    
+    expect_equal(ta$samples$sample, c("s1","s2","s3","s4"))
+    expect_equal(ta$taxa$taxon, c("t1","t2","t3"))
+    expect_equal(length(ta$counts$count), 7)
+
+})
+
 test_that("Can read tidytacos object.", {
   testthat::expect_warning(ta <- read_tidytacos(test_path("data/urt")))
   expect_equal(attr(ta, "class"), "tidytacos")
