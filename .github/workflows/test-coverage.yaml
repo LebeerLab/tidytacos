@@ -34,6 +34,7 @@ jobs:
                 any::Matrix
                 any::topicmodels
                 any::ggVennDiagram
+                any::eulerr
                 github::zdk123/pulsar
                 github::zdk123/SpiecEasi
                 github::lasy/alto

@@ -55,6 +55,7 @@ jobs:
               any::Rtsne
               any::fastDummies
               any::ggVennDiagram
+              any::eulerr
               any::topicmodels
               bioc::dada2
               github::zdk123/pulsar
