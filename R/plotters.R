@@ -605,7 +605,7 @@ tacoplot_prevalences <- function(ta, condition, cutoff = 0.1, fisher = T, adjp_m
     as.matrix()
   if (fisher) {
     fp <- prevalences %>%
-      dplyr::select(fisher_p) %>%
+      dplyr::pull(fisher_p) %>%
       rstatix::adjust_pvalue(method = adjp_method)
     fp_sig <- dplyr::case_when(
       fp < 0.0001 ~ " (****)",
