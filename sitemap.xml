@@ -82,11 +82,13 @@
 <url><loc>https://lebeerlab.github.io/tidytacos/reference/remove_duplicate_samples.html</loc></url>
 <url><loc>https://lebeerlab.github.io/tidytacos/reference/remove_empty_samples.html</loc></url>
 <url><loc>https://lebeerlab.github.io/tidytacos/reference/reset_ids.html</loc></url>
+<url><loc>https://lebeerlab.github.io/tidytacos/reference/sample_taco.html</loc></url>
 <url><loc>https://lebeerlab.github.io/tidytacos/reference/samples.html</loc></url>
 <url><loc>https://lebeerlab.github.io/tidytacos/reference/select_counts.html</loc></url>
 <url><loc>https://lebeerlab.github.io/tidytacos/reference/select_samples.html</loc></url>
 <url><loc>https://lebeerlab.github.io/tidytacos/reference/select_taxa.html</loc></url>
 <url><loc>https://lebeerlab.github.io/tidytacos/reference/set_rank_names.html</loc></url>
+<url><loc>https://lebeerlab.github.io/tidytacos/reference/srs_normalize.html</loc></url>
 <url><loc>https://lebeerlab.github.io/tidytacos/reference/tacoplot_alphas.html</loc></url>
 <url><loc>https://lebeerlab.github.io/tidytacos/reference/tacoplot_codifab.html</loc></url>
 <url><loc>https://lebeerlab.github.io/tidytacos/reference/tacoplot_euler.html</loc></url>

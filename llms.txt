@@ -447,26 +447,47 @@ structures.
 
 - [`trim_asvs()`](https://lebeerlab.github.io/tidytacos/reference/trim_asvs.md)
   : Trim all sequences
+
 - [`classify_taxa()`](https://lebeerlab.github.io/tidytacos/reference/classify_taxa.md)
   : (Re)classify amplicon sequences
+
 - [`reset_ids()`](https://lebeerlab.github.io/tidytacos/reference/reset_ids.md)
   : Reset the taxon and sample IDs
+
 - [`change_id_samples()`](https://lebeerlab.github.io/tidytacos/reference/change_id_samples.md)
   : Change sample IDs to a given expression
+
 - [`change_id_taxa()`](https://lebeerlab.github.io/tidytacos/reference/change_id_taxa.md)
   : Change taxon IDs to a given expression
+
 - [`remove_empty_samples()`](https://lebeerlab.github.io/tidytacos/reference/remove_empty_samples.md)
   : Removes empty samples from the tidytacos object
+
 - [`remove_duplicate_samples()`](https://lebeerlab.github.io/tidytacos/reference/remove_duplicate_samples.md)
   : Removes duplicate samples from the tidytacos object
+
 - [`tidy_count_to_matrix()`](https://lebeerlab.github.io/tidytacos/reference/tidy_count_to_matrix.md)
   : Convert counts tidy data frame to matrix
+
 - [`rarefy()`](https://lebeerlab.github.io/tidytacos/reference/rarefy.md)
   : Rarefy the samples to a given number of reads
+
+- [`srs_normalize()`](https://lebeerlab.github.io/tidytacos/reference/srs_normalize.md)
+  :
+
+  Normalize counts using Scaling with Ranked Subsampling (SRS)
+  [`srs_normalize()`](https://lebeerlab.github.io/tidytacos/reference/srs_normalize.md)
+  uses the SRS method to equalize sampling depth to a chosen value.
+
+- [`sample_taco()`](https://lebeerlab.github.io/tidytacos/reference/sample_taco.md)
+  : Take a sample of a tidytacos object
+
 - [`test_taco()`](https://lebeerlab.github.io/tidytacos/reference/test_taco.md)
   : Create a tidytacos object for testing/example purporses
+
 - [`taxonlist_per_condition()`](https://lebeerlab.github.io/tidytacos/reference/taxonlist_per_condition.md)
   : Return a list of taxon IDs per condition
+
 - [`tacosum()`](https://lebeerlab.github.io/tidytacos/reference/tacosum.md)
   : Return some descriptive numbers
 

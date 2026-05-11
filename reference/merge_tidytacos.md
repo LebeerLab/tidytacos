@@ -6,7 +6,7 @@ tidytacos object.
 ## Usage
 
 ``` r
-merge_tidytacos(ta1, ta2, taxon_identifier = sequence)
+merge_tidytacos(ta1, ta2, taxon_identifier = sequence, quiet = FALSE)
 ```
 
 ## Arguments
@@ -23,6 +23,10 @@ merge_tidytacos(ta1, ta2, taxon_identifier = sequence)
 
   The column name in the taxa tables which identify unique taxa. Default
   is sequence.
+
+- quiet:
+
+  hide warnings
 
 ## Details
 

@@ -301,5 +301,5 @@ urt %>%
   tacoplot_prevalences(location, cutoff = .1,
   treeheight_row = 0, cutree_rows = 4,
   fontsize = 6, cellwidth = 15)
-#> Error in dplyr::case_when(fp < 1e-04 ~ " (****)", fp < 0.001 ~ " (***)",     fp < 0.01 ~ " (**)", fp < 0.05 ~ " (*)", TRUE ~ ""): `..1 (left)` must be a logical vector, not a logical matrix.
+
 ```

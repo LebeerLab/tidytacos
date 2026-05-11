@@ -35,7 +35,8 @@ A tidytacos object with absolute abundances added to the count table.
 
 Other count-modifiers:
 [`add_density()`](https://lebeerlab.github.io/tidytacos/reference/add_density.md),
-[`add_rel_abundance()`](https://lebeerlab.github.io/tidytacos/reference/add_rel_abundance.md)
+[`add_rel_abundance()`](https://lebeerlab.github.io/tidytacos/reference/add_rel_abundance.md),
+[`srs_normalize()`](https://lebeerlab.github.io/tidytacos/reference/srs_normalize.md)
 
 ## Examples
 
