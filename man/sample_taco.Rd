@@ -21,6 +21,8 @@ sample_taco(
 \item{group_col}{An optional name of a field in the sample table
 which the samples need to be evenly distributed over.}
 
+\item{taxon_identifier}{The column that uniquely identifies a taxa}
+
 \item{replace}{Replace selected samples so they can be picked again in sampling.}
 }
 \value{
