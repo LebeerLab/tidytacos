@@ -24,6 +24,16 @@ which the samples need to be evenly distributed over.}
 \item{taxon_identifier}{The column that uniquely identifies a taxa}
 
 \item{replace}{Replace selected samples so they can be picked again in sampling.}
+
+\item{...}{
+  Arguments passed on to \code{\link[base:sample]{base::sample}}
+  \describe{
+    \item{\code{x}}{either a vector of one or more elements from which to choose,
+    or a positive integer.  See \sQuote{Details.}}
+    \item{\code{size}}{a non-negative integer giving the number of items to choose.}
+    \item{\code{prob}}{a vector of probability weights for obtaining the elements
+    of the vector being sampled.}
+  }}
 }
 \value{
 A tidytacos object.

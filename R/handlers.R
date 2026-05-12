@@ -552,13 +552,16 @@ add_clr_abundance <- function(
 #' which the samples need to be evenly distributed over.
 #' @param taxon_identifier The column that uniquely identifies a taxa
 #' @param replace Replace selected samples so they can be picked again in sampling.
+#' @inheritDotParams base::sample
 #' @return A tidytacos object.
 #' @export
 sample_taco <- function(tt, n, group_col, taxon_identifier = sequence, replace=FALSE, ...) {
     
     nsamples <- length(tt$samples$sample_id)
     if (n >= nsamples & !replace) {
-       stop(paste0("Please select a subset n that is lower than the total number of samples (number of samples = ", nsamples,").")) 
+       stop(paste0(
+       "Please select a subset n that is lower than the total number of samples (number of samples = ", 
+            nsamples,").")) 
     }
 
     if (!missing(group_col)){
