@@ -31,6 +31,10 @@ sample_taco(
   An optional name of a field in the sample table which the samples need
   to be evenly distributed over.
 
+- taxon_identifier:
+
+  The column that uniquely identifies a taxa
+
 - replace:
 
   Replace selected samples so they can be picked again in sampling.
