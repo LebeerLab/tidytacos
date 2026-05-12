@@ -39,6 +39,25 @@ sample_taco(
 
   Replace selected samples so they can be picked again in sampling.
 
+- ...:
+
+  Arguments passed on to
+  [`base::sample`](https://rdrr.io/r/base/sample.html)
+
+  `x`
+
+  :   either a vector of one or more elements from which to choose, or a
+      positive integer. See ‘Details.’
+
+  `size`
+
+  :   a non-negative integer giving the number of items to choose.
+
+  `prob`
+
+  :   a vector of probability weights for obtaining the elements of the
+      vector being sampled.
+
 ## Value
 
 A tidytacos object.
