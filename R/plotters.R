@@ -625,6 +625,51 @@ tacoplot_prevalences <- function(ta, condition, cutoff = 0.1, fisher = T, adjp_m
   pheatmap::pheatmap(prevalences.M, ...)
 }
 
+#' Return an occupancy-abundance plot to visualize the core taxa of a community.
+#'
+#'
+#' @param ta A tidytacos object of the community in question.
+#' @inheritDotParams perform_neutral_model
+#' @examples
+#' urt %>% tacoplot_occupancy()
+#' @export
+tacoplot_occupancy <- function(ta, taxon_name=taxon_id, ...) {
+  
+  force_optional_dependency("pctax")
+  taxon_name <- rlang::enquo(taxon_name)
+  lincol <- "grey"
+  
+  if (!rlang::quo_name(taxon_name) %in% c("taxon_id","taxon_name")) {
+   ta <- aggregate_taxa(ta, rank = rlang::quo_name(taxon_name))
+   taxon_name <- rlang::sym("taxon_name")
+  }
+
+  res <- perform_neutral_model(ta, taxon_name={{ taxon_name }})
+
+  data <- res$ncm_data %>% 
+  tibble::rownames_to_column(rlang::quo_name(taxon_name))
+
+  fit <- res$stats
+
+  tx <- ta %>%
+  add_prevalence(relative = TRUE) %>%
+  add_mean_rel_abundance() %>%
+  taxa() %>%
+  left_join(data)
+
+  ggplot(tx, aes(x=log10(mean_rel_abundance), y=prevalence)) +
+   geom_point(aes(color=group)) +
+   geom_line(data = data, aes(x=log10(p), y=freq.pred), linewidth = 1.2, linetype = 1, col = lincol) +
+   geom_line(data = data, aes(x = log10(p), y = Lower), linewidth = 1.2, linetype = 2, col = lincol) +
+   geom_line(data = data, aes(x = log10(p), y = Upper), linewidth = 1.2, linetype = 2, col = lincol) +
+   geom_text(aes(label=taxon_name), data = . %>% filter(group != 'In'), alpha=.4) +
+   annotate("text", x=-1, y=0, label=paste0("R²: ", signif(fit$R2), "\nNm: ", round(fit$m * fit$N))) + 
+   theme_classic() +
+   theme(
+    legend.position = "top"
+   )
+  
+}
 
 #' Return a scree plot to visualize the eigenvalues of the PCA.
 #'

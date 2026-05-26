@@ -250,6 +250,39 @@ perform_adonis <- function(ta, predictors, permutations = 999, ...) {
   )
 }
 
+#' Perform a Sloan neutral model fit on the taxa in the current tidytacos object
+#'
+#' This function executes the [ncm][pctax::ncm] function of the pctax package
+#' and returns the result.
+#'
+#'
+#' @param ta A tidytacos object.
+#' @param model the fit method to be used; choice from "nls" or "mle".
+#' @return An object of class "ncm_res" (see [pctax][pctax::ncm]).
+#' @examples
+#' res <- urt %>% 
+#'   filter_samples(method == "S", location == "NF") %>%
+#'   perform_neutral_model(model="mle")
+#' plot(res)
+#' @export
+perform_neutral_model <- function(ta, taxon_name=taxon_id, model="nls") {
+
+  force_optional_dependency("pctax")
+  taxon_name <- rlang::enquo(taxon_name)
+
+  if (!rlang::quo_name(taxon_name) %in% c("taxon_id","taxon_name")) {
+   ta <- aggregate_taxa(ta, rank = rlang::quo_name(taxon_name))
+   taxon_name <- rlang::sym("taxon_name")
+  }
+
+  counts_matrix <- ta %>%
+    counts_matrix(taxon_name= {{ taxon_name }}) %>%
+    t()
+
+  pctax::ncm(counts_matrix, model=model)
+  
+}
+
 #' Return a counts matrix
 #'
 #' This function returns a matrix with taxon counts; the rows are samples and
