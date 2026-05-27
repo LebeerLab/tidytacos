@@ -55,6 +55,63 @@ get_ord_stat <- function(ta, x, stat.method, distance = distance) {
   stat.result
 }
 
+#' Return a bar plot of the samples in the shade of one taxonomic rank; colored by a lower level rank.
+#'
+#' Plots a stacked bar plot of the samples in the tidytacos object to inspect the taxonomic profile on two taxonomic ranks.
+#'
+#' @param ta A tidytacos object.
+#' @param group The higher level taxonomic rank name (default: family)
+#' @param subgroup The lower level taxonomic rank name (default: genus)
+#' @param N Number of subgroups per group; max of 4.
+#' @param n Number of groups to plot.
+#' @param order_tax an optional individual name of the group taxonomic rank to sort the samples on.
+#' For examples order_by=Lactobacillaceae would order the x-axis by the abundance of Lactobacillaceae.
+#' @export
+tacoplot_shade <- function(ta, group="family", subgroup="genus",n=5, N=4, order_tax="NA") {
+  force_optional_dependency("microshades", "remotes::install_github('KarstensLab/microshades', dependencies = TRUE)")
+  force_optional_dependency("speedyseq", "remotes::install_github('mikemc/speedyseq')")
+  
+  ps <- as_phyloseq(ta)
+  mdf_prep <- microshades::prep_mdf(ps, subgroup_level = subgroup)
+  
+  # top N 
+  selected_groups <- ta %>% 
+  add_prevalence(relative=TRUE) %>%
+  taxa() %>%
+  arrange(desc(prevalence)) %>%
+  pull(group) %>%
+  unique() %>%
+  head(n)
+
+  color_obj <- microshades::create_color_dfs(
+    mdf_prep, 
+    selected_groups = selected_groups,
+    top_n_subgroups = N,
+    group_level = group, 
+    subgroup_level = subgroup, 
+    cvd = TRUE)
+
+  
+
+  color_obj.reorder <- microshades::reorder_samples_by(
+    color_obj$mdf, color_obj$cdf, 
+    order_tax = order_tax,
+    group_level = group, subgroup_level = subgroup,
+    sink_abundant_groups = TRUE)
+
+  microshades::plot_microshades(
+    color_obj.reorder$mdf,
+    color_obj.reorder$cdf,
+    group_label = paste(group, subgroup)
+  ) + scale_y_continuous(
+    labels = scales::percent, 
+    expand = expansion(0)) +
+  theme(legend.key.size = unit(0.2, "cm"), 
+  text=element_text(size=10)) +
+  theme(axis.text.x = element_text(size= 6)) 
+
+}
+
 #' Return a bar plot of the samples
 #'
 #' Plots a stacked bar plot of the samples in the tidytacos object to inspect the taxonomic profile.
