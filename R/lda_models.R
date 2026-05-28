@@ -95,7 +95,7 @@ align_lda_topics <- function(ta, k_range = 2:10, seed = 42,
   matrix <- ta %>%
     add_prevalence(relative = TRUE) %>%
     filter_taxa(prevalence >= min_prevalence) %>%
-    counts_matrix(sample = !!sample, taxon = !!taxon)
+    counts_matrix(sample_name = !!sample, taxon_name = !!taxon)
 
   lda_models <- alto::run_lda_models(
     data = matrix, lda_varying_params_lists = lda_pars,
