@@ -32,7 +32,6 @@ jobs:
                 bioc::dada2
                 any::MCL
                 any::Matrix
-                any::pctax
                 any::topicmodels
                 any::ggVennDiagram
                 any::eulerr
