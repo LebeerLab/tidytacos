@@ -140,6 +140,8 @@ reference:
       - remove_duplicate_samples
       - tidy_count_to_matrix
       - rarefy
+      - srs_normalize
+      - sample_taco
       - test_taco
       - taxonlist_per_condition
       - tacosum
