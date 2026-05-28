@@ -44,6 +44,7 @@ jobs:
             bioc::dada2
             github::lasy/alto
             github::zdk123/SpiecEasi
+            github::KarstensLab/microshades
           needs: website
 
       - name: Build site

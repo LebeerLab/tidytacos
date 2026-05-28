@@ -548,6 +548,7 @@ add_clr_abundance <- function(
 #'
 #' @param tt A tidytacos object.
 #' @param n The amount of samples that need to be returned.
+#' @param taxon_identifier the name of the taxon field in the taxa table to be used
 #' @param group_col An optional name of a field in the sample table
 #' which the samples need to be evenly distributed over.
 #' @param replace Replace selected samples so they can be picked again in sampling.

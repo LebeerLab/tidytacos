@@ -38,6 +38,7 @@ jobs:
                 github::zdk123/pulsar
                 github::zdk123/SpiecEasi
                 github::lasy/alto
+                github::KarstensLab/microshades
           needs: coverage
 
       - name: Test coverage
