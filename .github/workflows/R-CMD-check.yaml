@@ -57,6 +57,7 @@ jobs:
               any::ggVennDiagram
               any::eulerr
               any::topicmodels
+              any::pctax
               bioc::dada2
               github::zdk123/pulsar
               github::lasy/alto
