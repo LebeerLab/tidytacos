@@ -37,6 +37,7 @@ data <- data \%>\% add_rel_abundance()
 \seealso{
 Other count-modifiers: 
 \code{\link{add_absolute_abundance}()},
-\code{\link{add_density}()}
+\code{\link{add_density}()},
+\code{\link{srs_normalize}()}
 }
 \concept{count-modifiers}

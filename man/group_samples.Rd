@@ -19,7 +19,11 @@ Group the samples
 }
 \examples{
 
-urt_groups <- urt \%>\% group_samples(location)
+urt_by_loc <- urt \%>\% group_samples(location)
+
+# apply a function to each separate taco, eg. tacosum
+urt_by_loc@tacos \%>\% lapply(tacosum)
+
 # subset urt to keep only nasopharynx samples
-urt_nf <- urt_groups$NF
+urt_nf <- urt_by_loc@tacos$NF
 }

@@ -261,11 +261,11 @@ perform_adonis <- function(ta, predictors, permutations = 999, ...) {
 #' @param taxon_name The name of the variable in the taxon table to use as
 #'   column names (unquoted).
 #' @param value The name of the variable in the counts table to use as count
-#'
+#' @param keep_empty_samples Should empty samples be included in the matrix?
 #' @return A matrix with count values.
 #'
 #' @export
-counts_matrix <- function(ta, sample_name = sample_id, taxon_name = taxon_id, value = count) {
+counts_matrix <- function(ta, sample_name = sample_id, taxon_name = taxon_id, value = count, keep_empty_samples = FALSE) {
   value <- rlang::enquo(value)
   if ("tidytacos" %in% class(ta)) {
     sample_name <- rlang::enquo(sample_name)
@@ -288,7 +288,28 @@ counts_matrix <- function(ta, sample_name = sample_id, taxon_name = taxon_id, va
   } else {
     tidy_count <- ta
   }
-  tidy_count %>% tidy_count_to_matrix(value = {{ value }})
+  M <- tidy_count %>% tidy_count_to_matrix(value = {{ value }})
+  # add empty samples
+  if (
+    keep_empty_samples &&
+    any(ta %>% 
+    add_total_count() %>% 
+    samples() %>% 
+    pull(total_count) == 0)) {
+    empty_sample_ids <- ta %>%
+      add_total_count() %>%
+      samples() %>%
+      filter(total_count == 0) %>%
+      pull(sample_id)
+    if (ncol(M) == 0) {
+      stop("No taxa found in the counts table.")
+    }
+    empty_samples <- matrix(0, nrow = length(empty_sample_ids), ncol = ncol(M))
+    rownames(empty_samples) <- empty_sample_ids
+    colnames(empty_samples) <- colnames(M)
+    M <- rbind(M, empty_samples)
+  }
+  M
 }
 
 #' Return a relative abundance matrix

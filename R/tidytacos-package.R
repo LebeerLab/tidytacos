@@ -38,4 +38,19 @@ globalVariables(c(
     "colorRampPalette"
 ))
 ## usethis namespace: end
-NULL
+
+# Class -----------------------------------------------------------------------
+#' An S4 class to store a grouped tidytaco with \link{group_samples}
+#'
+#' This S4 class stores the output from \link{group_samples}.
+#'
+#' @slot groups the different grouped tidytacos.
+#' @name grouped_taco
+#' @importFrom methods new
+setClass(
+    "grouped_taco",
+    slots=c(
+        tacos="list",
+        group_cols="character"
+    )
+)

@@ -13,6 +13,7 @@
 #'
 #' @param counts_matrix Numerical matrix containing the count data.
 #' @param taxa_are_columns A logical scalar. Are the taxa defined in columns?
+#' @param allow_non_count Allow counts that are less than or equal to 0.
 #'
 #' @examples
 #' # Initiate count matrix
@@ -48,7 +49,7 @@
 #' @family import-methods
 #' @return A tidytacos object.
 #' @export
-create_tidytacos <- function(counts_matrix, taxa_are_columns = TRUE) {
+create_tidytacos <- function(counts_matrix, taxa_are_columns = TRUE, allow_non_count=FALSE) {
 
   if (
     !is.matrix(counts_matrix) ||
@@ -62,7 +63,7 @@ create_tidytacos <- function(counts_matrix, taxa_are_columns = TRUE) {
     rownames(counts_matrix) <- str_c("s", seq_len(dim(counts_matrix)[1]))
   }
   if (counts_matrix %>% colnames() %>% length() == 0) {
-    colnames(counts_matrix) <- str_c("s", seq_len(dim(counts_matrix)[2]))
+    colnames(counts_matrix) <- str_c("t", seq_len(dim(counts_matrix)[2]))
   }
 
   counts_matrix <-
@@ -82,8 +83,10 @@ create_tidytacos <- function(counts_matrix, taxa_are_columns = TRUE) {
     as.vector() %>%
     tibble(count = .) %>%
     mutate(sample_id = rep(!!sample_ids, times = !!n_taxa)) %>%
-    mutate(taxon_id = rep(!!taxon_ids, each = !!n_samples)) %>%
-    filter(count > 0)
+    mutate(taxon_id = rep(!!taxon_ids, each = !!n_samples))
+  if (!allow_non_count) {
+  ta$counts <- filter(ta$counts, count != 0) 
+  }
 
   ta$samples <-
     counts_matrix %>%
@@ -168,7 +171,7 @@ read_tidytacos <- function(din, samples = "samples.csv", taxa = "taxa.csv",
   infer_rank_names(ta)
 }
 
-infer_rank_names <- function(ta) {
+infer_rank_names <- function(ta, quiet=FALSE) {
   nonranks <- c("taxon", "taxon_id", "sequence")
   default_rank_names <- c("domain", "phylum", "class", "order", "family", "genus", "species")
   expected_rank_names <- colnames(ta$taxa)[!colnames(ta$taxa) %in% nonranks]
@@ -190,6 +193,7 @@ infer_rank_names <- function(ta) {
   if (!all(rn %in% default_rank_names)) {
     ranks <- colnames(ta$taxa)[!colnames(ta$taxa) %in% nonranks]
 
+    if (!quiet) {
     warning(paste0(
       "Not all default rank names found. Replacing them with:\n c(\"",
       paste(ranks, collapse = '","'),
@@ -197,6 +201,7 @@ infer_rank_names <- function(ta) {
       "in descending order, \nplease set ",
       "them manually using 'set_rank_names()'"
     ))
+    }
     ta <- ta %>% set_rank_names(ranks)
   }
   ta
@@ -375,7 +380,12 @@ from_dada <- function(seqtab, taxa, taxa_are_columns = TRUE) {
   # add taxonomic data
   colnames(taxa) <- str_to_lower(colnames(taxa))
 
-  ta$taxa <- ta$taxa %>% left_join(taxa, by = "taxon")
+  if (!"taxon" %in% colnames(taxa)) { 
+    taxa <- taxa %>% rename(taxon = ASV_ID)
+  }
+  
+  ta$taxa <- ta$taxa %>% 
+  left_join(taxa, by = "taxon")
   ta
 }
 
@@ -461,9 +471,10 @@ tidy_count_to_matrix <- function(counts, value = count) {
 #' @param ta1 The first tidytacos object.
 #' @param ta2 The second tidytacos object.
 #' @param taxon_identifier The column name in the taxa tables which identify unique taxa. Default is sequence.
+#' @param quiet hide warnings
 #'
 #' @export
-merge_tidytacos <- function(ta1, ta2, taxon_identifier = sequence) {
+merge_tidytacos <- function(ta1, ta2, taxon_identifier = sequence, quiet=FALSE) {
   taxon_identifier <- rlang::ensym(taxon_identifier)
 
   ti <- rlang::as_string(taxon_identifier)
@@ -503,7 +514,7 @@ merge_tidytacos <- function(ta1, ta2, taxon_identifier = sequence) {
   class(ta) <- "tidytacos"
 
   # give new sample names in new ta object
-  ta <- reset_ids(ta) %>% infer_rank_names()
+  ta <- reset_ids(ta) %>% infer_rank_names(quiet = quiet)
 
   # return ta object
   ta

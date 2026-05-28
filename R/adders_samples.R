@@ -184,13 +184,15 @@ add_alpha <- function(ta, method = "invsimpson", keep_empty_samples = FALSE, sub
   } else {
 
   if (method %in% vegan_standard_methods) {
-    M <- ta %>% counts_matrix(sample_name = sample_id, taxon_name = taxon_id)
+    M <- ta %>% counts_matrix(sample_name = sample_id, 
+      taxon_name = taxon_id, keep_empty_samples = keep_empty_samples)
     D <- vegan::diversity(M, index = method)
     diversities <- tibble::tibble(sample_id = names(D), !!method := D)
   }
 
   if (method %in% vegan_estimateR_methods) {
-    M <- ta %>% counts_matrix(sample_name = sample_id, taxon_name = taxon_id)
+    M <- ta %>% counts_matrix(sample_name = sample_id, 
+      taxon_name = taxon_id, keep_empty_samples = keep_empty_samples)
     D <- vegan::estimateR(M)
     selection <- grepl(method, rownames(D), ignore.case = TRUE)
     selection_names <- rownames(D)[selection]
@@ -209,9 +211,20 @@ add_alpha <- function(ta, method = "invsimpson", keep_empty_samples = FALSE, sub
 
   if (method == "pielou") diversities <- calculate_alpha_pielou(ta)
 
+  if (method == "berger_parker") {
+    diversities <- add_dominant_taxa(ta) %>%
+      samples() %>%
+      select(sample_id, berger_parker)
+  }
+
   # if calculating for a single sample, sample_id missing at this point:
   if (length(ta$samples$sample_id) == 1) {
     diversities$sample_id <- ta$samples$sample_id
+  }
+
+  # observed species is NA for empty samples
+  if (method=="obs") {
+    diversities$obs[is.na(diversities$obs)] <- 0
   }
 
   # add diversity measure to sample table
@@ -412,7 +425,7 @@ perform_pcoa <- function(ta, dist_matrix, dims = 2, ...) {
   if (length(ta$samples$sample_id) < 3) {
     stop("PCoA requires at least 3 samples. Try ord='umap' or ord='tsne' if you wish to proceed with fewer samples.")
   }
-  pcoa <- stats::cmdscale(dist_matrix, k = dims, eig = T, list = T, ...)
+  pcoa <- stats::cmdscale(dist_matrix, k = dims, eig = TRUE, list = TRUE, ...)
   ord$variances <- pcoa$eig / sum(pcoa$eig)
   ord$dimensions <- get_dimensions(
     pcoa$points, rownames(pcoa$points),
@@ -421,8 +434,19 @@ perform_pcoa <- function(ta, dist_matrix, dims = 2, ...) {
   ord
 }
 
+perform_nmds <- function(dist_matrix, dims = 2, ...) {
+  ord <- list()
+
+  nmds <- vegan::metaMDS(dist_matrix, k=dims, ...)
+  ord$dimensions <- nmds$dimensions <- get_dimensions(
+    nmds$points, rownames(nmds$points), dims
+  )
+  ord$model <- nmds
+  ord
+}
+
 # Calculate tsne coordinates and variances
-perform_tsne <- function(ta, dist_matrix, dims = 2, ...) {
+perform_tsne <- function(dist_matrix, dims = 2, ...) {
   force_optional_dependency("Rtsne")
 
   ord <- list()
@@ -436,7 +460,7 @@ perform_tsne <- function(ta, dist_matrix, dims = 2, ...) {
 }
 
 # Calculate umap coordinates and variances
-perform_umap <- function(ta, dist_matrix, dims = 2, ...) {
+perform_umap <- function(dist_matrix, dims = 2, ...) {
   force_optional_dependency("umap")
   ord <- list()
   umap <- umap::umap(as.matrix(dist_matrix), n_components = dims, ...)
@@ -447,6 +471,7 @@ perform_umap <- function(ta, dist_matrix, dims = 2, ...) {
   ord$variances <- umap$knn$distances / sum(umap$knn$distances)
   ord
 }
+
 
 #' Calculate unifrac distance matrix from a tidytacos object with a rooted tree
 #' @param ta A tidytacos object with a rooted tree in the "tree" slot.
@@ -509,12 +534,12 @@ calculate_unifrac_distances <- function(ta, ...) {
 #' data$ord_variances
 #' @export
 add_ord <- function(ta, distance = "bray", method = "pcoa", dims = 2, binary = FALSE, ...) {
-  methods <- c("pcoa", "tsne", "umap")
+  methods <- c("pcoa", "tsne", "umap", "nmds")
   method <- tolower(method)
   distance <- tolower(distance)
 
   if (!method %in% methods) {
-    stop(paste("Select a method from", paste0(method, collapse = ",")))
+    stop(paste("Select a method from", paste0(methods, collapse = ",")))
   }
 
   # if add_ord was run before, remove coordinates from sample table
@@ -525,30 +550,40 @@ add_ord <- function(ta, distance = "bray", method = "pcoa", dims = 2, binary = F
   }
 
   # make relative abundance matrix
-  rel_abundance_matrix <- rel_abundance_matrix(ta, sample_name = sample_id, taxon_name = taxon_id)
-
-  if (distance == "aitchison") {
+  rel_abundance_matrix <- rel_abundance_matrix(ta,
+                                               sample_name = sample_id,
+                                               taxon_name = taxon_id)
+  args <- list(...)
+  if (distance == "none") {
+    dist_matrix <- rel_abundance_matrix
+  } else if (distance == "aitchison") {
+    if (is.null(args$pseudocount)) {
+      args$pseudocount <- 1
+      warning("Using pseudocount of 1")
+    }
     # Euclidean distance between CLR transformed abundances
     rel_abundance_matrix <- rel_abundance_matrix %>%
-      vegan::decostand(method = "clr", pseudocount = 1)
+      vegan::decostand(method = "clr", pseudocount = args$pseudocount)
     dist_matrix <- vegan::vegdist(rel_abundance_matrix, method = "euclidean")
   } else if (distance == "unifrac") {
     dist_matrix <- calculate_unifrac_distances(ta)
   } else {
     # make distance matrix
-    dist_matrix <- vegan::vegdist(rel_abundance_matrix, method = distance, binary = binary)
+    dist_matrix <- vegan::vegdist(rel_abundance_matrix,
+                                  method = distance,
+                                  binary = binary)
   }
+
+  args[["pseudocount"]] <- NULL
 
   if (method == "pcoa") {
-    ord <- perform_pcoa(ta, dist_matrix, dims = dims, ...)
-  }
-
-  if (method == "tsne") {
-    ord <- perform_tsne(ta, dist_matrix, dims = dims, ...)
-  }
-
-  if (method == "umap") {
-    ord <- perform_umap(ta, dist_matrix, dims = dims, ...)
+    ord <- do.call(perform_pcoa, c(list(ta, dist_matrix, dims = dims), args))
+  } else if (method == "tsne") {
+    ord <- do.call(perform_tsne, c(list(dist_matrix, dims = dims), args))
+  } else if (method == "umap") {
+    ord <- do.call(perform_umap, c(list(dist_matrix, dims = dims), args))
+  } else if (method == "nmds") {
+    ord <- do.call(perform_nmds, c(list(dist_matrix, dims = dims), args))
   }
 
   # add ord dimensions to sample table
@@ -558,6 +593,9 @@ add_ord <- function(ta, distance = "bray", method = "pcoa", dims = 2, binary = F
   # add ord variances to ta object
   ta$ord_variances <- ord$variances
   ta$ord_method <- method
+  if (!is.null(ord$model)) {
+    ta$ord_model <- ord$model
+  }
   # return ta object
   ta
 }
@@ -864,6 +902,78 @@ add_total_density <- function(ta, spike_taxon,
   }
 
   # return ta object
+  ta
+}
+
+#' Adds the most dominant taxa in the sample to the sample table
+#' 
+#' `add_dominant_taxa()` adds the most dominant taxa in the sample
+#' above a given relative abundance to the sample table.
+#' Samples that do not have a dominant taxon will have NA in the dominant_taxon column.
+#' @param ta A tidytacos object.
+#' @param threshold_dominance The relative abundance threshold for a taxon to be considered dominant.
+#' @param taxon_name The column name of the taxa table that defines the taxon name.
+#' @return A tidytacos object with the dominant taxa added to the sample table and the Berger-Parker index of the most dominant taxon. 
+#' If the B-P index is lower than the threshold NA is returned.
+#' @family sample-modifiers
+#' @export
+add_dominant_taxa <- function(ta, threshold_dominance = 0.5, taxon_name=taxon_id) {
+  
+  tryCatch(
+    expr = {
+      taxon_name <- sym(taxon_name)
+    }, error = function(e) {
+      taxon_name <<- enquo(taxon_name)
+    }, finally = {}
+  )
+  
+  if (!rlang::quo_name(taxon_name) %in% names(ta$taxa)) {
+
+    if (rlang::as_label(taxon_name) == "taxon_name") {
+      ta <- ta %>% add_taxon_name()
+    } else {
+
+      stop(paste(
+        "Taxa table requires a column",
+        rlang::quo_name(taxon_name),
+        "that defines the taxon name."
+      ))
+    }
+  }
+
+  if ("dominant_taxon" %in% names(ta$samples)) {
+    ta <- ta %>% select_samples(-dominant_taxon)
+  }
+
+  dom_tax <- ta %>%
+  add_rel_abundance() %>%
+  counts() %>%
+  left_join(ta$taxa, by=c("taxon_id"="taxon_id")) %>%
+  filter(rel_abundance == max(rel_abundance), .by = sample_id) %>%
+  select(c(sample_id,rel_abundance,!!taxon_name)) %>%
+  mutate(
+      dominant_taxon = 
+      ifelse( 
+        rel_abundance >= threshold_dominance,
+        !!taxon_name, 
+        NA_character_)
+    ) %>% 
+  select(sample_id, dominant_taxon) %>%
+  # deduplicate in case of multiple taxa with same rel_abundance
+  group_by(sample_id) %>% 
+  filter(row_number() == 1)
+
+  ta$samples <- ta$samples %>%
+    left_join(dom_tax, by = "sample_id")
+
+  # add Berger-Parker index
+  bp_counts <- ta$counts %>%
+    group_by(sample_id) %>%
+    summarize(berger_parker = max(count) / sum(count))
+
+  ta$samples <- ta$samples %>%
+    left_join(bp_counts, by = "sample_id")
+
   ta
 }
 

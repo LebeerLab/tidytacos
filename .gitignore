@@ -14,3 +14,4 @@ pkgdown
 inst/doc
 /doc/
 /Meta/
+dev*

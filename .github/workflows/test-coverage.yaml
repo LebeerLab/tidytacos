@@ -14,7 +14,7 @@ jobs:
       CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - uses: r-lib/actions/setup-r@v2
         with:
@@ -34,6 +34,8 @@ jobs:
                 any::Matrix
                 any::topicmodels
                 any::ggVennDiagram
+                any::eulerr
+                github::zdk123/pulsar
                 github::zdk123/SpiecEasi
                 github::lasy/alto
           needs: coverage

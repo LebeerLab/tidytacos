@@ -30,3 +30,25 @@ test_that("Infer rank names bug (#57)", {
     t <- t %>% aggregate_taxa(rank="phylum")
     expect_equal(nrow(t$taxa), 1)
 })
+
+test_that("add_dominant_taxa does not add extra samples", {
+    samples_dom <- leaf %>% 
+    add_dominant_taxa(threshold_dominance = .3) %>%
+    samples() %>%
+    nrow()
+
+    samples_pre <- leaf %>%
+    samples() %>%
+    nrow()
+    
+    expect_equal(samples_dom,samples_pre)
+})
+
+test_that("Can calculate alpha diversity (obs) for empty samples", {
+    observed_alphas <- urt %>%
+      add_alpha("obs", keep_empty_samples = TRUE) %>%
+      samples() %>%
+      pull(obs)
+    # 3 empty samples
+    expect_equal(sum(observed_alphas == 0), 3)
+})

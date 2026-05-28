@@ -472,25 +472,31 @@ filter_counts <- function(ta, ...) {
 #' @return A (named) list of tidytacos object.
 #' @examples
 #'
-#' urt_groups <- urt %>% group_samples(location)
+#' urt_by_loc <- urt %>% group_samples(location)
+#' 
+#' # apply a function to each separate taco, eg. tacosum
+#' urt_by_loc@tacos %>% lapply(tacosum)
+#' 
 #' # subset urt to keep only nasopharynx samples
-#' urt_nf <- urt_groups$NF
+#' urt_nf <- urt_by_loc@tacos$NF
 #' @export
 group_samples <- function(ta, ...) {
-    gr_names <- ta$samples %>% 
-      dplyr::group_by(...) %>% 
+    gr_names <- ta$samples %>%
+      dplyr::group_by(...) %>%
       dplyr::group_keys()
-    
+  
+    gr_cols <- colnames(gr_names)
 
     sample_groups <- ta$samples %>%
       dplyr::group_split(...)
     groups <- lapply(sample_groups, function (x) ta %>% filter_samples(sample_id %in% x$sample_id))
 
-    if (ncol(gr_names) == 1) {
+    if (length(gr_cols) == 1) {
         names(groups) <- gr_names %>% dplyr::pull()
+    } else {
+      names(groups) <- gr_names %>% tidyr::unite(label) %>% pull(label)
     }
-
-    groups
+    new("grouped_taco", tacos=groups, group_cols=gr_cols)
 }
 
 #' Perform a centered log ratio transformation on the readcounts.
@@ -511,13 +517,13 @@ add_clr_abundance <- function(
   
   mt <- ta %>% counts_matrix()
 
-  if (as.integer(pseudocount) == 0) {
+  if (pseudocount == 0) {
     clrt_mt <- vegan::decostand(mt, method="rclr", ...)
   } else {
     clrt_mt <- vegan::decostand(mt, method="clr", pseudocount=pseudocount, ...)
   }
 
-  clrtt <- clrt_mt %>% create_tidytacos()
+  clrtt <- clrt_mt %>% create_tidytacos(allow_non_count=TRUE)
   counts_w_prev_indexers <- clrtt %>% 
     everything() %>%
     select(sample, taxon, count) %>%
@@ -526,7 +532,7 @@ add_clr_abundance <- function(
   if (overwrite) {
     ta$counts <- counts_w_prev_indexers
   } else {
-    if (as.integer(pseudocount) == 0) {
+    if (pseudocount == 0) {
       ta$rclr_counts <- counts_w_prev_indexers
     } else {
       ta$clr_counts <- counts_w_prev_indexers
@@ -534,4 +540,60 @@ add_clr_abundance <- function(
   }
 
   ta
+}
+
+#' Take a sample of a tidytacos object
+#'
+#' `sample_taco()` takes a random subset of samples from the original tidytacos object.
+#'
+#' @param tt A tidytacos object.
+#' @param n The amount of samples that need to be returned.
+#' @param group_col An optional name of a field in the sample table
+#' which the samples need to be evenly distributed over.
+#' @param replace Replace selected samples so they can be picked again in sampling.
+#' @return A tidytacos object.
+#' @export
+sample_taco <- function(tt, n, group_col, taxon_identifier = sequence, replace=FALSE, ...) {
+    
+    nsamples <- length(tt$samples$sample_id)
+    if (n >= nsamples & !replace) {
+       stop(paste0("Please select a subset n that is lower than the total number of samples (number of samples = ", nsamples,").")) 
+    }
+
+    if (!missing(group_col)){
+     
+      ttg <- tt %>% 
+      group_samples({{group_col}})
+
+      ngroups <- length(ttg@tacos)
+      if (n %% ngroups != 0) {
+        stop(paste0(
+          "The value of n (", n,
+          ") is invalid. It must be divisible by the number of groups (",
+          ngroups, ")."))
+      } 
+      n_per_group <- n/ngroups
+      
+      sampled_groups <- lapply(
+        ttg@tacos, function(x) sample_taco(x, n_per_group, ...)
+      )
+      
+      merge_tacos_silently <- function(taco1, taco2) {
+        merge_tidytacos(taco1, taco2, quiet=TRUE, taxon_identifier = {{ taxon_identifier }})
+      }
+      sampled_taco <- Reduce(
+        merge_tacos_silently, 
+        sampled_groups)
+      return(sampled_taco)
+
+    } else {
+      sampled_ids <- sample(tt$samples$sample_id, n, ...)
+      tt %>% 
+      filter_samples(
+        sample_id %in% sampled_ids
+      ) %>% return()
+
+    }
+   
+
 }

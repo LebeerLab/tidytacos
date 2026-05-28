@@ -145,6 +145,8 @@ add_taxon_name <- function(
   rank_names <- rank_names(ta)
   if (include_species) {
     rank_names <- append(rank_names, "species", after=length(rank_names))
+  } else {
+    rank_names <- rank_names[rank_names != "species"]
   }
 
   if (length(rank_names) == 0) {
@@ -199,12 +201,13 @@ add_taxon_name <- function(
 #'
 #' @param ta A tidytacos object.
 #' @param method The method by which to arrange the taxon names. Currently only
-#'   mean_rel_abundance.
+#'   mean_rel_abundance or dominance.
 #' @param n An integer denoting the amount of most abundant taxa to display.
 #'   Capacity at 12.
 #' @param samples An optional vector of sample_id's of interest.
 #' @param taxa An optional vector of taxon_id's of interest.
 #' @param rank An optional rank to aggregate taxa on.
+#' @param threshold_dominance An optional threshold for the dominance method.
 #' @return A tidytacos object.
 #' @family taxa-modifiers
 #' @examples
@@ -213,10 +216,11 @@ add_taxon_name <- function(
 #' @export
 add_taxon_name_color <- function(
   ta, method = "mean_rel_abundance", n = 12, samples = NULL, taxa = NULL,
-  rank = NULL
+  rank = NULL, threshold_dominance = NULL
   ) {
 
     arrange_by_me <- NULL
+    valid_methods <- c("mean_rel_abundance", "dominance")
 
   # aggregate rank if asked for
   if(! is.null(rank)) {
@@ -227,7 +231,7 @@ add_taxon_name_color <- function(
   taxon_name_tmp <- ! "taxon_name" %in% names(ta$taxa)
   if (taxon_name_tmp) ta <- add_taxon_name(ta)
 
-  if (method == "mean_rel_abundance") {
+  if (method %in% valid_methods) {
 
     # if mean_rel_abundance not present: add temporarily
     mean_rel_ab_tmp <- ! "mean_rel_abundance" %in% names(ta$taxa)
@@ -236,10 +240,9 @@ add_taxon_name_color <- function(
     ta <- mutate_taxa(ta, arrange_by_me = mean_rel_abundance)
 
   } else {
-
     # throw error if method unknown
-    stop("method unknown")
-
+    stop("method unknown, please choose from: ",
+         paste(valid_methods, collapse = ", "))
   }
 
   ta_subset <- ta
@@ -252,6 +255,32 @@ add_taxon_name_color <- function(
   # take subset of taxa if requested
   if (! is.null(taxa)) {
     ta_subset <- filter_taxa(ta_subset, taxon_id %in% !! taxa)
+  }
+
+  if (! is.null(threshold_dominance)) {
+    warning("threshold_dominance is set, using dominance method")
+    method <- "dominance"
+  } else {
+    threshold_dominance <- .5
+  }
+
+  if (method == "dominance") {
+    # if dominant taxa not present: add temporarily
+    if (!"dominant_taxon" %in% names(ta_subset$samples)) {
+      ta_subset <- add_dominant_taxa(ta_subset,
+        threshold_dominance = threshold_dominance)
+    } 
+    dom_taxa <- ta_subset$samples$dominant_taxon %>%
+      na.omit() %>%
+      unique()
+
+    for (col in c("taxon_id", ta_subset %>% rank_names())) {
+      if (all(dom_taxa %in% ta_subset$taxa[[col]])) {
+        ta_subset <- filter_taxa(ta_subset, .data[[col]] %in% dom_taxa)
+        break
+      }
+    }
+      
   }
 
   # extract taxon names to visualize, in order
@@ -401,6 +430,7 @@ add_jervis_bardy <- function(ta, dna_conc,
 #' @param relative Whether to use relative occurrences.
 #' @param fisher_test Whether to perform a fisher test and
 #' add the p-values of the test to the taxa table.
+#' @inheritDotParams stats::fisher.test
 #' @return A tidytacos object.
 #' @examples
 #' # add prevalences of all taxa
@@ -415,7 +445,7 @@ add_jervis_bardy <- function(ta, dna_conc,
 #' @family taxa-modifiers
 #' @export
 add_prevalence <- function(
-  ta, condition = NULL, relative = FALSE, fisher_test = FALSE
+  ta, condition = NULL, relative = FALSE, fisher_test = FALSE, ...
 ) {
 
   # remove any pre-existing result columns
@@ -444,7 +474,7 @@ add_prevalence <- function(
       do(
         fisher = c(.$n) %>%
           matrix(ncol = 2, byrow = TRUE) %>%
-          fisher.test()
+          fisher.test(...)
       ) %>%
       mutate(fisher_p = fisher$p.value) %>%
       select(- fisher)

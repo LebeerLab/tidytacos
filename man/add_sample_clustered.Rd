@@ -32,6 +32,7 @@ urtc$samples \%>\% dplyr::select(sample_id, sample_clustered)
 Other sample-modifiers: 
 \code{\link{add_alpha}()},
 \code{\link{add_alphas}()},
+\code{\link{add_dominant_taxa}()},
 \code{\link{add_metadata}()},
 \code{\link{add_ord}()},
 \code{\link{add_spike_ratio}()},

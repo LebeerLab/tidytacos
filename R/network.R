@@ -215,8 +215,8 @@ add_eigentaxa <- function(ta, taxon_name=taxon, sample_name=sample) {
     if (! "cluster" %in% names(ta$taxa)) {
     # keep cluster ids in tax table
     ta <- ta %>% cluster_taxa(taxon_name=!!taxon_name, sample_name=!!sample_name)
-    ta_tmp <- ta %>% add_clr_abundance(overwrite=T)
     }
+    ta_tmp <- ta %>% add_clr_abundance(overwrite=T)
 
     clusters <- ta_tmp$taxa %>% drop_na() %>% pull(cluster)
 

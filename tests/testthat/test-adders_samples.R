@@ -65,6 +65,25 @@ test_that("Can add spike-ratio", {
     expect_true("spike_ratio" %in% names(ta_spike_ratio$samples))
 })
 
+test_that("Can add dominant taxa to the table", {
+    urt_dom <- urt %>% add_dominant_taxa()
+    expect_equal(sum(is.na(urt_dom$samples$dominant_taxon)), 149)
+    # try again with other threshold using previous ttaco
+    # this test ensures that no new variables like dominant_taxon.x start popping up
+
+    urt_dom2 <- urt_dom %>% add_dominant_taxa(threshold_dominance=.3, taxon_name="phylum")
+    expect_equal(sum(is.na(urt_dom2$samples$dominant_taxon)), 73)
+
+})
+
+
+test_that("Add dominant taxa errors when trying to use nonexistent taxon column", {
+    expect_error(
+      urt_dom <- urt %>% add_dominant_taxa(taxon_name="idunno"),
+      "Taxa table requires a column idunno that defines the taxon name."
+    )  
+})
+
 test_that("Can perform anosim test", {
 
     suppressWarnings(

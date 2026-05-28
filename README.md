@@ -29,6 +29,14 @@ Run the following R code to install the latest version of tidytacos:
 ```R
 install.packages("devtools")
 devtools::install_github("LebeerLab/tidytacos")
+# devtools is deprecated in newer versions of R; in which case you may use:
+remotes::install_github("lebeerlab/tidytacos")
+```
+
+Or if you prefer to use conda:
+
+```
+conda install bioconda::r-tidytacos
 ```
 
 ## Getting started
@@ -81,4 +89,10 @@ Post on [GitHub issues](https://github.com/LebeerLab/tidytacos/issues) if you ha
 ## Feel like contributing?
 
 Please read the [GitHub Developer Guide](https://github.com/LebeerLab/tidytacos/wiki/Developer-Guide). Fork the dev branch, make your changes and make a pull request. Your suggestions will be reviewed and if approved, will be implemented in the next release.
+
+## Citation
+
+If you've found tidytacos useful in your own work, please cite the following manuscript:
+
+      Wittouck et al., (2025). Tidytacos: An R package for analyses on taxonomic composition of microbial communities. Journal of Open Source Software, 10(105), 6313, https://doi.org/10.21105/joss.06313
 

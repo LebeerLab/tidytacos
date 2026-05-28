@@ -4,7 +4,13 @@
 \alias{add_prevalence}
 \title{Add taxon prevalences to the taxon table}
 \usage{
-add_prevalence(ta, condition = NULL, relative = FALSE, fisher_test = FALSE)
+add_prevalence(
+  ta,
+  condition = NULL,
+  relative = FALSE,
+  fisher_test = FALSE,
+  ...
+)
 }
 \arguments{
 \item{ta}{A tidytacos object.}
@@ -15,6 +21,50 @@ add_prevalence(ta, condition = NULL, relative = FALSE, fisher_test = FALSE)
 
 \item{fisher_test}{Whether to perform a fisher test and
 add the p-values of the test to the taxa table.}
+
+\item{...}{
+  Arguments passed on to \code{\link[stats:fisher.test]{stats::fisher.test}}
+  \describe{
+    \item{\code{x}}{either a two-dimensional contingency table in matrix form,
+    or a factor object.}
+    \item{\code{y}}{a factor object; ignored if \code{x} is a matrix.}
+    \item{\code{workspace}}{an integer specifying the size of the workspace
+    used in the network algorithm.  In units of 4 bytes.  Only used for
+    non-simulated p-values larger than \eqn{2 \times 2}{2 by 2} tables.
+    Since \R version 3.5.0, this also increases the internal stack size
+    which allows larger problems to be solved, however sometimes needing
+    hours.  In such cases, \code{simulate.p.values=TRUE} may be more
+    reasonable.}
+    \item{\code{hybrid}}{a logical. Only used for larger than \eqn{2 \times 2}{2 by 2}
+    tables, in which cases it indicates whether the exact probabilities
+    (default) or a hybrid approximation thereof should be computed.}
+    \item{\code{hybridPars}}{a numeric vector of length 3, by default describing
+    \dQuote{Cochran's conditions} for the validity of the chi-squared
+    approximation, see \sQuote{Details}.}
+    \item{\code{control}}{a list with named components for low level algorithm
+    control.  At present the only one used is \code{"mult"}, a positive
+    integer \eqn{\ge 2} with default 30 used only for larger than
+    \eqn{2 \times 2}{2 by 2} tables.  This says how many times as much
+    space should be allocated to paths as to keys: see file
+    \file{fexact.c} in the sources of this package.}
+    \item{\code{or}}{the hypothesized odds ratio.  Only used in the
+    \eqn{2 \times 2}{2 by 2} case.}
+    \item{\code{alternative}}{indicates the alternative hypothesis and must be
+    one of \code{"two.sided"}, \code{"greater"} or \code{"less"}.
+    You can specify just the initial letter.  Only used in the
+    \eqn{2 \times 2}{2 by 2} case.}
+    \item{\code{conf.int}}{logical indicating if a confidence interval for the
+    odds ratio in a \eqn{2 \times 2}{2 by 2} table should be
+    computed (and returned).}
+    \item{\code{conf.level}}{confidence level for the returned confidence
+    interval.  Only used in the \eqn{2 \times 2}{2 by 2} case and if
+    \code{conf.int = TRUE}.}
+    \item{\code{simulate.p.value}}{a logical indicating whether to compute
+    p-values by Monte Carlo simulation, in larger than \eqn{2 \times
+      2}{2 by 2} tables.}
+    \item{\code{B}}{an integer specifying the number of replicates used in the
+    Monte Carlo test.}
+  }}
 }
 \value{
 A tidytacos object.
