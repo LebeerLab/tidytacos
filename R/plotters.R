@@ -645,6 +645,10 @@ tacoplot_occupancy <- function(ta, taxon_name=taxon_id, ...) {
    taxon_name <- rlang::sym("taxon_name")
   }
 
+  if (! "taxon_name" %in% colnames(ta$taxa) ) {
+    ta <- add_taxon_name(ta)
+  }
+
   res <- perform_neutral_model(ta, taxon_name={{ taxon_name }})
 
   data <- res$ncm_data %>% 

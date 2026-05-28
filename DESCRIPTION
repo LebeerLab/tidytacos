@@ -50,6 +50,7 @@ Suggests:
     knitr,
     Matrix,
     MCL,
+    minpack.lm,
     pctax,
     phangorn,
     pheatmap,
