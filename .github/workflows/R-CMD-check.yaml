@@ -63,6 +63,7 @@ jobs:
               github::lasy/alto
               github::zdk123/SpiecEasi
               github::KarstensLab/microshades
+              github::mikemc/speedyseq
           needs: check
 
       - uses: r-lib/actions/check-r-package@v2
