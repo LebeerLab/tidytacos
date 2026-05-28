@@ -629,6 +629,7 @@ tacoplot_prevalences <- function(ta, condition, cutoff = 0.1, fisher = T, adjp_m
 #'
 #'
 #' @param ta A tidytacos object of the community in question.
+#' @param taxon_name the name of the taxa table column to perform the fit on.
 #' @inheritDotParams perform_neutral_model
 #' @examples
 #' urt %>% tacoplot_occupancy()
@@ -663,7 +664,10 @@ tacoplot_occupancy <- function(ta, taxon_name=taxon_id, ...) {
    geom_line(data = data, aes(x = log10(p), y = Lower), linewidth = 1.2, linetype = 2, col = lincol) +
    geom_line(data = data, aes(x = log10(p), y = Upper), linewidth = 1.2, linetype = 2, col = lincol) +
    geom_text(aes(label=taxon_name), data = . %>% filter(group != 'In'), alpha=.4) +
-   annotate("text", x=-1, y=0, label=paste0("R²: ", signif(fit$R2), "\nNm: ", round(fit$m * fit$N))) + 
+   annotate("text", x=-1, y=0, label=paste0(
+                                     "R^2 == ", signif(fit$R2, 3),  "*','~ Nm == ", round(fit$m * fit$N)
+                                     ), parse = TRUE
+   ) + 
    theme_classic() +
    theme(
     legend.position = "top"

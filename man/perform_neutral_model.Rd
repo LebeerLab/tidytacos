@@ -9,6 +9,8 @@ perform_neutral_model(ta, taxon_name = taxon_id, model = "nls")
 \arguments{
 \item{ta}{A tidytacos object.}
 
+\item{taxon_name}{the name of the column in the taxa table to perform the fit on.}
+
 \item{model}{the fit method to be used; choice from "nls" or "mle".}
 }
 \value{
@@ -21,6 +23,6 @@ and returns the result.
 \examples{
 res <- urt \%>\% 
   filter_samples(method == "S", location == "NF") \%>\%
-  perform_neutral_model(model="mle")
+  perform_neutral_model()
 plot(res)
 }

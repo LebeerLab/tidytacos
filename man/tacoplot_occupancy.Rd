@@ -9,6 +9,8 @@ tacoplot_occupancy(ta, taxon_name = taxon_id, ...)
 \arguments{
 \item{ta}{A tidytacos object of the community in question.}
 
+\item{taxon_name}{the name of the taxa table column to perform the fit on.}
+
 \item{...}{
   Arguments passed on to \code{\link[=perform_neutral_model]{perform_neutral_model}}
   \describe{

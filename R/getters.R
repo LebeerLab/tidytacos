@@ -258,11 +258,12 @@ perform_adonis <- function(ta, predictors, permutations = 999, ...) {
 #'
 #' @param ta A tidytacos object.
 #' @param model the fit method to be used; choice from "nls" or "mle".
+#' @param taxon_name the name of the column in the taxa table to perform the fit on.
 #' @return An object of class "ncm_res" (see [pctax][pctax::ncm]).
 #' @examples
 #' res <- urt %>% 
 #'   filter_samples(method == "S", location == "NF") %>%
-#'   perform_neutral_model(model="mle")
+#'   perform_neutral_model()
 #' plot(res)
 #' @export
 perform_neutral_model <- function(ta, taxon_name=taxon_id, model="nls") {
