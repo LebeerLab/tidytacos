@@ -264,13 +264,13 @@ test_that("CLR transformation returns expected output", {
 # SUBSAMPLING
 
 test_that("Subsample whole taco", {
-  urt_sampled <- urt %>% sample_taco(100)
+  urt_sampled <- urt %>% sample_taco(n=100)
   
   expect_true(length(urt_sampled$samples$sample) == 100)
 })
 
 test_that("Subsample taco by group", {
-    urt_sampled <- urt %>% sample_taco(100, location)
+    urt_sampled <- urt %>% sample_taco(n=100, group_col=location)
 
     expect_true(length(urt_sampled$samples$sample) == 100)
     samples_NF <- urt_sampled %>% 

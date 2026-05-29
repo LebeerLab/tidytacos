@@ -30,6 +30,7 @@ jobs:
                 any::Rtsne
                 any::fastDummies
                 bioc::dada2
+                bioc::DECIPHER
                 any::MCL
                 any::Matrix
                 any::pctax

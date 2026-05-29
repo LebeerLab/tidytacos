@@ -59,6 +59,7 @@ jobs:
               any::topicmodels
               any::pctax
               bioc::dada2
+              bioc::DECIPHER
               github::zdk123/pulsar
               github::lasy/alto
               github::zdk123/SpiecEasi
