@@ -31,6 +31,7 @@ globalVariables(c(
     "sample_id", "samples",
     "taxon_id", "taxa", "taxon", "taxon_name", "taxon_name_color",  
     "count", "rel_abundance", "presence", "alpha_metrics",
+    "dominant_taxon", "berger_parker", "group", 
     "sample_clustered", "prevalence", "cluster", "total_absolute_abundance",
     "spike_count", "total_count", "mean_rel_abundance", "spike_abundance",
     "total_count", "prevalence", "total_density",

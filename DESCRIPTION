@@ -39,6 +39,7 @@ Suggests:
     covr,
     dada2,
     devtools,
+    DECIPHER,
     eulerr,
     factoextra,
     fastDummies,

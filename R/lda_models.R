@@ -24,7 +24,7 @@ perform_lda <- function(ta, k,
   matrix <- ta %>%
     add_prevalence(relative = TRUE) %>%
     filter_taxa(prevalence >= min_prevalence) %>%
-    counts_matrix(sample = !!sample, taxon = !!taxon)
+    counts_matrix(sample_name = !!sample, taxon_name = !!taxon)
 
   model <- topicmodels::LDA(matrix, k, ...)
   lda <- topicmodels::posterior(model, matrix)

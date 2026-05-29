@@ -160,5 +160,5 @@ test_that("Tacoplot_prevalences works", {
 test_that("Tacoplot_scree works", {
     skip_if_not_installed("factoextra")
     p <- urt %>% tacoplot_scree()
-    vdiffr::expect_doppleganger("tacoplot_scree", p)
+    vdiffr::expect_doppelganger("tacoplot_scree", p)
 })
