@@ -58,6 +58,13 @@ test_that("Can run tacoplot zoom on a sample",{
     vdiffr::expect_doppelganger("Zoomed barplot", tzoom)
 })
 
+## TACOPLOT_SHADE
+test_that("Shade barplot returns identical plot", {
+    skip_if_not_installed("microshades")
+
+    bp  <- urt %>% tacoplot_shade()
+    vdiffr::expect_doppelganger("Shade barplot", bp)
+})
 
 ## TACOPLOT_ORD
 test_that("get_ord_stat returns correct stats",{
@@ -104,6 +111,7 @@ test_that("Tacoplot_ord_ly works with umap and 3 dims", {
 
 })
 
+
 ## TACOPLOT_VENN
 test_that("Can create venndiagram", {
     skip_if_not_installed("ggVennDiagram")
@@ -144,4 +152,13 @@ test_that("Tacoplot_prevalences works", {
     skip_if_not_installed("rstatix")
     p <- urt %>% tacoplot_prevalences(location)
     expect_equal(class(p), "pheatmap")
+})
+
+
+## TACOPLOT SCREE
+
+test_that("Tacoplot_scree works", {
+    skip_if_not_installed("factoextra")
+    p <- urt %>% tacoplot_scree()
+    vdiffr::expect_doppelganger("tacoplot_scree", p)
 })

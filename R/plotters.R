@@ -64,6 +64,63 @@ get_ord_stat <- function(ta, x, stat.method, distance = distance) {
   stat.result
 }
 
+#' Return a bar plot of the samples in the shade of one taxonomic rank; colored by a lower level rank.
+#'
+#' Plots a stacked bar plot of the samples in the tidytacos object to inspect the taxonomic profile on two taxonomic ranks.
+#'
+#' @param ta A tidytacos object.
+#' @param group The higher level taxonomic rank name (default: family)
+#' @param subgroup The lower level taxonomic rank name (default: genus)
+#' @param N Number of subgroups per group; max of 4.
+#' @param n Number of groups to plot.
+#' @param order_tax an optional individual name of the group taxonomic rank to sort the samples on.
+#' For examples order_by=Lactobacillaceae would order the x-axis by the abundance of Lactobacillaceae.
+#' @export
+tacoplot_shade <- function(ta, group="family", subgroup="genus",n=5, N=4, order_tax="NA") {
+  force_optional_dependency("microshades", "remotes::install_github('KarstensLab/microshades', dependencies = TRUE)")
+  force_optional_dependency("speedyseq", "remotes::install_github('mikemc/speedyseq')")
+  
+  ps <- as_phyloseq(ta)
+  mdf_prep <- microshades::prep_mdf(ps, subgroup_level = subgroup)
+  
+  # top N 
+  selected_groups <- ta %>% 
+  add_prevalence(relative=TRUE) %>%
+  taxa() %>%
+  arrange(desc(prevalence)) %>%
+  pull(group) %>%
+  unique() %>%
+  head(n)
+
+  color_obj <- microshades::create_color_dfs(
+    mdf_prep, 
+    selected_groups = selected_groups,
+    top_n_subgroups = N,
+    group_level = group, 
+    subgroup_level = subgroup, 
+    cvd = TRUE)
+
+  
+
+  color_obj.reorder <- microshades::reorder_samples_by(
+    color_obj$mdf, color_obj$cdf, 
+    order_tax = order_tax,
+    group_level = group, subgroup_level = subgroup,
+    sink_abundant_groups = TRUE)
+
+  microshades::plot_microshades(
+    color_obj.reorder$mdf,
+    color_obj.reorder$cdf,
+    group_label = paste(group, subgroup)
+  ) + scale_y_continuous(
+    labels = scales::percent, 
+    expand = expansion(0)) +
+  theme(legend.key.size = unit(0.2, "cm"), 
+  text=element_text(size=10)) +
+  theme(axis.text.x = element_text(size= 6)) 
+
+}
+
 #' Return a bar plot of the samples
 #'
 #' Plots a stacked bar plot of the samples in the tidytacos object to inspect the taxonomic profile.
@@ -625,6 +682,59 @@ tacoplot_prevalences <- function(ta, condition, cutoff = 0.1, fisher = T, adjp_m
   pheatmap::pheatmap(prevalences.M, ...)
 }
 
+#' Return an occupancy-abundance plot to visualize the core taxa of a community.
+#'
+#'
+#' @param ta A tidytacos object of the community in question.
+#' @param taxon_name the name of the taxa table column to perform the fit on.
+#' @inheritDotParams perform_neutral_model
+#' @examples
+#' urt %>% tacoplot_occupancy()
+#' @export
+tacoplot_occupancy <- function(ta, taxon_name=taxon_id, ...) {
+  
+  force_optional_dependency("pctax")
+  taxon_name <- rlang::enquo(taxon_name)
+  lincol <- "grey"
+  
+  if (!rlang::quo_name(taxon_name) %in% c("taxon_id","taxon_name")) {
+   ta <- aggregate_taxa(ta, rank = rlang::quo_name(taxon_name))
+   taxon_name <- rlang::sym("taxon_name")
+  }
+
+  if (! "taxon_name" %in% colnames(ta$taxa) ) {
+    ta <- add_taxon_name(ta)
+  }
+
+  res <- perform_neutral_model(ta, taxon_name={{ taxon_name }})
+
+  data <- res$ncm_data %>% 
+  tibble::rownames_to_column(rlang::quo_name(taxon_name))
+
+  fit <- res$stats
+
+  tx <- ta %>%
+  add_prevalence(relative = TRUE) %>%
+  add_mean_rel_abundance() %>%
+  taxa() %>%
+  left_join(data)
+
+  ggplot(tx, aes(x=log10(mean_rel_abundance), y=prevalence)) +
+   geom_point(aes(color=group)) +
+   geom_line(data = data, aes(x=log10(p), y=freq.pred), linewidth = 1.2, linetype = 1, col = lincol) +
+   geom_line(data = data, aes(x = log10(p), y = Lower), linewidth = 1.2, linetype = 2, col = lincol) +
+   geom_line(data = data, aes(x = log10(p), y = Upper), linewidth = 1.2, linetype = 2, col = lincol) +
+   geom_text(aes(label=taxon_name), data = . %>% filter(group != 'In'), alpha=.4) +
+   annotate("text", x=-1, y=0, label=paste0(
+                                     "R^2 == ", signif(fit$R2, 3),  "*','~ Nm == ", round(fit$m * fit$N)
+                                     ), parse = TRUE
+   ) + 
+   theme_classic() +
+   theme(
+    legend.position = "top"
+   )
+  
+}
 
 #' Return a scree plot to visualize the eigenvalues of the PCA.
 #'

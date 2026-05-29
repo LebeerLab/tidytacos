@@ -30,14 +30,18 @@ jobs:
                 any::Rtsne
                 any::fastDummies
                 bioc::dada2
+                bioc::DECIPHER
                 any::MCL
                 any::Matrix
+                any::pctax
                 any::topicmodels
                 any::ggVennDiagram
                 any::eulerr
                 github::zdk123/pulsar
                 github::zdk123/SpiecEasi
                 github::lasy/alto
+                github::KarstensLab/microshades
+                github::mikemc/speedyseq
           needs: coverage
 
       - name: Test coverage

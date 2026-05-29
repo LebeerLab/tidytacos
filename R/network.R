@@ -8,13 +8,14 @@
 #' @param sample_name Column name of the sample identifier, by default sample.
 #' considered zero by the inner SparCC loop.
 #' @param calculate_p whether to calculate p-values or not.
+#' @param Nboot how many rounds of bootstrapping need to be done to calculate the p-values. Default is 1000. 
 #' This can be time consuming due to the many iterations needed.
 #' Iterations can be set with the R parameter and multiple cores through ncpus.
 #' @inheritDotParams SpiecEasi::sparcc
 #'@export
 network <- function(ta,
   min_occurrence = 0.05, taxon_name = taxon, sample_name = sample,
-  calculate_p=FALSE, ...) {
+  calculate_p=FALSE, Nboot=1000, ...) {
   force_optional_dependency(
     "SpiecEasi",
     "\nInstall using: install_github('zdk123/SpiecEasi')"
@@ -43,12 +44,7 @@ network <- function(ta,
   network.out <- SpiecEasi::sparcc(counts, ...)
 
   if (calculate_p){
-    args <- list(...)
-    if (!"R" %in% names(args)) {
-      network.boot <- SpiecEasi::sparccboot(counts, R=1000)
-    } else {
-      network.boot <- SpiecEasi::sparccboot(counts, args$R)
-    }
+    network.boot <- SpiecEasi::sparccboot(counts, R=Nboot)
     network.pvals <- SpiecEasi::pval.sparccboot(network.boot)
 
     if (any(is.na(network.pvals$pvals))) {

@@ -57,10 +57,14 @@ jobs:
               any::ggVennDiagram
               any::eulerr
               any::topicmodels
+              any::pctax
               bioc::dada2
+              bioc::DECIPHER
               github::zdk123/pulsar
               github::lasy/alto
               github::zdk123/SpiecEasi
+              github::KarstensLab/microshades
+              github::mikemc/speedyseq
           needs: check
 
       - uses: r-lib/actions/check-r-package@v2

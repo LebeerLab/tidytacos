@@ -36,14 +36,18 @@ jobs:
             any::vdiffr
             any::MCL
             any::Matrix
+            any::pctax
             any::topicmodels
             any::umap
             any::Rtsne
             any::fastDummies
             any::ggVennDiagram
             bioc::dada2
+            bioc::DECIPHER
             github::lasy/alto
             github::zdk123/SpiecEasi
+            github::KarstensLab/microshades
+            github::mikemc/speedyseq
           needs: website
 
       - name: Build site
