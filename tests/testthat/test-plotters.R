@@ -58,6 +58,12 @@ test_that("Can run tacoplot zoom on a sample",{
     vdiffr::expect_doppelganger("Zoomed barplot", tzoom)
 })
 
+## TACOPLOT_SHADE
+test_that("Shade barplot returns identical plot", {
+    bp  <- urt %>% tacoplot_shade()
+    skip_if_not_installed("microshades")
+    vdiffr::expect_doppelganger("Shade barplot", bp)
+})
 
 ## TACOPLOT_ORD
 test_that("get_ord_stat returns correct stats",{
