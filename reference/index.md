@@ -132,6 +132,9 @@ tidytacos object.
   : Generate a compositional differential abundance plot
 - [`tacoplot_euler()`](https://lebeerlab.github.io/tidytacos/reference/tacoplot_euler.md)
   : Return an euler diagram of overlapping taxon_ids between conditions
+- [`tacoplot_occupancy()`](https://lebeerlab.github.io/tidytacos/reference/tacoplot_occupancy.md)
+  : Return an occupancy-abundance plot to visualize the core taxa of a
+  community.
 - [`tacoplot_ord()`](https://lebeerlab.github.io/tidytacos/reference/tacoplot_ord.md)
   : Return an ordination plot of the samples
 - [`tacoplot_ord_ly()`](https://lebeerlab.github.io/tidytacos/reference/tacoplot_ord_ly.md)
@@ -140,6 +143,9 @@ tidytacos object.
   : Return a heatmap of prevalence of taxa in groups of samples
 - [`tacoplot_scree()`](https://lebeerlab.github.io/tidytacos/reference/tacoplot_scree.md)
   : Return a scree plot to visualize the eigenvalues of the PCA.
+- [`tacoplot_shade()`](https://lebeerlab.github.io/tidytacos/reference/tacoplot_shade.md)
+  : Return a bar plot of the samples in the shade of one taxonomic rank;
+  colored by a lower level rank.
 - [`tacoplot_stack()`](https://lebeerlab.github.io/tidytacos/reference/tacoplot_stack.md)
   : Return a bar plot of the samples
 - [`tacoplot_stack_ly()`](https://lebeerlab.github.io/tidytacos/reference/tacoplot_stack_ly.md)
@@ -163,6 +169,9 @@ tidytacos object.
   : Perform anosim test
 - [`perform_lda()`](https://lebeerlab.github.io/tidytacos/reference/perform_lda.md)
   : LDA model estimation
+- [`perform_neutral_model()`](https://lebeerlab.github.io/tidytacos/reference/perform_neutral_model.md)
+  : Perform a Sloan neutral model fit on the taxa in the current
+  tidytacos object
 - [`add_codifab()`](https://lebeerlab.github.io/tidytacos/reference/add_codifab.md)
   : Perform compositional differential abundance analysis
 

@@ -47,6 +47,7 @@ after dropping rare taxa. See <code><a href="https://rdrr.io/pkg/SpiecEasi/man/s
 <span>  taxon_name <span class="op">=</span> <span class="va">taxon</span>,</span>
 <span>  sample_name <span class="op">=</span> <span class="va">sample</span>,</span>
 <span>  calculate_p <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  Nboot <span class="op">=</span> <span class="fl">1000</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -74,7 +75,11 @@ considered zero by the inner SparCC loop.</p></dd>
 
 
 <dt id="arg-calculate-p">calculate_p<a class="anchor" aria-label="anchor" href="#arg-calculate-p"></a></dt>
-<dd><p>whether to calculate p-values or not.
+<dd><p>whether to calculate p-values or not.</p></dd>
+
+
+<dt id="arg-nboot">Nboot<a class="anchor" aria-label="anchor" href="#arg-nboot"></a></dt>
+<dd><p>how many rounds of bootstrapping need to be done to calculate the p-values. Default is 1000.
 This can be time consuming due to the many iterations needed.
 Iterations can be set with the R parameter and multiple cores through ncpus.</p></dd>
 

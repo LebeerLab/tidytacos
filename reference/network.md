@@ -13,6 +13,7 @@ network(
   taxon_name = taxon,
   sample_name = sample,
   calculate_p = FALSE,
+  Nboot = 1000,
   ...
 )
 ```
@@ -39,9 +40,14 @@ network(
 
 - calculate_p:
 
-  whether to calculate p-values or not. This can be time consuming due
-  to the many iterations needed. Iterations can be set with the R
-  parameter and multiple cores through ncpus.
+  whether to calculate p-values or not.
+
+- Nboot:
+
+  how many rounds of bootstrapping need to be done to calculate the
+  p-values. Default is 1000. This can be time consuming due to the many
+  iterations needed. Iterations can be set with the R parameter and
+  multiple cores through ncpus.
 
 - ...:
 

@@ -28,7 +28,8 @@ add_tree(
 
 - aln_args:
 
-  An optional list of arguments to pass to the `DECIPHER::AlignSeqs()`
+  An optional list of arguments to pass to the
+  [`DECIPHER::AlignSeqs()`](https://rdrr.io/pkg/DECIPHER/man/AlignSeqs.html)
   function
 
 - tree_fit_args:
