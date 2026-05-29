@@ -153,3 +153,12 @@ test_that("Tacoplot_prevalences works", {
     p <- urt %>% tacoplot_prevalences(location)
     expect_equal(class(p), "pheatmap")
 })
+
+
+## TACOPLOT SCREE
+
+test_that("Tacoplot_scree works", {
+    skip_if_not_installed("factoextra")
+    p <- urt %>% tacoplot_scree()
+    vdiffr::expect_doppleganger("tacoplot_scree", p)
+})
