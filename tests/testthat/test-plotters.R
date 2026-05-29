@@ -60,8 +60,9 @@ test_that("Can run tacoplot zoom on a sample",{
 
 ## TACOPLOT_SHADE
 test_that("Shade barplot returns identical plot", {
-    bp  <- urt %>% tacoplot_shade()
     skip_if_not_installed("microshades")
+
+    bp  <- urt %>% tacoplot_shade()
     vdiffr::expect_doppelganger("Shade barplot", bp)
 })
 
@@ -109,6 +110,7 @@ test_that("Tacoplot_ord_ly works with umap and 3 dims", {
     )
 
 })
+
 
 ## TACOPLOT_VENN
 test_that("Can create venndiagram", {
