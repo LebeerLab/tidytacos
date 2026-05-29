@@ -1,3 +1,16 @@
+# network
+test_that("Can run network method with p-val calculation", {
+
+  uns <- urt %>% 
+  filter_samples(location=="NF", method=="S")
+
+  uns %>%
+  network(taxon_name=taxon_name, calculate_p=TRUE, Nboot=2) %>%
+  expect_warning("taxon_name not found in the taxa table, resorting to add_taxon_name") %>%
+  expect_warning("Some p-values are NA, consider increasing the number of bootstraps")  
+
+})
+
 # SparCC - MCL
 test_that("Can run sparcc-MCL worfklow", {
 skip_if_not_installed("MCL")
