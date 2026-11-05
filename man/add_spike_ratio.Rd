@@ -50,6 +50,7 @@ Other sample-modifiers:
 \code{\link{add_dominant_taxa}()},
 \code{\link{add_metadata}()},
 \code{\link{add_ord}()},
+\code{\link{add_pam_clusters}()},
 \code{\link{add_sample_clustered}()},
 \code{\link{add_subsampled_alpha}()},
 \code{\link{add_total_absolute_abundance}()},
