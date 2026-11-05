@@ -381,7 +381,7 @@ from_dada <- function(seqtab, taxa, taxa_are_columns = TRUE) {
   colnames(taxa) <- str_to_lower(colnames(taxa))
 
   if (!"taxon" %in% colnames(taxa)) { 
-    taxa <- taxa %>% rename(taxon = ASV_ID)
+    taxa <- taxa %>% rename(taxon = asv_id)
   }
   
   ta$taxa <- ta$taxa %>% 
