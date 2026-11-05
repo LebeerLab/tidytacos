@@ -1027,3 +1027,24 @@ perform_lda <- function(ta, k, min_prevalence=.01, taxon=taxon_id, sample=sample
   
   results
 }
+
+add_pam_clusters <- function(ta, k) {
+
+  ta_mod <- ta
+  if ("tree" %in% names(ta)) {
+    ta_w_tree <- ta
+  } else {
+    warning("No phylogenetic tree found, generating tree using msa of the 'sequence' column.")
+    ta_w_tree <- ta %>% 
+    add_tree()
+  }
+  D <- calculate_unifrac_distances(ta_w_tree, weighted=TRUE)
+  clusters.raw <- cluster::pam(D, k)
+  clusters <- tibble::rownames_to_column(data.frame(factor(clusters.raw$clustering)))
+  colnames(clusters) <- c("sample_id",paste0("pam",k))
+  ta_mod$samples <- ta_mod$samples %>% 
+  left_join(clusters, by="sample_id")
+
+  ta_mod$pam <- clusters.raw
+  ta_mod
+}
