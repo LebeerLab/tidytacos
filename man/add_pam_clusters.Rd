@@ -16,28 +16,12 @@ A tidytacos object with a pam\if{html}{\out{<n>}} column in the samples table.
 }
 \description{
 \code{add_pam_clusters()} clusters the samples into n clusters and adds these
-clusters to a new variable "pam\if{html}{\out{<n>}}" in the sample table.
+clusters to a new variable "cluster \if{html}{\out{<n>}}" in the sample table.
 }
 \details{
 This function calculates the weighted Unifrac distance between samples followed by
 PAM clustering of samples. The user provides a
 number of desired clusters which will be used to assign the samples to. A new
-variable named "pam\if{html}{\out{<n>}}" will be added to the samples tibble of a
+variable named "cluster \if{html}{\out{<n>}}" will be added to the samples tibble of a
 tidytacos object defining to what cluster a sample belongs.
 }
-\seealso{
-Other sample-modifiers: 
-\code{\link{add_alpha}()},
-\code{\link{add_alphas}()},
-\code{\link{add_dominant_taxa}()},
-\code{\link{add_metadata}()},
-\code{\link{add_ord}()},
-\code{\link{add_sample_clustered}()},
-\code{\link{add_spike_ratio}()},
-\code{\link{add_subsampled_alpha}()},
-\code{\link{add_total_absolute_abundance}()},
-\code{\link{add_total_count}()},
-\code{\link{add_total_density}()},
-\code{\link{cluster_samples}()}
-}
-\concept{sample-modifiers}

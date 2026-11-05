@@ -28,7 +28,6 @@ Other sample-modifiers:
 \code{\link{add_alphas}()},
 \code{\link{add_metadata}()},
 \code{\link{add_ord}()},
-\code{\link{add_pam_clusters}()},
 \code{\link{add_sample_clustered}()},
 \code{\link{add_spike_ratio}()},
 \code{\link{add_subsampled_alpha}()},

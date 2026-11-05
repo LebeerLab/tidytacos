@@ -664,14 +664,23 @@ add_spike_ratio <- function(ta, spike_taxon) {
 #' `cluster_samples()` clusters the samples into n clusters and adds these
 #' clusters to a new variable "cluster" in the sample table.
 #'
+#' There are two methods supported currently:
+#' - hclust:
 #' This function calculates the Bray-Curtis distance between samples followed by
-#' hierarchical average linkage clustering of samples. The user provides a
+#' hierarchical average linkage clustering of samples.
+#'
+#' - pam:
+#' This function calculates the weighted Unifrac distance between samples followed by
+#' partitioning around mediods clustering of samples.
+#'
+#' The user provides a
 #' number of desired clusters which will be used to assign the samples to. A new
 #' variable named "cluster" will be added to the samples tibble of a
 #' tidytacos object defining to what cluster a sample belongs.
 #'
 #' @param ta A tidytacos object.
 #' @param n_clusters The number of desired clusters.
+#' @param method which method to use, choice from hclust (default) or pam.
 #' @return A tidytacos object with a cluster column in the samples table.
 #' @examples
 #' # Initiate count matrix
@@ -696,7 +705,9 @@ add_spike_ratio <- function(ta, spike_taxon) {
 #' @importFrom stats cutree
 #' @family sample-modifiers
 #' @export
-cluster_samples <- function(ta, n_clusters) {
+cluster_samples <- function(ta, n_clusters, method="hclust") {
+  if (method == "hclust") {
+
   # make relative abundance matrix
   rel_abundance_matrix <- rel_abundance_matrix(ta, sample_name = sample_id, taxon_name = taxon_id)
 
@@ -715,8 +726,14 @@ cluster_samples <- function(ta, n_clusters) {
 
   ta$samples <-
     left_join(ta$samples, samples_clusters, by = "sample_id")
+  return(ta)
+  } else if(method == "pam") {
+    ta <- ta %>% 
+    add_pam_clusters(n_clusters=n_clusters)
 
-  ta
+    return(ta)
+  }
+  stop("Method unsupported, choose from hclust or pam.")
 }
 
 
@@ -1031,19 +1048,17 @@ perform_lda <- function(ta, k, min_prevalence=.01, taxon=taxon_id, sample=sample
 #' Clusters samples into n clusters using partitioning around mediods (PAM)
 #'
 #' `add_pam_clusters()` clusters the samples into n clusters and adds these
-#' clusters to a new variable "pam<n>" in the sample table.
+#' clusters to a new variable "cluster <n>" in the sample table.
 #'
 #' This function calculates the weighted Unifrac distance between samples followed by
 #' PAM clustering of samples. The user provides a
 #' number of desired clusters which will be used to assign the samples to. A new
-#' variable named "pam<n>" will be added to the samples tibble of a
+#' variable named "cluster <n>" will be added to the samples tibble of a
 #' tidytacos object defining to what cluster a sample belongs.
 #'
 #' @param ta A tidytacos object.
 #' @param n_clusters The number of desired clusters.
 #' @return A tidytacos object with a pam<n> column in the samples table.
-#' @family sample-modifiers
-#' @export
 add_pam_clusters <- function(ta, n_clusters) {
 
   ta_mod <- ta
@@ -1057,7 +1072,8 @@ add_pam_clusters <- function(ta, n_clusters) {
   D <- calculate_unifrac_distances(ta_w_tree, weighted=TRUE)
   clusters.raw <- cluster::pam(D, n_clusters)
   clusters <- tibble::rownames_to_column(data.frame(factor(clusters.raw$clustering)))
-  colnames(clusters) <- c("sample_id",paste0("pam",k))
+  colnames(clusters) <- c("sample_id", "cluster")
+  clusters$cluster <- str_c("cluster", clusters$cluster, sep = " ")
   ta_mod$samples <- ta_mod$samples %>% 
   left_join(clusters, by="sample_id")
 
