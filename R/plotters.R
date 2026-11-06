@@ -76,6 +76,7 @@ get_ord_stat <- function(ta, x, stat.method, distance = distance) {
 #' @param order_tax an optional individual name of the group taxonomic rank to sort the samples on.
 #' For examples order_by=Lactobacillaceae would order the x-axis by the abundance of Lactobacillaceae.
 #' @export
+#' @importFrom utils head
 tacoplot_shade <- function(ta, group="family", subgroup="genus",n=5, N=4, order_tax="NA") {
   force_optional_dependency("microshades", "remotes::install_github('KarstensLab/microshades', dependencies = TRUE)")
   force_optional_dependency("speedyseq", "remotes::install_github('mikemc/speedyseq')")
@@ -752,6 +753,35 @@ tacoplot_scree <- function(ta, ...) {
   }
 
   factoextra::fviz_eig(ta$pca, ...)
+}
+
+#' Return a silhouette score plot to visualize how well PAM clusters are defined, for each number of clusters k in the k range.
+#'
+#'
+#' @param ta A tidytacos object.
+#' @param k_range range of number of clusters to divide the data in.
+#' @examples
+#' urt %>% tacoplot_silhouette_width(2:6)
+#' @export
+tacoplot_silhouette_width <- function(ta, k_range = 2:10) {
+
+  if ("tree" %in% names(ta)) {
+    ta_w_tree <- ta
+  } else {
+      warning("No phylogenetic tree found, generating tree using msa of the 'sequence' column.")
+      ta_w_tree <- ta %>%
+        add_tree()
+  }
+
+  pam_tacos <- lapply(
+    k_range, function(x) add_pam_clusters(ta_w_tree, x)
+  )
+  sil_widths <- lapply(
+    pam_tacos, function(x) mean(x$pam$silinfo$widths[, "sil_width"])
+  )
+
+  plot(k_range, sil_widths, type = "l")
+
 }
 
 palette_paired <- c(

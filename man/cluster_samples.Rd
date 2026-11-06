@@ -4,12 +4,14 @@
 \alias{cluster_samples}
 \title{Clusters samples into n clusters}
 \usage{
-cluster_samples(ta, n_clusters)
+cluster_samples(ta, n_clusters, method = "hclust")
 }
 \arguments{
 \item{ta}{A tidytacos object.}
 
 \item{n_clusters}{The number of desired clusters.}
+
+\item{method}{which method to use, choice from hclust (default) or pam.}
 }
 \value{
 A tidytacos object with a cluster column in the samples table.
@@ -19,8 +21,17 @@ A tidytacos object with a cluster column in the samples table.
 clusters to a new variable "cluster" in the sample table.
 }
 \details{
+There are two methods supported currently:
+\itemize{
+\item hclust:
 This function calculates the Bray-Curtis distance between samples followed by
-hierarchical average linkage clustering of samples. The user provides a
+hierarchical average linkage clustering of samples.
+\item pam:
+This function calculates the weighted Unifrac distance between samples followed by
+partitioning around mediods clustering of samples.
+}
+
+The user provides a
 number of desired clusters which will be used to assign the samples to. A new
 variable named "cluster" will be added to the samples tibble of a
 tidytacos object defining to what cluster a sample belongs.
