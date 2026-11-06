@@ -701,7 +701,6 @@ add_spike_ratio <- function(ta, spike_taxon) {
 #'   cluster_samples(n_clusters = 2)
 #'
 # Adds a variable "cluster" to the sample table
-# To do: merge with add_sample_clustered somehow
 #' @importFrom stats cutree
 #' @family sample-modifiers
 #' @export
@@ -1058,6 +1057,7 @@ perform_lda <- function(ta, k, min_prevalence=.01, taxon=taxon_id, sample=sample
 #'
 #' @param ta A tidytacos object.
 #' @param n_clusters The number of desired clusters.
+#' @importFrom cluster pam
 #' @return A tidytacos object with a pam<n> column in the samples table.
 add_pam_clusters <- function(ta, n_clusters) {
 

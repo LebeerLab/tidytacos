@@ -76,6 +76,7 @@ get_ord_stat <- function(ta, x, stat.method, distance = distance) {
 #' @param order_tax an optional individual name of the group taxonomic rank to sort the samples on.
 #' For examples order_by=Lactobacillaceae would order the x-axis by the abundance of Lactobacillaceae.
 #' @export
+#' @importFrom utils head
 tacoplot_shade <- function(ta, group="family", subgroup="genus",n=5, N=4, order_tax="NA") {
   force_optional_dependency("microshades", "remotes::install_github('KarstensLab/microshades', dependencies = TRUE)")
   force_optional_dependency("speedyseq", "remotes::install_github('mikemc/speedyseq')")
