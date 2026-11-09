@@ -257,6 +257,7 @@ as_phyloseq <- function(ta, sample = sample, taxon = taxon_id) {
 
   otu_table <-
     ta$counts %>%
+    select(taxon_id, count, sample_id) %>%
     spread(key = taxon_id, value = count, fill = 0) %>%
     `attr<-`("class", "data.frame") %>%
     `rownames<-`(.$sample_id) %>%
