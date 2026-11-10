@@ -25,3 +25,4 @@ number of desired clusters which will be used to assign the samples to. A new
 variable named "cluster \if{html}{\out{<n>}}" will be added to the samples tibble of a
 tidytacos object defining to what cluster a sample belongs.
 }
+\keyword{internal}

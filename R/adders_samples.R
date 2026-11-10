@@ -1059,6 +1059,7 @@ perform_lda <- function(ta, k, min_prevalence=.01, taxon=taxon_id, sample=sample
 #' @param n_clusters The number of desired clusters.
 #' @importFrom cluster pam
 #' @return A tidytacos object with a pam<n> column in the samples table.
+#' @keywords internal
 add_pam_clusters <- function(ta, n_clusters) {
 
   ta_mod <- ta
