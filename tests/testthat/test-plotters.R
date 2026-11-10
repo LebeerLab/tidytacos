@@ -113,8 +113,9 @@ test_that("Tacoplot_ord_ly works with umap and 3 dims", {
   skip_if_not_installed("umap")
   expect_no_error(
     expect_warning(
-      urt %>% tacoplot_ord_ly(x = location, ord = "umap", dims = 3)
-    ) # empty samples
+      urt %>% tacoplot_ord_ly(x = location, ord = "umap", dims = 3),
+      "Removed 3 empty samples."
+    )
   )
 
 })
@@ -122,7 +123,8 @@ test_that("Tacoplot_ord_ly works with umap and 3 dims", {
 test_that("Tacoplot_ord throws error when unknown stat.method is chosen", {
   expect_error(
     expect_warning(
-      urt %>% tacoplot_ord(location, stat.method = "p-hack")
+      urt %>% tacoplot_ord(location, stat.method = "p-hack"),
+      "Removed 3 empty samples."
     )
   )
 })
@@ -177,4 +179,30 @@ test_that("Tacoplot_scree works", {
     skip_if_not_installed("factoextra")
     p <- urt %>% tacoplot_scree()
     vdiffr::expect_doppelganger("tacoplot_scree", p)
+})
+
+## TACOPLOT_OCCUPANCY
+
+test_that("Tacoplot_occupancy works", {
+  skip_if_not_installed("pctax")
+
+  expect_warning(
+    p <- urt %>%
+        aggregate_taxa(rank = "genus") %>%
+        tacoplot_occupancy(),
+    "NaNs produced"
+  )
+  vdiffr::expect_doppelganger("Tacoplot occupancy", p)
+})
+
+## TACOPLOT_SILLHOUETTE_WIDTH
+
+test_that("Tacoplot_occupancy works", {
+  skip_if_not_installed("pctax")
+  expect_warning(
+    p <- urt %>%
+      tacoplot_silhouette_width(k_range = 2:4),
+    "No phylogenetic tree found"
+  )
+  vdiffr::expect_doppelganger("Tacoplot silhouette", p)
 })
