@@ -17,7 +17,7 @@ tacoplot_scree(ta, ...)
 - ...:
 
   Arguments passed on to
-  [`factoextra::fviz_eig`](https://rdrr.io/pkg/factoextra/man/eigenvalue.html)
+  [`factoextra::fviz_eig`](https://rpkgs.datanovia.com/factoextra/reference/eigenvalue.html)
 
   `X`
 

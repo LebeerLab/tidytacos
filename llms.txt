@@ -303,6 +303,9 @@ tidytacos object.
 - [`tacoplot_shade()`](https://lebeerlab.github.io/tidytacos/reference/tacoplot_shade.md)
   : Return a bar plot of the samples in the shade of one taxonomic rank;
   colored by a lower level rank.
+- [`tacoplot_silhouette_width()`](https://lebeerlab.github.io/tidytacos/reference/tacoplot_silhouette_width.md)
+  : Return a silhouette score plot to visualize how well PAM clusters
+  are defined, for each number of clusters k in the k range.
 - [`tacoplot_stack()`](https://lebeerlab.github.io/tidytacos/reference/tacoplot_stack.md)
   : Return a bar plot of the samples
 - [`tacoplot_stack_ly()`](https://lebeerlab.github.io/tidytacos/reference/tacoplot_stack_ly.md)

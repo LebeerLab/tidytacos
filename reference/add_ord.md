@@ -96,5 +96,5 @@ data <- data %>%
 
 # The variances of the ordination dimensions can be accessed with
 data$ord_variances
-#> [1] 1.000000e+00 5.494303e-16 0.000000e+00
+#> [1]  1.000000e+00  5.494303e-16 -9.642457e-18
 ```

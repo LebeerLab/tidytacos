@@ -22,6 +22,7 @@
 <url><loc>https://lebeerlab.github.io/tidytacos/reference/add_mean_rel_abundance.html</loc></url>
 <url><loc>https://lebeerlab.github.io/tidytacos/reference/add_metadata.html</loc></url>
 <url><loc>https://lebeerlab.github.io/tidytacos/reference/add_ord.html</loc></url>
+<url><loc>https://lebeerlab.github.io/tidytacos/reference/add_pam_clusters.html</loc></url>
 <url><loc>https://lebeerlab.github.io/tidytacos/reference/add_prevalence.html</loc></url>
 <url><loc>https://lebeerlab.github.io/tidytacos/reference/add_rel_abundance.html</loc></url>
 <url><loc>https://lebeerlab.github.io/tidytacos/reference/add_sample_clustered.html</loc></url>
@@ -99,6 +100,7 @@
 <url><loc>https://lebeerlab.github.io/tidytacos/reference/tacoplot_prevalences.html</loc></url>
 <url><loc>https://lebeerlab.github.io/tidytacos/reference/tacoplot_scree.html</loc></url>
 <url><loc>https://lebeerlab.github.io/tidytacos/reference/tacoplot_shade.html</loc></url>
+<url><loc>https://lebeerlab.github.io/tidytacos/reference/tacoplot_silhouette_width.html</loc></url>
 <url><loc>https://lebeerlab.github.io/tidytacos/reference/tacoplot_stack.html</loc></url>
 <url><loc>https://lebeerlab.github.io/tidytacos/reference/tacoplot_stack_ly.html</loc></url>
 <url><loc>https://lebeerlab.github.io/tidytacos/reference/tacoplot_venn.html</loc></url>

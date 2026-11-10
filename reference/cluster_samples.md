@@ -6,7 +6,7 @@ clusters to a new variable "cluster" in the sample table.
 ## Usage
 
 ``` r
-cluster_samples(ta, n_clusters)
+cluster_samples(ta, n_clusters, method = "hclust")
 ```
 
 ## Arguments
@@ -19,17 +19,29 @@ cluster_samples(ta, n_clusters)
 
   The number of desired clusters.
 
+- method:
+
+  which method to use, choice from hclust (default) or pam.
+
 ## Value
 
 A tidytacos object with a cluster column in the samples table.
 
 ## Details
 
-This function calculates the Bray-Curtis distance between samples
-followed by hierarchical average linkage clustering of samples. The user
-provides a number of desired clusters which will be used to assign the
-samples to. A new variable named "cluster" will be added to the samples
-tibble of a tidytacos object defining to what cluster a sample belongs.
+There are two methods supported currently:
+
+- hclust: This function calculates the Bray-Curtis distance between
+  samples followed by hierarchical average linkage clustering of
+  samples.
+
+- pam: This function calculates the weighted Unifrac distance between
+  samples followed by partitioning around mediods clustering of samples.
+
+The user provides a number of desired clusters which will be used to
+assign the samples to. A new variable named "cluster" will be added to
+the samples tibble of a tidytacos object defining to what cluster a
+sample belongs.
 
 ## See also
 
