@@ -52,10 +52,18 @@ test_that("Pieplot raises error when visualizing more than 1 sample", {
 })
 
 test_that("Can run tacoplot zoom on a sample",{
-    tzoom <- urt %>% 
-      filter_samples(sample_id == "s3") %>% 
-      tacoplot_zoom()
-    vdiffr::expect_doppelganger("Zoomed barplot", tzoom)
+  tzoom <- urt %>%
+    filter_samples(sample_id == "s3") %>% 
+    tacoplot_zoom()
+  vdiffr::expect_doppelganger("Zoomed barplot", tzoom)
+})
+
+test_that("Can order by a separate column", {
+  tpart <- urt %>%
+    filter_samples(participant == "CON70") %>%
+    tacoplot_stack(order_by = "location") +
+    facet_wrap(~method)
+  vdiffr::expect_doppelganger("Ordered barplot", tpart)
 })
 
 ## TACOPLOT_SHADE
@@ -101,14 +109,22 @@ test_that("Tacoplot_ord_ly works", {
 })
 
 test_that("Tacoplot_ord_ly works with umap and 3 dims", {
-    skip_if_not_installed("plotly")
-    skip_if_not_installed("umap")
-    expect_no_error(
-        expect_warning(
-            urt %>% tacoplot_ord_ly(x=location, ord="umap", dims=3)
-        ) # empty samples
-    )
+  skip_if_not_installed("plotly")
+  skip_if_not_installed("umap")
+  expect_no_error(
+    expect_warning(
+      urt %>% tacoplot_ord_ly(x = location, ord = "umap", dims = 3)
+    ) # empty samples
+  )
 
+})
+
+test_that("Tacoplot_ord throws error when unknown stat.method is chosen", {
+  expect_error(
+    expect_warning(
+      urt %>% tacoplot_ord(location, stat.method = "p-hack")
+    )
+  )
 })
 
 
