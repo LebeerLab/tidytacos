@@ -103,3 +103,15 @@ test_that("Can add total_absolute_abundance", {
    testthat::expect_equal(tdata$samples$total_absolute_abundance, c(20000, 10600))
    
 })
+
+test_that("Can use SRS normalization", {
+   skip_if_not_installed("SRS")
+   
+   urt.1000 <- urt %>% srs_normalize(1000)
+   tc <- urt.1000 %>% 
+   add_total_count() %>%
+   samples() %>%
+   pull(total_count)
+
+   testthat::expect_true(all(tc == 1000))
+})
