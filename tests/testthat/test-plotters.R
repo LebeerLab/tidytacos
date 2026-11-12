@@ -164,6 +164,13 @@ test_that("Tacoplot_alphas works", {
     )
 })
 
+test_that("Tacoplot_alphas complains when subsample-metric is an unknown option", {
+    expect_error(
+        urt %>% tacoplot_alphas(location, subsample_metric='random'),
+        "'subsample_metric' can only be 'mean' or 'median'"
+    )
+})
+
 ## TACOPLOT_PREVALENCES
 
 test_that("Tacoplot_prevalences works", {
@@ -177,7 +184,7 @@ test_that("Tacoplot_prevalences works", {
 
 test_that("Tacoplot_scree works", {
     skip_if_not_installed("factoextra")
-    p <- urt %>% tacoplot_scree()
+    p <- tacoplot_scree(urt)
     vdiffr::expect_doppelganger("tacoplot_scree", p)
 })
 
@@ -187,8 +194,7 @@ test_that("Tacoplot_occupancy works", {
   skip_if_not_installed("pctax")
 
   expect_warning(
-    p <- urt %>%
-        aggregate_taxa(rank = "genus") %>%
+    p <- aggregate_taxa(urt, rank = "genus") %>%
         tacoplot_occupancy(),
     "NaNs produced"
   )
@@ -199,10 +205,18 @@ test_that("Tacoplot_occupancy works", {
 
 test_that("Tacoplot_occupancy works", {
   skip_if_not_installed("pctax")
-  expect_warning(
-    p <- urt %>%
-      tacoplot_silhouette_width(k_range = 2:4),
+  p <- tacoplot_silhouette_width(urt.tree, k_range = 2:4)
+  
+  vdiffr::expect_doppelganger("Tacoplot silhouette", p)
+})
+
+test_that("Tacoplot_occupancy adds tree if needed", {
+  skip_if_not_installed("pctax")
+  expect_error(
+    tryCatch(
+        tacoplot_silhouette_width(urt, k_range = 2:4),
+        warning = function(w) stop(conditionMessage(w), call.= FALSE)
+    ),
     "No phylogenetic tree found"
   )
-  vdiffr::expect_doppelganger("Tacoplot silhouette", p)
 })
