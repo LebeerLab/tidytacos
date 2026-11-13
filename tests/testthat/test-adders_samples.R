@@ -17,10 +17,33 @@ test_that("Can add sample tibble to ta object",{
     expect_true("environment" %in% names(test_data$samples))
 })
 
+test_that("add_metadata raises error on wrong table type",{
+  sample <- c("sample1","sample2")
+  environment <- c("food fermentation", "human stool")
+  smp_tibble <- tibble::tibble(sample, environment)
+  expect_error(
+    test_data %>% add_metadata(table_type = "count"),
+    "table_type must be either 'sample' or 'taxa'"  
+  )
+})
+
 test_that("Can add lib sizes", {
-    ta_lib <- test_data %>% add_total_count()
+    ta_lib <- test_data %>% 
+    mutate_samples(total_count = "this is to test removal of this column") %>%
+    add_total_count()
     expect_equal(ta_lib$samples$total_count, c(2800, 636))
     
+})
+
+test_that("Add lib sizes does not like duplicate ids", {
+  test_data.dupl <- test_data
+  test_data.dupl$samples <- rbind(test_data$samples, c("sample1", "s1"))
+
+  expect_error(
+    add_total_count(test_data.dupl),
+    "Duplicated sample IDs found. Please remove duplicates before adding total count."
+  )
+
 })
 
 test_that("Can add alpha diversity metrics", {
@@ -90,4 +113,28 @@ test_that("Can perform anosim test", {
         anosim <- urt %>% perform_anosim("plate")
         ) # empty samples
     expect_gt(anosim$signif, 0.05)
+})
+
+
+test_that("Cluster_samples works", {
+  NCLUST <- 2
+  urtc <- urt %>% cluster_samples(NCLUST)
+  expect_equal(length(unique(urtc$samples$cluster)), NCLUST+1) #NA
+})
+
+
+test_that("Cluster_samples complains if cluster method unknown", {
+  expect_error(
+    urt %>% cluster_samples(2, method="eh"),
+    "Method unsupported"
+    )
+})
+
+test_that("Can run NMDS", {
+  urt$samples$ord_method <- "filler to test removal"
+  expect_warning(
+      urt.nmds <- urt %>% add_ord(method="nmds", distance="aitchison"),
+      "Using pseudocount of 1"
+  )
+  expect_equal(urt.nmds$ord_model$distmethod, "euclidean")
 })
