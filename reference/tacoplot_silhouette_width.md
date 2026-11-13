@@ -27,56 +27,56 @@ urt %>% tacoplot_silhouette_width(2:6)
 #> Determining distance matrix based on shared 8-mers:
 #> ================================================================================
 #> 
-#> Time difference of 15.33 secs
+#> Time difference of 20.75 secs
 #> 
 #> Clustering into groups by similarity:
 #> ================================================================================
 #> 
-#> Time difference of 1.57 secs
+#> Time difference of 0.49 secs
 #> 
 #> Aligning Sequences:
 #> ================================================================================
 #> 
-#> Time difference of 7.91 secs
+#> Time difference of 9.45 secs
 #> 
 #> Iteration 1 of 2:
 #> 
 #> Determining distance matrix based on alignment:
 #> ================================================================================
 #> 
-#> Time difference of 1.82 secs
+#> Time difference of 2.16 secs
 #> 
 #> Reclustering into groups by similarity:
 #> ================================================================================
 #> 
-#> Time difference of 0.4 secs
+#> Time difference of 0.56 secs
 #> 
 #> Realigning Sequences:
 #> ================================================================================
 #> 
-#> Time difference of 4.44 secs
+#> Time difference of 5.42 secs
 #> 
 #> Iteration 2 of 2:
 #> 
 #> Determining distance matrix based on alignment:
 #> ================================================================================
 #> 
-#> Time difference of 1.71 secs
+#> Time difference of 2.02 secs
 #> 
 #> Reclustering into groups by similarity:
 #> ================================================================================
 #> 
-#> Time difference of 0.4 secs
+#> Time difference of 0.6 secs
 #> 
 #> Realigning Sequences:
 #> ================================================================================
 #> 
-#> Time difference of 0.96 secs
+#> Time difference of 1.24 secs
 #> 
 #> Refining the alignment:
 #> ================================================================================
 #> 
-#> Time difference of 0.11 secs
+#> Time difference of 0.12 secs
 #> 
 #> 
 #> Attaching package: ‘phyloseq’

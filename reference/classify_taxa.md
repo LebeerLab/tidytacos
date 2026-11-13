@@ -91,7 +91,6 @@ classify_taxa(
   "tmp-db.fna", n_ranks = 6, # the mock database is used here
   ranks=c("kingdom","phylum", "class", "order", "family", "genus")
 )
-#> Warning: replacing previous import ‘S4Arrays::makeNindexFromArrayViewport’ by ‘DelayedArray::makeNindexFromArrayViewport’ when loading ‘SummarizedExperiment’
 # remove the temp file
 unlink("tmp-db.fna")
 ```

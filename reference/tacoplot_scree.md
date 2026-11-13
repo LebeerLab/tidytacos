@@ -5,7 +5,7 @@ Return a scree plot to visualize the eigenvalues of the PCA.
 ## Usage
 
 ``` r
-tacoplot_scree(ta, ...)
+tacoplot_scree(ta, bar_width = 0.8, ...)
 ```
 
 ## Arguments
@@ -13,6 +13,10 @@ tacoplot_scree(ta, ...)
 - ta:
 
   A tidytacos object.
+
+- bar_width:
+
+  the width of the bars
 
 - ...:
 
