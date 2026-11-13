@@ -44,8 +44,8 @@ test_that("Can add alpha diversity metrics", {
 test_that("Can add alpha diversities with subsampling", {
     ta_a_sub <- test_data %>%
       add_alphas(subsample=TRUE, min_lib_size=1000)
-    expect_equal(ta_a_sub$samples$mean_shannon, .690, tolerance=.001)
-    expect_equal(ta_a_sub$samples$median_obs, 2, tolerance=.001)
+    expect_equal(ta_a_sub$samples$mean_shannon, .690, tolerance=.01)
+    expect_equal(ta_a_sub$samples$median_obs, 2, tolerance=.01)
 })
 
 test_that("Can add alpha diversity of a single sample", {

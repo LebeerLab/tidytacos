@@ -4,10 +4,12 @@
 \alias{tacoplot_scree}
 \title{Return a scree plot to visualize the eigenvalues of the PCA.}
 \usage{
-tacoplot_scree(ta, ...)
+tacoplot_scree(ta, bar_width = 0.8, ...)
 }
 \arguments{
 \item{ta}{A tidytacos object.}
+
+\item{bar_width}{the width of the bars}
 
 \item{...}{
   Arguments passed on to \code{\link[factoextra:eigenvalue]{factoextra::fviz_eig}}

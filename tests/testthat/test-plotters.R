@@ -52,10 +52,18 @@ test_that("Pieplot raises error when visualizing more than 1 sample", {
 })
 
 test_that("Can run tacoplot zoom on a sample",{
-    tzoom <- urt %>% 
-      filter_samples(sample_id == "s3") %>% 
-      tacoplot_zoom()
-    vdiffr::expect_doppelganger("Zoomed barplot", tzoom)
+  tzoom <- urt %>%
+    filter_samples(sample_id == "s3") %>% 
+    tacoplot_zoom()
+  vdiffr::expect_doppelganger("Zoomed barplot", tzoom)
+})
+
+test_that("Can order by a separate column", {
+  tpart <- urt %>%
+    filter_samples(participant == "CON70") %>%
+    tacoplot_stack(order_by = "location") +
+    facet_wrap(~method)
+  vdiffr::expect_doppelganger("Ordered barplot", tpart)
 })
 
 ## TACOPLOT_SHADE
@@ -101,14 +109,24 @@ test_that("Tacoplot_ord_ly works", {
 })
 
 test_that("Tacoplot_ord_ly works with umap and 3 dims", {
-    skip_if_not_installed("plotly")
-    skip_if_not_installed("umap")
-    expect_no_error(
-        expect_warning(
-            urt %>% tacoplot_ord_ly(x=location, ord="umap", dims=3)
-        ) # empty samples
+  skip_if_not_installed("plotly")
+  skip_if_not_installed("umap")
+  expect_no_error(
+    expect_warning(
+      urt %>% tacoplot_ord_ly(x = location, ord = "umap", dims = 3),
+      "Removed 3 empty samples."
     )
+  )
 
+})
+
+test_that("Tacoplot_ord throws error when unknown stat.method is chosen", {
+  expect_error(
+    expect_warning(
+      urt %>% tacoplot_ord(location, stat.method = "p-hack"),
+      "Removed 3 empty samples."
+    )
+  )
 })
 
 
@@ -146,6 +164,13 @@ test_that("Tacoplot_alphas works", {
     )
 })
 
+test_that("Tacoplot_alphas complains when subsample-metric is an unknown option", {
+    expect_error(
+        urt %>% tacoplot_alphas(location, subsample_metric='random'),
+        "'subsample_metric' can only be 'mean' or 'median'"
+    )
+})
+
 ## TACOPLOT_PREVALENCES
 
 test_that("Tacoplot_prevalences works", {
@@ -159,6 +184,39 @@ test_that("Tacoplot_prevalences works", {
 
 test_that("Tacoplot_scree works", {
     skip_if_not_installed("factoextra")
-    p <- urt %>% tacoplot_scree()
+    p <- tacoplot_scree(urt)
     vdiffr::expect_doppelganger("tacoplot_scree", p)
+})
+
+## TACOPLOT_OCCUPANCY
+
+test_that("Tacoplot_occupancy works", {
+  skip_if_not_installed("pctax")
+
+  expect_warning(
+    p <- aggregate_taxa(urt, rank = "genus") %>%
+        tacoplot_occupancy(),
+    "NaNs produced"
+  )
+  vdiffr::expect_doppelganger("Tacoplot occupancy", p)
+})
+
+## TACOPLOT_SILLHOUETTE_WIDTH
+
+test_that("Tacoplot_occupancy works", {
+  skip_if_not_installed("pctax")
+  p <- tacoplot_silhouette_width(urt.tree, k_range = 2:4)
+  
+  vdiffr::expect_doppelganger("Tacoplot silhouette", p)
+})
+
+test_that("Tacoplot_occupancy adds tree if needed", {
+  skip_if_not_installed("pctax")
+  expect_error(
+    tryCatch(
+        tacoplot_silhouette_width(urt, k_range = 2:4),
+        warning = function(w) stop(conditionMessage(w), call.= FALSE)
+    ),
+    "No phylogenetic tree found"
+  )
 })

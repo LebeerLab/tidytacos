@@ -77,49 +77,78 @@ get_ord_stat <- function(ta, x, stat.method, distance = distance) {
 #' For examples order_by=Lactobacillaceae would order the x-axis by the abundance of Lactobacillaceae.
 #' @export
 #' @importFrom utils head
-tacoplot_shade <- function(ta, group="family", subgroup="genus",n=5, N=4, order_tax="NA") {
-  force_optional_dependency("microshades", "remotes::install_github('KarstensLab/microshades', dependencies = TRUE)")
-  force_optional_dependency("speedyseq", "remotes::install_github('mikemc/speedyseq')")
-  
+tacoplot_shade <- function(ta, group = "family", subgroup = "genus", n = 5, N = 4, order_tax = "NA") {
+  force_optional_dependency(
+    "microshades",
+    "remotes::install_github('KarstensLab/microshades', dependencies = TRUE)"
+  )
+  force_optional_dependency(
+    "speedyseq",
+    "remotes::install_github('mikemc/speedyseq')"
+  )
+
   ps <- as_phyloseq(ta)
   mdf_prep <- microshades::prep_mdf(ps, subgroup_level = subgroup)
-  
-  # top N 
-  selected_groups <- ta %>% 
-  add_prevalence(relative=TRUE) %>%
-  taxa() %>%
-  arrange(desc(prevalence)) %>%
-  pull(group) %>%
-  unique() %>%
-  head(n)
+
+  # top N
+  selected_groups <- ta %>%
+    add_prevalence(relative = TRUE) %>%
+    taxa() %>%
+    arrange(desc(prevalence)) %>%
+    pull(group) %>%
+    unique() %>%
+    head(n)
 
   color_obj <- microshades::create_color_dfs(
-    mdf_prep, 
+    mdf_prep,
     selected_groups = selected_groups,
     top_n_subgroups = N,
-    group_level = group, 
-    subgroup_level = subgroup, 
-    cvd = TRUE)
-
-  
+    group_level = group,
+    subgroup_level = subgroup,
+    cvd = TRUE
+  )
 
   color_obj.reorder <- microshades::reorder_samples_by(
-    color_obj$mdf, color_obj$cdf, 
+    color_obj$mdf, color_obj$cdf,
     order_tax = order_tax,
-    group_level = group, subgroup_level = subgroup,
-    sink_abundant_groups = TRUE)
+    group_level = group,
+    subgroup_level = subgroup,
+    sink_abundant_groups = TRUE
+  )
 
-  microshades::plot_microshades(
+  # Currently throws warning due to fill arg not inside aesthetic in source code,
+  # Therefore reusing the function with said change here for now
+  microshades_hack <- function(mdf_group, cdf, group_label, x = "Sample", y="Abundance") {
+    if (class(mdf_group) != "data.frame") {
+        stop("mdf_group argument must be a data frame")
+    }
+    if ((sum(is.na(cdf$hex)) > 0) || (sum(is.na(cdf$group)) > 
+        0)) {
+        stop("cdf does not contain complete color information - missing hex or group info")
+    }
+    plot <- mdf_group %>% ggplot(aes(x = .data[[x]], y = .data[[y]], 
+        fill = group_label)) + scale_fill_manual(name = group_label, 
+        values = cdf$hex, breaks = cdf$group) + scale_colour_manual(name = group_label, 
+        values = cdf$hex, breaks = cdf$group) + geom_bar(aes(color = group, 
+        fill = group), stat = "identity", position = "stack") + 
+        theme(axis.text.x = element_text(angle = 45, hjust = 1))
+    plot
+  }
+  
+  # microshades::plot_microshades()
+  microshades_hack(
     color_obj.reorder$mdf,
     color_obj.reorder$cdf,
     group_label = paste(group, subgroup)
   ) + scale_y_continuous(
-    labels = scales::percent, 
-    expand = expansion(0)) +
-  theme(legend.key.size = unit(0.2, "cm"), 
-  text=element_text(size=10)) +
-  theme(axis.text.x = element_text(size= 6)) 
-
+    labels = scales::percent,
+    expand = expansion(0)
+  ) +
+    theme(
+      legend.key.size = unit(0.2, "cm"),
+      text = element_text(size = 10),
+      axis.text.x = element_text(size = 6)
+    )
 }
 
 #' Return a bar plot of the samples
@@ -741,18 +770,19 @@ tacoplot_occupancy <- function(ta, taxon_name=taxon_id, ...) {
 #'
 #'
 #' @param ta A tidytacos object.
+#' @param bar_width the width of the bars
 #' @inheritDotParams factoextra::fviz_eig
 #' @examples
 #' urt %>% tacoplot_scree()
 #' @export
-tacoplot_scree <- function(ta, ...) {
+tacoplot_scree <- function(ta, bar_width = .8, ...) {
   force_optional_dependency("factoextra")
 
   if (!"pca" %in% names(ta)) {
     ta <- suppressWarnings(add_copca(ta))
   }
 
-  factoextra::fviz_eig(ta$pca, ...)
+  factoextra::fviz_eig(ta$pca, bar_width = bar_width, ...)
 }
 
 #' Return a silhouette score plot to visualize how well PAM clusters are defined, for each number of clusters k in the k range.

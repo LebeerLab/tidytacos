@@ -1,54 +1,61 @@
 test_that("Can plot ord after taxa aggregation", {
-    # Previously the issue was that the taxon field was removed during aggregation
-    # and the plot_ord function uses this to get the relative abundance
-    urta <- urt %>% aggregate_taxa(rank="family") 
-    expect_no_error(
-        expect_warning(
-            urta %>% tacoplot_ord(x="plate")
-        )
+  # Previously the issue was that the taxon field was removed during aggregation
+  # and the plot_ord function uses this to get the relative abundance
+  urta <- urt %>% aggregate_taxa(rank = "family")
+  expect_no_error(
+    expect_warning(
+      urta %>% tacoplot_ord(x = "plate")
     )
+  )
 })
 
-test_that('Tacoplot stack accepts strings or objects', {
+test_that("Tacoplot stack accepts strings or objects", {
 
-    expect_no_error(
-        urt %>% tacoplot_stack(x="sample")
-    )
-    expect_no_error(
-        urt %>% tacoplot_stack(x=sample)
-    )
+  expect_no_error(
+    urt %>% tacoplot_stack(x = "sample")
+  )
+  expect_no_error(
+    urt %>% tacoplot_stack(x = sample)
+  )
 
 })
 
 test_that("Infer rank names bug (#57)", {
 
-    t <- test_taco()
-    t$taxa$domain <- c("Dom","Dom")
-    t$taxa$phylum <- c("Phyl","Phyl")
-    t$taxa$class <- c("Class1","Class2")
-    t <- t %>% set_rank_names(c("domain","phylum","class"))
-    t <- t %>% aggregate_taxa(rank="phylum")
-    expect_equal(nrow(t$taxa), 1)
+  t <- test_taco()
+  t$taxa$domain <- c("Dom", "Dom")
+  t$taxa$phylum <- c("Phyl", "Phyl")
+  t$taxa$class <- c("Class1", "Class2")
+  t <- t %>% set_rank_names(c("domain", "phylum", "class"))
+  t <- t %>% aggregate_taxa(rank = "phylum")
+  expect_equal(nrow(t$taxa), 1)
 })
 
 test_that("add_dominant_taxa does not add extra samples", {
-    samples_dom <- leaf %>% 
+  samples_dom <- leaf %>%
     add_dominant_taxa(threshold_dominance = .3) %>%
     samples() %>%
     nrow()
 
-    samples_pre <- leaf %>%
+  samples_pre <- leaf %>%
     samples() %>%
     nrow()
-    
-    expect_equal(samples_dom,samples_pre)
+
+  expect_equal(samples_dom, samples_pre)
 })
 
 test_that("Can calculate alpha diversity (obs) for empty samples", {
-    observed_alphas <- urt %>%
-      add_alpha("obs", keep_empty_samples = TRUE) %>%
-      samples() %>%
-      pull(obs)
-    # 3 empty samples
-    expect_equal(sum(observed_alphas == 0), 3)
+  observed_alphas <- urt %>%
+    add_alpha("obs", keep_empty_samples = TRUE) %>%
+    samples() %>%
+    pull(obs)
+  # 3 empty samples
+  expect_equal(sum(observed_alphas == 0), 3)
+})
+
+test_that("As phyloseq can be run on a tidytacos with a modified count_table", {
+  ps <- urt %>%
+    add_rel_abundance() %>%
+    as_phyloseq()
+  expect_s4_class(ps, "phyloseq")
 })
