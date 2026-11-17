@@ -176,7 +176,7 @@ test_that("Tacoplot_alphas complains when subsample-metric is an unknown option"
 test_that("Tacoplot_prevalences works", {
     skip_if_not_installed("rstatix")
     p <- urt %>% tacoplot_prevalences(location)
-    expect_equal(class(p), "pheatmap")
+    expect_true(is(p, "pheatmap"))
 })
 
 
@@ -192,12 +192,12 @@ test_that("Tacoplot_scree works", {
 
 test_that("Tacoplot_occupancy works", {
   skip_if_not_installed("pctax")
-
+  expect_warning(
   expect_warning(
     p <- aggregate_taxa(urt, rank = "genus") %>%
         tacoplot_occupancy(),
     "NaNs produced"
-  )
+  ), "NaNs produced")
   vdiffr::expect_doppelganger("Tacoplot occupancy", p)
 })
 
