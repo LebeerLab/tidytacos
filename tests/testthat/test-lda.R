@@ -67,3 +67,9 @@ test_that("Can plot alignment and betas of lda topics", {
     vdiffr::expect_doppelganger("LDA betas", lda_betas)
 
 })
+
+test_that("Can calculate perplexities with stable outcome", {
+    ppl <- calculate_lda_perplexities(urt, 2:3, control=list(seed=1))
+    ppl2 <- calculate_lda_perplexities(urt, 2:3, control=list(seed=1))
+    expect_equal(ppl$perplexity, ppl2$perplexity)
+})

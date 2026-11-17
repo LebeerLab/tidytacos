@@ -10,12 +10,14 @@
 #' taxa need to be present in for the taxa to be used in model estimation.
 #' @param taxon The column name in the taxa table with taxa identifiers.
 #' @param sample The column name in the sample table with sample identifiers.
+#' @param control An optional list of arguments to pass to the
+#'   [topicmodels::LDA()] function, default includes a seed set at 42
 #' @inheritDotParams topicmodels::LDA
 #' @return A list of estimated topics, terms and the perplexity of the model.
 #' @export
 perform_lda <- function(ta, k,
                         min_prevalence = .05,
-                        taxon = taxon_id, sample = sample_id, ...) {
+                        taxon = taxon_id, sample = sample_id, control=list(seed=42), ...) {
 
   force_optional_dependency("topicmodels")
   taxon <- enquo(taxon)
@@ -26,7 +28,7 @@ perform_lda <- function(ta, k,
     filter_taxa(prevalence >= min_prevalence) %>%
     counts_matrix(sample_name = !!sample, taxon_name = !!taxon)
 
-  model <- topicmodels::LDA(matrix, k, ...)
+  model <- topicmodels::LDA(matrix, k, control=control, ...)
   lda <- topicmodels::posterior(model, matrix)
 
   results <- list(
@@ -46,16 +48,17 @@ perform_lda <- function(ta, k,
 #' @param ta A tidytacos object.
 #' @param k_range A range of topic numbers to estimate.
 #' @param seed A seed for reproducibility.
+#' @param control An optional list of arguments to pass to the
+#'   [topicmodels::LDA()] function, default includes a seed set at 42
 #' @inheritDotParams perform_lda
 #' @return A tibble with the perplexity of each model and the number of topics.
 #' @export
-calculate_lda_perplexities <- function(ta, k_range = 2:10, seed = 42, ...) {
+calculate_lda_perplexities <- function(ta, k_range = 2:10, control=list(seed = 42), ...) {
 
-  set.seed(seed)
   perplexity <- NULL
 
   perplexities <- purrr::map_dbl(k_range, function(.x, ...){
-    perform_lda(ta, .x, ...) %>% `$`(perplexity)
+    perform_lda(ta, .x, control=control,...) %>% `$`(perplexity)
   }, ...)
 
   tibble::tibble(k = k_range, perplexity = perplexities)
