@@ -193,12 +193,13 @@ test_that("Tacoplot_scree works", {
 test_that("Tacoplot_occupancy works", {
   skip_if_not_installed("pctax")
   expect_warning(
-  expect_warning(
-    p <- aggregate_taxa(urt, rank = "genus") %>%
+    expect_warning(
+      p <- aggregate_taxa(urt, rank = "genus") %>%
         tacoplot_occupancy(),
-    "NaNs produced"
-  ), "NaNs produced")
-  )
+      "NaNs produced"
+    ), 
+   "NaNs produced")
+
   vdiffr::expect_doppelganger("Tacoplot occupancy", p)
 })
 
