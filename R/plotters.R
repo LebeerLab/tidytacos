@@ -683,7 +683,7 @@ tacoplot_prevalences <- function(ta, condition, cutoff = 0.1, fisher = T, adjp_m
   condition <- rlang::enquo(condition)
 
   prevalences <- ta %>%
-    `if`(!"taxon_name" %in% colnames(ta$taxa), add_taxon_name(.), .) %>%
+    {if (!"taxon_name" %in% colnames(.$taxa)) add_taxon_name(.) else . } %>%
     add_prevalence(condition = rlang::as_name(condition), relative = T, fisher_test = fisher) %>%
     taxa()
 
