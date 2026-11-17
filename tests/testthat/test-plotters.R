@@ -198,6 +198,7 @@ test_that("Tacoplot_occupancy works", {
         tacoplot_occupancy(),
     "NaNs produced"
   ), "NaNs produced")
+  )
   vdiffr::expect_doppelganger("Tacoplot occupancy", p)
 })
 
@@ -219,4 +220,8 @@ test_that("Tacoplot_occupancy adds tree if needed", {
     ),
     "No phylogenetic tree found"
   )
+<<<<<<< HEAD
 })
+=======
+})
+>>>>>>> origin/master
