@@ -4,14 +4,15 @@
 \alias{calculate_lda_perplexities}
 \title{Calculate LDA model perplexities for a range of topic numbers}
 \usage{
-calculate_lda_perplexities(ta, k_range = 2:10, seed = 42, ...)
+calculate_lda_perplexities(ta, k_range = 2:10, control = list(seed = 42), ...)
 }
 \arguments{
 \item{ta}{A tidytacos object.}
 
 \item{k_range}{A range of topic numbers to estimate.}
 
-\item{seed}{A seed for reproducibility.}
+\item{control}{An optional list of arguments to pass to the
+\code{\link[topicmodels:lda]{topicmodels::LDA()}} function, default includes a seed set at 42}
 
 \item{...}{
   Arguments passed on to \code{\link[=perform_lda]{perform_lda}}
@@ -22,6 +23,8 @@ taxa need to be present in for the taxa to be used in model estimation.}
     \item{\code{taxon}}{The column name in the taxa table with taxa identifiers.}
     \item{\code{sample}}{The column name in the sample table with sample identifiers.}
   }}
+
+\item{seed}{A seed for reproducibility.}
 }
 \value{
 A tibble with the perplexity of each model and the number of topics.

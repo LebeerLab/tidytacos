@@ -36,7 +36,7 @@ globalVariables(c(
     "spike_count", "total_count", "mean_rel_abundance", "spike_abundance",
     "total_count", "prevalence", "total_density",
     ".", "packageVersion", "packageDescription", "ord1", "ord2",
-    "colorRampPalette"
+    "colorRampPalette", "Lower", "Upper", "asv_id", "freq.pred", "label", "p"
 ))
 ## usethis namespace: end
 

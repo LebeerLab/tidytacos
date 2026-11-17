@@ -10,6 +10,7 @@ perform_lda(
   min_prevalence = 0.05,
   taxon = taxon_id,
   sample = sample_id,
+  control = list(seed = 42),
   ...
 )
 }
@@ -25,6 +26,9 @@ taxa need to be present in for the taxa to be used in model estimation.}
 
 \item{sample}{The column name in the sample table with sample identifiers.}
 
+\item{control}{An optional list of arguments to pass to the
+\code{\link[topicmodels:lda]{topicmodels::LDA()}} function, default includes a seed set at 42}
+
 \item{...}{
   Arguments passed on to \code{\link[topicmodels:lda]{topicmodels::LDA}}
   \describe{
@@ -34,8 +38,6 @@ taxa need to be present in for the taxa to be used in model estimation.}
     \item{\code{method}}{The method to be used for fitting; currently 
       \code{method = "VEM"} or \code{method= "Gibbs"} are
       supported.}
-    \item{\code{control}}{A named list of the control parameters for estimation
-    or an object of class \code{"LDAcontrol"}.}
     \item{\code{model}}{Object of class \code{"LDA"} for initialization.}
   }}
 }

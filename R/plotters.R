@@ -119,7 +119,7 @@ tacoplot_shade <- function(ta, group = "family", subgroup = "genus", n = 5, N = 
   # Currently throws warning due to fill arg not inside aesthetic in source code,
   # Therefore reusing the function with said change here for now
   microshades_hack <- function(mdf_group, cdf, group_label, x = "Sample", y="Abundance") {
-    if (class(mdf_group) != "data.frame") {
+    if (!is(mdf_group, "data.frame")) {
         stop("mdf_group argument must be a data frame")
     }
     if ((sum(is.na(cdf$hex)) > 0) || (sum(is.na(cdf$group)) > 
@@ -683,7 +683,7 @@ tacoplot_prevalences <- function(ta, condition, cutoff = 0.1, fisher = T, adjp_m
   condition <- rlang::enquo(condition)
 
   prevalences <- ta %>%
-    `if`(!"taxon_name" %in% ta$taxa, add_taxon_name(.), .) %>%
+    `if`(!"taxon_name" %in% colnames(ta$taxa), add_taxon_name(.), .) %>%
     add_prevalence(condition = rlang::as_name(condition), relative = T, fisher_test = fisher) %>%
     taxa()
 
