@@ -221,8 +221,4 @@ test_that("Tacoplot_occupancy adds tree if needed", {
     ),
     "No phylogenetic tree found"
   )
-<<<<<<< HEAD
 })
-=======
-})
->>>>>>> origin/master
