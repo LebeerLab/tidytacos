@@ -13,6 +13,7 @@ perform_lda(
   min_prevalence = 0.05,
   taxon = taxon_id,
   sample = sample_id,
+  control = list(seed = 42),
   ...
 )
 ```
@@ -40,6 +41,12 @@ perform_lda(
 
   The column name in the sample table with sample identifiers.
 
+- control:
+
+  An optional list of arguments to pass to the
+  [`topicmodels::LDA()`](https://rdrr.io/pkg/topicmodels/man/lda.html)
+  function, default includes a seed set at 42
+
 - ...:
 
   Arguments passed on to
@@ -55,11 +62,6 @@ perform_lda(
 
   :   The method to be used for fitting; currently `method = "VEM"` or
       `method= "Gibbs"` are supported.
-
-  `control`
-
-  :   A named list of the control parameters for estimation or an object
-      of class `"LDAcontrol"`.
 
   `model`
 

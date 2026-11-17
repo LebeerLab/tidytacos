@@ -41,7 +41,7 @@ and returns the perplexity of each model.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">calculate_lda_perplexities</span><span class="op">(</span><span class="va">ta</span>, k_range <span class="op">=</span> <span class="fl">2</span><span class="op">:</span><span class="fl">10</span>, seed <span class="op">=</span> <span class="fl">42</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">calculate_lda_perplexities</span><span class="op">(</span><span class="va">ta</span>, k_range <span class="op">=</span> <span class="fl">2</span><span class="op">:</span><span class="fl">10</span>, control <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>seed <span class="op">=</span> <span class="fl">42</span><span class="op">)</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -56,8 +56,9 @@ and returns the perplexity of each model.</p>
 <dd><p>A range of topic numbers to estimate.</p></dd>
 
 
-<dt id="arg-seed">seed<a class="anchor" aria-label="anchor" href="#arg-seed"></a></dt>
-<dd><p>A seed for reproducibility.</p></dd>
+<dt id="arg-control">control<a class="anchor" aria-label="anchor" href="#arg-control"></a></dt>
+<dd><p>An optional list of arguments to pass to the
+<code><a href="https://rdrr.io/pkg/topicmodels/man/lda.html" class="external-link">topicmodels::LDA()</a></code> function, default includes a seed set at 42</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
@@ -76,6 +77,10 @@ taxa need to be present in for the taxa to be used in model estimation.</p></dd>
 
 
 </dl></dd>
+
+
+<dt id="arg-seed">seed<a class="anchor" aria-label="anchor" href="#arg-seed"></a></dt>
+<dd><p>A seed for reproducibility.</p></dd>
 
 </dl></div>
     <div class="section level2">

@@ -6,7 +6,7 @@ numbers and returns the perplexity of each model.
 ## Usage
 
 ``` r
-calculate_lda_perplexities(ta, k_range = 2:10, seed = 42, ...)
+calculate_lda_perplexities(ta, k_range = 2:10, control = list(seed = 42), ...)
 ```
 
 ## Arguments
@@ -19,9 +19,11 @@ calculate_lda_perplexities(ta, k_range = 2:10, seed = 42, ...)
 
   A range of topic numbers to estimate.
 
-- seed:
+- control:
 
-  A seed for reproducibility.
+  An optional list of arguments to pass to the
+  [`topicmodels::LDA()`](https://rdrr.io/pkg/topicmodels/man/lda.html)
+  function, default includes a seed set at 42
 
 - ...:
 
@@ -44,6 +46,10 @@ calculate_lda_perplexities(ta, k_range = 2:10, seed = 42, ...)
   `sample`
 
   :   The column name in the sample table with sample identifiers.
+
+- seed:
+
+  A seed for reproducibility.
 
 ## Value
 

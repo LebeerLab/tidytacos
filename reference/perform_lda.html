@@ -50,6 +50,7 @@ the estimated topics and terms, as well as the perplexity of the model.</p>
 <span>  min_prevalence <span class="op">=</span> <span class="fl">0.05</span>,</span>
 <span>  taxon <span class="op">=</span> <span class="va">taxon_id</span>,</span>
 <span>  sample <span class="op">=</span> <span class="va">sample_id</span>,</span>
+<span>  control <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>seed <span class="op">=</span> <span class="fl">42</span><span class="op">)</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -79,6 +80,11 @@ taxa need to be present in for the taxa to be used in model estimation.</p></dd>
 <dd><p>The column name in the sample table with sample identifiers.</p></dd>
 
 
+<dt id="arg-control">control<a class="anchor" aria-label="anchor" href="#arg-control"></a></dt>
+<dd><p>An optional list of arguments to pass to the
+<code><a href="https://rdrr.io/pkg/topicmodels/man/lda.html" class="external-link">topicmodels::LDA()</a></code> function, default includes a seed set at 42</p></dd>
+
+
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
 <dd><p>Arguments passed on to <code><a href="https://rdrr.io/pkg/topicmodels/man/lda.html" class="external-link">topicmodels::LDA</a></code></p><dl><dt><code>x</code></dt>
 <dd><p>Object of class <code>"DocumentTermMatrix"</code> with
@@ -89,10 +95,6 @@ taxa need to be present in for the taxa to be used in model estimation.</p></dd>
 <dd><p>The method to be used for fitting; currently
       <code>method = "VEM"</code> or <code>method= "Gibbs"</code> are
       supported.</p></dd>
-
-    <dt><code>control</code></dt>
-<dd><p>A named list of the control parameters for estimation
-    or an object of class <code>"LDAcontrol"</code>.</p></dd>
 
     <dt><code>model</code></dt>
 <dd><p>Object of class <code>"LDA"</code> for initialization.</p></dd>
